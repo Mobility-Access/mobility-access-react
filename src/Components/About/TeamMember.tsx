@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { useTranslation } from "react-i18next";
 
 interface TeamMemberProps {
+    alt: string;
     name: string;
     url: string;
 }
@@ -44,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TeamMember = (props: TeamMemberProps) => {
     const { t } = useTranslation("");
-    const { name, url } = props;
+    const { alt, name, url } = props;
     const classes = useStyles();
 
     return (
@@ -57,7 +58,7 @@ const TeamMember = (props: TeamMemberProps) => {
                     {t(`about_${name}-title`)}
                 </Box>
             </Typography>
-            <img src={url} className={classes.image} />
+            <img src={url} className={classes.image} alt={alt}/>
             <Typography align="center" className={classes.description}>
                     {t(`about_${name}-description`)}
             </Typography>

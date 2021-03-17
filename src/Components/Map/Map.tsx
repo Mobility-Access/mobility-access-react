@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
-import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
-import Drawer from "@material-ui/core/Drawer";
+// import AppBar from "@material-ui/core/AppBar";
+// import Button from "@material-ui/core/Button";
+// import Drawer from "@material-ui/core/Drawer";
 import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import IconButton from '@material-ui/core/IconButton';
+// import Toolbar from "@material-ui/core/Toolbar";
+// import Typography from "@material-ui/core/Typography";
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+// import IconButton from '@material-ui/core/IconButton';
 
 import "./Map.css";
 import { Coordinate } from "ol/coordinate";
@@ -19,7 +19,7 @@ import "ol/ol.css";
 import "./Map.css";
 import Colors from "../../Colors";
 
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
@@ -46,8 +46,8 @@ const useStyles = makeStyles((theme) => ({
 const Map = () => {
     const [center, setCenter] = useState<Coordinate>([0,0]);
     const [zoom, setZoom] = useState<number>(1);
-    const [showLegend, setShowLegend] = useState(false);
-    const { t } = useTranslation();
+    // const [showLegend, setShowLegend] = useState(false);
+    // const { t } = useTranslation();
     const classes = useStyles();
 
     const map = new OLMap({
@@ -60,7 +60,7 @@ const Map = () => {
             center: [0, 0],
             zoom: 1,
         })
-    })
+    });
 
 
     // const updateMap = () => {
@@ -74,9 +74,9 @@ const Map = () => {
         }
     });
 
-    const toggleLegend = () => {
-        setShowLegend(!showLegend);
-    };
+    // const toggleLegend = () => {
+    //     setShowLegend(!showLegend);
+    // };
 
     return (
         <>

@@ -1,15 +1,13 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, Route, Switch } from "react-router-dom";
+import { Route } from "react-router-dom";
 import Header from "./Header";
 import Map from "../Components/Map/Map";
 import AboutPanel from "../Components/About/AboutPanel";
 import ContactPanel from "../Components/Contact/ContactPanel";
 import ExplorationPanel from "../Components/Exploration/ExplorationPanel";
 import HelpPanel from "../Components/Help/HelpPanel";
-import ReportContainer from "../Components/Report/ReportContainer";
-import SettingsPanel from "../Components/Settings/SettingsPanel";
-import TabPanel from "./TabPanel";
+
 
 import "./ContentContainer.css";
 

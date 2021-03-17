@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import ArrowRight from "@material-ui/icons/ArrowRight";
-import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";

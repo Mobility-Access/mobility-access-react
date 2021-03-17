@@ -113,7 +113,7 @@ const AboutPanel = () => {
                         TeamMembers.map((item, index) => {
                             return (
                                 <Grid item xs={12} md={6} key={index}>
-                                    <TeamMember name={item.name} url={item.img} />
+                                    <TeamMember alt={item.alt} name={item.name} url={item.img} />
                                 </ Grid>
                             );
                         })
@@ -137,7 +137,7 @@ const AboutPanel = () => {
                         {Supporters.map((item, index) => {
                             return (
                             <Grid item xs={12} sm={6} md={3} key={index}>
-                                <img src={item.img} className={classes.supporterLogo}/>
+                                <img src={item.img} className={classes.supporterLogo} alt={item.alt} />
                             </Grid>
                             );
                         })}
