@@ -1,4 +1,5 @@
 import React from "react";
+import Toolbar from "@material-ui/core/Toolbar";
 
 import "./TabPanel.css";
 
@@ -22,6 +23,7 @@ const TabPanel = (props: TabPanelProps) => {
         >
             {value === index && (
                 <>
+                    <Toolbar />
                     {children}
                 </>
             )}

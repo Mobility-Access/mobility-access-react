@@ -1,4 +1,13 @@
 import React, { useEffect, useState } from "react"
+import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
+import { makeStyles } from "@material-ui/core/styles";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import IconButton from '@material-ui/core/IconButton';
+
 import "./Map.css";
 import { Coordinate } from "ol/coordinate";
 import OLMap from "ol/Map";
@@ -8,10 +17,38 @@ import Source from "ol/source/OSM";
 
 import "ol/ol.css";
 import "./Map.css";
+import Colors from "../../Colors";
+
+import { useTranslation } from "react-i18next";
+
+const useStyles = makeStyles((theme) => ({
+    appBarSpacer: theme.mixins.toolbar,
+    drawer: {
+        width: "250px",
+    },
+    legendButton: {
+        background: Colors.olButton,
+        color: theme.palette.common.white,
+        position: "absolute",
+        right: theme.spacing(1),
+        marginTop: theme.spacing(1),
+        "&:hover": {
+            background: Colors.secondary,
+        },
+    },
+    map: {
+        height: "100%",
+        position: "fixed",
+        width: "100%",
+    },
+}));
 
 const Map = () => {
     const [center, setCenter] = useState<Coordinate>([0,0]);
     const [zoom, setZoom] = useState<number>(1);
+    const [showLegend, setShowLegend] = useState(false);
+    const { t } = useTranslation();
+    const classes = useStyles();
 
     const map = new OLMap({
         layers: [
@@ -37,9 +74,38 @@ const Map = () => {
         }
     });
 
+    const toggleLegend = () => {
+        setShowLegend(!showLegend);
+    };
+
     return (
-        <div id="map" style={{width: "100%", height: "100%"}}>
-        </div>
+        <>
+            <div id="map" className={classes.map} ></div>
+            {/* <Button 
+                aria-label="open legend"
+                className={classes.legendButton}
+                onClick={toggleLegend}
+                variant="contained">
+                {t("map_legend")}
+            </Button>
+            <Drawer
+                anchor="right"
+                className={classes.drawer}
+                open={showLegend}
+                variant="persistent"
+            >
+                <div className={classes.appBarSpacer}></div>
+                <div>
+                    <IconButton onClick={toggleLegend}>
+                        <ChevronRightIcon />
+                    </IconButton>
+                    <Typography variant="h6">
+                        {t("map_legend")}
+                    </Typography>
+                </div>
+                
+            </Drawer> */}
+        </>
 
     )
 }
