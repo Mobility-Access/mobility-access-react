@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense } from "react";
+import { createMuiTheme, MuiThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
+
+// import Header from "./shell/Header";
+import ContentContainer from "./shell/ContentContainer";
+
+// import logo from './logo.svg';
+import "./App.css";
+import Colors from "./Colors";
+
+let appTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: Colors.primary,
+        },
+        secondary: {
+            main: Colors.secondary,
+        },
+        text: {
+            primary: Colors.primary,
+        },
+    },
+    typography: {
+        button: {
+            textTransform: "none",
+        }
+    }
+});
+
+appTheme = responsiveFontSizes(appTheme);
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Future home of Mobility Access dev site.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <MuiThemeProvider theme={appTheme} >
+            <Suspense fallback={<p>loading...</p>}>
+                <ContentContainer />
+            </Suspense>
+        </MuiThemeProvider>
+    );
 }
 
 export default App;
