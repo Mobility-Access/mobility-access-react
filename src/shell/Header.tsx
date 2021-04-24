@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import ArrowRight from "@material-ui/icons/ArrowRight";
 import Fade from "@material-ui/core/Fade/Fade"
@@ -19,8 +19,9 @@ import { Link } from "react-router-dom";
 
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import LinkButton from "./AppHeader/LinkButton";
-
-import "@fontsource/ubuntu";
+import Colors from "../Colors";
+import LogoEn from "../images/logos/WalkRollMap_ENG_RGB_300dpi.png";
+import LogoFr from "../images/logos/WalkRollMap_ENG_RGB_300dpi.png";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,34 +31,49 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
     },
     button: {
+        color: theme.palette.primary.main,
         margin: theme.spacing(1),
+    },
+    indicator: {
+        backgroundColor: theme.palette.primary.main,
     },
     langaugeMenu: {
         zIndex: 1,
     },
     link: {
-        color: theme.palette.common.white,
+        color: theme.palette.primary.main,
         textDecoration: "none",
     },
     linkButton: {
-        color: theme.palette.common.black,
+        color: theme.palette.primary.main,
+    },
+    logo: {
+        height: 56,
+        marginRight: theme.spacing(3),
     },
     menuButton: {
-        color: theme.palette.common.white,
+        color: theme.palette.primary.main,
+    },
+    menuItem: {
+        '&.Mui-selected': {
+            borderLeft: `6px solid ${Colors.contrast}`
+        }
     },
     menuLink: {
-        color: theme.palette.common.black,
+        color: theme.palette.primary.main,
         textDecoration: "none",
     },
     tabs: {
-        color: theme.palette.common.white,
+        color: theme.palette.primary.main,
         flexGrow: 1,
+        indicator: Colors.contrast,
     },
     title: {
-        fontFamily: "Ubuntu",
         [theme.breakpoints.down("md")]: {
             flexGrow: 1,
-        }
+        },
+        color: theme.palette.primary.main,
+        fontWeight: "bold"
     }
 }));
 
@@ -75,7 +91,6 @@ const Header = () => {
     const [languageMenuAnchorEl, setlanaguageMenuAnchorEl] = useState(null);
     const [tabValue, setTabValue] = useState(0);
     const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
-
 
     const handleLanguageChange = (event: any) => {
         setlanaguageMenuAnchorEl(event.target);
@@ -130,6 +145,7 @@ const Header = () => {
                 {languages.map(
                     (item) => (
                         <MenuItem
+                            className={classes.menuItem}
                             key={item.key}
                                 onClick={() => handleSelectLanguage(item)}
                         >
@@ -227,6 +243,9 @@ const Header = () => {
             <Hidden smDown>
                 <Tabs
                     centered
+                    classes={{
+                        indicator: classes.indicator
+                    }}
                     className={classes.tabs}
                     onChange={handleTabChange}
                     value={tabValue} 
@@ -242,9 +261,16 @@ const Header = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar className={classes.appBar} color="primary" position="fixed">
+            <AppBar className={classes.appBar} color="secondary" position="fixed">
                 <Toolbar>
-                    <Typography className={classes.title} variant="h5">
+                    { currentLanguage.key === "en" && (
+                        <img
+                            alt="Walk Roll Map logo"
+                            className={classes.logo}
+                            src={LogoEn}
+                        />
+                    )}
+                    <Typography className={classes.title} variant="h4">
                         {t("site-name")}
                     </Typography>
                     {renderTabs()}
@@ -256,112 +282,5 @@ const Header = () => {
         </div>
     );
 };
-
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 1,
-//     },
-//     appBar: {
-//         background: theme.palette.primary.main,
-//         zIndex: theme.zIndex.drawer + 1,
-//     },
-//     menuButton: {
-//         marginRight: theme.spacing(0),
-//         color: "white",
-//     },
-//     tabs: {
-//         flexGrow: 2,
-//     },
-//     title: {
-//         paddingLeft: 35,
-//         flexGrow: 1,
-//         fontFamily: "Ubuntu",
-//     },
-//   }));
-
-// interface HeaderProps {
-//     tabChangedHandler: (index: number) => void;
-// }
-
-// const Header = (props: HeaderProps) => {
-//     const classes = useStyles();
-//     const [value, setValue] = useState(0);
-//     const [anchorEl, setAnchorEl] = useState(null);
-//     const open = Boolean(anchorEl);
-
-//     const onChangeHandler = (event: any, index: number) => {
-//         if (value !== index) {
-//             setValue(index);
-//             changeTab(index);
-//         }
-//     };
-
-//     const changeTab = (tabIndex: number) => {
-//         props.tabChangedHandler(tabIndex);
-//     };
-
-//     const handleMenuButtonClick = (event: any) => {
-//         setAnchorEl(event.target);
-//     };
-
-//     const handleMenuClose = () => {
-//         setAnchorEl(null);
-//     };
-
-//     return (
-//         <div className={classes.root}>
-//             <AppBar position="fixed" className={classes.appBar}>
-//                 <Toolbar>
-//                     <AccessibleForwardIcon fontSize="large" />
-//                     <DirectionsWalkIcon fontSize="large" />
-//                     <DirectionsBikeIcon fontSize="large" />
-//                     <Typography align="left" variant="h4" className={classes.title}>
-//                         Walk Roll Map
-//                     </Typography>
-//                     <Tabs value={value} onChange={onChangeHandler} aria-label="Sample layouts" className={classes.tabs}>
-//                         <Tab label="Home" {...a11yProps(0)} />
-//                         <Tab label="Explore" {...a11yProps(1)} />
-//                         <Tab label="About" {...a11yProps(2)} />
-//                         <Tab label="Contact Us" {...a11yProps(3)} />
-//                     </Tabs>
-//                     <IconButton edge="end" className={classes.menuButton} onClick={handleMenuButtonClick}>
-//                         <MenuIcon fontSize="large" />
-//                     </IconButton>
-//                     <Menu
-//                         anchorEl={anchorEl}
-//                         keepMounted
-//                         open={open}
-//                         onClose={handleMenuClose}
-//                         TransitionComponent={Fade}
-//                     >
-//                         <MenuItem
-//                             onClick={handleMenuClose}
-//                         >
-//                             Help
-//                         </MenuItem>
-//                         <MenuItem
-//                             onClick={handleMenuClose}
-//                         >
-//                             Settings
-//                         </MenuItem>
-//                         <MenuItem
-//                             onClick={handleMenuClose}
-//                         >
-//                             Language
-//                         </MenuItem>
-//                     </Menu>
-//                 </Toolbar>
-//             </AppBar>
-//         </div>
-//     );
-// }
-
-
-// function a11yProps(index: number) {
-//     return {
-//       id: `simple-tab-${index}`,
-//       'aria-controls': `simple-tabpanel-${index}`,
-//     };
-// }
 
 export default Header;

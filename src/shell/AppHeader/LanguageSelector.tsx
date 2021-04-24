@@ -8,6 +8,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";
 
+import Colors from "../../Colors";
+
 interface LanguageSelectorProps {
     languages: { key: string, value: string}[];
     position?: "below" | "left";
@@ -17,12 +19,13 @@ const useStyles = makeStyles((theme) => ({
     button: {
         margin: theme.spacing(1),
     },
-    link: {
-        color: "#FFF",
-        textDecoration: "none",
-    },
     menuButton: {
-        color: theme.palette.common.white,
+        color: theme.palette.primary.main,
+    },
+    menuItem: {
+        '&.Mui-selected': {
+            borderLeft: `6px solid ${Colors.contrast}`
+        }
     },
 }));
 
@@ -57,7 +60,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 aria-controls="app-bar-language-selector"
                 aria-haspopup="true"
                 className={classes.button}
-                color="inherit"
+                color="primary"
                 endIcon={position && position === "left" ? <ArrowRight /> : <ArrowDropDownIcon />}
                 onClick={handleLanguageButttonClick}
             >
@@ -74,6 +77,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 {languages.map(
                     (item) => (
                         <MenuItem
+                            className={classes.menuItem}
                             key={item.key}
                                 onClick={() => handleSelectLanguage(item)}
                         >

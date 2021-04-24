@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { createMuiTheme, MuiThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
+import { unstable_createMuiStrictModeTheme as createMuiTheme, MuiThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 
 // import Header from "./shell/Header";
 import ContentContainer from "./shell/ContentContainer";
@@ -23,7 +23,8 @@ let appTheme = createMuiTheme({
     typography: {
         button: {
             textTransform: "none",
-        }
+        },
+        fontFamily:'"Arial"',
     }
 });
 
@@ -32,9 +33,9 @@ appTheme = responsiveFontSizes(appTheme);
 function App() {
     return (
         <MuiThemeProvider theme={appTheme} >
-            <Suspense fallback={<p>loading...</p>}>
+            {/* <Suspense fallback={<p>loading...</p>}> */}
                 <ContentContainer />
-            </Suspense>
+            {/* </Suspense> */}
         </MuiThemeProvider>
     );
 }
