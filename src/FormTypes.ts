@@ -168,6 +168,42 @@ export enum MobilityAid {
 export enum ReportType {
     Amenity = "amenity",
     Barrier = "barrier",
-    Concern = "concern",
     Incident = "incident",
+    Safety = "safety",
 };
+
+export enum SafetyType {
+    VehicleTraffic = "vehicle-traffic",
+    PersonalSafety = "personal-safety",
+    OtherUsers = "other-path-users",
+    PoorAesthetics = "poor-aesthetics",
+}
+
+export enum SafetyOtherUsersSubtype {
+    Bicycles = "bicycles",
+    EScooters = "e-scooters",
+    Mobility = "mobility-scooters-or-electric-wheelchairs",
+    Dogs = "dogs",
+    OtherWheeled = "roller-blades-skateboards-kick-scooters"
+}
+
+export enum SafetyPoorAestheticsSubtype {
+    Litter = "litter",
+    Maintenance = "unmaintained-infrastructure-or-vegetation",
+    BlankWall = "blank-wall",
+    Other = "other",
+}
+
+export enum SafetyPersonalSafetySubtype {
+    Harrassment = "harrassment-or-unwanted-attention",
+    Gathering = "gathering-of-unknown-people",
+    Lighting = "inadequate-lighting",
+    DeadEnds = "dead-ends",
+}
+
+export enum SafetyVehicleTrafficSubtype {
+    Volume = "volume",
+    Speed = "speed",
+    Noise = "noise",
+    Exhaust = "exhaust",
+}

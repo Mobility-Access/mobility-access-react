@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
     input: {
         marginTop: theme.spacing(1),
     },
+    listItem: {
+        marginLeft: theme.spacing(3),
+    },
     listSubHeader: {
         color: theme.palette.primary.main,
         fontSize: 16,
@@ -263,9 +266,11 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         items.push(<ListSubheader className={classes.listSubHeader}>{t("form_mb-infrastructure-dangerous-crosswalk")}</ListSubheader>);
 
         for (let i = 1; i < 5; i++ ) {
+            // eslint-disable-next-line
+            // @ts-ignore
             items.push(
                 <MenuItem className={classes.menuItem} key={microBarrierInfrastructureCrossingSubtypes[i].key} value={microBarrierInfrastructureCrossingSubtypes[i].key}>
-                <Typography>
+                <Typography className={classes.listItem}>
                     {microBarrierInfrastructureCrossingSubtypes[i].value}
                 </Typography>
             </MenuItem>
@@ -577,7 +582,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             {microBarrierObstructionFixedSubtypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
+                                        <Typography className={classes.listItem}>
                                             {item.value}
                                         </Typography>
                                     </MenuItem>
@@ -587,7 +592,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             {microBarrierObstructionTransientSubtypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
+                                        <Typography className={classes.listItem}>
                                             {item.value}
                                         </Typography>
                                     </MenuItem>

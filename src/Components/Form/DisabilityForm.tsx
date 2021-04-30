@@ -9,13 +9,14 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 import { AmenityFields } from "./Amenity/AmenityController";
-import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
+import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
+import { SafetyFields } from "./Safety/SafetyController";
 import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
 import { ChoiceItem, Disability, DisabilityType, Mobility, MobilityAid } from "../../FormTypes";
 
 interface DisabilityFormProps {
-    formData: AmenityFields | MicroBarrierFields;
+    formData: AmenityFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
@@ -69,20 +70,27 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         disability: Yup
             .string()
             .required(t("form-required")),
-        disabilityType: Yup
-            .string()
-            .when("disability", {
-                is: true,
-                then: Yup
-                    .string()
-                    .max(50, t("form-max-length-30"))
-                    .required(t("form-required"))
-            }
-                ),
-        identity: Yup
-            .string()
-            .max(50, t("form-max-length-50"))
-            .required(t("form-required")),
+        // disabilityType: Yup
+        //     .string()
+        //     .when("disability", {
+        //         is: (value: any) => {
+        //             console.log(`************${value}`)
+        //             return value === "yes"
+        //         },  
+        //         then: Yup
+        //             .string()
+        //             .max(50, t("form-max-length-50"))
+        //             .required(t("form-required"))
+        //     }),
+        // mobility: Yup
+        //     .string()
+        //     .when("disabilityType", {
+        //         is: (value: string) => value !== "",
+        //         then: Yup
+        //             .string()
+        //             .max(50, t("form-max-length-50"))
+        //             .required(t("form-required")),
+        //     })
     });
 
     const formik = useFormik({
@@ -170,6 +178,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     };
 
     const handleSubmit = () => {
+        formik.handleSubmit();
         setFormData(formik.values);
         submit(formik.values);
     }
@@ -353,7 +362,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
-                        onClick={handleSubmit}
+                        type="submit"
                         variant="contained">
                         {t("form_submit")}
                     </Button>

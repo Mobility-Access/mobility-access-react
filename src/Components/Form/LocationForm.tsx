@@ -8,11 +8,12 @@ import { useTranslation } from "react-i18next";
 import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
+import { SafetyFields } from "./Safety/SafetyController";
 import { Point } from "../Map/Map";
 import Colors from "../../Colors";
 
 interface LocationFormProps {
-    formData: AmenityFields | MicroBarrierFields;
+    formData: AmenityFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void;
     cancel: () => void;

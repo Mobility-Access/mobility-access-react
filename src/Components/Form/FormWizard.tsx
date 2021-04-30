@@ -11,6 +11,7 @@ import FormTitle from "./FormTitle";
 import { ReportType } from "../../FormTypes"
 import AmenityController from "./Amenity/AmenityController";
 import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
+import SafetyController from "./Safety/SafetyController";
 import { ChoiceItem } from "../../FormTypes";
 
 interface FormWizardProps {
@@ -56,7 +57,7 @@ const FormWizard = (props: FormWizardProps) => {
     const { t } = useTranslation();
     const reportTypes: ChoiceItem[] = [
         { key: ReportType.Barrier, value: "form_micro-barrier" },
-        { key: ReportType.Concern, value: "form_concern" },
+        { key: ReportType.Safety, value: "form_concern" },
         { key: ReportType.Amenity, value: "form_amenity" },
         { key: ReportType.Incident, value: "form_incident" }
     ];
@@ -77,6 +78,9 @@ const FormWizard = (props: FormWizardProps) => {
             }
             case ReportType.Barrier: {
                 return renderMicroBarrierController();
+            }
+            case ReportType.Safety: {
+                return renderSafetyController();
             }
             default: {
                 return renderReportSelection();
@@ -134,6 +138,10 @@ const FormWizard = (props: FormWizardProps) => {
         return (
             <MicroBarrierController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
         );
+    };
+
+    const renderSafetyController = () => {
+        return <SafetyController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
     };
 
     return (
