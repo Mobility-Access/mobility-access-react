@@ -12,13 +12,14 @@ import Faq, { QuestionAnswer } from "./Faq";
 import Supporters from "./Supporters";
 import TeamMember from "./TeamMember";
 import TeamMembers from "./TeamMembers";
+import Colors from "../../Colors";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
     },
     aboutPaper: {
-        backgroundColor: fade(theme.palette.primary.light, 0.1),
+        backgroundColor: fade(Colors.gray, 0.1),
         marginTop: theme.spacing(5),
         marginBottom: theme.spacing(5),
         padding: theme.spacing(5),

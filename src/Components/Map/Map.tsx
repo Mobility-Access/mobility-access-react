@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 // import AppBar from "@material-ui/core/AppBar";
 // import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
@@ -168,9 +168,7 @@ const Map = () => {
                 variant="persistent"
             >
                 <div className={classes.appBarSpacer}></div>
-                <Suspense fallback={<p>loading...</p>}>
                     <FormWizard geolocateHandler={updatePositionFromGeolocation}></FormWizard>
-                </Suspense>
             </Drawer>
             <div id="map" className={classes.map} ></div>
             {/* <Button 

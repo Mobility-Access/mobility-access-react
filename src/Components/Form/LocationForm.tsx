@@ -5,14 +5,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { useTranslation } from "react-i18next";
 
-import { AmenityFields } from "./AmenityController";
+import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
+import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import { Point } from "../Map/Map";
 import Colors from "../../Colors";
 
 interface LocationFormProps {
-    formData: AmenityFields;
-    setFormData: Dispatch<SetStateAction<AmenityFields>>;
+    formData: AmenityFields | MicroBarrierFields;
+    setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void;
     cancel: () => void;
     geolocateHandler: (position: any) => void;

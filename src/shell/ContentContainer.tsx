@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 import Header from "./Header";
@@ -20,7 +20,7 @@ const ContentContainer = () => {
 
     return  (
         <>
-            <Suspense fallback={<p>loading...</p>}><Header /></Suspense>
+            <Header />
             <div className={classes.appBarSpacer}></div>
             <Route exact path="/"><Map /></Route>
             <Route path="/about"><AboutPanel /></Route>

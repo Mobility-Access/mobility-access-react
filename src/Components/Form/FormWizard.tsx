@@ -9,7 +9,8 @@ import { useTranslation } from "react-i18next";
 
 import FormTitle from "./FormTitle";
 import { ReportType } from "../../FormTypes"
-import AmenityController from "./AmenityController";
+import AmenityController from "./Amenity/AmenityController";
+import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
 import { ChoiceItem } from "../../FormTypes";
 
 interface FormWizardProps {
@@ -36,6 +37,11 @@ const useStyles = makeStyles((theme) => ({
     menuItem: {
         minHeight: 64,
     },
+    reportQuestion: {
+        fontWeight: 600,
+        marginBottom: theme.spacing(3),
+        marginTop: theme.spacing(3),
+    },
     text: {
         marginBottom: theme.spacing(3),
         marginTop: theme.spacing(3),
@@ -57,22 +63,23 @@ const FormWizard = (props: FormWizardProps) => {
 
     const handleReportTypeClick = (key: string) => { 
         setType(key);
-        setIndex(1);
     };
 
     const handleCancelorComplete = () => {
-        setIndex(0);
+        setType(null);
     };
 
     const renderPanel = () => {
-        switch(index) {
-            case 0: {
-                return renderReportSelection();            }
-            case 1: {
+        switch(type) {
+            
+            case ReportType.Amenity: {
                 return renderAmenityController();
             }
+            case ReportType.Barrier: {
+                return renderMicroBarrierController();
+            }
             default: {
-                return (<div>Nothing to see here.</div>) 
+                return renderReportSelection();
             }
         }
     }
@@ -84,7 +91,7 @@ const FormWizard = (props: FormWizardProps) => {
                 <Typography className={classes.text}>
                     {t("form_report-description")}
                 </Typography>
-                <Typography className={classes.text}>
+                <Typography className={classes.reportQuestion}>
                     {t("form_report-type")}
                 </Typography>
                 {renderReportTypeOptions()}
@@ -121,6 +128,12 @@ const FormWizard = (props: FormWizardProps) => {
         return (
             <AmenityController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
         )
+    };
+
+    const renderMicroBarrierController = () => {
+        return (
+            <MicroBarrierController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+        );
     };
 
     return (

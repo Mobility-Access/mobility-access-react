@@ -16,9 +16,9 @@ import enLocale from "date-fns/locale/en-US";
 import frLocale from "date-fns/locale/fr";
 
 import { AmenityFields } from "./AmenityController";
-import FormTitle from "./FormTitle";
-import Colors from "../../Colors";
-import { Amenity } from "../../FormTypes";
+import FormTitle from "../FormTitle";
+import Colors from "../../../Colors";
+import { Amenity, ChoiceItem } from "../../../FormTypes";
 
 interface AmenityProps {
     formData: AmenityFields;
@@ -26,11 +26,6 @@ interface AmenityProps {
     nextStep: () => void,
     prevStep: () => void;
     cancel: () => void,
-}
-
-interface AmenityItem {
-    key: string;
-    value: string;
 }
 
 const minInputHeight = 56;
@@ -101,9 +96,11 @@ const AmenityForm = (props: AmenityProps) => {
         validationSchema: validationSchema
     });
     const classes = useStyles();
-    const amenityTypes: AmenityItem[] = [
+    const amenityTypes: ChoiceItem[] = [
         { key: Amenity.Sidewalk, value: t("form_amenity-sidewalk")},
         { key: Amenity.Crosswalk , value: t("form_amenity-crosswalk") },
+        { key: Amenity.Signal , value: t("form_amenity-signal") },
+        { key: Amenity.StopSign , value: t("form_amenity-stop-sign") },
         { key: Amenity.Benches , value: t("form_amenity-benches") },
         { key: Amenity.Washroom , value: t("form_amenity-washroom") },
         { key: Amenity.Lighting , value: t("form_amenity-lighting") },

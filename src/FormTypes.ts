@@ -1,7 +1,7 @@
 // Interfaces
 
 export interface BaseFields {
-    age: string;
+    age: number;
     disability: string;
     disabilityType?: string;
     disabilityTypeOpen?: string;
@@ -22,21 +22,11 @@ export interface ChoiceItem {
 
 // Enums
 
-export enum Age {
-    UnderTwenty = "under-twenty",
-    UnderThirty = "under-thirty",
-    UnderForty = "under-forty",
-    UnderFifty = "under-fifty",
-    UnderSixtyFive = "under-sixty-five",
-    UnderEighty = "under-eighty",
-    OverEighty = "over-eighty",
-    UnderThirteen = "under-thirteen",
-    NoResponse = "no-response",
-}
-
 export enum Amenity {
     Sidewalk = "sidewalk",
     Crosswalk = "crosswalk",
+    Signal = "signal",
+    StopSign = "stop-sign",
     Benches = "benches",
     Washroom = "washroom",
     Lighting = "lighting",
@@ -66,7 +56,7 @@ export enum Gender {
     Male = "male",
     Female = "female",
     Other = "other",
-    NoResponse = "no-response"
+    NoResponse = "no-response",
 }
 
 export enum Identity {
@@ -79,7 +69,84 @@ export enum Identity {
     SouthAsian = "south-asisan",
     White = "white",
     Other = "other",
-    NoResponse = "no-response"
+    NoResponse = "no-response",
+}
+
+export enum MicroBarrierEnvironmentalSubtype {
+    Snow = "snow",
+    Ice = "ice",
+    Puddles = "puddles-or-splash-zone",
+    Vegetation = "vegetation",
+    Other = "other",
+}
+
+export enum MicroBarrierInfrastructureCrossingSubtype {
+    Missing = "crosswalk-is-missing",
+    DangerousDrivers = "crosswalk-dangerous-drivers",
+    DangerousVolume = "crosswalk-dangerous-vehicle-high-volume",
+    DangerousSpeed = "crosswalk-dangerous-vehicle-high-speeds",
+    DangerousVisibility = "crosswalk-dangerous-poor-visibliity-of-pedestrians",
+    WaitTime = "long-wait-time-to-cross",
+    Other = "other",
+}
+
+export enum MicroBarrierInfrastructureIntersectionSubtype {
+    CurbCutMissing = "curb-cut-missing",
+    CurbCutDesign = "curb-cut-poor-design",
+    TrafficShortSignal = "traffic-signal-short-pedestrian-interval",
+    TrafficSignalNotAudible = "traffic-signal-needs-audible",
+    TrafficSignalButtonAccess = "push-button-difficult-access",
+    VehicleConflictLeft = "conflict-left-turning-vehicle",
+    VehicleConflictRight = "conflict-right-turning-vehicle",
+    VehicleConflictRightRed = "conflict-right-turning-vehicle-on-red",
+    Visibility = "poor-visibility-of-pedestrians",
+    Other = "other",
+}
+
+export enum MicroBarrierInfrastructureSidewalkType {
+    Narrow = "too-narrow",
+    TripRoots = "tripping-hazard-buckling-pavement-roots",
+    TripUneven = "tripping-hazard-uneven-clocks",
+    TripHolesCracks = "tripping-hazard-holes-cracks",
+    Uncomfortable = "uncomfortable-surface",
+    Driveway = "driveway-slope-issue",
+    Other = "other",
+}
+
+export enum MicroBarrierInfrastructureSubtype {
+    Sidewalk = "sidewalk",
+    Crossing = "crossing",
+    Intersection = "intersection",
+}
+
+export enum MicroBarrierObstructionFixedSubtype {
+    Bollard = "bollard",
+    Pole = "pole",
+    Mailbox = "mailbox",
+    BikeRack = "bike-rack",
+    BusShelter = "bus-shelter",
+    Other = "other"
+}
+
+export enum MicroBarrierObstructionSubtype {
+    Fixed = "fixed",
+    Transient = "transient",
+}
+
+export enum MicroBarrierObstructionTransientSubtype {
+    Sandwich = "sandwich-board",
+    BicycleParking = "parked-bicycle-or-scooter",
+    Trash = "garbage-or-recycling-bins",
+    Vehicle = "parked-vehicle-or-delivery-van",
+    ConstructionUnsafe = "construction-inadequate-or-missing-pedestrian-detour",
+    ConstructionSigns = "construction-signs-clockign-sidewalk",
+    Other = "other"
+}
+
+export enum MicroBarrierType {
+    Infrastructure = "infrastructure",
+    Obstruction = "obstruction",
+    Environmental = "environmental",
 }
 
 export enum Mobility {

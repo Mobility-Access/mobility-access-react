@@ -8,18 +8,25 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-import { AmenityFields } from "./AmenityController";
+import { AmenityFields } from "./Amenity/AmenityController";
+import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
-import { Age, ChoiceItem, Gender, Identity } from "../../FormTypes";
+import { ChoiceItem, Gender, Identity } from "../../FormTypes";
+import Checkbox from "@material-ui/core/Checkbox";
 
 interface DemographicFormProps {
-    formData: AmenityFields;
-    setFormData: Dispatch<SetStateAction<AmenityFields>>,
+    formData: AmenityFields | MicroBarrierFields;
+    setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
     cancel: () => void,
     submit: (data: any) => void,
+}
+
+interface NumberItem {
+    key: number;
+    value: number;
 }
 
 const minInputHeight = 56;
@@ -52,8 +59,11 @@ const useStyles = makeStyles((theme) => ({
     menuItem: {
         minHeight: minInputHeight,
         '&.Mui-selected': {
-            borderLeft: `6px solid ${theme.palette.secondary.main}`
+            borderLeft: `6px solid ${Colors.contrast}`
         }
+    },
+    multiSelect: {
+        minHeight: minInputHeight,
     },
     question: {
         marginTop: theme.spacing(4),
@@ -63,10 +73,10 @@ const useStyles = makeStyles((theme) => ({
 const DemographicForm = (props: DemographicFormProps) => {
     const { cancel, formData, nextStep, prevStep, submit, setFormData  } = { ...props };
     const { t } = useTranslation();
-
     const validationSchema = Yup.object({
         age: Yup
-            .string()
+            .number()
+            .moreThan(-1, t("form-required"))
             .required(t("form-required")),
         gender: Yup
             .string()
@@ -87,17 +97,18 @@ const DemographicForm = (props: DemographicFormProps) => {
         }
     });
     const classes = useStyles();
-    const ageTypes: ChoiceItem[] = [
-        { key: Age.UnderTwenty, value: t("form_demographic-under-twenty")},
-        { key: Age.UnderThirty, value: t("form_demographic-under-thirty") },
-        { key: Age.UnderForty, value: t("form_demographic-under-forty") },
-        { key: Age.UnderFifty, value: t("form_demographic-under-fifty") },
-        { key: Age.UnderSixtyFive, value: t("form_demographic-under-sixty-five") },
-        { key: Age.UnderEighty, value: t("form_demographic-under-eighty") },
-        { key: Age.OverEighty, value: t("form_demographic-over-eighty") },
-        { key: Age.UnderThirteen, value: t("form_demographic-under-thirteen") },
-        { key: Age.NoResponse, value: t("form_demographic-no-response") },
-    ];
+    const ages = () => {
+        const ages: NumberItem[] = [];
+        for (let i = 2010; i > 1921; i--) {
+            const item = { key: i, value: i };
+            ages.push(item);
+        }
+
+        return ages;
+    };
+
+    const ageTypes: NumberItem[] = ages();
+
     const genderTypes: ChoiceItem[] = [
         { key: Gender.Male, value: t("form_demographic_gender-male") },
         { key: Gender.Female, value: t("form_demographic_gender-female") },
@@ -140,7 +151,7 @@ const DemographicForm = (props: DemographicFormProps) => {
     const handleIdentitySelect = (event: any) => {
         const values = event.target.value as string[];
 
-        if (formik.values.identity[0] === Identity.NoResponse && values.length > 1) {
+        if (formik.values.identity[0] === Identity.NoResponse && values.length > -1) {
             values.splice(0, values.length-1);
         }
 
@@ -241,7 +252,11 @@ const DemographicForm = (props: DemographicFormProps) => {
                         {
                             identityTypes.map((item) => {
                                 return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                    <MenuItem className={classes.multiSelect} key={item.key} value={item.key}>
+                                        <Checkbox
+                                            checked={formik.values.identity.indexOf(item.key) > -1}
+                                            color="primary"
+                                        />
                                         <Typography>
                                             {item.value}
                                         </Typography>

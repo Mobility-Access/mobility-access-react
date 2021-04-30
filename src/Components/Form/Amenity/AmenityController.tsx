@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 import AmenityForm from "./AmenityForm";
-import CancelDialog from "./CancelDialog";
-import DemographicForm from "./DemographicForm";
-import DisabilityForm from "./DisabilityForm";
-import LocationForm from "./LocationForm";
-import SuccessForm from "./SuccessForm";
-import { BaseFields } from "../../FormTypes";
+import CancelDialog from "../CancelDialog";
+import DemographicForm from "../DemographicForm";
+import DisabilityForm from "../DisabilityForm";
+import LocationForm from "../LocationForm";
+import SuccessForm from "../SuccessForm";
+import { BaseFields } from "../../../FormTypes";
 
 export interface AmenityFields extends BaseFields {
     amenity: string;
@@ -20,7 +20,7 @@ interface AmenityControllerProps {
 }
 
 const initialState: AmenityFields = {
-    age: "",
+    age: -1,
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",

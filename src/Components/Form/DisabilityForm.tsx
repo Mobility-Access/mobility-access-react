@@ -8,14 +8,15 @@ import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
-import { AmenityFields } from "./AmenityController";
+import { AmenityFields } from "./Amenity/AmenityController";
+import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
 import { ChoiceItem, Disability, DisabilityType, Mobility, MobilityAid } from "../../FormTypes";
 
 interface DisabilityFormProps {
-    formData: AmenityFields;
-    setFormData: Dispatch<SetStateAction<AmenityFields>>,
+    formData: AmenityFields | MicroBarrierFields;
+    setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
     cancel: () => void,
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     menuItem: {
         minHeight: minInputHeight,
         '&.Mui-selected': {
-            borderLeft: `6px solid ${theme.palette.secondary.main}`
+            borderLeft: `6px solid ${Colors.contrast}`
         }
     },
     question: {

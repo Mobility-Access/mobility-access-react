@@ -20,8 +20,7 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import LinkButton from "./AppHeader/LinkButton";
 import Colors from "../Colors";
-import LogoEn from "../images/logos/WalkRollMap_ENG_RGB_300dpi.png";
-import LogoFr from "../images/logos/WalkRollMap_ENG_RGB_300dpi.png";
+import Logo from "../images/logos/logo.png";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -267,7 +266,7 @@ const Header = () => {
                         <img
                             alt="Walk Roll Map logo"
                             className={classes.logo}
-                            src={LogoEn}
+                            src={Logo}
                         />
                     )}
                     <Typography className={classes.title} variant="h4">
