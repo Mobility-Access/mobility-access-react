@@ -72,6 +72,50 @@ export enum Identity {
     NoResponse = "no-response",
 }
 
+export enum IncidentFallSubtype {
+    Slip = "slipped",
+    Trip = "tripped",
+    Other = "other",
+}
+
+export enum IncidentHitByOrNearmissSubtype {
+    VehicleFromBehind = "vehicle-from-behind",
+    VehicleHeadOn = "vehicle-turning-head-on",
+    VehicleLeftTurn = "vehicle-turning-left",
+    VehicleRightTurn = "vehicle-turning-right",
+    VehicleRightTurnRed = "vehicle-turning-right-on-red",
+    Cyclist = "cyclist",
+    Animal = "animal",
+    Other = "other",
+}
+
+export enum IncidentInjury {
+    None = "no-injury",
+    SelfTreatment = "injury-self-treatment",
+    FamilyDoctor = "saw-family-doctor",
+    SelfER = "er-by-myself",
+    AmbulanceER = "ambulance-to-er",
+    Hospital = "hospitalized",
+}
+
+export enum IncidentInjuryWitness {
+    None = "no-apparent-injury",
+    Minor = "minor-injuries",
+    Ambulance = "ambulance-attended",
+}
+
+export enum IncidentInvolvementType {
+    Self = "self",
+    Care = "someone-in-my-care",
+    Witness = "witness",
+};
+
+export enum IncidentType {
+    HitBy = "hit-by",
+    NearMiss = "near-miss",
+    Fall = "fall",
+}
+
 export enum MicroBarrierEnvironmentalSubtype {
     Snow = "snow",
     Ice = "ice",

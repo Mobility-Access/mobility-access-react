@@ -7,13 +7,14 @@ import { useTranslation } from "react-i18next";
 
 import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
+import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import { SafetyFields } from "./Safety/SafetyController";
 import { Point } from "../Map/Map";
 import Colors from "../../Colors";
 
 interface LocationFormProps {
-    formData: AmenityFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void;
     cancel: () => void;
@@ -43,6 +44,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(3),
+        '&:hover': {
+            borderColor: Colors.contrastRed
+        },
     },
     currentLocation: {
         left: 0,

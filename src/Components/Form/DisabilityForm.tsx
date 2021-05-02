@@ -9,14 +9,15 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 import { AmenityFields } from "./Amenity/AmenityController";
+import FormTitle from "./FormTitle";
+import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
 import { SafetyFields } from "./Safety/SafetyController";
-import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
 import { ChoiceItem, Disability, DisabilityType, Mobility, MobilityAid } from "../../FormTypes";
 
 interface DisabilityFormProps {
-    formData: AmenityFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
@@ -47,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(3),
+        '&:hover': {
+            borderColor: Colors.contrastRed
+        },
     },
     input: {
         marginTop: theme.spacing(1),
@@ -70,27 +74,6 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         disability: Yup
             .string()
             .required(t("form-required")),
-        // disabilityType: Yup
-        //     .string()
-        //     .when("disability", {
-        //         is: (value: any) => {
-        //             console.log(`************${value}`)
-        //             return value === "yes"
-        //         },  
-        //         then: Yup
-        //             .string()
-        //             .max(50, t("form-max-length-50"))
-        //             .required(t("form-required"))
-        //     }),
-        // mobility: Yup
-        //     .string()
-        //     .when("disabilityType", {
-        //         is: (value: string) => value !== "",
-        //         then: Yup
-        //             .string()
-        //             .max(50, t("form-max-length-50"))
-        //             .required(t("form-required")),
-        //     })
     });
 
     const formik = useFormik({

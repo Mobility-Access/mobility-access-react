@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import FormTitle from "./FormTitle";
 import { ReportType } from "../../FormTypes"
 import AmenityController from "./Amenity/AmenityController";
+import IncidentController from "./Incident/IncidentController";
 import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
 import SafetyController from "./Safety/SafetyController";
 import { ChoiceItem } from "../../FormTypes";
@@ -79,6 +80,9 @@ const FormWizard = (props: FormWizardProps) => {
             case ReportType.Barrier: {
                 return renderMicroBarrierController();
             }
+            case ReportType.Incident: {
+                return renderIncidentController();
+            }
             case ReportType.Safety: {
                 return renderSafetyController();
             }
@@ -131,6 +135,12 @@ const FormWizard = (props: FormWizardProps) => {
     const renderAmenityController = () => {
         return (
             <AmenityController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+        )
+    };
+
+    const renderIncidentController = () => {
+        return (
+            <IncidentController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
         )
     };
 

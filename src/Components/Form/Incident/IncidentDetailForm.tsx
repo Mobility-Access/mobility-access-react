@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
-import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
@@ -15,14 +14,13 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import enLocale from "date-fns/locale/en-US";
 import frLocale from "date-fns/locale/fr";
 
-import { AmenityFields } from "./AmenityController";
 import FormTitle from "../FormTitle";
+import { IncidentFields } from "./IncidentController";
 import Colors from "../../../Colors";
-import { Amenity, ChoiceItem } from "../../../FormTypes";
 
-interface AmenityProps {
-    formData: AmenityFields;
-    setFormData: Dispatch<SetStateAction<AmenityFields>>,
+interface IncidentDetailFormProps {
+    formData: IncidentFields;
+    setFormData: Dispatch<SetStateAction<IncidentFields>>,
     nextStep: () => void,
     prevStep: () => void;
     cancel: () => void,
@@ -31,9 +29,6 @@ interface AmenityProps {
 const minInputHeight = 56;
 
 const useStyles = makeStyles((theme) => ({
-    amenityForm: {
-        marginTop: theme.spacing(3),
-    },
     buttonBar: {
         marginTop: theme.spacing(2),
         textAlign: "right",
@@ -53,32 +48,32 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
         '&:hover': {
             borderColor: Colors.contrastRed
-        }
+        },
     },
     date: {
         marginTop: theme.spacing(1),
         minHeight: minInputHeight,
     },
+    form: {
+        marginTop: theme.spacing(3),
+    },
     input: {
         marginTop: theme.spacing(1),
-    },
-    menuItem: {
-        minHeight: minInputHeight,
-        '&.Mui-selected': {
-            borderLeft: `6px solid ${Colors.contrast}`
-        }
     },
     question: {
         marginTop: theme.spacing(4),
     },
 }));
 
-const AmenityForm = (props: AmenityProps) => {
+const IncidentDetailForm = (props: IncidentDetailFormProps) => {
     const { cancel, formData, nextStep, prevStep, setFormData  } = { ...props };
     const { t } = useTranslation();
 
     const validationSchema = Yup.object({
-        amenity: Yup
+        incidentSubtype: Yup
+            .string()
+            .required(t("form-required")),
+        incidentType: Yup
             .string()
             .required(t("form-required")),
         date: Yup
@@ -99,22 +94,7 @@ const AmenityForm = (props: AmenityProps) => {
         validationSchema: validationSchema
     });
     const classes = useStyles();
-    const amenityTypes: ChoiceItem[] = [
-        { key: Amenity.Sidewalk, value: t("form_amenity-sidewalk")},
-        { key: Amenity.Crosswalk , value: t("form_amenity-crosswalk") },
-        { key: Amenity.Signal , value: t("form_amenity-signal") },
-        { key: Amenity.StopSign , value: t("form_amenity-stop-sign") },
-        { key: Amenity.Benches , value: t("form_amenity-benches") },
-        { key: Amenity.Washroom , value: t("form_amenity-washroom") },
-        { key: Amenity.Lighting , value: t("form_amenity-lighting") },
-        { key: Amenity.Transit , value: t("form_amenity-transit") },
-        { key: Amenity.Signs , value: t("form_amenity-signs") },
-        { key: Amenity.Connections , value: t("form_amenity-connections") },
-        { key: Amenity.Shade , value: t("form_amenity-shade") },
-        { key: Amenity.Plants , value: t("form_amenity-plants") },
-        { key: Amenity.Other , value: t("form_amenity-other") },
 
-    ];
 
     const handleDateChange = (value: any) => {
         formik.setFieldValue("date", value);
@@ -127,46 +107,17 @@ const AmenityForm = (props: AmenityProps) => {
 
     return (
         <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
-            <FormTitle title="form_amenity" />
-            <form className={classes.amenityForm} noValidate onSubmit={formik.handleSubmit}>
-                <div className={classes.question}>
+            <FormTitle title="form_incident-detail" />
+            <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+            <div className={classes.question}>
                     <Typography>
-                        {t("form_amenity-question-1")}
+                        {t("form_incident-describe")}
                     </Typography>
                     <TextField
                         className={classes.input}
                         fullWidth
-                        id="amenity"
-                        name="amenity"
-                        select
-                        value={formik.values.amenity}
-                        onChange={formik.handleChange}
-                        error={formik.touched.amenity && Boolean(formik.errors.amenity)}
-                        helperText={formik.touched.amenity && formik.errors.amenity}
-                        variant="outlined"
-                    >
-                        {
-                            amenityTypes.map((item) => {
-                                return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
-                                            {item.value}
-                                        </Typography>
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </TextField>
-                </div>
-                <div className={classes.question}>
-                    <Typography>
-                        {t("form_amenity-describe")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="amenity-description"
-                        name="amenity-description"
+                        id="incident-description"
+                        name="incident-description"
                         multiline
                         rows={8}
                         variant="outlined"
@@ -179,16 +130,16 @@ const AmenityForm = (props: AmenityProps) => {
                 </div>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_amenity-date")}
+                        {t("form_incident-date")}
                     </Typography>
                     <KeyboardDatePicker
                         className={classes.date}
                         disableFuture
                         format="MM/dd/yyyy"
                         fullWidth
-                        id="amenity-date-picker"
+                        id="safety-date-picker"
                         inputVariant="outlined"
-                        name="amenity-date-picker"
+                        name="safety-date-picker"
                         onChange={handleDateChange}
                         value={formik.values.date}
                         variant="inline"
@@ -222,4 +173,4 @@ const AmenityForm = (props: AmenityProps) => {
     );
 };
 
-export default AmenityForm;
+export default IncidentDetailForm;

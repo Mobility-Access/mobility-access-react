@@ -9,15 +9,16 @@ import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
 
 import { AmenityFields } from "./Amenity/AmenityController";
+import FormTitle from "./FormTitle";
+import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
 import { SafetyFields } from "./Safety/SafetyController";
-import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
 import { ChoiceItem, Gender, Identity } from "../../FormTypes";
 import Checkbox from "@material-ui/core/Checkbox";
 
 interface DemographicFormProps {
-    formData: AmenityFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
@@ -53,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(3),
+        '&:hover': {
+            borderColor: Colors.contrastRed
+        },
     },
     input: {
         marginTop: theme.spacing(1),

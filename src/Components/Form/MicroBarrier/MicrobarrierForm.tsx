@@ -3,7 +3,6 @@ import Button from "@material-ui/core/Button";
 import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
-import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
 import { KeyboardDatePicker } from "@material-ui/pickers";
@@ -63,6 +62,9 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(3),
+        '&:hover': {
+            borderColor: Colors.contrastRed
+        },
     },
     date: {
         marginTop: theme.spacing(1),
@@ -215,15 +217,18 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
     };
 
     const handleMicroBarrierSubtypeDetailSelect = (event: any) => {
-        if (event.target.value !== formik.values.microBarrierSubtypeDetail) {
+        // We never want an undefined value, so set to an empty string instead
+        const value = event.target.value || "";
+        if (value !== formik.values.microBarrierSubtypeDetail) {
             formik.setFieldValue("microBarrierSubtypeDetailOpen", "");
         }
 
-        formik.setFieldValue("microBarrierSubtypeDetail", event.target.value);
+        formik.setFieldValue("microBarrierSubtypeDetail", value || "");
     };
 
     const handleMicroBarrierSubtypeSelect = (event: any) => {
-        const value = event.target.value;
+        // We never want an undefined value, so set to an empty string instead
+        const value = event.target.value || "";
         if (value !== formik.values.microBarrierSubtype) {
             formik.setFieldValue("microBarrierSubtypeDetail", "" );
             formik.setFieldValue("microBarrierSubtypeDetailOpen", "");
@@ -263,7 +268,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
             </Typography>
         </MenuItem>);
 
-        items.push(<ListSubheader className={classes.listSubHeader}>{t("form_mb-infrastructure-dangerous-crosswalk")}</ListSubheader>);
+        items.push(<ListSubheader className={classes.listSubHeader} key="crosswalk-danger">{t("form_mb-infrastructure-dangerous-crosswalk")}</ListSubheader>);
 
         for (let i = 1; i < 5; i++ ) {
             // eslint-disable-next-line
@@ -360,21 +365,21 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                     && formik.values.microBarrierSubtype === MicroBarrierEnvironmentalSubtype.Other
                     && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_mb-environmental-question-other")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="micro-barrier-environmental-other"
-                        name="micro-barrier-environmental-other"
-                        value={formik.values.microBarrierSubtypeDetailOpen}
-                        onChange={handleMicroBarrierSubtypeDetailOpen}
-                        error={formik.touched.microBarrierSubtypeDetailOpen && Boolean(formik.errors.microBarrierSubtypeDetailOpen)}
-                        helperText={formik.touched.microBarrierSubtypeDetailOpen && formik.errors.microBarrierSubtypeDetailOpen}
-                        variant="outlined"
-                    />
-                </div>
+                        <Typography>
+                            {t("form_mb-environmental-question-other")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="micro-barrier-environmental-other"
+                            name="micro-barrier-environmental-other"
+                            value={formik.values.microBarrierSubtypeDetailOpen}
+                            onChange={handleMicroBarrierSubtypeDetailOpen}
+                            error={formik.touched.microBarrierSubtypeDetailOpen && Boolean(formik.errors.microBarrierSubtypeDetailOpen)}
+                            helperText={formik.touched.microBarrierSubtypeDetailOpen && formik.errors.microBarrierSubtypeDetailOpen}
+                            variant="outlined"
+                        />
+                    </div>
                 )}
                 {formik.values.microBarrierType === MicroBarrierType.Infrastructure && (
                     <div className={classes.question}>
@@ -578,7 +583,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             helperText={formik.touched.microBarrierSubtype && formik.errors.microBarrierSubtype}
                             variant="outlined"
                         >
-                            <ListSubheader className={classes.listSubHeader}>{t("form_mb-obstruction-fixed")}</ListSubheader>
+                            <ListSubheader className={classes.listSubHeader} key="fixed-obstruction">{t("form_mb-obstruction-fixed")}</ListSubheader>
                             {microBarrierObstructionFixedSubtypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
@@ -588,7 +593,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                                     </MenuItem>
                                 )
                             })}
-                            <ListSubheader className={classes.listSubHeader}>{t("form_mb-obstruction-transient")}</ListSubheader>
+                            <ListSubheader className={classes.listSubHeader} key="transient-obstruction">{t("form_mb-obstruction-transient")}</ListSubheader>
                             {microBarrierObstructionTransientSubtypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
