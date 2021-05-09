@@ -110,9 +110,8 @@ const LocationForm = (props: LocationFormProps) => {
     };
 
     useEffect(() => {
-        if (firstRun && startMapClickListener) {
+        if (startMapClickListener) {
             startMapClickListener();
-            setFirstRun(false);
         }
     });
 
@@ -123,14 +122,14 @@ const LocationForm = (props: LocationFormProps) => {
                 {t("form_location-description")}
             </Typography>
             <div style={{textAlign: "center"}}>
-                <Button
+                {/* <Button
                     className={classes.currentLocation}
                     color="primary"
                     onClick={handleCurrentLocationClick}
                     startIcon={<MyLocation />}
                     variant="contained">
                     {t("form_current-location")}
-                </Button>
+                </Button> */}
             </div>
             {
                 newReportCoords && newReportCoords.length === 2 && (

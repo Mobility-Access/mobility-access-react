@@ -95,7 +95,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         { key: DisabilityType.Hearing, value: t("form_demographic_disability_type_hearing") },
         { key: DisabilityType.Mobility, value: t("form_demographic_disability_type_mobility") },
         { key: DisabilityType.Cognitive, value: t("form_demographic_disability_type_cognitive") },
-        { key: DisabilityType.Other, value: t("form_demographic_disability_type_other") },
+        { key: DisabilityType.Other, value: t("form_common-other") },
     ];
     const mobilityTypes: ChoiceItem[] = [
         { key: Mobility.Yes, value: t("form_demographic_mobility-yes") },
@@ -109,7 +109,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         { key: MobilityAid.Cane, value: t("form_demographic_mobility_aid-cane") },
         { key: MobilityAid.Crutches, value: t("form_demographic_mobility_aid-crutches") },
         { key: MobilityAid.ServiceDog, value: t("form_demographic_mobility_aid-service-dog") },
-        { key: MobilityAid.Other, value: t("form_demographic_mobility_aid-other") },
+        { key: MobilityAid.Other, value: t("form_common-other") },
     ];
 
     const handleDisabilitySelect = (event: any) => {

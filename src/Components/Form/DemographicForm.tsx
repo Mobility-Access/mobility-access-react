@@ -117,7 +117,7 @@ const DemographicForm = (props: DemographicFormProps) => {
     const genderTypes: ChoiceItem[] = [
         { key: Gender.Male, value: t("form_demographic_gender-male") },
         { key: Gender.Female, value: t("form_demographic_gender-female") },
-        { key: Gender.Other, value: t("form_demographic_gender-other") },
+        { key: Gender.Other, value: t("form_common-other") },
         { key: Gender.NoResponse, value: t("form_demographic_gender-no-response") },
     ];
     const identityTypes: ChoiceItem[] = [
@@ -129,7 +129,7 @@ const DemographicForm = (props: DemographicFormProps) => {
         { key: Identity.MiddleEastern, value: t("form_demographic_identity_middle-eastern") },
         { key: Identity.SouthAsian, value: t("form_demographic_identity_south-asian") },
         { key: Identity.White, value: t("form_demographic_identity_white") },
-        { key: Identity.Other, value: t("form_demographic_identity_other") },
+        { key: Identity.Other, value: t("form_common-other") },
         { key: Identity.NoResponse, value: t("form_demographic_identity_no-response") },
     ];
 

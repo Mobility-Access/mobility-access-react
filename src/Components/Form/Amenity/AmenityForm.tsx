@@ -112,7 +112,7 @@ const AmenityForm = (props: AmenityProps) => {
         { key: Amenity.Connections , value: t("form_amenity-connections") },
         { key: Amenity.Shade , value: t("form_amenity-shade") },
         { key: Amenity.Plants , value: t("form_amenity-plants") },
-        { key: Amenity.Other , value: t("form_amenity-other") },
+        { key: Amenity.Other , value: t("form_common-other") },
 
     ];
 

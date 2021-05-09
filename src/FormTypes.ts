@@ -225,29 +225,32 @@ export enum SafetyType {
 
 export enum SafetyOtherUsersSubtype {
     Bicycles = "bicycles",
+    Dogs = "dogs",
     EScooters = "e-scooters",
     Mobility = "mobility-scooters-or-electric-wheelchairs",
-    Dogs = "dogs",
-    OtherWheeled = "roller-blades-skateboards-kick-scooters"
+    Other = "other",
+    OtherWheeled = "roller-blades-skateboards-kick-scooters",
 }
 
 export enum SafetyPoorAestheticsSubtype {
+    BlankWall = "blank-wall",
     Litter = "litter",
     Maintenance = "unmaintained-infrastructure-or-vegetation",
-    BlankWall = "blank-wall",
     Other = "other",
 }
 
 export enum SafetyPersonalSafetySubtype {
-    Harrassment = "harrassment-or-unwanted-attention",
-    Gathering = "gathering-of-unknown-people",
-    Lighting = "inadequate-lighting",
     DeadEnds = "dead-ends",
+    Gathering = "gathering-of-unknown-people",
+    Harrassment = "harrassment-or-unwanted-attention",
+    Lighting = "inadequate-lighting",
+    Other = "other",
 }
 
 export enum SafetyVehicleTrafficSubtype {
-    Volume = "volume",
-    Speed = "speed",
-    Noise = "noise",
     Exhaust = "exhaust",
+    Noise = "noise",
+    Other = "other",
+    Speed = "speed",
+    Volume = "volume",
 }

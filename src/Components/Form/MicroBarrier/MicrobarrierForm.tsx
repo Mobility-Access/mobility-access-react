@@ -109,6 +109,10 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         date: Yup
             .date()
             .required(t("form-required")),
+        description: Yup
+            .string()
+            .max(500, t("form-max-length-500"))
+            .required(t("form-required")),
         microBarrierSubtype: Yup
             .string()
             .required(t("form-required")),
@@ -142,7 +146,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierEnvironmentalSubtype.Ice, value: t("form_mb-environmental-ice") },
         { key: MicroBarrierEnvironmentalSubtype.Puddles, value: t("form_mb-environmental-puddles") },
         { key: MicroBarrierEnvironmentalSubtype.Vegetation, value: t("form_mb-environmental-vegetation") },
-        { key: MicroBarrierEnvironmentalSubtype.Other, value: t("form_mb-environmental-other") },
+        { key: MicroBarrierEnvironmentalSubtype.Other, value: t("form_common-other") },
     ];
 
     const microBarrierInfrastructureCrossingSubtypes: ChoiceItem[] = [
@@ -152,7 +156,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierInfrastructureCrossingSubtype.DangerousSpeed, value: t("form_mb-infrastructure-crossing-dangerous-traffic-speed") },
         { key: MicroBarrierInfrastructureCrossingSubtype.DangerousVisibility, value: t("form_mb-infrastructure-crossing-dangerous-pedestrian-visibility") },
         { key: MicroBarrierInfrastructureCrossingSubtype.WaitTime, value: t("form_mb-infrastructure-crossing-waiting-time-too-long") },
-        { key: MicroBarrierInfrastructureCrossingSubtype.Other, value: t("form_mb-infrastructure-crossing-other") },
+        { key: MicroBarrierInfrastructureCrossingSubtype.Other, value: t("form_common-other") },
     ];
 
     const microBarrierInfrastructureIntersectionSubtypes: ChoiceItem[] = [
@@ -165,7 +169,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierInfrastructureIntersectionSubtype.VehicleConflictRight, value: t("form_mb-infrastructure-intersection-vehicle-right-turn") },
         { key: MicroBarrierInfrastructureIntersectionSubtype.VehicleConflictRightRed, value: t("form_mb-infrastructure-intersection-vehicle-right-turn-red") },
         { key: MicroBarrierInfrastructureIntersectionSubtype.Visibility, value: t("form_mb-infrastructure-intersection-poor-visiblity") },
-        { key: MicroBarrierInfrastructureIntersectionSubtype.Other, value: t("form_mb-infrastructure-intersection-other") },
+        { key: MicroBarrierInfrastructureIntersectionSubtype.Other, value: t("form_common-other") },
     ];
 
     const microBarrierInfrastructureSubtypes: ChoiceItem[] = [
@@ -181,7 +185,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierInfrastructureSidewalkType.TripHolesCracks, value: t("form_mb-infrastructure-sidewalk-holes-cracks") },
         { key: MicroBarrierInfrastructureSidewalkType.Uncomfortable, value: t("form_mb-infrastructure-sidewalk-uncomfortable-surface") },
         { key: MicroBarrierInfrastructureSidewalkType.Driveway, value: t("form_mb-infrastructure-sidewalk-driveway-slope") },
-        { key: MicroBarrierInfrastructureSidewalkType.Other, value: t("form_mb-infrastructure-sidewalk-other") },
+        { key: MicroBarrierInfrastructureSidewalkType.Other, value: t("form_common-other") },
     ];
 
     const microBarrierObstructionSubtypes: ChoiceItem[] = [
@@ -195,7 +199,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierObstructionFixedSubtype.Mailbox, value: t("form_mb-obstruction-fixed-mailbox") },
         { key: MicroBarrierObstructionFixedSubtype.BikeRack, value: t("form_mb-obstruction-fixed-bike-rack") },
         { key: MicroBarrierObstructionFixedSubtype.BusShelter, value: t("form_mb-obstruction-fixed-bus-shelter") },
-        { key: MicroBarrierObstructionFixedSubtype.Other, value: t("form_mb-obstruction-fixed-other") },
+        { key: MicroBarrierObstructionFixedSubtype.Other, value: t("form_common-other") },
     ];
 
     const microBarrierObstructionTransientSubtypes: ChoiceItem[] = [
@@ -205,7 +209,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
         { key: MicroBarrierObstructionTransientSubtype.Vehicle, value: t("form_mb-obstruction-transient-vehicle") },
         { key: MicroBarrierObstructionTransientSubtype.ConstructionUnsafe, value: t("form_mb-obstruction-transient-construction-unsafe") },
         { key: MicroBarrierObstructionTransientSubtype.ConstructionSigns, value: t("form_mb-obstruction-transient-construction-signs") },
-        { key: MicroBarrierObstructionTransientSubtype.Other, value: t("form_mb-obstruction-transient-other") },
+        { key: MicroBarrierObstructionTransientSubtype.Other, value: t("form_common-other") },
     ];
 
     const handleDateChange = (value: any) => {
@@ -627,6 +631,25 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         />
                     </div>
                 )}
+                <div className={classes.question}>
+                    <Typography>
+                        {t("form_mb-describe")}
+                    </Typography>
+                    <TextField
+                        className={classes.input}
+                        fullWidth
+                        id="micro-barrier-description"
+                        name="micro-barrier-description"
+                        multiline
+                        rows={8}
+                        variant="outlined"
+                        value={formik.values.description}
+                        onChange={(event) => formik.setFieldValue("description", event.target.value)}
+                        error={formik.touched.description && Boolean(formik.errors.description)}
+                        helperText={formik.touched.description && formik.errors.description}
+                    >
+                    </TextField>
+                </div>
                 <div className={classes.question}>
                     <Typography>
                         {t("form_mb-date-question")}

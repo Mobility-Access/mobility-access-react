@@ -78,14 +78,18 @@ const SafetyForm = (props: SafetyFormProps) => {
     const { t } = useTranslation();
 
     const validationSchema = Yup.object({
+        date: Yup
+            .date()
+            .required(t("form-required")),
+        description: Yup
+            .string()
+            .max(500, t("form-max-length-500"))
+            .required(t("form-required")),
         safetySubtype: Yup
             .string()
             .required(t("form-required")),
         safetyType: Yup
             .string()
-            .required(t("form-required")),
-        date: Yup
-            .date()
             .required(t("form-required")),
     });
 
@@ -111,13 +115,16 @@ const SafetyForm = (props: SafetyFormProps) => {
         { key: SafetyVehicleTrafficSubtype.Speed, value: t("form_safety-vehicle-traffic-speed")},
         { key: SafetyVehicleTrafficSubtype.Noise, value: t("form_safety-vehicle-traffic-noise")},
         { key: SafetyVehicleTrafficSubtype.Exhaust, value: t("form_safety-vehicle-traffic-exhaust")},
+        { key: SafetyVehicleTrafficSubtype.Other, value: t("form_common-other")},
     ];
 
     const safetyPersonalSafetySubtypes: ChoiceItem[] = [
         { key: SafetyPersonalSafetySubtype.Harrassment, value: t("form_safety-personal-safety-harrassment")},
         { key: SafetyPersonalSafetySubtype.Gathering, value: t("form_safety-personal-safety-gathering")},
         { key: SafetyPersonalSafetySubtype.Lighting, value: t("form_safety-personal-safety-lighting")},
-        { key: SafetyPersonalSafetySubtype.DeadEnds, value: t("form_safety-personal-safety-dead-ends")},        
+        { key: SafetyPersonalSafetySubtype.DeadEnds, value: t("form_safety-personal-safety-dead-ends")},
+        { key: SafetyPersonalSafetySubtype.Other, value: t("form_common-other")},
+
     ];
 
     const safetyOtherUsersSubtypes: ChoiceItem[] = [
@@ -126,13 +133,14 @@ const SafetyForm = (props: SafetyFormProps) => {
         { key: SafetyOtherUsersSubtype.Mobility, value: t("form_safety-other-users-mobility-scooters-electric-wheelchairs")},
         { key: SafetyOtherUsersSubtype.Dogs, value: t("form_safety-other-users-dogs")},
         { key: SafetyOtherUsersSubtype.OtherWheeled, value: t("form_safety-other-users-other-wheeled")},
+        { key: SafetyOtherUsersSubtype.Other, value: t("form_common-other")},
     ];
 
     const safetyPoorAestheticsSubtypes: ChoiceItem[] = [
         { key: SafetyPoorAestheticsSubtype.Litter, value: t("form_safety-poor-aesthetics-litter")},
         { key: SafetyPoorAestheticsSubtype.Maintenance, value: t("form_safety-poor-aesthetics-unmaintained-infrastructure-vegetation")},
         { key: SafetyPoorAestheticsSubtype.BlankWall, value: t("form_safety-poor-aesthetics-blank-wall")},
-        { key: SafetyPoorAestheticsSubtype.Other, value: t("form_safety-poor-aesthetics-other")},
+        { key: SafetyPoorAestheticsSubtype.Other, value: t("form_common-other")},
     ];
 
     const handleDateChange = (value: any) => {
@@ -342,16 +350,15 @@ const SafetyForm = (props: SafetyFormProps) => {
                         />
                     </div>
                 )}
-                
-                {/* <div className={classes.question}>
+                <div className={classes.question}>
                     <Typography>
-                        {t("form_amenity-describe")}
+                        {t("form_safety-describe")}
                     </Typography>
                     <TextField
                         className={classes.input}
                         fullWidth
-                        id="amenity-description"
-                        name="amenity-description"
+                        id="safety-description"
+                        name="safety-description"
                         multiline
                         rows={8}
                         variant="outlined"
@@ -361,7 +368,7 @@ const SafetyForm = (props: SafetyFormProps) => {
                         helperText={formik.touched.description && formik.errors.description}
                     >
                     </TextField>
-                </div> */}
+                </div>
                 <div className={classes.question}>
                     <Typography>
                         {t("form_safety-date")}
