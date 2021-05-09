@@ -17,6 +17,10 @@ import { ChoiceItem } from "../../FormTypes";
 
 interface FormWizardProps {
     geolocateHandler: (position: any) => void;
+    newReportCoords: number[];
+    resetReportCoords: () => void;
+    startMapClickListener: () => void;
+    stopMapClickListener: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormWizard = (props: FormWizardProps) => {
-    const { geolocateHandler } = { ...props } ;
+    const { geolocateHandler, newReportCoords, resetReportCoords, startMapClickListener, stopMapClickListener } = { ...props } ;
     const [index, setIndex] = useState(0);
     const [type, setType] = useState<string | null>(null);
     const classes = useStyles();
@@ -68,6 +72,8 @@ const FormWizard = (props: FormWizardProps) => {
     };
 
     const handleCancelorComplete = () => {
+        stopMapClickListener();
+        resetReportCoords();
         setType(null);
     };
 
@@ -134,24 +140,44 @@ const FormWizard = (props: FormWizardProps) => {
 
     const renderAmenityController = () => {
         return (
-            <AmenityController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+            <AmenityController
+                cancelOrComplete={handleCancelorComplete}
+                geolocateHandler={geolocateHandler}
+                newReportCoords={newReportCoords}
+                startMapClickListener={startMapClickListener}
+                stopMapClickListener={stopMapClickListener}/>
         )
     };
 
     const renderIncidentController = () => {
         return (
-            <IncidentController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+            <IncidentController
+                cancelOrComplete={handleCancelorComplete}
+                geolocateHandler={geolocateHandler}
+                newReportCoords={newReportCoords}
+                startMapClickListener={startMapClickListener}
+                stopMapClickListener={stopMapClickListener}/>
         )
     };
 
     const renderMicroBarrierController = () => {
         return (
-            <MicroBarrierController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+            <MicroBarrierController
+                cancelOrComplete={handleCancelorComplete}
+                geolocateHandler={geolocateHandler}
+                newReportCoords={newReportCoords}
+                startMapClickListener={startMapClickListener}
+                stopMapClickListener={stopMapClickListener}/>
         );
     };
 
     const renderSafetyController = () => {
-        return <SafetyController cancelOrComplete={handleCancelorComplete} geolocateHandler={geolocateHandler}/>
+        return <SafetyController
+            cancelOrComplete={handleCancelorComplete}
+            geolocateHandler={geolocateHandler}
+            newReportCoords={newReportCoords}
+            startMapClickListener={startMapClickListener}
+            stopMapClickListener={stopMapClickListener}/>
     };
 
     return (

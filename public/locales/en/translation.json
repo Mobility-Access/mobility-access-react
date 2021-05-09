@@ -149,7 +149,7 @@
     "form_incident-type-question": "What type of incident are you reporting?",
     "form_incident-vehicle": "Vehicle",
     "form_location-captured": "Location successfully recorded. Please click Next to continue.",
-    "form_location-description": "Please select the location you are making a report for. Use the 'Use Current Location' button to select your current location, or click on the map and drag the marker to the desired position.",
+    "form_location-description": "Click on the map to mark the location you are making a report for. If you click on the wrong spot, you can either click on the correct location or drag the marker to the right place.",
     "form_location-title": "Location",
     "form-max-length-30": "Too long! Maximum length is 30 characters.",
     "form-max-length-50": "Too long! Maximum length is 50 characters.",

@@ -12,7 +12,7 @@ export interface BaseFields {
     mobilityAid?: string;
     mobilityAidType?: string;
     mobilityAidTypeOpen?: string;
-    point: { x: number, y: number } | null;
+    point: number[];
 }
 
 export interface ChoiceItem {

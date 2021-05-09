@@ -21,6 +21,9 @@ export interface IncidentFields extends BaseFields {
 interface IncidentControllerProps {
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
+    newReportCoords: number[];
+    startMapClickListener: () => void;
+    stopMapClickListener: () => void;
 }
 
 const initialState: IncidentFields = {
@@ -41,11 +44,11 @@ const initialState: IncidentFields = {
     involvement: "",
     date: new Date(),
     description: "",
-    point: null
+    point: [],
 };
 
 const IncidentController = (props: IncidentControllerProps) => {
-    const { cancelOrComplete, geolocateHandler } = { ...props };
+    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<IncidentFields>(initialState);
     const [step, setStep] = useState(1);
@@ -90,7 +93,10 @@ const IncidentController = (props: IncidentControllerProps) => {
                         formData={formData}
                         geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
+                        newReportCoords={newReportCoords}
                         setFormData={setFormData}
+                        startMapClickListener={startMapClickListener}
+                        stopMapClickListener={stopMapClickListener}
                     />
                 )
             }

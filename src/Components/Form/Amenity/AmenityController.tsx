@@ -17,6 +17,9 @@ export interface AmenityFields extends BaseFields {
 interface AmenityControllerProps {
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
+    newReportCoords: number[];
+    startMapClickListener: () => void;
+    stopMapClickListener: () => void;
 }
 
 const initialState: AmenityFields = {
@@ -34,11 +37,11 @@ const initialState: AmenityFields = {
     amenity: "",
     date: new Date(),
     description: "",
-    point: null
+    point: [],
 };
 
 const AmenityController = (props: AmenityControllerProps) => {
-    const { cancelOrComplete, geolocateHandler } = { ...props };
+    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<AmenityFields>(initialState);
     const [step, setStep] = useState(1);
@@ -83,7 +86,10 @@ const AmenityController = (props: AmenityControllerProps) => {
                         formData={formData}
                         geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
+                        newReportCoords={newReportCoords}
                         setFormData={setFormData}
+                        startMapClickListener={startMapClickListener}
+                        stopMapClickListener={stopMapClickListener}
                     />
                 )
             }

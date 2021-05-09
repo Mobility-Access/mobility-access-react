@@ -4,18 +4,29 @@
     margin: 50px;
     height: 100%;
     width: 100%;
-  }
-  .ol-control {
+    }
+.ol-control {
     position: absolute;
     background-color: rgba(255,255,255,0.4);
     border-radius: 4px;
     padding: 2px;
-  }
-  .ol-full-screen {
+}
+.ol-full-screen {
     top: .5em;
     right: .5em;
-  }
+}
 
-  .map {
-      height: 100%;
-  }
+.map {
+    display: "flex";
+    height: 100%;
+}
+
+.drawer {
+    background-color: "red";
+    flex-shrink: 0;
+    width: 400px;
+}
+
+.drawerPaper {
+    width: 400px;
+}

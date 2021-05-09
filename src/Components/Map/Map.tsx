@@ -18,16 +18,22 @@ import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
 import Source from "ol/source/OSM";
 import { fromLonLat } from "ol/proj"
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Circle as CircleStyle, Fill, Icon, RegularShape, Stroke, Style} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
 import OLView from "ol/View";
+import MapBrowserEvent from "ol/MapBrowserEvent";
 
 import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
 import "./Map.css";
+import { squareMarker } from "./Markers";
 import Colors from "../../Colors";
+import pin from "../../images/icons/marker.svg";
+import IconAnchorUnits from "ol/style/IconAnchorUnits";
+import { EventsKey } from "ol/events";
+import { unByKey } from "ol/Observable";
 
 // import { useTranslation } from "react-i18next";
 
@@ -82,6 +88,22 @@ const Map = () => {
             zoom: 1,
         }),
     }));
+    const [geolocation] = useState(new Geolocation({
+        trackingOptions: {
+            enableHighAccuracy: true,
+        },
+        projection: map.getView().getProjection(),
+    }));
+    const [accuracyFeature] = useState<Feature>(new Feature());
+    const [positionFeature] = useState<Feature>(new Feature());
+    const [markers] = useState<Feature[]>([]);
+    const [markerSource] = useState(new VectorSource({ features: markers}));
+    const [markerLayer] = useState(new VectorLayer({ map, source: markerSource}));
+    const [newReportCoords, setNewReportCoords] = useState<Coordinate>([]);
+    const [reportPoint, setReportPoint] = useState<Coordinate>([]);
+    const [handleClick, setHandleClick] = useState(false);
+    // let mapClickEventHandler: EventsKey;
+
     const [open, setOpen] = useState(true);
     const [zoom, setZoom] = useState<number>(1);
     // const [showLegend, setShowLegend] = useState(false);
@@ -99,8 +121,78 @@ const Map = () => {
             const coords = fromLonLat([longitude, latitude]);
             map.getView().setCenter(coords);
             map.getView().setZoom(15);
+
+            console.log(coords);
+
+            positionFeature.setGeometry(coords ? new OLPoint(coords) : undefined);
+            accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
         }
     }
+
+    const getMarkerStyle = (reportType: string) => {
+        if (reportType) {
+            return new Style({
+                image: new Icon({
+                    anchor: [0.5, 0.75],
+                    anchorYUnits: IconAnchorUnits.FRACTION,
+                    src: pin
+                })
+            });
+        } else {
+            new Style({
+                image: new Icon({
+                    anchor: [0.5, 50],
+                    src: pin
+                }),
+            });
+        }
+    };
+
+    const handleMapClick =  (event: MapBrowserEvent) => {
+        if (event && event.coordinate && handleClick) {
+            markerSource.clear();
+            setNewReportCoords(event.coordinate);
+            const feature = new Feature();
+            const style = getMarkerStyle("red");
+            feature.setStyle(style);
+            feature.setGeometry(new OLPoint(event.coordinate));
+            markerSource.addFeature(feature);
+        }
+    }
+
+    const enableMapClickListener = () => {
+        setHandleClick(true);
+        map.on("click", handleMapClick);
+    };
+
+    const disableMapClickListener = () => {
+        setHandleClick(false);
+    };
+
+    const resetReportCoords = () => {
+        setNewReportCoords([]);
+        markerSource.clear();
+    };
+
+    // const handleMapClick = (event: MapBrowserEvent) => {
+    //     if (event && event.coordinate) {
+    //         console.log(event.coordinate);
+    //         const feature = new Feature();
+    //         feature.setStyle(new Style({
+    //             image: new CircleStyle({
+    //                 radius: 6,
+    //                 fill: new Fill({
+    //                     color: '#3399CC',
+    //                 }),
+    //             stroke: new Stroke({
+    //                 color: '#fff',
+    //                 width: 2,
+    //             }),
+    //         })}));
+    //         feature.setGeometry(new OLPoint(event.coordinate));
+    //         markerSource.addFeature(feature);
+    //     }
+    // };
 
     useEffect(() => {
         if (map.getTarget() === undefined) {
@@ -111,40 +203,22 @@ const Map = () => {
             if (navigator && "geolocation in navigator") {
                 const position = navigator.geolocation.getCurrentPosition(updatePositionFromGeolocation);
             }
+
+            positionFeature.setStyle(
+                new Style({
+                    image: new CircleStyle({
+                        radius: 6,
+                        fill: new Fill({
+                            color: '#3399CC',
+                        }),
+                    stroke: new Stroke({
+                        color: '#fff',
+                        width: 2,
+                    }),
+                })}),
+            );
             firstLoad = false;
         }
-
-        const geolocation = new Geolocation({
-            trackingOptions: {
-                enableHighAccuracy: true,
-            },
-            projection: map.getView().getProjection(),
-        });
-
-        const accuracyFeature = new Feature();
-        geolocation.on('change:accuracyGeometry', () => {
-            accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-        });
-
-        const positionFeature = new Feature();
-        positionFeature.setStyle(
-            new Style({
-                image: new CircleStyle({
-					radius: 6,
-					fill: new Fill({
-						color: '#3399CC',
-					}),
-				stroke: new Stroke({
-					color: '#fff',
-					width: 2,
-				}),
-			})}),
-		);
-
-        geolocation.on('change:position', function () {
-            var coordinates = geolocation.getPosition();
-            positionFeature.setGeometry(coordinates ? new OLPoint(coordinates) : undefined);
-          });
 
         new VectorLayer({
             map: map,
@@ -152,6 +226,8 @@ const Map = () => {
                 features: [accuracyFeature, positionFeature]
             })
         });
+
+        
 
         window.dispatchEvent(new CustomEvent("resize"));
     });
@@ -168,7 +244,12 @@ const Map = () => {
                 variant="persistent"
             >
                 <div className={classes.appBarSpacer}></div>
-                    <FormWizard geolocateHandler={updatePositionFromGeolocation}></FormWizard>
+                    <FormWizard
+                        geolocateHandler={updatePositionFromGeolocation}
+                        newReportCoords={newReportCoords}
+                        resetReportCoords={resetReportCoords}
+                        startMapClickListener={enableMapClickListener}
+                        stopMapClickListener={disableMapClickListener} />
             </Drawer>
             <div id="map" className={classes.map} ></div>
             {/* <Button 
