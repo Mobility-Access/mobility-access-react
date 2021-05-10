@@ -83,7 +83,7 @@ class Map2 extends React.Component<{}, MapState> {
             ],
             view: new OLView({
                 center: fromLonLat([-123.3501, 48.42661]),
-                zoom: 1,
+                zoom: 13,
             }),
         });
 
@@ -117,20 +117,20 @@ class Map2 extends React.Component<{}, MapState> {
 
         this.translate.on("translateend", this.handleTranslateEnd);
 
-        this.geolocation = new Geolocation({
-            trackingOptions: {
-                enableHighAccuracy: true,
-            },
-            projection: this.map.getView().getProjection(),
-        });
+        // this.geolocation = new Geolocation({
+        //     trackingOptions: {
+        //         enableHighAccuracy: true,
+        //     },
+        //     projection: this.map.getView().getProjection(),
+        // });
         
         if (this.map.getTarget() === undefined) {
             this.map.setTarget("map");
         }
 
-        if (navigator && "geolocation in navigator") {
-            navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
-        }
+        // if (navigator && "geolocation in navigator") {
+        //     navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
+        // }
     }
 
     disableMapClickListener() {
