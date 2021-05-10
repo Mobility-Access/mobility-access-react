@@ -82,7 +82,7 @@ class Map2 extends React.Component<{}, MapState> {
                 }),
             ],
             view: new OLView({
-                center: fromLonLat([0, 0]),
+                center: fromLonLat([-123.3501, 48.42661]),
                 zoom: 1,
             }),
         });
