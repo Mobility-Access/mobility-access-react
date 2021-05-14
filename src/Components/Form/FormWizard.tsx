@@ -61,7 +61,7 @@ const FormWizard = (props: FormWizardProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
     const reportTypes: ChoiceItem[] = [
-        { key: ReportType.Barrier, value: "form_micro-barrier" },
+        { key: ReportType.MicroBarrier, value: "form_micro-barrier" },
         { key: ReportType.Safety, value: "form_concern" },
         { key: ReportType.Amenity, value: "form_amenity" },
         { key: ReportType.Incident, value: "form_incident" }
@@ -83,7 +83,7 @@ const FormWizard = (props: FormWizardProps) => {
             case ReportType.Amenity: {
                 return renderAmenityController();
             }
-            case ReportType.Barrier: {
+            case ReportType.MicroBarrier: {
                 return renderMicroBarrierController();
             }
             case ReportType.Incident: {

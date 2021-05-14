@@ -23,7 +23,6 @@ interface DemographicFormProps {
     nextStep: () => void,
     prevStep: () => void,
     cancel: () => void,
-    submit: (data: any) => void,
 }
 
 interface NumberItem {
@@ -76,10 +75,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DemographicForm = (props: DemographicFormProps) => {
-    const { cancel, formData, nextStep, prevStep, submit, setFormData  } = { ...props };
+    const { cancel, formData, nextStep, prevStep, setFormData  } = { ...props };
     const { t } = useTranslation();
     const validationSchema = Yup.object({
-        age: Yup
+        birthYear: Yup
             .number()
             .moreThan(-1, t("form-required"))
             .required(t("form-required")),
@@ -102,17 +101,17 @@ const DemographicForm = (props: DemographicFormProps) => {
         }
     });
     const classes = useStyles();
-    const ages = () => {
-        const ages: NumberItem[] = [];
+    const birthYears = () => {
+        const birthYears: NumberItem[] = [];
         for (let i = 2010; i > 1921; i--) {
             const item = { key: i, value: i };
-            ages.push(item);
+            birthYears.push(item);
         }
 
-        return ages;
+        return birthYears;
     };
 
-    const ageTypes: NumberItem[] = ages();
+    const birthYearTypes: NumberItem[] = birthYears();
 
     const genderTypes: ChoiceItem[] = [
         { key: Gender.Male, value: t("form_demographic_gender-male") },
@@ -133,8 +132,8 @@ const DemographicForm = (props: DemographicFormProps) => {
         { key: Identity.NoResponse, value: t("form_demographic_identity_no-response") },
     ];
 
-    const handleAgeSelect = (event: any) => {
-        formik.setFieldValue("age", event.target.value);
+    const handleBirthYearSelect = (event: any) => {
+        formik.setFieldValue("birthYear", event.target.value);
     };
 
     const handleGenderOpenChange = (event: any) => {
@@ -291,22 +290,22 @@ const DemographicForm = (props: DemographicFormProps) => {
                 )}
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_demographic-age")}
+                        {t("form_demographic-birth-year")}
                     </Typography>
                     <TextField
                         className={classes.input}
                         fullWidth
-                        id="age-group"
-                        name="age-group"
+                        id="birth-year"
+                        name="birth-year"
                         select
-                        value={formik.values.age}
-                        onChange={handleAgeSelect}
-                        error={formik.touched.age && Boolean(formik.errors.age)}
-                        helperText={formik.touched.age && formik.errors.age}
+                        value={formik.values.birthYear}
+                        onChange={handleBirthYearSelect}
+                        error={formik.touched.birthYear && Boolean(formik.errors.birthYear)}
+                        helperText={formik.touched.birthYear && formik.errors.birthYear}
                         variant="outlined"
                     >
                         {
-                            ageTypes.map((item) => {
+                            birthYearTypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>

@@ -78,7 +78,7 @@ const AmenityForm = (props: AmenityProps) => {
     const { t } = useTranslation();
 
     const validationSchema = Yup.object({
-        amenity: Yup
+        amenityType: Yup
             .string()
             .required(t("form-required")),
         date: Yup
@@ -139,10 +139,10 @@ const AmenityForm = (props: AmenityProps) => {
                         id="amenity"
                         name="amenity"
                         select
-                        value={formik.values.amenity}
+                        value={formik.values.amenityType}
                         onChange={formik.handleChange}
-                        error={formik.touched.amenity && Boolean(formik.errors.amenity)}
-                        helperText={formik.touched.amenity && formik.errors.amenity}
+                        error={formik.touched.amenityType && Boolean(formik.errors.amenityType)}
+                        helperText={formik.touched.amenityType && formik.errors.amenityType}
                         variant="outlined"
                     >
                         {

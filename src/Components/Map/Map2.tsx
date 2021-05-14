@@ -11,13 +11,14 @@ import Toolbar from "@material-ui/core/Toolbar";
 import "./Map.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
+import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import OLPoint from "ol/geom/Point";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
-import { fromLonLat } from "ol/proj"
+import { fromLonLat, toLonLat } from "ol/proj"
 import {Circle as CircleStyle, Fill, Icon, RegularShape, Stroke, Style} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
@@ -28,9 +29,18 @@ import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
 import "./Map.css";
+import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
+import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
+import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
+import { GetSafetyFeatureCollection } from "../Form/Safety/SafetyService";
+
 import { squareMarker } from "./Markers";
 import Colors from "../../Colors";
-import pin from "../../images/icons/marker.svg";
+import amenityMarker from "../../images/icons/amenity_marker.svg";
+import barrierMarker from "../../images/icons/barrier_marker.svg";
+import incidentMarker from "../../images/icons/incident_marker.svg";
+import safetyMarker from "../../images/icons/safety_marker.svg";
+import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { EventsKey } from "ol/events";
 import { unByKey } from "ol/Observable";
@@ -40,6 +50,8 @@ interface MapState {
     markerLayer: VectorLayer;
     markerSource: VectorSource;
     open: boolean;
+    
+    // WGS84 coordinate
     reportCoords: Coordinate;
 }
 
@@ -51,6 +63,12 @@ class Map2 extends React.Component<{}, MapState> {
     accuracyFeature: Feature;
     geolocation!: Geolocation;
     translate!: Translate;
+
+    // Feature layer sources
+    amenityFeatures: Feature[] = [];
+    microBarrierFeatures: Feature[] = [];
+    incidentFeatures: Feature[] = [];
+    safetyFeatures: Feature[] = [];
 
     constructor(props: any) {
         super(props);
@@ -101,6 +119,9 @@ class Map2 extends React.Component<{}, MapState> {
             })}),
         );
 
+        this.addFeatureLayers();
+
+
         new VectorLayer({
             map: this.map,
             source: new VectorSource({
@@ -133,6 +154,106 @@ class Map2 extends React.Component<{}, MapState> {
         // }
     }
 
+    async addFeatureLayers() {
+        await this.addAmenityFeatureLayer();
+    }
+
+    async addAmenityFeatureLayer() {
+        const amenityFeatureCollection = await GetAmenityFeatureCollection() || {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        const amenitySource = new VectorSource({
+            features: new GeoJSON().readFeatures(amenityFeatureCollection)
+        });
+
+        const amenityLayer = new VectorLayer({
+            map: this.map,
+            source: amenitySource,
+            style: new Style({
+                image: new Icon({
+                    anchor: [0.5, 0.75],
+                    anchorYUnits: IconAnchorUnits.FRACTION,
+                    scale: 0.35,
+                    src: amenityMarker
+                })
+            })
+        });
+    }
+
+    async addMicroBarrierFeatureLayer() {
+        const barrierFeatureCollection = await GetMicroBarrierFeatureCollection() || {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        const barrierSource = new VectorSource({
+            features: new GeoJSON().readFeatures(barrierFeatureCollection)
+        });
+
+        const barrierLayer = new VectorLayer({
+            map: this.map,
+            source: barrierSource,
+            style: new Style({
+                image: new Icon({
+                    anchor: [0.5, 0.75],
+                    anchorYUnits: IconAnchorUnits.FRACTION,
+                    scale: 0.35,
+                    src: barrierMarker
+                })
+            })
+        });
+    }
+
+    async addIncidentFeatureLayer() {
+        const incidentFeatureCollection = await GetIncidentFeatureCollection() || {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        const incidentSource = new VectorSource({
+            features: new GeoJSON().readFeatures(incidentFeatureCollection)
+        });
+
+        const incidentLayer = new VectorLayer({
+            map: this.map,
+            source: incidentSource,
+            style: new Style({
+                image: new Icon({
+                    anchor: [0.5, 0.75],
+                    anchorYUnits: IconAnchorUnits.FRACTION,
+                    scale: 0.35,
+                    src: incidentMarker
+                })
+            })
+        });
+    }
+
+    async addSafetyFeatureLayer() {
+        const safetyFeatureCollection = await GetSafetyFeatureCollection() || [{
+            type: "FeatureCollection",
+            features: []
+        }];
+
+        const safetySource = new VectorSource({
+            features: new GeoJSON().readFeatures(safetyFeatureCollection)
+        });
+
+        const safetyLayer = new VectorLayer({
+            map: this.map,
+            source: safetySource,
+            style: new Style({
+                image: new Icon({
+                    anchor: [0.5, 0.75],
+                    anchorYUnits: IconAnchorUnits.FRACTION,
+                    scale: 0.35,
+                    src: safetyMarker
+                })
+            })
+        });
+    }
+
     disableMapClickListener() {
         this.map.un("click", this.handleMapClick);
 
@@ -151,14 +272,15 @@ class Map2 extends React.Component<{}, MapState> {
                 image: new Icon({
                     anchor: [0.5, 0.75],
                     anchorYUnits: IconAnchorUnits.FRACTION,
-                    src: pin
+                    scale: 0.4,
+                    src: reportMarker
                 })
             });
         } else {
             new Style({
                 image: new Icon({
                     anchor: [0.5, 50],
-                    src: pin
+                    src: reportMarker
                 }),
             });
         }
@@ -181,7 +303,7 @@ class Map2 extends React.Component<{}, MapState> {
 
     handleTranslateEnd(event: TranslateEvent) {
         if (event && event.coordinate) {
-            this.setState({reportCoords: event.coordinate});
+            this.setReportCoords(event.coordinate);
         }
     }
 
@@ -191,9 +313,15 @@ class Map2 extends React.Component<{}, MapState> {
     };
 
     setReportCoords(coords: Coordinate) {
-        if (coords) {
-            this.setState({reportCoords: coords});
-        }
+        let newCoords = coords || [];
+
+        // if (coords && coords.length === 0) {
+        //     newCoords = [];
+        // } else if (coords && coords.length === 2) {
+        //     newCoords = toLonLat(newCoords);
+        // }
+
+        this.setState({reportCoords: newCoords});
     }
 
     updatePositionFromGeolocation(position: any) {

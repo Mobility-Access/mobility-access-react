@@ -56,7 +56,7 @@
     "form_concern": "Safety/Comfort Concern",
     "form_current-location": "Use Current Location",
     "form_demographics": "Personal Details",
-    "form_demographic-age": "What year were you or the person you are reporting for born in?",
+    "form_demographic-birth-year": "What year were you or the person you are reporting for born in?",
     "form_demographic_disability_no": "No",
     "form_demographic_disability_no-response": "Prefer not to say",
     "form_demographic_disability_type_cognitive": "Cognitive impairment",

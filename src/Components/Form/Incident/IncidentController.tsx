@@ -27,7 +27,7 @@ interface IncidentControllerProps {
 }
 
 const initialState: IncidentFields = {
-    age: -1,
+    birthYear: -1,
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -130,7 +130,6 @@ const IncidentController = (props: IncidentControllerProps) => {
                         nextStep={nextStep}
                         prevStep={prevStep}
                         setFormData={setMyData}
-                        submit={submitForm}
                     />
                 );
             }

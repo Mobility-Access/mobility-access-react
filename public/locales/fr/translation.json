@@ -56,7 +56,7 @@
     "form_concern": "French Safety/Comfort Concern",
     "form_current-location": "French Use Current Location",
     "form_demographics": "French Personal Details",
-    "form_demographic-age": "French What year were you or the person you are reporting for born in?",
+    "form_demographic-birth-year": "French What year were you or the person you are reporting for born in?",
     "form_demographic_disability_no": "Non",
     "form_demographic_disability_no-response": "French Prefer not to say",
     "form_demographic_disability_type_cognitive": "French Cognitive impairment",

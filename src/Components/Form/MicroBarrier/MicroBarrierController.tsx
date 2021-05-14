@@ -26,7 +26,7 @@ interface MicroBarrierControllerProps {
 }
 
 const initialState: MicroBarrierFields = {
-    age: -1,
+    birthYear: -1,
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -118,7 +118,6 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
                         nextStep={nextStep}
                         prevStep={prevStep}
                         setFormData={setMyData}
-                        submit={submitForm}
                     />
                 );
             }

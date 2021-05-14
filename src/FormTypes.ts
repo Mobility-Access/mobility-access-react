@@ -1,7 +1,7 @@
 // Interfaces
 
 export interface BaseFields {
-    age: number;
+    birthYear: number;
     disability: string;
     disabilityType?: string;
     disabilityTypeOpen?: string;
@@ -18,6 +18,20 @@ export interface BaseFields {
 export interface ChoiceItem {
     key: string;
     value: string;
+}
+
+export interface AmenityFeature {
+    amenity_type: string;
+    date: number;
+    description: string;
+    geometry: number[];
+    id: number;
+    type: "feature"
+}
+
+export interface FeatureCollection {
+    type: "FeatureCollection",
+    features: AmenityFeature[]
 }
 
 // Enums
@@ -211,8 +225,8 @@ export enum MobilityAid {
 
 export enum ReportType {
     Amenity = "amenity",
-    Barrier = "barrier",
     Incident = "incident",
+    MicroBarrier = "barrier",
     Safety = "safety",
 };
 

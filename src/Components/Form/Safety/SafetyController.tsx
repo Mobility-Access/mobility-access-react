@@ -25,7 +25,7 @@ interface SafetyControllerProps {
 }
 
 const initialState: SafetyFields = {
-    age: -1,
+    birthYear: -1,
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -115,7 +115,6 @@ const SafetyController = (props: SafetyControllerProps) => {
                         nextStep={nextStep}
                         prevStep={prevStep}
                         setFormData={setMyData}
-                        submit={submitForm}
                     />
                 );
             }

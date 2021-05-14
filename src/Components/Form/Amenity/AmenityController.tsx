@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import AmenityForm from "./AmenityForm";
+import { SubmitAmenityReport } from "./AmenityService";
 import CancelDialog from "../CancelDialog";
 import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
@@ -9,7 +10,7 @@ import SuccessForm from "../SuccessForm";
 import { BaseFields } from "../../../FormTypes";
 
 export interface AmenityFields extends BaseFields {
-    amenity: string;
+    amenityType: string;
     date: any;
     description: string;
 }
@@ -23,7 +24,7 @@ interface AmenityControllerProps {
 }
 
 const initialState: AmenityFields = {
-    age: -1,
+    birthYear: -1,
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -34,7 +35,7 @@ const initialState: AmenityFields = {
     mobilityAid: "",
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
-    amenity: "",
+    amenityType: "",
     date: new Date(),
     description: "",
     point: [],
@@ -68,8 +69,15 @@ const AmenityController = (props: AmenityControllerProps) => {
         setStep(prev => prev - 1);
     };
 
-    const submitForm = (data: any) => {
-        console.log(data);
+    const submitForm = async (data: AmenityFields) => {
+        const result = await SubmitAmenityReport(data);
+
+        if (result.serverError) {
+            console.log("Server error from controller");
+        } else if (result.networkError) {
+            console.log("Network error from controller");
+        }
+        console.log(result);
         nextStep();
     };
 
@@ -112,7 +120,6 @@ const AmenityController = (props: AmenityControllerProps) => {
                         nextStep={nextStep}
                         prevStep={prevStep}
                         setFormData={setMyData}
-                        submit={submitForm}
                     />
                 );
             }
