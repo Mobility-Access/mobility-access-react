@@ -11,8 +11,6 @@ import { BaseFields } from "../../../FormTypes";
 
 export interface AmenityFields extends BaseFields {
     amenityType: string;
-    date: any;
-    description: string;
 }
 
 interface AmenityControllerProps {
@@ -24,7 +22,10 @@ interface AmenityControllerProps {
 }
 
 const initialState: AmenityFields = {
+    amenityType: "",
     birthYear: -1,
+    date: new Date(),
+    description: "",
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -35,9 +36,6 @@ const initialState: AmenityFields = {
     mobilityAid: "",
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
-    amenityType: "",
-    date: new Date(),
-    description: "",
     point: [],
 };
 

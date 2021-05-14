@@ -2,6 +2,8 @@
 
 export interface BaseFields {
     birthYear: number;
+    date: any;
+    description: string;
     disability: string;
     disabilityType?: string;
     disabilityTypeOpen?: string;

@@ -10,8 +10,6 @@ import SuccessForm from "../SuccessForm";
 import { BaseFields } from "../../../FormTypes";
 
 export interface IncidentFields extends BaseFields {
-    date: any;
-    description: string;
     incidentSubtype: string;
     incidentType: string;
     injury: string;
@@ -28,6 +26,8 @@ interface IncidentControllerProps {
 
 const initialState: IncidentFields = {
     birthYear: -1,
+    date: new Date(),
+    description: "",
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -35,15 +35,13 @@ const initialState: IncidentFields = {
     genderOpen: "",
     identity: [],
     identityOpen: "",
-    mobilityAid: "",
-    mobilityAidType: "",
-    mobilityAidTypeOpen: "",
     incidentSubtype: "",
     incidentType: "",
     injury: "",
     involvement: "",
-    date: new Date(),
-    description: "",
+    mobilityAid: "",
+    mobilityAidType: "",
+    mobilityAidTypeOpen: "",
     point: [],
 };
 

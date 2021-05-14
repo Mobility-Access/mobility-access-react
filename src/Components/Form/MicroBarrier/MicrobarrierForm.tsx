@@ -365,7 +365,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         </TextField>
                     </div>
                 )}
-                { formik.values.microBarrierType === MicroBarrierType.Environmental
+                {/* { formik.values.microBarrierType === MicroBarrierType.Environmental
                     && formik.values.microBarrierSubtype === MicroBarrierEnvironmentalSubtype.Other
                     && (
                     <div className={classes.question}>
@@ -384,7 +384,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             variant="outlined"
                         />
                     </div>
-                )}
+                )} */}
                 {formik.values.microBarrierType === MicroBarrierType.Infrastructure && (
                     <div className={classes.question}>
                         <Typography>
@@ -449,27 +449,27 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         </TextField>
                     </div>
                 )}
-                { formik.values.microBarrierType === MicroBarrierType.Infrastructure
+                {/* { formik.values.microBarrierType === MicroBarrierType.Infrastructure
                     && formik.values.microBarrierSubtype === MicroBarrierInfrastructureSubtype.Sidewalk
                     && formik.values.microBarrierSubtypeDetail === MicroBarrierInfrastructureSidewalkType.Other
                     && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_mb-infrastructure-question-sidewalk-other")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="micro-barrier-infrastructure-sidewalk-other"
-                        name="micro-barrier-infrastructure-sidewalk-other"
-                        value={formik.values.microBarrierSubtypeDetailOpen}
-                        onChange={handleMicroBarrierSubtypeDetailOpen}
-                        error={formik.touched.microBarrierSubtypeDetailOpen && Boolean(formik.errors.microBarrierSubtypeDetailOpen)}
-                        helperText={formik.touched.microBarrierSubtypeDetailOpen && formik.errors.microBarrierSubtypeDetailOpen}
-                        variant="outlined"
-                    />
-                </div>
-                )}
+                        <Typography>
+                            {t("form_mb-infrastructure-question-sidewalk-other")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="micro-barrier-infrastructure-sidewalk-other"
+                            name="micro-barrier-infrastructure-sidewalk-other"
+                            value={formik.values.microBarrierSubtypeDetailOpen}
+                            onChange={handleMicroBarrierSubtypeDetailOpen}
+                            error={formik.touched.microBarrierSubtypeDetailOpen && Boolean(formik.errors.microBarrierSubtypeDetailOpen)}
+                            helperText={formik.touched.microBarrierSubtypeDetailOpen && formik.errors.microBarrierSubtypeDetailOpen}
+                            variant="outlined"
+                        />
+                    </div>
+                )} */}
                 {formik.values.microBarrierType === MicroBarrierType.Infrastructure
                     && formik.values.microBarrierSubtype === MicroBarrierInfrastructureSubtype.Crossing
                     && (
@@ -495,7 +495,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         </TextField>
                     </div>
                 )}
-                { formik.values.microBarrierType === MicroBarrierType.Infrastructure
+                {/* { formik.values.microBarrierType === MicroBarrierType.Infrastructure
                     && formik.values.microBarrierSubtype === MicroBarrierInfrastructureSubtype.Crossing
                     && formik.values.microBarrierSubtypeDetail === MicroBarrierInfrastructureCrossingSubtype.Other
                     && (
@@ -515,7 +515,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             variant="outlined"
                         />
                     </div>
-                )}
+                )} */}
                 {formik.values.microBarrierType === MicroBarrierType.Infrastructure
                     && formik.values.microBarrierSubtype === MicroBarrierInfrastructureSubtype.Intersection
                     && (
@@ -549,7 +549,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         </TextField>
                     </div>
                 )}
-                { formik.values.microBarrierType === MicroBarrierType.Infrastructure
+                {/* { formik.values.microBarrierType === MicroBarrierType.Infrastructure
                     && formik.values.microBarrierSubtype === MicroBarrierInfrastructureSubtype.Intersection
                     && formik.values.microBarrierSubtypeDetail === MicroBarrierInfrastructureIntersectionSubtype.Other
                     && (
@@ -569,7 +569,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             variant="outlined"
                         />
                     </div>
-                )}
+                )} */}
                 {formik.values.microBarrierType === MicroBarrierType.Obstruction && (
                     <div className={classes.question}>
                         <Typography>
@@ -610,7 +610,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                         </TextField>
                     </div>
                 )}              
-                { formik.values.microBarrierType === MicroBarrierType.Obstruction
+                {/* { formik.values.microBarrierType === MicroBarrierType.Obstruction
                     && (formik.values.microBarrierSubtype === MicroBarrierObstructionFixedSubtype.Other
                     || formik.values.microBarrierSubtypeDetail === MicroBarrierObstructionTransientSubtype.Other)
                     && (
@@ -630,7 +630,7 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
                             variant="outlined"
                         />
                     </div>
-                )}
+                )} */}
                 <div className={classes.question}>
                     <Typography>
                         {t("form_mb-describe")}

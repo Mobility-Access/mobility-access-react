@@ -9,12 +9,9 @@ import SuccessForm from "../SuccessForm";
 import { BaseFields } from "../../../FormTypes";
 
 export interface MicroBarrierFields extends BaseFields {
-    microBarrierType: string;
     microBarrierSubtype: string;
     microBarrierSubtypeDetail: string;
-    microBarrierSubtypeDetailOpen: string;
-    date: any;
-    description: string;
+    microBarrierType: string;
 }
 
 interface MicroBarrierControllerProps {
@@ -27,6 +24,8 @@ interface MicroBarrierControllerProps {
 
 const initialState: MicroBarrierFields = {
     birthYear: -1,
+    date: new Date(),
+    description: "",
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -34,15 +33,12 @@ const initialState: MicroBarrierFields = {
     genderOpen: "",
     identity: [],
     identityOpen: "",
+    microBarrierSubtype: "",
+    microBarrierSubtypeDetail: "",
+    microBarrierType: "",
     mobilityAid: "",
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
-    date: new Date(),
-    description: "",
-    microBarrierType: "",
-    microBarrierSubtype: "",
-    microBarrierSubtypeDetail: "",
-    microBarrierSubtypeDetailOpen: "",
     point: [],
 };
 

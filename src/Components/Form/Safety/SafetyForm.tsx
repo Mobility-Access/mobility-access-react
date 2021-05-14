@@ -330,7 +330,7 @@ const SafetyForm = (props: SafetyFormProps) => {
                         </TextField>
                     </div>
                 )}
-                { formik.values.safetyType === SafetyType.PoorAesthetics
+                {/* { formik.values.safetyType === SafetyType.PoorAesthetics
                     && formik.values.safetySubtype === SafetyPoorAestheticsSubtype.Other
                     && (
                     <div className={classes.question}>
@@ -349,7 +349,7 @@ const SafetyForm = (props: SafetyFormProps) => {
                             variant="outlined"
                         />
                     </div>
-                )}
+                )} */}
                 <div className={classes.question}>
                     <Typography>
                         {t("form_safety-describe")}

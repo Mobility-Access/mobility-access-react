@@ -9,10 +9,7 @@ import SuccessForm from "../SuccessForm";
 import { BaseFields } from "../../../FormTypes";
 
 export interface SafetyFields extends BaseFields {
-    date: any;
-    description: string;
     safetySubtype: string;
-    safetySubtypeOpen: string;
     safetyType: string;
 }
 
@@ -26,6 +23,8 @@ interface SafetyControllerProps {
 
 const initialState: SafetyFields = {
     birthYear: -1,
+    date: new Date(),
+    description: "",
     disability: "",
     disabilityType: "",
     disabilityTypeOpen: "",
@@ -37,10 +36,7 @@ const initialState: SafetyFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     safetySubtype: "",
-    safetySubtypeOpen: "",
     safetyType: "",
-    date: new Date(),
-    description: "",
     point: [],
 };
 
