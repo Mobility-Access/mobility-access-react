@@ -7,13 +7,14 @@ import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
 import LocationForm from "../LocationForm";
 import SuccessForm from "../SuccessForm";
-import { BaseFields } from "../../../FormTypes";
+import { BaseFields, ReportType } from "../../../FormTypes";
 
 export interface AmenityFields extends BaseFields {
     amenityType: string;
 }
 
 interface AmenityControllerProps {
+    addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
     newReportCoords: number[];
@@ -40,7 +41,12 @@ const initialState: AmenityFields = {
 };
 
 const AmenityController = (props: AmenityControllerProps) => {
-    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
+    const { addNewFeature,
+        cancelOrComplete,
+        geolocateHandler,
+        newReportCoords,
+        startMapClickListener,
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<AmenityFields>(initialState);
     const [step, setStep] = useState(1);
@@ -75,7 +81,8 @@ const AmenityController = (props: AmenityControllerProps) => {
         } else if (result.networkError) {
             console.log("Network error from controller");
         }
-        console.log(result);
+        
+        addNewFeature(ReportType.Amenity, data);
         nextStep();
     };
 

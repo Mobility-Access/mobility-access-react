@@ -1,9 +1,22 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Collapse from "@material-ui/core/Collapse";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import ExpandLess from "@material-ui/icons/ExpandLess"
+import ExpandMore from "@material-ui/icons/ExpandMore"
+import NavigateNext from "@material-ui/icons/NavigateNext";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -15,7 +28,6 @@ import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
 import { SafetyFields } from "./Safety/SafetyController";
 import Colors from "../../Colors";
 import { ChoiceItem, Gender, Identity } from "../../FormTypes";
-import Checkbox from "@material-ui/core/Checkbox";
 
 interface DemographicFormProps {
     formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
@@ -34,7 +46,7 @@ const minInputHeight = 56;
 
 const useStyles = makeStyles((theme) => ({
     demographicForm: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(1),
     },
     buttonBar: {
         marginTop: theme.spacing(2),
@@ -57,8 +69,28 @@ const useStyles = makeStyles((theme) => ({
             borderColor: Colors.contrastRed
         },
     },
+    demographicQuestion: {
+        color: Colors.contrastBrightBlue,
+        minHeight: "64px",
+    },
+    demographicReasonCollapse: {
+        color: Colors.contrastBrightBlue,
+    },
+    demographicReasonDialog: {
+        marginBottom: theme.spacing(3),
+        marginTop: theme.spacing(3),
+    },
+    icon: {
+        color: Colors.contrastBrightBlue,
+    },
+    iconContainer: {
+        minWidth: "0px",
+    },
     input: {
         marginTop: theme.spacing(1),
+    },
+    label: {
+        flexGrow: 1,
     },
     menuItem: {
         minHeight: minInputHeight,
@@ -77,6 +109,10 @@ const useStyles = makeStyles((theme) => ({
 const DemographicForm = (props: DemographicFormProps) => {
     const { cancel, formData, nextStep, prevStep, setFormData  } = { ...props };
     const { t } = useTranslation();
+    const theme = useTheme();
+    const [demographicOpen, setDemographicOpen] = useState(false);
+    const [demographicOpen2, setDemographicOpen2] = useState(false);
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const validationSchema = Yup.object({
         birthYear: Yup
             .number()
@@ -136,6 +172,18 @@ const DemographicForm = (props: DemographicFormProps) => {
         formik.setFieldValue("birthYear", event.target.value);
     };
 
+    const handleDemographicClose = () => {
+        setDemographicOpen(false);
+    };
+
+    const handleDemographicReasonClick = () => {
+        setDemographicOpen(true)
+    };
+
+    const handleDemographicReason2Click = () => {
+        setDemographicOpen2(!demographicOpen2);
+    };
+
     const handleGenderOpenChange = (event: any) => {
         formik.setFieldValue("genderOpen", event.target.value);
     };
@@ -178,8 +226,36 @@ const DemographicForm = (props: DemographicFormProps) => {
     return (
         <>
             <FormTitle title="form_demographics" />
+            <MenuItem
+                className={classes.demographicQuestion}
+                disableGutters={true}
+                key="demographicQuestion"
+                onClick={handleDemographicReasonClick}
+            >
+                <Typography className={classes.label}>
+                    {t("form_demographic_why-demographic-info")}
+                </Typography>
+                <ListItemIcon className={classes.iconContainer}>
+                    <NavigateNext className={classes.icon}/>
+                </ListItemIcon>   
+            </MenuItem>
+            <MenuItem className={classes.demographicQuestion} disableGutters={true} onClick={handleDemographicReason2Click}>
+                <ListItemText primary={t("form_demographic_why-demographic-info")} />
+                { demographicOpen2 ? <ExpandLess /> : <ExpandMore />}
+            </MenuItem>
+            <Collapse in={demographicOpen2} unmountOnExit>
+                <ListItem>
+                    <ListItemText>
+                    <Typography className={classes.demographicReasonCollapse}>
+                        {t("form_demographic-reason")}
+                    </Typography>
+                    </ListItemText>
+                </ListItem>
+            </Collapse>
+
+
             <form className={classes.demographicForm} noValidate onSubmit={formik.handleSubmit}>
-                <div className={classes.question}>
+                <div>
                     <Typography>
                         {t("form_demographic_gender-question")}
                     </Typography>
@@ -341,6 +417,26 @@ const DemographicForm = (props: DemographicFormProps) => {
                     </Button>
                 </div>
             </form>
+            <Dialog
+                aria-labelledby="demographic-reason-dialog-title"
+                fullScreen={fullScreen}
+                onClose={handleDemographicClose}
+                open={demographicOpen}
+                >
+                <DialogTitle id="demographic-reason-dialog-title">
+                    {t("form_demographic_why-demographic-info")}
+                </DialogTitle>
+                <DialogContent>
+                    <Typography className={classes.demographicReasonDialog}>
+                        {t("form_demographic-reason")}
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus color="primary" onClick={handleDemographicClose}>
+                        {t("form_common-close")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </>
     );
 };

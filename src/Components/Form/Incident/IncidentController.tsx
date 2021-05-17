@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 
-import IncidentForm from "./IncidentForm";
 import IncidentDetailForm from "./IncidentDetailForm";
+import IncidentForm from "./IncidentForm";
+import { SubmitIncidentReport } from "./IncidentService";
 import CancelDialog from "../CancelDialog";
 import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
 import LocationForm from "../LocationForm";
 import SuccessForm from "../SuccessForm";
-import { BaseFields } from "../../../FormTypes";
+import { BaseFields, ReportType } from "../../../FormTypes";
 
 export interface IncidentFields extends BaseFields {
     incidentSubtype: string;
@@ -17,6 +18,7 @@ export interface IncidentFields extends BaseFields {
 }
 
 interface IncidentControllerProps {
+    addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
     newReportCoords: number[];
@@ -46,7 +48,12 @@ const initialState: IncidentFields = {
 };
 
 const IncidentController = (props: IncidentControllerProps) => {
-    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
+    const { addNewFeature,
+        cancelOrComplete,
+        geolocateHandler,
+        newReportCoords,
+        startMapClickListener,
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<IncidentFields>(initialState);
     const [step, setStep] = useState(1);
@@ -73,8 +80,16 @@ const IncidentController = (props: IncidentControllerProps) => {
         setStep(prev => prev - 1);
     };
 
-    const submitForm = () => {
-        console.log(formData);
+    const submitForm = async (data: IncidentFields) => {
+        const result = await SubmitIncidentReport(data);
+
+        if (result.serverError) {
+            console.log("Server error from controller");
+        } else if (result.networkError) {
+            console.log("Network error from controller");
+        }
+
+        addNewFeature(ReportType.Incident, data);
         nextStep();
     };
 

@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     buttonBar: {
+        marginBottom: theme.spacing(2),
         marginTop: theme.spacing(2),
         textAlign: "right",
     },
@@ -116,6 +117,10 @@ const AmenityForm = (props: AmenityProps) => {
 
     ];
 
+    const handleAmenityTypeSelect = (event: any) => {
+        formik.setFieldValue("amenityType", event.target.value);
+    };
+
     const handleDateChange = (value: any) => {
         formik.setFieldValue("date", value);
     };
@@ -140,7 +145,7 @@ const AmenityForm = (props: AmenityProps) => {
                         name="amenity"
                         select
                         value={formik.values.amenityType}
-                        onChange={formik.handleChange}
+                        onChange={handleAmenityTypeSelect}
                         error={formik.touched.amenityType && Boolean(formik.errors.amenityType)}
                         helperText={formik.touched.amenityType && formik.errors.amenityType}
                         variant="outlined"

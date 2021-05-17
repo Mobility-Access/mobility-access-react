@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
 import SafetyForm from "./SafetyForm";
+import { SubmitSafetyReport } from "./SafetyService";
 import CancelDialog from "../CancelDialog";
 import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
 import LocationForm from "../LocationForm";
 import SuccessForm from "../SuccessForm";
-import { BaseFields } from "../../../FormTypes";
+import { BaseFields, ReportType } from "../../../FormTypes";
 
 export interface SafetyFields extends BaseFields {
     safetySubtype: string;
@@ -14,6 +15,7 @@ export interface SafetyFields extends BaseFields {
 }
 
 interface SafetyControllerProps {
+    addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
     newReportCoords: number[];
@@ -41,7 +43,12 @@ const initialState: SafetyFields = {
 };
 
 const SafetyController = (props: SafetyControllerProps) => {
-    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
+    const { addNewFeature,
+        cancelOrComplete,
+        geolocateHandler,
+        newReportCoords,
+        startMapClickListener,
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<SafetyFields>(initialState);
     const [step, setStep] = useState(1);
@@ -68,7 +75,16 @@ const SafetyController = (props: SafetyControllerProps) => {
         setStep(prev => prev - 1);
     };
 
-    const submitForm = (data: any) => {
+    const submitForm = async (data: SafetyFields) => {
+        const result = await SubmitSafetyReport(data);
+
+        if (result.serverError) {
+            console.log("Server error from controller");
+        } else if (result.networkError) {
+            console.log("Network error from controller");
+        }
+        
+        addNewFeature(ReportType.Safety, data);
         nextStep();
     };
 

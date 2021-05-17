@@ -1,9 +1,16 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Link from "@material-ui/core/Link";
 import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -13,6 +20,7 @@ import FormTitle from "./FormTitle";
 import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
 import { SafetyFields } from "./Safety/SafetyController";
+import TermsAndConditions from "./TermsAndConditions";
 import Colors from "../../Colors";
 import { ChoiceItem, Disability, DisabilityType, Mobility, MobilityAid } from "../../FormTypes";
 
@@ -29,10 +37,10 @@ const minInputHeight = 56;
 
 const useStyles = makeStyles((theme) => ({
     disabilityForm: {
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(2),
     },
     buttonBar: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(0),
         textAlign: "right",
     },
     buttonBarButton: {
@@ -55,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
     input: {
         marginTop: theme.spacing(1),
     },
+    link: {
+        color: Colors.contrastBrightBlue
+    },
     menuItem: {
         minHeight: minInputHeight,
         '&.Mui-selected': {
@@ -64,11 +75,30 @@ const useStyles = makeStyles((theme) => ({
     question: {
         marginTop: theme.spacing(4),
     },
+    termsAndConditions: {
+        display: "flex",
+        flexDirection: "row",
+        marginTop: theme.spacing(2),
+    },
+    termsAndConditionsButton: {
+        color: Colors.contrastBrightBlue,
+    },
+    termsAndConditionsButtonLabel: {
+        textAlign: "start",
+    },
+    termsAndConditionsMenuItem: {
+        color: Colors.contrastBrightBlue,
+        marginTop: theme.spacing(0),
+    }
 }));
 
 const DisabilityForm = (props: DisabilityFormProps) => {
     const { cancel, formData, nextStep, prevStep, submit, setFormData  } = { ...props };
     const { t } = useTranslation();
+    const [accept, setAccept] = useState(false);
+    const [open, setOpen] = useState(false);
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
     const validationSchema = Yup.object({
         disability: Yup
@@ -165,6 +195,29 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         setFormData(formik.values);
         submit(formik.values);
     }
+
+    // ****** Terms and conditions
+    const handleAcceptTermsAndConditions = () => {
+        setAccept(true);
+        setOpen(false);
+    };
+
+    const handleDeclineTermsAndConditions = () => {
+        setAccept(false);
+        setOpen(false);
+    };
+
+    const handleTermsAndConditions = () => {
+        setAccept(!accept);
+    };
+
+    const handleTermsAndConditionsClose = () => {
+        setOpen(false);
+    };
+
+    const handleTermsAndConditionsOpen = () => {
+        setOpen(true);
+    };
 
     return (
         <>
@@ -328,6 +381,21 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     />
                     </div>
                 )}
+                <div className={classes.termsAndConditions}>
+                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />
+                    <Typography>
+                        {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
+                    </Typography>
+                    {/* <Button classes={{label: classes.termsAndConditionsButtonLabel}} className={classes.termsAndConditionsButton} onClick={handleTermsAndConditionsOpen} >
+                        {t("form_disability-terms-and-conditions")}
+                    </Button> */}
+                    {/* <MenuItem className={classes.termsAndConditionsMenuItem} disableGutters={true} onClick={handleTermsAndConditionsOpen}>
+                        <Typography>
+                            {t("form_disability-terms-and-conditions")}
+                        </Typography>
+                    </MenuItem> */}
+                </div>
+                
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}
@@ -345,12 +413,37 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
+                        disabled={!accept}
                         type="submit"
                         variant="contained">
                         {t("form_submit")}
                     </Button>
                 </div>
             </form>
+            <TermsAndConditions onAccept={handleAcceptTermsAndConditions} onDecline={handleDeclineTermsAndConditions} open={open}/>
+            {/* <Dialog
+                aria-labelledby="terms-and-conditions-dialog-title"
+                fullScreen={fullScreen}
+                onClose={handleTermsAndConditionsClose}
+                open={open}
+                >
+                <DialogTitle id="terms-and-conditions-dialog-title">
+                    {t("form_terms-and-conditions-title")}
+                </DialogTitle>
+                <DialogContent>
+                    <Typography>
+                        {t("form_demographic-reason")}
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={handleDeclineTermsAndConditions} variant="outlined">
+                        {t("form_common-decline")}
+                    </Button>
+                    <Button autoFocus color="primary" onClick={handleAcceptTermsAndConditions} variant="contained">
+                        {t("form_common-accept")}
+                    </Button>
+                </DialogActions>
+            </Dialog> */}
         </>
     );
 };

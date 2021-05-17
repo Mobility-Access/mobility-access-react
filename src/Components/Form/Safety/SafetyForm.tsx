@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     buttonBar: {
+        marginBottom: theme.spacing(2),
         marginTop: theme.spacing(2),
         textAlign: "right",
     },

@@ -38,6 +38,7 @@ const minInputHeight = 56;
 
 const useStyles = makeStyles((theme) => ({
     buttonBar: {
+        marginBottom: theme.spacing(2),
         marginTop: theme.spacing(2),
         textAlign: "right",
     },

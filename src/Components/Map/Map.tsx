@@ -24,7 +24,9 @@ import VectorLayer from "ol/layer/Vector"
 import OLView from "ol/View";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
+import { AmenityFields } from "../Form/Amenity/AmenityController";
 import FormWizard from "../Form/FormWizard";
+import { ReportType } from "../../FormTypes";
 
 import "ol/ol.css";
 import "./Map.css";
@@ -232,6 +234,11 @@ const Map = () => {
         window.dispatchEvent(new CustomEvent("resize"));
     });
 
+    // Placeholder function
+    const handleAddNewFeature= (reportType: ReportType, fields: AmenityFields) => {
+        console.log("placeholder");
+    }
+
     return (
         <>
             <Drawer
@@ -245,6 +252,7 @@ const Map = () => {
             >
                 <div className={classes.appBarSpacer}></div>
                     <FormWizard
+                        addNewFeature={handleAddNewFeature}
                         geolocateHandler={updatePositionFromGeolocation}
                         newReportCoords={newReportCoords}
                         resetReportCoords={resetReportCoords}

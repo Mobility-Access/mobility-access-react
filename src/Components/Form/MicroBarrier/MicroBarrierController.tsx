@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 
 import MicroBarrierForm from "./MicrobarrierForm";
+import { SubmitMicroBarrierReport } from  "./MicroBarrierService";
 import CancelDialog from "../CancelDialog";
 import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
 import LocationForm from "../LocationForm";
 import SuccessForm from "../SuccessForm";
-import { BaseFields } from "../../../FormTypes";
+import { BaseFields, ReportType } from "../../../FormTypes";
 
 export interface MicroBarrierFields extends BaseFields {
     microBarrierSubtype: string;
@@ -15,6 +16,7 @@ export interface MicroBarrierFields extends BaseFields {
 }
 
 interface MicroBarrierControllerProps {
+    addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     geolocateHandler: (position: any) => void;
     newReportCoords: number[];
@@ -43,7 +45,12 @@ const initialState: MicroBarrierFields = {
 };
 
 const MicroBarrierController = (props: MicroBarrierControllerProps) => {
-    const { cancelOrComplete, geolocateHandler, newReportCoords, startMapClickListener, stopMapClickListener } = { ...props };
+    const { addNewFeature,
+        cancelOrComplete,
+        geolocateHandler,
+        newReportCoords,
+        startMapClickListener,
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<MicroBarrierFields>(initialState);
     const [step, setStep] = useState(1);
@@ -70,8 +77,16 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
         setStep(prev => prev - 1);
     };
 
-    const submitForm = (data: any) => {
-        console.log(data);
+    const submitForm = async (data: MicroBarrierFields) => {
+        const result = await SubmitMicroBarrierReport(data);
+
+        if (result.serverError) {
+            console.log("Server error from controller");
+        } else if (result.networkError) {
+            console.log("Network error from controller");
+        }
+        
+        addNewFeature(ReportType.MicroBarrier, data);
         nextStep();
     };
 

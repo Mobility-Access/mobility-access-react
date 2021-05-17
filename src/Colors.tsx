@@ -1,5 +1,6 @@
 const Colors = {
     contrast: "#ffd2a0",
+    contrastBrightBlue: "#407EC9",
     contrastRed: "#F8485E",
     gray: "#D0D0CE",
     primary: "#082B49",

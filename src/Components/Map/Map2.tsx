@@ -29,6 +29,7 @@ import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
 import "./Map.css";
+import { AmenityFields } from "../Form/Amenity/AmenityController";
 import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
@@ -44,8 +45,13 @@ import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { EventsKey } from "ol/events";
 import { unByKey } from "ol/Observable";
+import { ReportType } from "../../FormTypes";
 
 interface MapState {
+    amenitySource: VectorSource;
+    incidentSource: VectorSource;
+    microBarrierSource: VectorSource;
+    safetySource: VectorSource;
     markers: Feature[];
     markerLayer: VectorLayer;
     markerSource: VectorSource;
@@ -75,6 +81,10 @@ class Map2 extends React.Component<{}, MapState> {
         this.positionFeature = new Feature();
         this.accuracyFeature = new Feature();
         this.state = {
+            amenitySource: new VectorSource(),
+            incidentSource: new VectorSource(),
+            microBarrierSource: new VectorSource(),
+            safetySource: new VectorSource(),
             markers: [],
             markerSource: new VectorSource(),
             markerLayer: new VectorLayer(),
@@ -83,6 +93,7 @@ class Map2 extends React.Component<{}, MapState> {
         };
 
         // Bind functions
+        this.handleAddNewFeature = this.handleAddNewFeature.bind(this);
         this.disableMapClickListener = this.disableMapClickListener.bind(this);
         this.enableMapClickListener = this.enableMapClickListener.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
@@ -138,24 +149,27 @@ class Map2 extends React.Component<{}, MapState> {
 
         this.translate.on("translateend", this.handleTranslateEnd);
 
-        // this.geolocation = new Geolocation({
-        //     trackingOptions: {
-        //         enableHighAccuracy: true,
-        //     },
-        //     projection: this.map.getView().getProjection(),
-        // });
+        this.geolocation = new Geolocation({
+            trackingOptions: {
+                enableHighAccuracy: true,
+            },
+            projection: this.map.getView().getProjection(),
+        });
         
         if (this.map.getTarget() === undefined) {
             this.map.setTarget("map");
         }
 
-        // if (navigator && "geolocation in navigator") {
-        //     navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
-        // }
+        if (navigator && "geolocation in navigator") {
+            navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
+        }
     }
 
-    async addFeatureLayers() {
-        await this.addAmenityFeatureLayer();
+    addFeatureLayers() {
+        this.addAmenityFeatureLayer();
+        this.addMicroBarrierFeatureLayer();
+        this.addSafetyFeatureLayer();
+        this.addIncidentFeatureLayer();
     }
 
     async addAmenityFeatureLayer() {
@@ -164,21 +178,12 @@ class Map2 extends React.Component<{}, MapState> {
             features: []
         };
 
-        const amenitySource = new VectorSource({
-            features: new GeoJSON().readFeatures(amenityFeatureCollection)
-        });
+        this.state.amenitySource.addFeatures(new GeoJSON().readFeatures(amenityFeatureCollection));
 
         const amenityLayer = new VectorLayer({
             map: this.map,
-            source: amenitySource,
-            style: new Style({
-                image: new Icon({
-                    anchor: [0.5, 0.75],
-                    anchorYUnits: IconAnchorUnits.FRACTION,
-                    scale: 0.35,
-                    src: amenityMarker
-                })
-            })
+            source: this.state.amenitySource,
+            style: this.getMarkerStyle(ReportType.Amenity)
         });
     }
 
@@ -188,21 +193,12 @@ class Map2 extends React.Component<{}, MapState> {
             features: []
         };
 
-        const barrierSource = new VectorSource({
-            features: new GeoJSON().readFeatures(barrierFeatureCollection)
-        });
+        this.state.microBarrierSource.addFeatures(new GeoJSON().readFeatures(barrierFeatureCollection));
 
         const barrierLayer = new VectorLayer({
             map: this.map,
-            source: barrierSource,
-            style: new Style({
-                image: new Icon({
-                    anchor: [0.5, 0.75],
-                    anchorYUnits: IconAnchorUnits.FRACTION,
-                    scale: 0.35,
-                    src: barrierMarker
-                })
-            })
+            source: this.state.microBarrierSource,
+            style: this.getMarkerStyle(ReportType.MicroBarrier)
         });
     }
 
@@ -212,21 +208,12 @@ class Map2 extends React.Component<{}, MapState> {
             features: []
         };
 
-        const incidentSource = new VectorSource({
-            features: new GeoJSON().readFeatures(incidentFeatureCollection)
-        });
+        this.state.incidentSource.addFeatures(new GeoJSON().readFeatures(incidentFeatureCollection));
 
         const incidentLayer = new VectorLayer({
             map: this.map,
-            source: incidentSource,
-            style: new Style({
-                image: new Icon({
-                    anchor: [0.5, 0.75],
-                    anchorYUnits: IconAnchorUnits.FRACTION,
-                    scale: 0.35,
-                    src: incidentMarker
-                })
-            })
+            source: this.state.incidentSource,
+            style: this.getMarkerStyle(ReportType.Incident)
         });
     }
 
@@ -236,21 +223,12 @@ class Map2 extends React.Component<{}, MapState> {
             features: []
         }];
 
-        const safetySource = new VectorSource({
-            features: new GeoJSON().readFeatures(safetyFeatureCollection)
-        });
+        this.state.safetySource.addFeatures(new GeoJSON().readFeatures(safetyFeatureCollection));
 
         const safetyLayer = new VectorLayer({
             map: this.map,
-            source: safetySource,
-            style: new Style({
-                image: new Icon({
-                    anchor: [0.5, 0.75],
-                    anchorYUnits: IconAnchorUnits.FRACTION,
-                    scale: 0.35,
-                    src: safetyMarker
-                })
-            })
+            source: this.state.safetySource,
+            style: this.getMarkerStyle(ReportType.Safety)
         });
     }
 
@@ -266,32 +244,65 @@ class Map2 extends React.Component<{}, MapState> {
         this.map.on("click", this.handleMapClick);
     };
 
-    getMarkerStyle(reportType: string) {
-        if (reportType) {
-            return new Style({
-                image: new Icon({
-                    anchor: [0.5, 0.75],
-                    anchorYUnits: IconAnchorUnits.FRACTION,
-                    scale: 0.4,
-                    src: reportMarker
-                })
-            });
-        } else {
-            new Style({
-                image: new Icon({
-                    anchor: [0.5, 50],
-                    src: reportMarker
-                }),
-            });
+    getMarkerStyle(reportType?: string) {
+        let marker;
+        switch (reportType) {
+            case ReportType.Amenity:
+                marker = amenityMarker;
+                break;
+            case ReportType.Incident:
+                marker = incidentMarker;
+                break;
+            case ReportType.MicroBarrier:
+                marker = barrierMarker;
+                break;
+            case ReportType.Safety:
+                marker = safetyMarker;
+                break;
+            default:
+                marker = reportMarker;
         }
+
+        return new Style({
+            image: new Icon({
+                anchor: [0.5, 0.75],
+                anchorYUnits: IconAnchorUnits.FRACTION,
+                scale: 0.35,
+                src: marker
+            })
+        });
     };
+
+    handleAddNewFeature(reportType: ReportType, fields: AmenityFields) {
+        const feature = new Feature();
+        const style = this.getMarkerStyle(reportType);
+        feature.setStyle(style);
+        feature.setGeometry(new OLPoint(fields.point));
+
+        switch (reportType) {
+            case ReportType.Amenity:
+                this.state.amenitySource.addFeature(feature);
+                break;
+            case ReportType.Incident:
+                this.state.incidentSource.addFeature(feature);
+                break;
+            case ReportType.MicroBarrier:
+                this.state.microBarrierSource.addFeature(feature);
+                break;
+            case ReportType.Safety:
+                this.state.safetySource.addFeature(feature);
+                break;
+            default:
+                console.log("Invalid ReportType detected, unable to add new feature to the map."); 
+        }
+    }
 
     handleMapClick(event: MapBrowserEvent) {
         if (event && event.coordinate) {
             this.state.markerSource.clear();
             this.setReportCoords(event.coordinate);
             const feature = new Feature();
-            const style = this.getMarkerStyle("red");
+            const style = this.getMarkerStyle();
             feature.setStyle(style);
             feature.setGeometry(new OLPoint(event.coordinate));
             this.state.markerSource.addFeature(feature);
@@ -314,13 +325,6 @@ class Map2 extends React.Component<{}, MapState> {
 
     setReportCoords(coords: Coordinate) {
         let newCoords = coords || [];
-
-        // if (coords && coords.length === 0) {
-        //     newCoords = [];
-        // } else if (coords && coords.length === 2) {
-        //     newCoords = toLonLat(newCoords);
-        // }
-
         this.setState({reportCoords: newCoords});
     }
 
@@ -352,6 +356,7 @@ class Map2 extends React.Component<{}, MapState> {
                 >
                     <Toolbar />
                     <FormWizard
+                        addNewFeature={this.handleAddNewFeature}
                         geolocateHandler={this.updatePositionFromGeolocation}
                         newReportCoords={this.state.reportCoords}
                         resetReportCoords={this.resetReportCoords}

@@ -16,6 +16,7 @@ import SafetyController from "./Safety/SafetyController";
 import { ChoiceItem } from "../../FormTypes";
 
 interface FormWizardProps {
+    addNewFeature: (reportType: ReportType, fields: any) => void;
     geolocateHandler: (position: any) => void;
     newReportCoords: number[];
     resetReportCoords: () => void;
@@ -55,7 +56,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FormWizard = (props: FormWizardProps) => {
-    const { geolocateHandler, newReportCoords, resetReportCoords, startMapClickListener, stopMapClickListener } = { ...props } ;
+    const { addNewFeature,
+        geolocateHandler,
+        newReportCoords,
+        resetReportCoords,
+        startMapClickListener,
+        stopMapClickListener } = { ...props } ;
     const [index, setIndex] = useState(0);
     const [type, setType] = useState<string | null>(null);
     const classes = useStyles();
@@ -141,6 +147,7 @@ const FormWizard = (props: FormWizardProps) => {
     const renderAmenityController = () => {
         return (
             <AmenityController
+                addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
@@ -152,6 +159,7 @@ const FormWizard = (props: FormWizardProps) => {
     const renderIncidentController = () => {
         return (
             <IncidentController
+                addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
@@ -163,6 +171,7 @@ const FormWizard = (props: FormWizardProps) => {
     const renderMicroBarrierController = () => {
         return (
             <MicroBarrierController
+                addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
@@ -173,6 +182,7 @@ const FormWizard = (props: FormWizardProps) => {
 
     const renderSafetyController = () => {
         return <SafetyController
+            addNewFeature={addNewFeature}
             cancelOrComplete={handleCancelorComplete}
             geolocateHandler={geolocateHandler}
             newReportCoords={newReportCoords}

@@ -2,7 +2,7 @@ import { IncidentFields } from "./IncidentController";
 import { IncidentUrl } from "../../../Constants";
 import { FeatureCollection, ReportType } from "../../../FormTypes";
 
-export const SubmitincidentReport = async (report: IncidentFields) => {
+export const SubmitIncidentReport = async (report: IncidentFields) => {
     const data = {
         incident_type: report.incidentType,
         incident_with: report.incidentSubtype,
