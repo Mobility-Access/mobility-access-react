@@ -1,21 +1,16 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Checkbox from "@material-ui/core/Checkbox";
-import Collapse from "@material-ui/core/Collapse";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import ExpandLess from "@material-ui/icons/ExpandLess"
-import ExpandMore from "@material-ui/icons/ExpandMore"
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
@@ -239,21 +234,6 @@ const DemographicForm = (props: DemographicFormProps) => {
                     <NavigateNext className={classes.icon}/>
                 </ListItemIcon>   
             </MenuItem>
-            <MenuItem className={classes.demographicQuestion} disableGutters={true} onClick={handleDemographicReason2Click}>
-                <ListItemText primary={t("form_demographic_why-demographic-info")} />
-                { demographicOpen2 ? <ExpandLess /> : <ExpandMore />}
-            </MenuItem>
-            <Collapse in={demographicOpen2} unmountOnExit>
-                <ListItem>
-                    <ListItemText>
-                    <Typography className={classes.demographicReasonCollapse}>
-                        {t("form_demographic-reason")}
-                    </Typography>
-                    </ListItemText>
-                </ListItem>
-            </Collapse>
-
-
             <form className={classes.demographicForm} noValidate onSubmit={formik.handleSubmit}>
                 <div>
                     <Typography>

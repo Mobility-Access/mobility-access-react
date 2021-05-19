@@ -119,7 +119,11 @@ const MicroBarrierForm = (props: MicroBarrierFormProps) => {
             .required(t("form-required")),
         microBarrierSubtypeDetail: Yup
             .string()
-            .required(t("form-required")),
+            .when("microBarrierType", {
+                is: (value: any) => value === MicroBarrierType.Infrastructure,
+                then: Yup.string().required(t("form-required")),
+                otherwise: Yup.string()
+            }),
         microBarrierSubtypeDetailOpen: Yup
             .string(),
         microBarrierType: Yup
