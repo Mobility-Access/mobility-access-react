@@ -62,7 +62,6 @@ interface MapState {
 }
 
 class Map2 extends React.Component<{}, MapState> {
-
     map!: OLMap;
     mapDiv: any;
     positionFeature: Feature;
