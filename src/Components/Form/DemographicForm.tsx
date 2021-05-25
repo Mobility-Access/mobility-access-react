@@ -107,6 +107,7 @@ const DemographicForm = (props: DemographicFormProps) => {
     const theme = useTheme();
     const [demographicOpen, setDemographicOpen] = useState(false);
     const [demographicOpen2, setDemographicOpen2] = useState(false);
+    const [identitySelectOpen, setIdentitySelectOpen] = useState(false);
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const validationSchema = Yup.object({
         birthYear: Yup
@@ -191,6 +192,17 @@ const DemographicForm = (props: DemographicFormProps) => {
         }
     };
 
+    const handleIdentityCloseButton = (event: any) => {
+        event.stopPropagation();
+        setIdentitySelectOpen(false);
+    };
+
+    const handleIdentityClick = () => {
+        if (!identitySelectOpen) {
+            setIdentitySelectOpen(true);
+        }
+    };
+
     const handleIdentityOpenChange = (event: any) => {
         formik.setFieldValue("identityOpen", event.target.value);
     };
@@ -198,8 +210,14 @@ const DemographicForm = (props: DemographicFormProps) => {
     const handleIdentitySelect = (event: any) => {
         const values = event.target.value as string[];
 
+        // If the last value in the array is undefined, it means the OK button was
+        // pressed and we need to remove this item from the array of values
+        if (values.length && values[values.length - 1] === undefined) {
+            values.splice(values.length - 1, 1)
+        }
+
         if (formik.values.identity[0] === Identity.NoResponse && values.length > -1) {
-            values.splice(0, values.length-1);
+            values.splice(0, values.length - 1);
         }
 
         if (values.includes(Identity.NoResponse)) {
@@ -294,18 +312,19 @@ const DemographicForm = (props: DemographicFormProps) => {
                         select
                         value={formik.values.identity}
                         onChange={handleIdentitySelect}
+                        onClick={handleIdentityClick}
                         error={formik.touched.identity && Boolean(formik.errors.identity)}
                         helperText={formik.touched.identity && formik.errors.identity}
                         variant="outlined"
                         SelectProps={{
                             multiple: true,
-                            // renderValue: selected => { return <div>horse</div>}
+                            open: identitySelectOpen,
                             renderValue: (selected) => {
                                 const values = (selected as string[]).map((val: string) => {
                                     const identity = identityTypes.find(x => x.key === val);
                                     return identity ? identity.value : undefined;
                                 });
-                                return <div>{values.join(", ")}</div>
+                                return <div>{values.length === 1 ? values[0] : values.join(", ")}</div>
                             }
                         }}
                     >
@@ -324,6 +343,13 @@ const DemographicForm = (props: DemographicFormProps) => {
                                 )
                             })
                         }
+                        <Button
+                            className={classes.buttonBarButton}
+                            color="primary"
+                            onClick={handleIdentityCloseButton} 
+                            variant="contained">
+                                {t("form_common-ok")}
+                        </Button>
                     </TextField>
                 </div>
                 { formik.values.identity.includes(Gender.Other) && (
