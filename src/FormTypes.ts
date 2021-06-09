@@ -57,7 +57,7 @@ export enum Amenity {
 export enum Disability {
     Yes = "yes",
     No = "no",
-    NoResponse = "no-response",
+    NoResponse = "no response",
 }
 
 export enum DisabilityType {
@@ -72,20 +72,20 @@ export enum Gender {
     Male = "male",
     Female = "female",
     Other = "other",
-    NoResponse = "no-response",
+    NoResponse = "no response",
 }
 
 export enum Identity {
     Black = "black",
-    EastAsian = "east-asian",
-    SoutheastAsian = "southeast-asian",
+    EastAsian = "east asian",
+    SoutheastAsian = "southeast asian",
     Indigenous = "indigenous",
     Latino = "latino",
-    MiddleEastern = "middle-eastern",
-    SouthAsian = "south-asisan",
+    MiddleEastern = "middle eastern",
+    SouthAsian = "south asisan",
     White = "white",
     Other = "other",
-    NoResponse = "no-response",
+    NoResponse = "no response",
 }
 
 export enum IncidentFallSubtype {
@@ -95,81 +95,81 @@ export enum IncidentFallSubtype {
 }
 
 export enum IncidentHitByOrNearmissSubtype {
-    VehicleFromBehind = "vehicle-from-behind",
-    VehicleHeadOn = "vehicle-turning-head-on",
-    VehicleLeftTurn = "vehicle-turning-left",
-    VehicleRightTurn = "vehicle-turning-right",
-    VehicleRightTurnRed = "vehicle-turning-right-on-red",
+    VehicleFromBehind = "vehicle from behind",
+    VehicleHeadOn = "vehicle turning head-on",
+    VehicleLeftTurn = "vehicle turning left",
+    VehicleRightTurn = "vehicle turning right",
+    VehicleRightTurnRed = "vehicle turning right on red",
     Cyclist = "cyclist",
     Animal = "animal",
     Other = "other",
 }
 
 export enum IncidentInjury {
-    None = "no-injury",
-    SelfTreatment = "injury-self-treatment",
-    FamilyDoctor = "saw-family-doctor",
-    SelfER = "er-by-myself",
-    AmbulanceER = "ambulance-to-er",
+    None = "no injury",
+    SelfTreatment = "injury self treatment",
+    FamilyDoctor = "saw family doctor",
+    SelfER = "emergency room by myself",
+    AmbulanceER = "ambulance to emergency room",
     Hospital = "hospitalized",
 }
 
 export enum IncidentInjuryWitness {
-    None = "no-apparent-injury",
-    Minor = "minor-injuries",
-    Ambulance = "ambulance-attended",
+    None = "no apparent injury",
+    Minor = "minor injuries",
+    Ambulance = "ambulance attended",
 }
 
 export enum IncidentInvolvementType {
     Self = "self",
-    Care = "someone-in-my-care",
+    Care = "someone in my care",
     Witness = "witness",
 };
 
 export enum IncidentType {
-    HitBy = "hit-by",
-    NearMiss = "near-miss",
+    HitBy = "hit by",
+    NearMiss = "near miss",
     Fall = "fall",
 }
 
 export enum MicroBarrierEnvironmentalSubtype {
     Snow = "snow",
     Ice = "ice",
-    Puddles = "puddles-or-splash-zone",
+    Puddles = "puddles or splash zone",
     Vegetation = "vegetation",
     Other = "other",
 }
 
 export enum MicroBarrierInfrastructureCrossingSubtype {
-    Missing = "crosswalk-is-missing",
-    DangerousDrivers = "crosswalk-dangerous-drivers",
-    DangerousVolume = "crosswalk-dangerous-vehicle-high-volume",
-    DangerousSpeed = "crosswalk-dangerous-vehicle-high-speeds",
-    DangerousVisibility = "crosswalk-dangerous-poor-visibliity-of-pedestrians",
-    WaitTime = "long-wait-time-to-cross",
+    Missing = "crosswalk is missing",
+    DangerousDrivers = "crosswalk dangerous - drivers",
+    DangerousVolume = "crosswalk dangerous - vehicle high volume",
+    DangerousSpeed = "crosswalk dangerous - vehicle high speeds",
+    DangerousVisibility = "crosswalk dangerous - poor visibliity of pedestrians",
+    WaitTime = "long wait time to cross",
     Other = "other",
 }
 
 export enum MicroBarrierInfrastructureIntersectionSubtype {
-    CurbCutMissing = "curb-cut-missing",
-    CurbCutDesign = "curb-cut-poor-design",
-    TrafficShortSignal = "traffic-signal-short-pedestrian-interval",
-    TrafficSignalNotAudible = "traffic-signal-needs-audible",
-    TrafficSignalButtonAccess = "push-button-difficult-access",
-    VehicleConflictLeft = "conflict-left-turning-vehicle",
-    VehicleConflictRight = "conflict-right-turning-vehicle",
-    VehicleConflictRightRed = "conflict-right-turning-vehicle-on-red",
-    Visibility = "poor-visibility-of-pedestrians",
+    CurbCutMissing = "curb cut - missing",
+    CurbCutDesign = "curb cut - poor design",
+    TrafficShortSignal = "traffic signal - short pedestrian interval",
+    TrafficSignalNotAudible = "traffic signal - needs audible",
+    TrafficSignalButtonAccess = "traffic signal - push button difficult access",
+    VehicleConflictLeft = "conflict left turning vehicle",
+    VehicleConflictRight = "conflict right turning vehicle",
+    VehicleConflictRightRed = "conflict right turning vehicle on red",
+    Visibility = "poor visibility of pedestrians",
     Other = "other",
 }
 
 export enum MicroBarrierInfrastructureSidewalkType {
-    Narrow = "too-narrow",
-    TripRoots = "tripping-hazard-buckling-pavement-roots",
-    TripUneven = "tripping-hazard-uneven-clocks",
-    TripHolesCracks = "tripping-hazard-holes-cracks",
-    Uncomfortable = "uncomfortable-surface",
-    Driveway = "driveway-slope-issue",
+    Narrow = "too narrow",
+    TripRoots = "tripping hazard - buckling pavement roots",
+    TripUneven = "tripping hazard - uneven",
+    TripHolesCracks = "tripping hazard - holes cracks",
+    Uncomfortable = "uncomfortable surface",
+    Driveway = "driveway slope issue",
     Other = "other",
 }
 
@@ -183,8 +183,8 @@ export enum MicroBarrierObstructionFixedSubtype {
     Bollard = "bollard",
     Pole = "pole",
     Mailbox = "mailbox",
-    BikeRack = "bike-rack",
-    BusShelter = "bus-shelter",
+    BikeRack = "bike rack",
+    BusShelter = "bus shelter",
     Other = "other"
 }
 
@@ -194,12 +194,12 @@ export enum MicroBarrierObstructionSubtype {
 }
 
 export enum MicroBarrierObstructionTransientSubtype {
-    Sandwich = "sandwich-board",
-    BicycleParking = "parked-bicycle-or-scooter",
-    Trash = "garbage-or-recycling-bins",
-    Vehicle = "parked-vehicle-or-delivery-van",
-    ConstructionUnsafe = "construction-inadequate-or-missing-pedestrian-detour",
-    ConstructionSigns = "construction-signs-clockign-sidewalk",
+    Sandwich = "sandwich board",
+    BicycleParking = "parked bicycle or scooter",
+    Trash = "garbage or recycling bins",
+    Vehicle = "parked vehicle or delivery van",
+    ConstructionUnsafe = "construction inadequate or missing pedestrian detour",
+    ConstructionSigns = "construction signs blocking sidewalk",
     Other = "other"
 }
 
@@ -212,7 +212,7 @@ export enum MicroBarrierType {
 export enum Mobility {
     Yes = "yes",
     No = "no",
-    NoResponse = "no-response",
+    NoResponse = "no response",
 }
 
 export enum MobilityAid {
@@ -220,9 +220,9 @@ export enum MobilityAid {
     Crutches = "crutches",
     Other = "other",
     Powered = "powered",
-    ServiceDog = "service-dog",
+    ServiceDog = "service dog",
     Walker = "walker",
-    WheelChair = "wheel-chair",
+    WheelChair = "wheel chair",
 }
 
 export enum ReportType {
@@ -233,33 +233,33 @@ export enum ReportType {
 };
 
 export enum SafetyType {
-    VehicleTraffic = "vehicle-traffic",
-    PersonalSafety = "personal-safety",
-    OtherUsers = "other-path-users",
-    PoorAesthetics = "poor-aesthetics",
+    VehicleTraffic = "vehicle traffic",
+    PersonalSafety = "personal safety",
+    OtherUsers = "other path users",
+    PoorAesthetics = "poor aesthetics",
 }
 
 export enum SafetyOtherUsersSubtype {
     Bicycles = "bicycles",
     Dogs = "dogs",
     EScooters = "e-scooters",
-    Mobility = "mobility-scooters-or-electric-wheelchairs",
+    Mobility = "mobility scooters or electric wheelchairs",
     Other = "other",
-    OtherWheeled = "roller-blades-skateboards-kick-scooters",
+    OtherWheeled = "roller blades skateboards kick scooters",
 }
 
 export enum SafetyPoorAestheticsSubtype {
-    BlankWall = "blank-wall",
+    BlankWall = "blank wall",
     Litter = "litter",
-    Maintenance = "unmaintained-infrastructure-or-vegetation",
+    Maintenance = "unmaintained infrastructure or vegetation",
     Other = "other",
 }
 
 export enum SafetyPersonalSafetySubtype {
-    DeadEnds = "dead-ends",
-    Gathering = "gathering-of-unknown-people",
-    Harrassment = "harrassment-or-unwanted-attention",
-    Lighting = "inadequate-lighting",
+    DeadEnds = "dead ends",
+    Gathering = "gathering of unknown people",
+    Harrassment = "harrassment or unwanted attention",
+    Lighting = "inadequate lighting",
     Other = "other",
 }
 

@@ -4,7 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
-import { KeyboardDatePicker } from "@material-ui/pickers";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -186,17 +186,16 @@ const AmenityForm = (props: AmenityProps) => {
                     <Typography>
                         {t("form_amenity-date")}
                     </Typography>
-                    <KeyboardDatePicker
+                    <KeyboardDateTimePicker
                         className={classes.date}
                         disableFuture
-                        format="MM/dd/yyyy"
+                        format="MM/dd/yyyy, hh:mm a"
                         fullWidth
                         id="amenity-date-picker"
                         inputVariant="outlined"
                         name="amenity-date-picker"
                         onChange={handleDateChange}
                         value={formik.values.date}
-                        variant="inline"
                     />
                 </div>
                 <div className={classes.buttonBar}>

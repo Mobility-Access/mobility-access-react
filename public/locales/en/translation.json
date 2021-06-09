@@ -269,5 +269,12 @@
     "language-button": "English",
     "map": "Map",
     "map_legend": "Legend",
+    "popup_concern": "Concern",
+    "popup_date": "Date",
+    "popup_description": "Description", 
+    "popup_incident": "Incident",
+    "popup_microbarrier": "Micro-barrier",
+    "popup_microbarrier-infrastructure-detail": "Issue",
+    "popup_missing-amenity": "Missing Amenity",
     "site-name": "Walk Roll Map"
 }

@@ -253,6 +253,7 @@ const Map = () => {
                 <div className={classes.appBarSpacer}></div>
                     <FormWizard
                         addNewFeature={handleAddNewFeature}
+                        clearFeaturePopup={() => console.log("Hide the popup overlay")}
                         geolocateHandler={updatePositionFromGeolocation}
                         newReportCoords={newReportCoords}
                         resetReportCoords={resetReportCoords}

@@ -1,4 +1,5 @@
-import React from "react"
+import React, { createRef } from "react"
+import ReactDOM from "react-dom";
 // import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Drawer from "@material-ui/core/Drawer";
@@ -11,9 +12,10 @@ import Toolbar from "@material-ui/core/Toolbar";
 import "./Map.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
+import FeatureLike from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
-import OLPoint from "ol/geom/Point";
+import Point from "ol/geom/Point";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
@@ -22,8 +24,12 @@ import { fromLonLat, toLonLat } from "ol/proj"
 import {Circle as CircleStyle, Fill, Icon, RegularShape, Stroke, Style} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
+import Overlay from "ol/Overlay";
+import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
 import MapBrowserEvent from "ol/MapBrowserEvent";
+
+import { withTranslation } from "react-i18next";
 
 import FormWizard from "../Form/FormWizard";
 
@@ -34,8 +40,10 @@ import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
 import { GetSafetyFeatureCollection } from "../Form/Safety/SafetyService";
+import { IncidentType, MicroBarrierType } from "../../FormTypes";
 
 import { squareMarker } from "./Markers";
+import Popup, { PopupContentItem } from "./Popup";
 import Colors from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
 import barrierMarker from "../../images/icons/barrier_marker.svg";
@@ -46,6 +54,7 @@ import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { EventsKey } from "ol/events";
 import { unByKey } from "ol/Observable";
 import { ReportType } from "../../FormTypes";
+import Geometry from "ol/geom/Geometry";
 
 interface MapState {
     amenitySource: VectorSource;
@@ -56,18 +65,22 @@ interface MapState {
     markerLayer: VectorLayer;
     markerSource: VectorSource;
     open: boolean;
+    popupContentItems: PopupContentItem[];
     
     // WGS84 coordinate
     reportCoords: Coordinate;
 }
 
-class Map2 extends React.Component<{}, MapState> {
+class Map2 extends React.Component<{t: any}, MapState> {
     map!: OLMap;
     mapDiv: any;
     positionFeature: Feature;
     accuracyFeature: Feature;
     geolocation!: Geolocation;
     translate!: Translate;
+    wrapper: React.RefObject<any>;
+    popover!: Overlay;
+    popupContainer: React.RefObject<any>;
 
     // Feature layer sources
     amenityFeatures: Feature[] = [];
@@ -88,15 +101,21 @@ class Map2 extends React.Component<{}, MapState> {
             markerSource: new VectorSource(),
             markerLayer: new VectorLayer(),
             open: true,
+            popupContentItems: [],
             reportCoords: [],
         };
 
+        this.wrapper = createRef();
+        this.popupContainer = createRef();
+
         // Bind functions
-        this.handleAddNewFeature = this.handleAddNewFeature.bind(this);
         this.disableMapClickListener = this.disableMapClickListener.bind(this);
         this.enableMapClickListener = this.enableMapClickListener.bind(this);
+        this.handleAddNewFeature = this.handleAddNewFeature.bind(this);
+        this.handleFeatureClick = this.handleFeatureClick.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
         this.handleTranslateEnd = this.handleTranslateEnd.bind(this);
+        this.hideFeaturePopupOverlay = this.hideFeaturePopupOverlay.bind(this);
         this.resetReportCoords = this.resetReportCoords.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
@@ -131,7 +150,6 @@ class Map2 extends React.Component<{}, MapState> {
 
         this.addFeatureLayers();
 
-
         new VectorLayer({
             map: this.map,
             source: new VectorSource({
@@ -162,6 +180,18 @@ class Map2 extends React.Component<{}, MapState> {
         if (navigator && "geolocation in navigator") {
             navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
         }
+
+        this.popover = new Overlay({
+            element: this.popupContainer.current,
+            positioning: OverlayPositioning.BOTTOM_CENTER,
+            stopEvent: false,
+            offset: [0, -50]
+        });
+
+        this.map.addOverlay(this.popover);
+
+        // Start listening for clicks on features for popups
+        this.map.on("singleclick", this.handleFeatureClick);
     }
 
     addFeatureLayers() {
@@ -232,15 +262,22 @@ class Map2 extends React.Component<{}, MapState> {
     }
 
     disableMapClickListener() {
-        this.map.un("click", this.handleMapClick);
+        // Stop listening for map click events for new report marker
+        this.map.un("singleclick", this.handleMapClick);
 
         // Stop listening for drag events on the report marker
         this.map.removeInteraction(this.translate);
+
+        // Start listening for map clicks on features
+        this.map.on("singleclick", this.handleFeatureClick);
      };
 
     enableMapClickListener() {
-        // setHandleClick(true);
-        this.map.on("click", this.handleMapClick);
+        // Stop listening for map clicks on features
+        this.map.un("singleclick", this.handleFeatureClick);
+
+        // Start listening for map click for new report marker
+        this.map.on("singleclick", this.handleMapClick);
     };
 
     getMarkerStyle(reportType?: string) {
@@ -272,11 +309,102 @@ class Map2 extends React.Component<{}, MapState> {
         });
     };
 
+    getPopupContentItems(feature: any): PopupContentItem[] {
+        const capitalizeFirst = (str: string) => {
+            if (str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            } else {
+                return "";
+            }
+        };
+
+        if (!feature) {
+            return [];
+        }
+
+        const items: PopupContentItem[] = [];
+        const t = this.props.t;
+
+        switch (feature.get("type")) {
+            case ReportType.Amenity:
+                const amenityType = feature.get("amenity_type");
+                items.push({
+                    key: t("popup_missing-amenity"),
+                    value: capitalizeFirst(amenityType)
+                });
+                break;
+            case ReportType.Incident:
+                const incidentType = feature.get("incident_type");
+                const incidentWith = feature.get("incident_with");
+                items.push({
+                    key: t("popup_incident"),
+                    value: `${capitalizeFirst(incidentType)} - ${capitalizeFirst(incidentWith)}`
+                });
+                break;
+            case ReportType.MicroBarrier:
+                const microbarrierType = feature.get("barrier_type");
+                const microbarrierSubtype = feature.get("barrier_subtype");
+
+                items.push({
+                    key: t("popup_microbarrier"),
+                    value: `${capitalizeFirst(microbarrierType)} - ${capitalizeFirst(microbarrierSubtype)}`
+                });
+
+                if (microbarrierType === MicroBarrierType.Infrastructure) {
+
+                    const infrastructureDetail = feature.get("barrier_detail");
+                    items.push({
+                        key: t("popup_microbarrier-infrastructure-detail"),
+                        value: capitalizeFirst(infrastructureDetail)
+                    });
+                }
+                break;
+            case ReportType.Safety:
+                const concernType = feature.get("concern_type");
+                const concernWith = feature.get("concern_with");
+
+                items.push({
+                    key: t("popup_concern"),
+                    value: `${capitalizeFirst(concernType)} - ${capitalizeFirst(concernWith)}`
+                });
+            break;
+        }
+
+
+        const dateString = feature.get("date");
+
+        if (dateString) {
+            const utcMilliseconds = parseInt(dateString);
+
+            if (utcMilliseconds) {
+                const date = new Date(0);
+                date.setUTCMilliseconds(utcMilliseconds);
+
+                items.push({
+                    key: t("popup_date"),
+                    value: date.toLocaleString()
+                });
+            }
+        }
+
+        const description = feature.get("description");
+
+        if (description) {
+            items.push({
+                key: t("popup_description"),
+                value: capitalizeFirst(description)
+            });
+        }
+
+
+        return items;
+    }
+
     handleAddNewFeature(reportType: ReportType, fields: AmenityFields) {
         const feature = new Feature();
         const style = this.getMarkerStyle(reportType);
         feature.setStyle(style);
-        feature.setGeometry(new OLPoint(fields.point));
+        feature.setGeometry(new Point(fields.point));
 
         switch (reportType) {
             case ReportType.Amenity:
@@ -296,6 +424,27 @@ class Map2 extends React.Component<{}, MapState> {
         }
     }
 
+    handleFeatureClick(event: MapBrowserEvent) {
+        const feature = this.map.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
+            return feature;
+        });
+
+        if (feature) {
+            const geometry = feature.getGeometry() as Point;
+
+            if (!geometry) {
+                return;
+            }
+
+            const coords = geometry.getCoordinates();
+            const items = this.getPopupContentItems(feature);
+            this.setState({popupContentItems: items});
+            this.popover.setPosition(coords);
+        } else {
+            this.popover.setPosition(undefined);
+        }
+    }
+
     handleMapClick(event: MapBrowserEvent) {
         if (event && event.coordinate) {
             this.state.markerSource.clear();
@@ -303,7 +452,7 @@ class Map2 extends React.Component<{}, MapState> {
             const feature = new Feature();
             const style = this.getMarkerStyle();
             feature.setStyle(style);
-            feature.setGeometry(new OLPoint(event.coordinate));
+            feature.setGeometry(new Point(event.coordinate));
             this.state.markerSource.addFeature(feature);
 
             // Listen for drag events on the report marker
@@ -315,6 +464,10 @@ class Map2 extends React.Component<{}, MapState> {
         if (event && event.coordinate) {
             this.setReportCoords(event.coordinate);
         }
+    }
+
+    hideFeaturePopupOverlay() {
+        this.popover.setPosition(undefined);
     }
 
     resetReportCoords() {
@@ -336,7 +489,7 @@ class Map2 extends React.Component<{}, MapState> {
 
             console.log(coords);
 
-            this.positionFeature.setGeometry(coords ? new OLPoint(coords) : undefined);
+            this.positionFeature.setGeometry(coords ? new Point(coords) : undefined);
             this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
         }
     }
@@ -356,16 +509,19 @@ class Map2 extends React.Component<{}, MapState> {
                     <Toolbar />
                     <FormWizard
                         addNewFeature={this.handleAddNewFeature}
+                        clearFeaturePopup={this.hideFeaturePopupOverlay}
                         geolocateHandler={this.updatePositionFromGeolocation}
                         newReportCoords={this.state.reportCoords}
                         resetReportCoords={this.resetReportCoords}
                         startMapClickListener={this.enableMapClickListener}
                         stopMapClickListener={this.disableMapClickListener} />
                 </Drawer>
-                <div id="map" className="map" ></div>
+                <div id="map" className="map" ref={this.wrapper} >
+                    <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
+                </div>
             </>
         );
     }
 }
 
-export default Map2;
+export default withTranslation()(Map2);

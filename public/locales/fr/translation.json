@@ -269,5 +269,12 @@
     "language-button": "French",
     "map": "French Map",
     "map_legend": "French Legend",
+    "popup_concern": "French Concern",
+    "popup_date": "French Date",
+    "popup_description": "French Description",
+    "popup_incident": "French Incident",
+    "popup_microbarrier": "Micro-barrier",
+    "popup_microbarrier-infrastructure-detail": "French Issue",
+    "popup_missing-amenity": "French Missing amenity",
     "site-name": "French Walk Roll Map"
 }
