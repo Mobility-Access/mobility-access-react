@@ -20,6 +20,7 @@ interface AmenityControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    toggleDialog: () => void;
 }
 
 const initialState: AmenityFields = {
@@ -46,7 +47,8 @@ const AmenityController = (props: AmenityControllerProps) => {
         geolocateHandler,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        toggleDialog } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<AmenityFields>(initialState);
     const [step, setStep] = useState(1);
@@ -82,7 +84,7 @@ const AmenityController = (props: AmenityControllerProps) => {
             console.log("Network error from controller");
         }
         
-        addNewFeature(ReportType.Amenity, data);
+        addNewFeature(ReportType.Amenity, result);
         nextStep();
     };
 
@@ -103,8 +105,9 @@ const AmenityController = (props: AmenityControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
+                        toggleDialog={toggleDialog}
                     />
-                )
+                );
             }
             case 2: {
                 return (

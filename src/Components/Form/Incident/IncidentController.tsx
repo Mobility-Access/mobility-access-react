@@ -24,6 +24,7 @@ interface IncidentControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    toggleDialog: () => void;
 }
 
 const initialState: IncidentFields = {
@@ -53,7 +54,8 @@ const IncidentController = (props: IncidentControllerProps) => {
         geolocateHandler,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        toggleDialog } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<IncidentFields>(initialState);
     const [step, setStep] = useState(1);
@@ -89,7 +91,7 @@ const IncidentController = (props: IncidentControllerProps) => {
             console.log("Network error from controller");
         }
 
-        addNewFeature(ReportType.Incident, data);
+        addNewFeature(ReportType.Incident, result);
         nextStep();
     };
 
@@ -110,6 +112,7 @@ const IncidentController = (props: IncidentControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
+                        toggleDialog={toggleDialog}
                     />
                 )
             }

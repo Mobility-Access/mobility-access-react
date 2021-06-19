@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import Hidden from "@material-ui/core/Hidden";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -8,21 +10,21 @@ import NavigateNext from "@material-ui/icons/NavigateNext";
 import { useTranslation } from "react-i18next";
 
 import FormTitle from "./FormTitle";
-import { ReportType } from "../../FormTypes"
 import AmenityController from "./Amenity/AmenityController";
 import IncidentController from "./Incident/IncidentController";
 import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
 import SafetyController from "./Safety/SafetyController";
-import { ChoiceItem } from "../../FormTypes";
+import Colors from "../../Colors";
+import { ChoiceItem, ReportType } from "../../FormTypes";
 
 interface FormWizardProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
+    cancelOrComplete: () => void;
     clearFeaturePopup: () => void;
     geolocateHandler: (position: any) => void;
-    newReportCoords: number[];
-    resetReportCoords: () => void;
-    startMapClickListener: () => void;
+    newReportCoords: number[];    startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    toggleDialog: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
         marginLeft: theme.spacing(1),
         marginRight: theme.spacing(1),
         marginTop: theme.spacing(3),
+    },
+    cancelButton: {
+        borderColor: Colors.contrastRed,
+        color: Colors.contrastRed,
+        minWidth: 90,
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        marginTop: theme.spacing(3),
+        '&:hover': {
+            borderColor: Colors.contrastRed
+        }
     },
     choiceLabel: {
         flexGrow: 1,
@@ -60,10 +73,11 @@ const FormWizard = (props: FormWizardProps) => {
     const { addNewFeature,
         clearFeaturePopup,
         geolocateHandler,
+        cancelOrComplete,
         newReportCoords,
-        resetReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props } ;
+        stopMapClickListener,
+        toggleDialog } = { ...props } ;
     const [type, setType] = useState<string | null>(null);
     const classes = useStyles();
     const { t } = useTranslation();
@@ -81,7 +95,7 @@ const FormWizard = (props: FormWizardProps) => {
 
     const handleCancelorComplete = () => {
         stopMapClickListener();
-        resetReportCoords();
+        cancelOrComplete();
         setType(null);
     };
 
@@ -117,6 +131,15 @@ const FormWizard = (props: FormWizardProps) => {
                     {t("form_report-type")}
                 </Typography>
                 {renderReportTypeOptions()}
+                <Hidden mdUp >
+                    <Button
+                        className={classes.cancelButton}
+                        color="secondary"
+                        onClick={cancelOrComplete}
+                        variant="outlined">
+                        {t("form_cancel")}
+                    </Button>
+                </Hidden>
             </>
         );
     }
@@ -154,7 +177,8 @@ const FormWizard = (props: FormWizardProps) => {
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
-                stopMapClickListener={stopMapClickListener}/>
+                stopMapClickListener={stopMapClickListener}
+                toggleDialog={toggleDialog}/>
         )
     };
 
@@ -166,7 +190,8 @@ const FormWizard = (props: FormWizardProps) => {
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
-                stopMapClickListener={stopMapClickListener}/>
+                stopMapClickListener={stopMapClickListener}
+                toggleDialog={toggleDialog}/>
         )
     };
 
@@ -178,7 +203,8 @@ const FormWizard = (props: FormWizardProps) => {
                 geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
-                stopMapClickListener={stopMapClickListener}/>
+                stopMapClickListener={stopMapClickListener}
+                toggleDialog={toggleDialog}/>
         );
     };
 
@@ -189,7 +215,8 @@ const FormWizard = (props: FormWizardProps) => {
             geolocateHandler={geolocateHandler}
             newReportCoords={newReportCoords}
             startMapClickListener={startMapClickListener}
-            stopMapClickListener={stopMapClickListener}/>
+            stopMapClickListener={stopMapClickListener}
+            toggleDialog={toggleDialog}/>
     };
 
     return (

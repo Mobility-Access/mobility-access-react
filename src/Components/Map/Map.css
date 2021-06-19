@@ -16,13 +16,16 @@
     right: .5em;
 }
 
+.map > .ol-viewport > .ol-overlaycontainer-stopevent > .ol-zoom {
+    left: auto;
+    right: 0.5em;
+}
+
 .map {
-    display: "flex";
     height: 100%;
 }
 
 .drawer {
-    background-color: "red";
     flex-shrink: 0;
     width: 400px;
 }

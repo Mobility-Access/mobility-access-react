@@ -22,6 +22,7 @@ interface MicroBarrierControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    toggleDialog: () => void;
 }
 
 const initialState: MicroBarrierFields = {
@@ -50,7 +51,8 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
         geolocateHandler,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        toggleDialog } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<MicroBarrierFields>(initialState);
     const [step, setStep] = useState(1);
@@ -86,7 +88,7 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
             console.log("Network error from controller");
         }
         
-        addNewFeature(ReportType.MicroBarrier, data);
+        addNewFeature(ReportType.MicroBarrier, result);
         nextStep();
     };
 
@@ -107,6 +109,7 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
+                        toggleDialog={toggleDialog}
                     />
                 )
             }

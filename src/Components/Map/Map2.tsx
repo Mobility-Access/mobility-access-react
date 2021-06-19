@@ -1,18 +1,19 @@
 import React, { createRef } from "react"
 import ReactDOM from "react-dom";
-// import Button from "@material-ui/core/Button";
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
+import Dialog from "@material-ui/core/Dialog";
 import Drawer from "@material-ui/core/Drawer";
-import { makeStyles } from "@material-ui/core/styles";
+import Hidden from "@material-ui/core/Hidden";
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
-// import Typography from "@material-ui/core/Typography";
+import Typography from "@material-ui/core/Typography";
 // import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 // import IconButton from '@material-ui/core/IconButton';
 
 import "./Map.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
-import FeatureLike from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import Point from "ol/geom/Point";
@@ -20,7 +21,7 @@ import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
-import { fromLonLat, toLonLat } from "ol/proj"
+import { fromLonLat } from "ol/proj"
 import {Circle as CircleStyle, Fill, Icon, RegularShape, Stroke, Style} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
@@ -36,6 +37,7 @@ import FormWizard from "../Form/FormWizard";
 import "ol/ol.css";
 import "./Map.css";
 import { AmenityFields } from "../Form/Amenity/AmenityController";
+import FormTitle from "../Form/FormTitle";
 import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
@@ -58,20 +60,55 @@ import Geometry from "ol/geom/Geometry";
 
 interface MapState {
     amenitySource: VectorSource;
+    dialogOpen: boolean;
+    dialogVisible: boolean;
     incidentSource: VectorSource;
-    microBarrierSource: VectorSource;
-    safetySource: VectorSource;
     markers: Feature[];
     markerLayer: VectorLayer;
     markerSource: VectorSource;
+    microBarrierSource: VectorSource;
+    locationButtonVisible: boolean;
+    newReportButtonVisible: boolean;
     open: boolean;
     popupContentItems: PopupContentItem[];
-    
-    // WGS84 coordinate
     reportCoords: Coordinate;
+    safetySource: VectorSource;
 }
 
-class Map2 extends React.Component<{t: any}, MapState> {
+const styles = (theme: any) => createStyles({
+    dialog: {
+        display: "none",
+    },
+    mobileLocation: {
+        backgroundColor: "white",
+        minHeight: "100px",
+        maxHeight: "33%",
+        position: "absolute",
+        bottom: 0,
+        width: "100%",
+    },
+    newReportButton: {
+        backgroundColor: Colors.contrast,
+        color: Colors.primary,
+        fontWeight: "bold",
+        left: "0.5em",
+        position: "absolute",
+        top: "calc(64px + 0.5em)",
+    },
+    newReportButton2: {
+        backgroundColor: Colors.contrast,
+        color: Colors.primary,
+        fontWeight: "bold",
+        left: "50%",
+        position: "absolute",
+        bottom: "0.5em",
+        transform: "translateX(-50%)"
+    },
+});
+
+interface Map2Props extends WithStyles<typeof styles> {}
+
+class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     map!: OLMap;
     mapDiv: any;
     positionFeature: Feature;
@@ -94,15 +131,19 @@ class Map2 extends React.Component<{t: any}, MapState> {
         this.accuracyFeature = new Feature();
         this.state = {
             amenitySource: new VectorSource(),
+            dialogOpen: false,
+            dialogVisible: true,
             incidentSource: new VectorSource(),
-            microBarrierSource: new VectorSource(),
-            safetySource: new VectorSource(),
             markers: [],
-            markerSource: new VectorSource(),
             markerLayer: new VectorLayer(),
+            markerSource: new VectorSource(),
+            microBarrierSource: new VectorSource(),
+            locationButtonVisible: false,
+            newReportButtonVisible: true,
             open: true,
             popupContentItems: [],
             reportCoords: [],
+            safetySource: new VectorSource(),
         };
 
         this.wrapper = createRef();
@@ -112,12 +153,14 @@ class Map2 extends React.Component<{t: any}, MapState> {
         this.disableMapClickListener = this.disableMapClickListener.bind(this);
         this.enableMapClickListener = this.enableMapClickListener.bind(this);
         this.handleAddNewFeature = this.handleAddNewFeature.bind(this);
+        this.handleCancelOrComplete = this.handleCancelOrComplete.bind(this);
         this.handleFeatureClick = this.handleFeatureClick.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
         this.handleTranslateEnd = this.handleTranslateEnd.bind(this);
         this.hideFeaturePopupOverlay = this.hideFeaturePopupOverlay.bind(this);
-        this.resetReportCoords = this.resetReportCoords.bind(this);
+        this.renderFormWizard = this.renderFormWizard.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
+        this.toggleDialog = this.toggleDialog.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
     }
 
@@ -192,6 +235,8 @@ class Map2 extends React.Component<{t: any}, MapState> {
 
         // Start listening for clicks on features for popups
         this.map.on("singleclick", this.handleFeatureClick);
+
+        this.map.updateSize();
     }
 
     addFeatureLayers() {
@@ -396,15 +441,13 @@ class Map2 extends React.Component<{t: any}, MapState> {
             });
         }
 
-
         return items;
     }
 
-    handleAddNewFeature(reportType: ReportType, fields: AmenityFields) {
-        const feature = new Feature();
+    handleAddNewFeature(reportType: ReportType, geojson: any) {
+        const feature = new GeoJSON().readFeature(geojson);
         const style = this.getMarkerStyle(reportType);
         feature.setStyle(style);
-        feature.setGeometry(new Point(fields.point));
 
         switch (reportType) {
             case ReportType.Amenity:
@@ -422,6 +465,12 @@ class Map2 extends React.Component<{t: any}, MapState> {
             default:
                 console.log("Invalid ReportType detected, unable to add new feature to the map."); 
         }
+    }
+
+    handleCancelOrComplete() {
+        this.setReportCoords([]);
+        this.state.markerSource.clear();
+        this.setState({ dialogOpen: false, newReportButtonVisible: true });
     }
 
     handleFeatureClick(event: MapBrowserEvent) {
@@ -470,14 +519,13 @@ class Map2 extends React.Component<{t: any}, MapState> {
         this.popover.setPosition(undefined);
     }
 
-    resetReportCoords() {
-        this.setReportCoords([]);
-        this.state.markerSource.clear();
-    };
-
     setReportCoords(coords: Coordinate) {
         let newCoords = coords || [];
         this.setState({reportCoords: newCoords});
+    }
+
+    toggleDialog() {
+        this.setState({dialogVisible: !this.state.dialogVisible, locationButtonVisible: !this.state.locationButtonVisible});
     }
 
     updatePositionFromGeolocation(position: any) {
@@ -494,34 +542,67 @@ class Map2 extends React.Component<{t: any}, MapState> {
         }
     }
 
+    renderFormWizard() {
+        this.setState({ dialogOpen: true, newReportButtonVisible: false });
+    }
+
     render() {
+        const { classes, t } = this.props;
         return  (
             <>
-                <Drawer
-                    anchor="left"
-                    classes={{
-                        paper: "drawerPaper"
-                    }}
-                    className="drawer"
-                    open={this.state.open}
-                    variant="persistent"
-                >
-                    <Toolbar />
-                    <FormWizard
-                        addNewFeature={this.handleAddNewFeature}
-                        clearFeaturePopup={this.hideFeaturePopupOverlay}
-                        geolocateHandler={this.updatePositionFromGeolocation}
-                        newReportCoords={this.state.reportCoords}
-                        resetReportCoords={this.resetReportCoords}
-                        startMapClickListener={this.enableMapClickListener}
-                        stopMapClickListener={this.disableMapClickListener} />
-                </Drawer>
+                <Hidden smDown>
+                    <Drawer
+                        anchor="left"
+                        classes={{
+                            paper: "drawerPaper"
+                        }}
+                        className="drawer"
+                        open={this.state.open}
+                        variant="persistent"
+                    >
+                        <Toolbar />
+                        <FormWizard
+                            addNewFeature={this.handleAddNewFeature}
+                            clearFeaturePopup={this.hideFeaturePopupOverlay}
+                            geolocateHandler={this.updatePositionFromGeolocation}
+                            newReportCoords={this.state.reportCoords}
+                            cancelOrComplete={this.handleCancelOrComplete}
+                            startMapClickListener={this.enableMapClickListener}
+                            stopMapClickListener={this.disableMapClickListener}
+                            toggleDialog={this.toggleDialog} />
+                    </Drawer>
+                </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
+                    <Hidden mdUp>
+                        { this.state.newReportButtonVisible && (
+                            <>
+                                <Button className={classes.newReportButton} color="secondary" onClick={this.renderFormWizard} variant="contained">{ t("form_new-report") }</Button>    
+                                {/* <Button className={classes.newReportButton2} color="secondary" onClick={this.renderFormWizard} variant="contained">{ t("form_new-report") }</Button> */}
+                            </>
+                        )}
+                        <Dialog className={ this.state.dialogVisible ? undefined : classes.dialog } fullScreen open={this.state.dialogOpen}>
+                            <FormWizard
+                                addNewFeature={this.handleAddNewFeature}
+                                cancelOrComplete={this.handleCancelOrComplete}
+                                clearFeaturePopup={this.hideFeaturePopupOverlay}
+                                geolocateHandler={this.updatePositionFromGeolocation}
+                                newReportCoords={this.state.reportCoords}
+                                startMapClickListener={this.enableMapClickListener}
+                                stopMapClickListener={this.disableMapClickListener}
+                                toggleDialog={this.toggleDialog} />
+                        </Dialog>
+                        { this.state.locationButtonVisible && (
+                            <>
+                                <Button className={classes.newReportButton} color="secondary" onClick={this.toggleDialog} variant="contained">{ t("form_common-continue") }</Button>    
+                                {/* <Button className={classes.newReportButton2} color="secondary" onClick={this.toggleDialog} variant="contained">{ t("form_common-continue") }</Button> */}
+                            </>
+                        )}
+                    </Hidden>
                 </div>
             </>
         );
     }
 }
 
-export default withTranslation()(Map2);
+export default withStyles(styles, {withTheme: true})(withTranslation()(Map2));

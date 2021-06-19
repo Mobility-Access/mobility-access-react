@@ -29,6 +29,11 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         zIndex: theme.zIndex.drawer + 1,
     },
+    appBarStatic: {
+        borderBottomStyle: "solid",
+        borderBottomWidth: "1px",
+        borderBottomColor: Colors.primary,
+    },
     button: {
         color: theme.palette.primary.main,
         margin: theme.spacing(1),
@@ -260,7 +265,11 @@ const Header = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar className={classes.appBar} color="secondary" position="fixed">
+            <AppBar
+                className={classes.appBar}
+                classes={{positionFixed: classes.appBarStatic}}
+                color="secondary"
+                position="fixed" >
                 <Toolbar>
                     { currentLanguage.key === "en" && (
                         <img

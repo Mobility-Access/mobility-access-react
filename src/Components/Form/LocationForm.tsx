@@ -1,8 +1,9 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import MyLocation from "@material-ui/icons/MyLocation";
-import { makeStyles } from "@material-ui/core/styles";
+import Hidden from "@material-ui/core/Hidden";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTranslation } from "react-i18next";
 
 import { AmenityFields } from "./Amenity/AmenityController";
@@ -10,7 +11,6 @@ import FormTitle from "./FormTitle";
 import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import { SafetyFields } from "./Safety/SafetyController";
-import { Point } from "../Map/Map";
 import Colors from "../../Colors";
 
 interface LocationFormProps {
@@ -22,6 +22,7 @@ interface LocationFormProps {
     newReportCoords?: number[];
     startMapClickListener?: () => void;
     stopMapClickListener?: () => void;
+    toggleDialog: () => void;
 }
 
 const minInputHeight = 56;
@@ -51,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
             borderColor: Colors.contrastRed
         },
     },
-    currentLocation: {
+    chooseLocation: {
         left: 0,
         right: 0,
     },
@@ -74,12 +75,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LocationForm = (props: LocationFormProps) => {
-    const { cancel, formData, geolocateHandler, nextStep, newReportCoords, setFormData, startMapClickListener, stopMapClickListener } = { ...props };
+    const { cancel,
+        formData,
+        geolocateHandler,
+        nextStep,
+        newReportCoords,
+        setFormData,
+        startMapClickListener,
+        stopMapClickListener,
+        toggleDialog } = { ...props };
     const [reportCoords, setReportCoords] = useState(newReportCoords);
     const [point, setPoint] = useState<number[]>(formData.point);
     const [firstRun, setFirstRun] = useState(true);
     const { t } = useTranslation();
     const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("md"));
 
     const handleCancelClick = () => {
         if (stopMapClickListener) {
@@ -89,10 +100,8 @@ const LocationForm = (props: LocationFormProps) => {
         cancel();
     };
 
-    const handleCurrentLocationClick = () => {
-        if (navigator && "geolocation in navigator") {
-            const position = navigator.geolocation.getCurrentPosition(geolocateHandler);
-        }
+    const handleChooseLocationClick = () => {
+        toggleDialog();
     };
 
     const handleNextClick = () => {
@@ -109,6 +118,93 @@ const LocationForm = (props: LocationFormProps) => {
         nextStep();
     };
 
+    const handleNextClickMobile = () => {
+        toggleDialog();
+    };
+
+    const renderDesktopLocation = () => {
+        return (
+            <>
+                <Typography className={classes.text}>
+                    {t("form_location-description")}
+                </Typography>
+                {
+                    newReportCoords && newReportCoords.length === 2 && (
+                        <Typography className={classes.text}>
+                            {t("form_location-captured")}
+                        </Typography>
+                    )
+                }
+                <div className={classes.buttonBar}>
+                    <Button
+                        className={classes.cancelButton}
+                        onClick={cancel}
+                        variant="outlined">
+                        {t("form_cancel")}
+                    </Button>
+                    <Button
+                        className={classes.buttonBarButton}
+                        color="primary"
+                        disabled={newReportCoords && newReportCoords.length === 0}
+                        onClick={handleNextClick}
+                        variant="contained">
+                        {t("form_next")}
+                    </Button>
+                </div>
+            </>
+        );
+    };
+
+    const renderLocationBySize = () => {
+        if (matches) {
+            return renderDesktopLocation();
+        } else {
+            return renderMobileLocation();
+        }
+    };
+
+    const renderMobileLocation = () => {
+        return (
+            <>
+                <Typography className={classes.text}>
+                    {t("form_location-description-mobile")}
+                </Typography>
+                <div style={{textAlign: "center"}}>
+                    <Button
+                        className={classes.chooseLocation}
+                        color="primary"
+                        onClick={handleChooseLocationClick}
+                        variant="contained">
+                        {t("form_location-choose")}
+                    </Button>
+                </div>
+                {
+                    newReportCoords && newReportCoords.length === 2 && (
+                        <Typography className={classes.text}>
+                            {t("form_location-captured")}
+                        </Typography>
+                    )
+                }
+                <div className={classes.buttonBar}>
+                    <Button
+                        className={classes.cancelButton}
+                        onClick={cancel}
+                        variant="outlined">
+                        {t("form_cancel")}
+                    </Button>
+                    <Button
+                        className={classes.buttonBarButton}
+                        color="primary"
+                        disabled={newReportCoords && newReportCoords.length === 0}
+                        onClick={handleNextClick}
+                        variant="contained">
+                        {t("form_next")}
+                    </Button>
+                </div>
+            </>
+        );
+    };
+
     useEffect(() => {
         if (startMapClickListener) {
             startMapClickListener();
@@ -118,42 +214,7 @@ const LocationForm = (props: LocationFormProps) => {
     return (
         <>
             <FormTitle title="form_location-title" />
-            <Typography className={classes.text}>
-                {t("form_location-description")}
-            </Typography>
-            <div style={{textAlign: "center"}}>
-                {/* <Button
-                    className={classes.currentLocation}
-                    color="primary"
-                    onClick={handleCurrentLocationClick}
-                    startIcon={<MyLocation />}
-                    variant="contained">
-                    {t("form_current-location")}
-                </Button> */}
-            </div>
-            {
-                newReportCoords && newReportCoords.length === 2 && (
-                    <Typography className={classes.text}>
-                        {t("form_location-captured")}
-                    </Typography>
-                )
-            }
-            <div className={classes.buttonBar}>
-                <Button
-                    className={classes.cancelButton}
-                    onClick={cancel}
-                    variant="outlined">
-                    {t("form_cancel")}
-                </Button>
-                <Button
-                    className={classes.buttonBarButton}
-                    color="primary"
-                    disabled={newReportCoords && newReportCoords.length === 0}
-                    onClick={handleNextClick}
-                    variant="contained">
-                    {t("form_next")}
-                </Button>
-            </div>
+            { renderLocationBySize() }
         </>
     )
 };

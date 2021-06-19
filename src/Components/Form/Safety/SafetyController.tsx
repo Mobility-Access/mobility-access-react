@@ -21,6 +21,7 @@ interface SafetyControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    toggleDialog: () => void;
 }
 
 const initialState: SafetyFields = {
@@ -48,7 +49,8 @@ const SafetyController = (props: SafetyControllerProps) => {
         geolocateHandler,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        toggleDialog } = { ...props };
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState<SafetyFields>(initialState);
     const [step, setStep] = useState(1);
@@ -84,7 +86,7 @@ const SafetyController = (props: SafetyControllerProps) => {
             console.log("Network error from controller");
         }
         
-        addNewFeature(ReportType.Safety, data);
+        addNewFeature(ReportType.Safety, result);
         nextStep();
     };
 
@@ -105,6 +107,7 @@ const SafetyController = (props: SafetyControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
+                        toggleDialog={toggleDialog}
                     />
                 )
             }
