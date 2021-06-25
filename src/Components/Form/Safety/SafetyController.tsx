@@ -113,6 +113,7 @@ const SafetyController = (props: SafetyControllerProps) => {
                         geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
+                        prevStep={prevStep}
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}

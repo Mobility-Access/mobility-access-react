@@ -115,6 +115,7 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
                         geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
+                        prevStep={prevStep}
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}

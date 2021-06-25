@@ -20,6 +20,7 @@ interface LocationFormProps {
     cancel: () => void;
     geolocateHandler: (position: any) => void;
     newReportCoords?: number[];
+    prevStep: () => void;
     startMapClickListener?: () => void;
     stopMapClickListener?: () => void;
     toggleDialog: () => void;
@@ -80,6 +81,7 @@ const LocationForm = (props: LocationFormProps) => {
         geolocateHandler,
         nextStep,
         newReportCoords,
+        prevStep,
         setFormData,
         startMapClickListener,
         stopMapClickListener,
@@ -122,6 +124,11 @@ const LocationForm = (props: LocationFormProps) => {
         toggleDialog();
     };
 
+    const handlePreviousClick = () => {
+        setFormData(formData);
+        prevStep();
+    };
+
     const renderDesktopLocation = () => {
         return (
             <>
@@ -141,6 +148,13 @@ const LocationForm = (props: LocationFormProps) => {
                         onClick={cancel}
                         variant="outlined">
                         {t("form_cancel")}
+                    </Button>
+                    <Button
+                        className={classes.buttonBarButton}
+                        color="primary"
+                        onClick={handlePreviousClick}
+                        variant="outlined">
+                        {t("form_previous")}
                     </Button>
                     <Button
                         className={classes.buttonBarButton}

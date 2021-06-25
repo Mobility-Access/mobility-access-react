@@ -227,13 +227,13 @@ const AmenityForm = (props: AmenityProps) => {
                         variant="outlined">
                         {t("form_cancel")}
                     </Button>
-                    <Button
+                    {/* <Button
                         className={classes.buttonBarButton}
                         color="primary"
                         onClick={handlePreviousClick}
                         variant="outlined">
                         {t("form_previous")}
-                    </Button>
+                    </Button> */}
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"

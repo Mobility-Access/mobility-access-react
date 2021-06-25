@@ -100,10 +100,6 @@ const AmenityController = (props: AmenityControllerProps) => {
     };
 
     const renderFormStep = () => {
-        if (step === 2 && newReportCoords.length) {
-            setStep(3);
-        }
-
         switch (step) {
             case 1: {
                 return (
@@ -124,6 +120,7 @@ const AmenityController = (props: AmenityControllerProps) => {
                         geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
+                        prevStep={prevStep}
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
@@ -161,9 +158,57 @@ const AmenityController = (props: AmenityControllerProps) => {
         };
     };
 
+    const renderFormStepMobile = () => {
+        switch (step) {
+            case 1: {
+                return (
+                    <AmenityForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 2: {
+                return (
+                    <DemographicForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 3: {
+                return (
+                    <DisabilityForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                        submit={submitForm}
+                    />
+                );
+            }
+            default:
+                return (
+                    <SuccessForm reset={cancelOrComplete} />
+                );
+        };
+    };
+
     return (
         <>
-            {renderFormStep()}
+            <Hidden smDown>
+                {renderFormStep()}
+            </Hidden>
+            <Hidden mdUp>
+                {renderFormStepMobile()}
+            </Hidden>
             <CancelDialog 
                 handleConfirmNo={handleConfirmNo}
                 handleConfirmYes={handleConfirmYes}
