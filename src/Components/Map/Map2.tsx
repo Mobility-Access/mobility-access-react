@@ -5,6 +5,7 @@ import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
+import Snackbar from "@material-ui/core/Snackbar";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
@@ -67,25 +68,43 @@ interface MapState {
     markerLayer: VectorLayer;
     markerSource: VectorSource;
     microBarrierSource: VectorSource;
-    locationButtonVisible: boolean;
+    mobileLocationVisible: boolean;
     newReportButtonVisible: boolean;
     open: boolean;
     popupContentItems: PopupContentItem[];
     reportCoords: Coordinate;
     safetySource: VectorSource;
+    snackbarOpen: boolean;
 }
 
 const styles = (theme: any) => createStyles({
     dialog: {
         display: "none",
     },
+    disabled: {
+        backgroundColor: Colors.contrast,
+        color: Colors.primary,
+    },
     mobileLocation: {
-        backgroundColor: "white",
-        minHeight: "100px",
-        maxHeight: "33%",
+        backgroundColor: Colors.contrast,
+        color: Colors.primary,
+        fontWeight: "bold",
+        left: "50%",
         position: "absolute",
-        bottom: 0,
-        width: "100%",
+        bottom: "0.5em",
+        transform: "translateX(-50%)",
+        "& .Mui-disabled": {
+            color: Colors.primary
+          }
+    },
+    mobileLocationButton: {
+        fontWeight: "bold",
+        left: "50%",
+        position: "relative",
+        transform: "translateX(-50%)"
+    },
+    mobileLocationDescription: {
+        margin: "5px",
     },
     newReportButton: {
         backgroundColor: Colors.contrast,
@@ -103,6 +122,10 @@ const styles = (theme: any) => createStyles({
         position: "absolute",
         bottom: "0.5em",
         transform: "translateX(-50%)"
+    },
+    snackbar: {
+        backgroundColor: Colors.contrast,
+        color: Colors.primary,
     },
 });
 
@@ -138,12 +161,13 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             markerLayer: new VectorLayer(),
             markerSource: new VectorSource(),
             microBarrierSource: new VectorSource(),
-            locationButtonVisible: false,
+            mobileLocationVisible: false,
             newReportButtonVisible: true,
             open: true,
             popupContentItems: [],
             reportCoords: [],
             safetySource: new VectorSource(),
+            snackbarOpen: false,
         };
 
         this.wrapper = createRef();
@@ -156,11 +180,13 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         this.handleCancelOrComplete = this.handleCancelOrComplete.bind(this);
         this.handleFeatureClick = this.handleFeatureClick.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
+        this.handleMobileNewReportClick = this.handleMobileNewReportClick.bind(this);
+        this.handleNewMobileMarker = this.handleNewMobileMarker.bind(this);
         this.handleTranslateEnd = this.handleTranslateEnd.bind(this);
         this.hideFeaturePopupOverlay = this.hideFeaturePopupOverlay.bind(this);
         this.renderFormWizard = this.renderFormWizard.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
-        this.toggleDialog = this.toggleDialog.bind(this);
+        // this.toggleDialog = this.toggleDialog.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
     }
 
@@ -509,6 +535,23 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         }
     }
 
+    handleMobileNewReportClick() {
+        this.setState({
+            mobileLocationVisible: !this.state.mobileLocationVisible,
+            newReportButtonVisible: !this.state.newReportButtonVisible
+        });
+        this.enableMapClickListener();
+
+    }
+
+    handleNewMobileMarker() {
+        this.disableMapClickListener();
+        this.setState({
+            dialogOpen: !this.state.dialogOpen,
+            mobileLocationVisible: !this.state.mobileLocationVisible
+        });
+    }
+
     handleTranslateEnd(event: TranslateEvent) {
         if (event && event.coordinate) {
             this.setReportCoords(event.coordinate);
@@ -525,7 +568,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     }
 
     toggleDialog() {
-        this.setState({dialogVisible: !this.state.dialogVisible, locationButtonVisible: !this.state.locationButtonVisible});
+        console.log("Toggling");
     }
 
     updatePositionFromGeolocation(position: any) {
@@ -577,8 +620,8 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                     <Hidden mdUp>
                         { this.state.newReportButtonVisible && (
                             <>
-                                <Button className={classes.newReportButton} color="secondary" onClick={this.renderFormWizard} variant="contained">{ t("form_new-report") }</Button>    
-                                {/* <Button className={classes.newReportButton2} color="secondary" onClick={this.renderFormWizard} variant="contained">{ t("form_new-report") }</Button> */}
+                                {/* <Button className={classes.newReportButton} color="secondary" onClick={this.handleMobileNewReportClick} variant="contained">{ t("form_new-report") }</Button>     */}
+                                <Button className={classes.newReportButton2} color="secondary" onClick={this.handleMobileNewReportClick} variant="contained">{ t("form_new-report") }</Button>
                             </>
                         )}
                         <Dialog className={ this.state.dialogVisible ? undefined : classes.dialog } fullScreen open={this.state.dialogOpen}>
@@ -592,11 +635,28 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                                 stopMapClickListener={this.disableMapClickListener}
                                 toggleDialog={this.toggleDialog} />
                         </Dialog>
-                        { this.state.locationButtonVisible && (
-                            <>
-                                <Button className={classes.newReportButton} color="secondary" onClick={this.toggleDialog} variant="contained">{ t("form_common-continue") }</Button>    
-                                {/* <Button className={classes.newReportButton2} color="secondary" onClick={this.toggleDialog} variant="contained">{ t("form_common-continue") }</Button> */}
-                            </>
+                        { this.state.mobileLocationVisible && ( 
+                            <Button
+                                classes={{ root: classes.mobileLocation}}
+                                color="secondary"
+
+                                onClick={this.handleNewMobileMarker}
+                                variant="contained">
+                                {t("form_location-description-mobile")}
+                            </Button>
+                            // <Snackbar 
+                            //     ContentProps={{
+                            //         className: classes.snackbar
+                            //     }}
+                            //  open={this.state.mobileLocationVisible} message={t("form_location-description-mobile")}/>
+                            // <div className={classes.mobileLocation}>
+                            //     <div className={classes.mobileLocationDescription}>
+                            //         {t("form_location-description-mobile")}
+                            //     </div>
+                            //     <div>
+                            //         <Button className={classes.mobileLocationButton} onClick={() => console.log("click")} variant="outlined">Continue</Button>
+                            //     </div>
+                            // </div>
                         )}
                     </Hidden>
                 </div>

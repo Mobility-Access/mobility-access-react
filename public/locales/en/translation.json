@@ -160,7 +160,7 @@
     "form_location-captured": "Location successfully recorded! If you are satisfied with the position of the marker, please click Next to continue.",
     "form_location-choose": "View Map",
     "form_location-description": "Click on the map to mark the location you are making a report for. If you click on the wrong spot, you can either click on the correct location or drag the marker to the right place.",
-    "form_location-description-mobile": "Select 'View Map', choose a location by clicking or tapping on the map, then select 'Continue.'",
+    "form_location-description-mobile": "Choose a location by tapping on the map, then press here to continue.",
     "form_location-title": "Location",
     "form-max-length-30": "Too long! Maximum length is 30 characters.",
     "form-max-length-50": "Too long! Maximum length is 50 characters.",

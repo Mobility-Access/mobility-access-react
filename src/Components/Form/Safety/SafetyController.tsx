@@ -52,6 +52,10 @@ const SafetyController = (props: SafetyControllerProps) => {
         stopMapClickListener,
         toggleDialog } = { ...props };
     const [open, setOpen] = useState(false);
+
+    // If a location for the report was passed in, use that for the intial state
+    initialState.point = newReportCoords || [];
+
     const [formData, setFormData] = useState<SafetyFields>(initialState);
     const [step, setStep] = useState(1);
 
@@ -95,6 +99,10 @@ const SafetyController = (props: SafetyControllerProps) => {
     };
 
     const renderFormStep = () => {
+        if (step === 1 && newReportCoords) {
+            setStep(2);
+        }
+        
         switch (step) {
             case 1: {
                 return (
