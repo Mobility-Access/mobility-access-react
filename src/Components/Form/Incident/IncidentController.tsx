@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import IncidentDetailForm from "./IncidentDetailForm";
+import IncidentDescriptionForm from "./IncidentDescriptionForm";
 import IncidentForm from "./IncidentForm";
 import { SubmitIncidentReport } from "./IncidentService";
 import CancelDialog from "../CancelDialog";
@@ -46,6 +46,7 @@ const initialState: IncidentFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
+    suggestedSolution: "",
 };
 
 const IncidentController = (props: IncidentControllerProps) => {
@@ -104,12 +105,34 @@ const IncidentController = (props: IncidentControllerProps) => {
     };
 
     const renderFormStep = () => {
-        if (step === 1 && newReportCoords) {
-            setStep(2);
+        if (step === 3 && newReportCoords.length) {
+            setStep(4);
         }
 
         switch (step) {
             case 1: {
+                return (
+                    <IncidentForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 2: {
+                return (
+                    <IncidentDescriptionForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 3: {
                 return (
                     <LocationForm
                         cancel={handleCancelClick}    
@@ -123,28 +146,6 @@ const IncidentController = (props: IncidentControllerProps) => {
                         toggleDialog={toggleDialog}
                     />
                 )
-            }
-            case 2: {
-                return (
-                    <IncidentForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
-            }
-            case 3: {
-                return (
-                    <IncidentDetailForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
             }
             case 4: {
                 return (

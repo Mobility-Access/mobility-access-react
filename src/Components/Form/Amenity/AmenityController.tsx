@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import Hidden from "@material-ui/core/Hidden";
+
 import AmenityForm from "./AmenityForm";
 import { SubmitAmenityReport } from "./AmenityService";
 import CancelDialog from "../CancelDialog";
@@ -39,6 +41,7 @@ const initialState: AmenityFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
+    suggestedSolution: ""
 };
 
 const AmenityController = (props: AmenityControllerProps) => {
@@ -97,12 +100,23 @@ const AmenityController = (props: AmenityControllerProps) => {
     };
 
     const renderFormStep = () => {
-        if (step === 1 && newReportCoords) {
-            setStep(2);
+        if (step === 2 && newReportCoords.length) {
+            setStep(3);
         }
-        
+
         switch (step) {
             case 1: {
+                return (
+                    <AmenityForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 2: {
                 return (
                     <LocationForm
                         cancel={handleCancelClick}    
@@ -114,17 +128,6 @@ const AmenityController = (props: AmenityControllerProps) => {
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
                         toggleDialog={toggleDialog}
-                    />
-                );
-            }
-            case 2: {
-                return (
-                    <AmenityForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
                     />
                 );
             }

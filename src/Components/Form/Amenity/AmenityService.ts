@@ -15,6 +15,7 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
         mobility_aid: report.mobilityAid,
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity}, ${report.identityOpen}` : report.identity,
+        suggestedSolution: report.suggestedSolution,
         type: ReportType.Amenity,
     };
 

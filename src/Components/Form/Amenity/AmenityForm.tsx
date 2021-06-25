@@ -89,6 +89,9 @@ const AmenityForm = (props: AmenityProps) => {
             .string()
             .max(500, t("form-max-length-500"))
             .required(t("form-required")),
+        suggestedSolution: Yup
+            .string()
+            .max(300, t("form-max-length-300"))
     });
 
     const formik = useFormik({
@@ -104,6 +107,7 @@ const AmenityForm = (props: AmenityProps) => {
         { key: Amenity.Sidewalk, value: t("form_amenity-sidewalk")},
         { key: Amenity.Crosswalk , value: t("form_amenity-crosswalk") },
         { key: Amenity.Signal , value: t("form_amenity-signal") },
+        { key: Amenity.Audible , value: t("form_amenity-audible") },
         { key: Amenity.StopSign , value: t("form_amenity-stop-sign") },
         { key: Amenity.Benches , value: t("form_amenity-benches") },
         { key: Amenity.Washroom , value: t("form_amenity-washroom") },
@@ -112,9 +116,7 @@ const AmenityForm = (props: AmenityProps) => {
         { key: Amenity.Signs , value: t("form_amenity-signs") },
         { key: Amenity.Connections , value: t("form_amenity-connections") },
         { key: Amenity.Shade , value: t("form_amenity-shade") },
-        { key: Amenity.Plants , value: t("form_amenity-plants") },
         { key: Amenity.Other , value: t("form_common-other") },
-
     ];
 
     const handleAmenityTypeSelect = (event: any) => {
@@ -132,11 +134,11 @@ const AmenityForm = (props: AmenityProps) => {
 
     return (
         <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
-            <FormTitle title="form_amenity" />
+            <FormTitle title="form_amenity-details" />
             <form className={classes.amenityForm} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_amenity-question-1")}
+                        {t("form_amenity-type-question")}
                     </Typography>
                     <TextField
                         className={classes.input}
@@ -165,7 +167,7 @@ const AmenityForm = (props: AmenityProps) => {
                 </div>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_amenity-describe")}
+                        {t("form_common-describe")}
                     </Typography>
                     <TextField
                         className={classes.input}
@@ -173,12 +175,31 @@ const AmenityForm = (props: AmenityProps) => {
                         id="amenity-description"
                         name="amenity-description"
                         multiline
-                        rows={8}
+                        rows={6}
                         variant="outlined"
                         value={formik.values.description}
                         onChange={(event) => formik.setFieldValue("description", event.target.value)}
                         error={formik.touched.description && Boolean(formik.errors.description)}
                         helperText={formik.touched.description && formik.errors.description}
+                    >
+                    </TextField>
+                </div>
+                <div className={classes.question}>
+                    <Typography>
+                        {t("form_common-suggested-solution")}
+                    </Typography>
+                    <TextField
+                        className={classes.input}
+                        fullWidth
+                        id="incident-suggested-solution"
+                        name="incident-suggested-solution"
+                        multiline
+                        rows={6}
+                        variant="outlined"
+                        value={formik.values.suggestedSolution}
+                        onChange={(event) => formik.setFieldValue("suggestedSolution", event.target.value)}
+                        error={formik.touched.suggestedSolution && Boolean(formik.errors.suggestedSolution)}
+                        helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
                     >
                     </TextField>
                 </div>

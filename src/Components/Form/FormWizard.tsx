@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     choiceLabel: {
-        flexGrow: 1,
+        whiteSpace: "normal",
+        width: "95%",
     },
     icon: {
         color: theme.palette.primary.main,
@@ -84,8 +85,8 @@ const FormWizard = (props: FormWizardProps) => {
     const reportTypes: ChoiceItem[] = [
         { key: ReportType.MicroBarrier, value: "form_micro-barrier" },
         { key: ReportType.Safety, value: "form_concern" },
-        { key: ReportType.Amenity, value: "form_amenity" },
-        { key: ReportType.Incident, value: "form_incident" }
+        { key: ReportType.Amenity, value: "form_report_type-amenity" },
+        { key: ReportType.Incident, value: "form_report_type-incident" }
     ];
 
     const handleReportTypeClick = (key: string) => {

@@ -644,19 +644,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                                 variant="contained">
                                 {t("form_location-description-mobile")}
                             </Button>
-                            // <Snackbar 
-                            //     ContentProps={{
-                            //         className: classes.snackbar
-                            //     }}
-                            //  open={this.state.mobileLocationVisible} message={t("form_location-description-mobile")}/>
-                            // <div className={classes.mobileLocation}>
-                            //     <div className={classes.mobileLocationDescription}>
-                            //         {t("form_location-description-mobile")}
-                            //     </div>
-                            //     <div>
-                            //         <Button className={classes.mobileLocationButton} onClick={() => console.log("click")} variant="outlined">Continue</Button>
-                            //     </div>
-                            // </div>
                         )}
                     </Hidden>
                 </div>

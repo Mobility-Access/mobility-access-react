@@ -41,6 +41,7 @@ const initialState: SafetyFields = {
     safetySubtype: "",
     safetyType: "",
     point: [],
+    suggestedSolution: "",
 };
 
 const SafetyController = (props: SafetyControllerProps) => {

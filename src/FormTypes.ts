@@ -15,6 +15,7 @@ export interface BaseFields {
     mobilityAidType?: string;
     mobilityAidTypeOpen?: string;
     point: number[];
+    suggestedSolution: string;
 }
 
 export interface ChoiceItem {
@@ -39,6 +40,22 @@ export interface FeatureCollection {
 // Enums
 
 export enum Amenity {
+    Sidewalk = "sidewalk",
+    Crosswalk = "marked crosswalk",
+    Signal = "traffic or pedestrian signal",
+    Audible = "audible",
+    StopSign = "stop sign",
+    Benches = "benches",
+    Washroom = "washroom",
+    Lighting = "lighting or additional lighting",
+    Transit = "access to transit stop",
+    Signs = "wayfinding signs",
+    Connections = "connections (e.g. cut-through needed)",
+    Shade = "shade in summer",
+    Other = "other",
+}
+
+export enum AmenityOld {
     Sidewalk = "sidewalk",
     Crosswalk = "crosswalk",
     Signal = "signal",

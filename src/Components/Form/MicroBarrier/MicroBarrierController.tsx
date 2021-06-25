@@ -43,6 +43,7 @@ const initialState: MicroBarrierFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
+    suggestedSolution: "",
 };
 
 const MicroBarrierController = (props: MicroBarrierControllerProps) => {
