@@ -8,17 +8,17 @@ import { useTranslation } from "react-i18next";
 
 import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
+import { HazardFields } from "./Hazard/HazardController";
 import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController"; 
 import { SafetyFields } from "./Safety/SafetyController";
 import Colors from "../../Colors";
 
 interface LocationFormProps {
-    formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | HazardFields | IncidentFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void;
     cancel: () => void;
-    geolocateHandler: (position: any) => void;
     newReportCoords?: number[];
     prevStep: () => void;
     startMapClickListener?: () => void;
@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
 const LocationForm = (props: LocationFormProps) => {
     const { cancel,
         formData,
-        geolocateHandler,
         nextStep,
         newReportCoords,
         prevStep,

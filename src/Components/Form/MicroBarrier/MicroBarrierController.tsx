@@ -18,7 +18,6 @@ export interface MicroBarrierFields extends BaseFields {
 interface MicroBarrierControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
-    geolocateHandler: (position: any) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -49,7 +48,6 @@ const initialState: MicroBarrierFields = {
 const MicroBarrierController = (props: MicroBarrierControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
-        geolocateHandler,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener,
@@ -112,7 +110,6 @@ const MicroBarrierController = (props: MicroBarrierControllerProps) => {
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
-                        geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
                         prevStep={prevStep}

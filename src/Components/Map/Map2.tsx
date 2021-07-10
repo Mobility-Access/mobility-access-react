@@ -40,6 +40,7 @@ import "./Map.css";
 import { AmenityFields } from "../Form/Amenity/AmenityController";
 import FormTitle from "../Form/FormTitle";
 import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
+import { GetHazardFeatureCollection } from "../Form/Hazard/HazardService"; 
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
 import { GetSafetyFeatureCollection } from "../Form/Safety/SafetyService";
@@ -50,6 +51,7 @@ import Popup, { PopupContentItem } from "./Popup";
 import Colors from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
 import barrierMarker from "../../images/icons/barrier_marker.svg";
+import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
 import safetyMarker from "../../images/icons/safety_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
@@ -63,6 +65,7 @@ interface MapState {
     amenitySource: VectorSource;
     dialogOpen: boolean;
     dialogVisible: boolean;
+    hazardSource: VectorSource;
     incidentSource: VectorSource;
     markers: Feature[];
     markerLayer: VectorLayer;
@@ -156,6 +159,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             amenitySource: new VectorSource(),
             dialogOpen: false,
             dialogVisible: true,
+            hazardSource: new VectorSource(),
             incidentSource: new VectorSource(),
             markers: [],
             markerLayer: new VectorLayer(),
@@ -267,8 +271,9 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
 
     addFeatureLayers() {
         this.addAmenityFeatureLayer();
-        this.addMicroBarrierFeatureLayer();
-        this.addSafetyFeatureLayer();
+        this.addHazardFeatureLayer();
+        // this.addMicroBarrierFeatureLayer();
+        // this.addSafetyFeatureLayer();
         this.addIncidentFeatureLayer();
     }
 
@@ -284,6 +289,21 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             map: this.map,
             source: this.state.amenitySource,
             style: this.getMarkerStyle(ReportType.Amenity)
+        });
+    }
+
+    async addHazardFeatureLayer() {
+        const hazardFeatureCollection = await GetHazardFeatureCollection() || {
+            type: "FeatureCollection",
+            features: []
+        };
+
+        this.state.hazardSource.addFeatures(new GeoJSON().readFeatures(hazardFeatureCollection));
+
+        const hazardLayer = new VectorLayer({
+            map: this.map,
+            source: this.state.hazardSource,
+            style: this.getMarkerStyle(ReportType.Hazard)
         });
     }
 
@@ -357,6 +377,9 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             case ReportType.Amenity:
                 marker = amenityMarker;
                 break;
+            case ReportType.Hazard:
+                marker = hazardMarker;
+                break;
             case ReportType.Incident:
                 marker = incidentMarker;
                 break;
@@ -402,6 +425,14 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                 items.push({
                     key: t("popup_missing-amenity"),
                     value: capitalizeFirst(amenityType)
+                });
+                break;
+            case ReportType.Hazard:
+                const hazardType = feature.get("hazard_type");
+                const hazardSubtype = feature.get("hazard_subtype");
+                items.push({
+                    key: t("popup_hazard"),
+                    value: `${capitalizeFirst(hazardType)} - ${capitalizeFirst(hazardSubtype)}`
                 });
                 break;
             case ReportType.Incident:
@@ -458,6 +489,15 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             }
         }
 
+        const id = feature.get("id");
+
+        if (id) {
+            items.push({
+                key: t("popup_id"),
+                value: id
+            });
+        }
+
         const description = feature.get("description");
 
         if (description) {
@@ -478,6 +518,9 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         switch (reportType) {
             case ReportType.Amenity:
                 this.state.amenitySource.addFeature(feature);
+                break;
+            case ReportType.Hazard:
+                this.state.hazardSource.addFeature(feature);
                 break;
             case ReportType.Incident:
                 this.state.incidentSource.addFeature(feature);
@@ -607,7 +650,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                         <FormWizard
                             addNewFeature={this.handleAddNewFeature}
                             clearFeaturePopup={this.hideFeaturePopupOverlay}
-                            geolocateHandler={this.updatePositionFromGeolocation}
                             newReportCoords={this.state.reportCoords}
                             cancelOrComplete={this.handleCancelOrComplete}
                             startMapClickListener={this.enableMapClickListener}
@@ -629,7 +671,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                                 addNewFeature={this.handleAddNewFeature}
                                 cancelOrComplete={this.handleCancelOrComplete}
                                 clearFeaturePopup={this.hideFeaturePopupOverlay}
-                                geolocateHandler={this.updatePositionFromGeolocation}
                                 newReportCoords={this.state.reportCoords}
                                 startMapClickListener={this.enableMapClickListener}
                                 stopMapClickListener={this.disableMapClickListener}

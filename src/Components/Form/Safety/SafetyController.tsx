@@ -17,7 +17,6 @@ export interface SafetyFields extends BaseFields {
 interface SafetyControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
-    geolocateHandler: (position: any) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -47,7 +46,6 @@ const initialState: SafetyFields = {
 const SafetyController = (props: SafetyControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
-        geolocateHandler,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener,
@@ -110,7 +108,6 @@ const SafetyController = (props: SafetyControllerProps) => {
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
-                        geolocateHandler={geolocateHandler}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
                         prevStep={prevStep}
