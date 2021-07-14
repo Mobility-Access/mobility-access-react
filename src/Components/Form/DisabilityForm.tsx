@@ -17,6 +17,7 @@ import * as Yup from "yup";
 
 import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
+import { HazardFields } from "./Hazard/HazardController";
 import { IncidentFields } from "./Incident/IncidentController";
 import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
 import { SafetyFields } from "./Safety/SafetyController";
@@ -25,7 +26,7 @@ import Colors from "../../Colors";
 import { ChoiceItem, Disability, DisabilityType, Mobility, MobilityAid } from "../../FormTypes";
 
 interface DisabilityFormProps {
-    formData: AmenityFields | IncidentFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | HazardFields | IncidentFields | MicroBarrierFields | SafetyFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 
-import IncidentDetailForm from "./IncidentDetailForm";
+import Hidden from "@material-ui/core/Hidden";
+
+import IncidentDescriptionForm from "./IncidentDescriptionForm";
 import IncidentForm from "./IncidentForm";
 import { SubmitIncidentReport } from "./IncidentService";
 import CancelDialog from "../CancelDialog";
@@ -20,7 +22,6 @@ export interface IncidentFields extends BaseFields {
 interface IncidentControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
-    geolocateHandler: (position: any) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -46,12 +47,12 @@ const initialState: IncidentFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
+    suggestedSolution: "",
 };
 
 const IncidentController = (props: IncidentControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
-        geolocateHandler,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener,
@@ -104,27 +105,8 @@ const IncidentController = (props: IncidentControllerProps) => {
     };
 
     const renderFormStep = () => {
-        if (step === 1 && newReportCoords) {
-            setStep(2);
-        }
-
         switch (step) {
             case 1: {
-                return (
-                    <LocationForm
-                        cancel={handleCancelClick}    
-                        formData={formData}
-                        geolocateHandler={geolocateHandler}
-                        nextStep={nextStep}
-                        newReportCoords={newReportCoords}
-                        setFormData={setFormData}
-                        startMapClickListener={startMapClickListener}
-                        stopMapClickListener={stopMapClickListener}
-                        toggleDialog={toggleDialog}
-                    />
-                )
-            }
-            case 2: {
                 return (
                     <IncidentForm
                         cancel={handleCancelClick}
@@ -135,9 +117,9 @@ const IncidentController = (props: IncidentControllerProps) => {
                     />
                 );
             }
-            case 3: {
+            case 2: {
                 return (
-                    <IncidentDetailForm
+                    <IncidentDescriptionForm
                         cancel={handleCancelClick}
                         formData={formData}
                         nextStep={nextStep}
@@ -145,6 +127,21 @@ const IncidentController = (props: IncidentControllerProps) => {
                         setFormData={setMyData}
                     />
                 );
+            }
+            case 3: {
+                return (
+                    <LocationForm
+                        cancel={handleCancelClick}    
+                        formData={formData}
+                        nextStep={nextStep}
+                        newReportCoords={newReportCoords}
+                        prevStep={prevStep}
+                        setFormData={setFormData}
+                        startMapClickListener={startMapClickListener}
+                        stopMapClickListener={stopMapClickListener}
+                        toggleDialog={toggleDialog}
+                    />
+                )
             }
             case 4: {
                 return (
@@ -176,9 +173,68 @@ const IncidentController = (props: IncidentControllerProps) => {
         };
     };
 
+    const renderFormStepMobile = () => {
+        switch (step) {
+            case 1: {
+                return (
+                    <IncidentForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 2: {
+                return (
+                    <IncidentDescriptionForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 3: {
+                return (
+                    <DemographicForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 4: {
+                return (
+                    <DisabilityForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                        submit={submitForm}
+                    />
+                );
+            }
+            default:
+                return (
+                    <SuccessForm reset={cancelOrComplete} />
+                );
+        };
+    };
+
     return (
         <>
-            {renderFormStep()}
+            <Hidden smDown>
+                {renderFormStep()}
+            </Hidden>
+            <Hidden mdUp>
+                {renderFormStepMobile()}
+            </Hidden>
             <CancelDialog 
                 handleConfirmNo={handleConfirmNo}
                 handleConfirmYes={handleConfirmYes}

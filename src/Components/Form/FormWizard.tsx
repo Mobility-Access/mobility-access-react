@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 
 import FormTitle from "./FormTitle";
 import AmenityController from "./Amenity/AmenityController";
+import HazardController from "./Hazard/HazardController";
 import IncidentController from "./Incident/IncidentController";
 import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
 import SafetyController from "./Safety/SafetyController";
@@ -21,7 +22,6 @@ interface FormWizardProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     clearFeaturePopup: () => void;
-    geolocateHandler: (position: any) => void;
     newReportCoords: number[];    startMapClickListener: () => void;
     stopMapClickListener: () => void;
     toggleDialog: () => void;
@@ -50,7 +50,8 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     choiceLabel: {
-        flexGrow: 1,
+        whiteSpace: "normal",
+        width: "95%",
     },
     icon: {
         color: theme.palette.primary.main,
@@ -72,7 +73,6 @@ const useStyles = makeStyles((theme) => ({
 const FormWizard = (props: FormWizardProps) => {
     const { addNewFeature,
         clearFeaturePopup,
-        geolocateHandler,
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
@@ -82,10 +82,11 @@ const FormWizard = (props: FormWizardProps) => {
     const classes = useStyles();
     const { t } = useTranslation();
     const reportTypes: ChoiceItem[] = [
-        { key: ReportType.MicroBarrier, value: "form_micro-barrier" },
-        { key: ReportType.Safety, value: "form_concern" },
-        { key: ReportType.Amenity, value: "form_amenity" },
-        { key: ReportType.Incident, value: "form_incident" }
+        // { key: ReportType.MicroBarrier, value: "form_micro-barrier" },
+        // { key: ReportType.Safety, value: "form_concern" },
+        { key: ReportType.Hazard, value: "form_report-type-hazard" },
+        { key: ReportType.Amenity, value: "form_report_type-amenity" },
+        { key: ReportType.Incident, value: "form_report_type-incident" }
     ];
 
     const handleReportTypeClick = (key: string) => {
@@ -104,6 +105,9 @@ const FormWizard = (props: FormWizardProps) => {
             
             case ReportType.Amenity: {
                 return renderAmenityController();
+            }
+            case ReportType.Hazard: {
+                return renderHazardController();
             }
             case ReportType.MicroBarrier: {
                 return renderMicroBarrierController();
@@ -174,7 +178,18 @@ const FormWizard = (props: FormWizardProps) => {
             <AmenityController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
-                geolocateHandler={geolocateHandler}
+                newReportCoords={newReportCoords}
+                startMapClickListener={startMapClickListener}
+                stopMapClickListener={stopMapClickListener}
+                toggleDialog={toggleDialog}/>
+        )
+    };
+
+    const renderHazardController = () => {
+        return (
+            <HazardController
+                addNewFeature={addNewFeature}
+                cancelOrComplete={handleCancelorComplete}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
@@ -187,7 +202,6 @@ const FormWizard = (props: FormWizardProps) => {
             <IncidentController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
-                geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
@@ -200,7 +214,6 @@ const FormWizard = (props: FormWizardProps) => {
             <MicroBarrierController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
-                geolocateHandler={geolocateHandler}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
@@ -212,7 +225,6 @@ const FormWizard = (props: FormWizardProps) => {
         return <SafetyController
             addNewFeature={addNewFeature}
             cancelOrComplete={handleCancelorComplete}
-            geolocateHandler={geolocateHandler}
             newReportCoords={newReportCoords}
             startMapClickListener={startMapClickListener}
             stopMapClickListener={stopMapClickListener}

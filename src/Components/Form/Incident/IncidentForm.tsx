@@ -2,6 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
 import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuItem from "@material-ui/core/MenuItem";
+import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
@@ -161,6 +162,10 @@ const IncidentForm = (props: IncidentFormProps) => {
         { key: IncidentType.Fall, value: t("form_incident-type-fall")},
     ];
 
+    const handleDateChange = (value: any) => {
+        formik.setFieldValue("date", value);
+    };
+
     const handlePreviousClick = () => {
         setFormData(formData);
         prevStep();
@@ -223,7 +228,7 @@ const IncidentForm = (props: IncidentFormProps) => {
 
     return (
         <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
-            <FormTitle title="form_incident" />
+            <FormTitle title="form_incident-details" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
                     <Typography>
@@ -406,6 +411,22 @@ const IncidentForm = (props: IncidentFormProps) => {
                         </TextField>
                     </div>
                 )}
+                <div className={classes.question}>
+                    <Typography>
+                        {t("form_incident-date")}
+                    </Typography>
+                    <KeyboardDateTimePicker
+                        className={classes.date}
+                        disableFuture
+                        format="MM/dd/yyyy, hh:mm a"
+                        fullWidth
+                        id="safety-date-picker"
+                        inputVariant="outlined"
+                        name="safety-date-picker"
+                        onChange={handleDateChange}
+                        value={formik.values.date}
+                    />
+                </div>
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}
@@ -414,13 +435,13 @@ const IncidentForm = (props: IncidentFormProps) => {
                         variant="outlined">
                         {t("form_cancel")}
                     </Button>
-                    <Button
+                    {/* <Button
                         className={classes.buttonBarButton}
                         color="primary"
                         onClick={handlePreviousClick}
                         variant="outlined">
                         {t("form_previous")}
-                    </Button>
+                    </Button> */}
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"

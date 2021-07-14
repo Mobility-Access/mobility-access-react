@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import Hidden from "@material-ui/core/Hidden";
 
-import AmenityForm from "./AmenityForm";
-import { SubmitAmenityReport } from "./AmenityService";
+import HazardForm from "./HazardForm";
+import { SubmitHazardReport } from "./HazardService";
 import CancelDialog from "../CancelDialog";
 import DemographicForm from "../DemographicForm";
 import DisabilityForm from "../DisabilityForm";
@@ -11,11 +11,13 @@ import LocationForm from "../LocationForm";
 import SuccessForm from "../SuccessForm";
 import { BaseFields, ReportType } from "../../../FormTypes";
 
-export interface AmenityFields extends BaseFields {
-    amenityType: string;
+export interface HazardFields extends BaseFields {
+    hazardSubtype: string;
+    hazardSubtypeDetail: string;
+    hazardType: string;
 }
 
-interface AmenityControllerProps {
+interface HazardControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     newReportCoords: number[];
@@ -24,8 +26,10 @@ interface AmenityControllerProps {
     toggleDialog: () => void;
 }
 
-const initialState: AmenityFields = {
-    amenityType: "",
+const initialState: HazardFields = {
+    hazardType: "",
+    hazardSubtype: "",
+    hazardSubtypeDetail: "",
     birthYear: -1,
     date: new Date(),
     description: "",
@@ -43,7 +47,7 @@ const initialState: AmenityFields = {
     suggestedSolution: ""
 };
 
-const AmenityController = (props: AmenityControllerProps) => {
+const HazardController = (props: HazardControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
         newReportCoords,
@@ -55,7 +59,7 @@ const AmenityController = (props: AmenityControllerProps) => {
     // If a location for the report was passed in, use that for the intial state
     initialState.point = newReportCoords || [];
     
-    const [formData, setFormData] = useState<AmenityFields>(initialState);
+    const [formData, setFormData] = useState<HazardFields>(initialState);
     const [step, setStep] = useState(1);
 
     const handleCancelClick = () => {
@@ -80,8 +84,8 @@ const AmenityController = (props: AmenityControllerProps) => {
         setStep(prev => prev - 1);
     };
 
-    const submitForm = async (data: AmenityFields) => {
-        const result = await SubmitAmenityReport(data);
+    const submitForm = async (data: HazardFields) => {
+        const result = await SubmitHazardReport(data);
 
         if (result.serverError) {
             console.log("Server error from controller");
@@ -89,7 +93,7 @@ const AmenityController = (props: AmenityControllerProps) => {
             console.log("Network error from controller");
         }
         
-        addNewFeature(ReportType.Amenity, result);
+        addNewFeature(ReportType.Hazard, result);
         nextStep();
     };
 
@@ -101,7 +105,7 @@ const AmenityController = (props: AmenityControllerProps) => {
         switch (step) {
             case 1: {
                 return (
-                    <AmenityForm
+                    <HazardForm
                         cancel={handleCancelClick}
                         formData={formData}
                         nextStep={nextStep}
@@ -159,7 +163,7 @@ const AmenityController = (props: AmenityControllerProps) => {
         switch (step) {
             case 1: {
                 return (
-                    <AmenityForm
+                    <HazardForm
                         cancel={handleCancelClick}
                         formData={formData}
                         nextStep={nextStep}
@@ -215,4 +219,4 @@ const AmenityController = (props: AmenityControllerProps) => {
     );
 };
 
-export default AmenityController;
+export default HazardController;

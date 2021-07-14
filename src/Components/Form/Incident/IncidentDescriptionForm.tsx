@@ -3,7 +3,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
@@ -18,7 +17,7 @@ import FormTitle from "../FormTitle";
 import { IncidentFields } from "./IncidentController";
 import Colors from "../../../Colors";
 
-interface IncidentDetailFormProps {
+interface IncidentDescriptionFormProps {
     formData: IncidentFields;
     setFormData: Dispatch<SetStateAction<IncidentFields>>,
     nextStep: () => void,
@@ -65,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const IncidentDetailForm = (props: IncidentDetailFormProps) => {
+const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
     const { cancel, formData, nextStep, prevStep, setFormData  } = { ...props };
     const { t } = useTranslation();
 
@@ -83,6 +82,9 @@ const IncidentDetailForm = (props: IncidentDetailFormProps) => {
             .string()
             .max(500, t("form-max-length-500"))
             .required(t("form-required")),
+        suggestedSolution: Yup
+            .string()
+            .max(300, t("form-max-length-300"))
     });
 
     const formik = useFormik({
@@ -95,11 +97,6 @@ const IncidentDetailForm = (props: IncidentDetailFormProps) => {
     });
     const classes = useStyles();
 
-
-    const handleDateChange = (value: any) => {
-        formik.setFieldValue("date", value);
-    };
-
     const handlePreviousClick = () => {
         setFormData(formData);
         prevStep();
@@ -107,11 +104,11 @@ const IncidentDetailForm = (props: IncidentDetailFormProps) => {
 
     return (
         <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
-            <FormTitle title="form_incident-detail" />
+            <FormTitle title="form_incident-description" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
-            <div className={classes.question}>
+                <div className={classes.question}>
                     <Typography>
-                        {t("form_incident-describe")}
+                        {t("form_common-describe")}
                     </Typography>
                     <TextField
                         className={classes.input}
@@ -130,19 +127,22 @@ const IncidentDetailForm = (props: IncidentDetailFormProps) => {
                 </div>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_incident-date")}
+                        {t("form_common-suggested-solution")}
                     </Typography>
-                    <KeyboardDateTimePicker
-                        className={classes.date}
-                        disableFuture
-                        format="MM/dd/yyyy, hh:mm a"
+                    <TextField
+                        className={classes.input}
                         fullWidth
-                        id="safety-date-picker"
-                        inputVariant="outlined"
-                        name="safety-date-picker"
-                        onChange={handleDateChange}
-                        value={formik.values.date}
-                    />
+                        id="incident-suggested-solution"
+                        name="incident-suggested-solution"
+                        multiline
+                        rows={8}
+                        variant="outlined"
+                        value={formik.values.suggestedSolution}
+                        onChange={(event) => formik.setFieldValue("suggestedSolution", event.target.value)}
+                        error={formik.touched.suggestedSolution && Boolean(formik.errors.suggestedSolution)}
+                        helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
+                    >
+                    </TextField>
                 </div>
                 <div className={classes.buttonBar}>
                     <Button
@@ -172,4 +172,4 @@ const IncidentDetailForm = (props: IncidentDetailFormProps) => {
     );
 };
 
-export default IncidentDetailForm;
+export default IncidentDescriptionForm;

@@ -15,6 +15,7 @@ export interface BaseFields {
     mobilityAidType?: string;
     mobilityAidTypeOpen?: string;
     point: number[];
+    suggestedSolution: string;
 }
 
 export interface ChoiceItem {
@@ -39,6 +40,22 @@ export interface FeatureCollection {
 // Enums
 
 export enum Amenity {
+    Sidewalk = "sidewalk",
+    Crosswalk = "marked crosswalk",
+    Signal = "traffic or pedestrian signal",
+    Audible = "audible",
+    StopSign = "stop sign",
+    Benches = "benches",
+    Washroom = "washroom",
+    Lighting = "lighting or additional lighting",
+    Transit = "access to transit stop",
+    Signs = "wayfinding signs",
+    Connections = "connections (e.g. cut-through needed)",
+    Shade = "shade in summer",
+    Other = "other",
+}
+
+export enum AmenityOld {
     Sidewalk = "sidewalk",
     Crosswalk = "crosswalk",
     Signal = "signal",
@@ -74,6 +91,75 @@ export enum Gender {
     Other = "other",
     NoResponse = "no response",
 }
+
+// ********** Hazard Form enums ********* 
+
+export enum HazardConcernSubtype {
+    Bicycles = "other users - bicycle",
+    Dogs = "other users - dogs",
+    EScooters = "other users - e-scooters",
+    Harassment = "personal safety - harassement or unwanted attention",
+    Isloated = "personal safety - isolated",
+    Lighting = "personal safety - inaequate lighting",
+    MobilityWheeled = "other users - mobility scooters/electric wheelchairs", 
+    OtherWheels = "other users - roller blades, skateboards, kick scooters",
+    Other = "other",
+    People = "personal safety - gathering of unknown people",
+    VehicleNumber = "vehicles - number makes uncomfortable",
+    VehicleSpeed = "vehicles - speed makes uncomfortable",
+}
+
+export enum HazardCrossingSubtype {
+    Crosswalk = "crosswalk needed",
+    FailureToYield = "drivers don't stop or yield to pedestrians",
+    Markings = "crosswalk markings no longer visible",
+    Other = "other",
+    SignalShort = "signal - pedestrian interval too short",
+    SignalNotAudible = "signal - needs an audible",
+    SignalButton = "signal - button difficult to access",
+    SignalWait = "signal - wait time to cross too long",
+    VehicleConflictLeft = "conflict with vehicles turning left",
+    VehicleConflictRight = "conflict with vehicles turning right",
+    VehicleConflictRightRed = "conflict with vehicles turning righton red",
+    Visibliity = "poor visibility of pedestrians",
+}
+
+export enum HazardSidewalkSubtype {
+    BikeRack = "obstruction - bike rack (including bikeshare)",
+    Bins = "obstruction - garbage or recycling bins",
+    Bollard = "obstruction - bollard",
+    BusShelter = "obstruction - bus shelter",
+    Construction = "obstruction - inadequate or lack of safe detour for pedestrians",
+    Mailbox = "obstruction - mailbox",
+    MissingCurbCut = "missing curb cut",
+    Narrow = "too narrrow",
+    Other = "other",
+    ParkedBike = "obstruction - parked e-scooters/bicycles",
+    ParkedVehicles = "obstruction - parked vehicles or delivery vans",
+    Pole = "obstruction - pole (hydro, telephone)",
+    Sign = "obstruction - sign blocking path",
+    Slope = "slope issues (eg. driveways)",
+    Surface = "uncomfortable service (for wheelchairs, etc.)",
+    Uneven = "obstruction - uneven sidewalk (eg. roots, holes, cracks)",
+    Vegetation = "obstruction - vegetaion that narrows pathway",   
+}
+
+export enum HazardType {
+    Concern = "safety/comfort concern",
+    Crossing = "crossing issue",
+    Sidewalk = "side walk infrastructure issue",
+    WeatherSeasonal = "weather related or seasonal",
+}
+
+export enum HazardWeatherSeasonalSubtype {
+    Ice = "ice",
+    Leaves = "leaves",
+    Other = "other",
+    Snow = "snow",
+    Water = "puddles, flooding, splash zone",
+}
+
+// ********** End Hazard Form enums ********* 
 
 export enum Identity {
     Black = "black",
@@ -227,6 +313,7 @@ export enum MobilityAid {
 
 export enum ReportType {
     Amenity = "amenity",
+    Hazard = "hazard-concern",
     Incident = "incident",
     MicroBarrier = "barrier",
     Safety = "safety",

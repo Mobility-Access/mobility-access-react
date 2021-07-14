@@ -1,10 +1,12 @@
-import { AmenityFields } from "./AmenityController";
-import { AmenityUrl } from "../../../Constants";
+import { HazardFields } from "./HazardController";
+import { HazardUrl } from "../../../Constants";
 import { FeatureCollection, ReportType } from "../../../FormTypes";
 
-export const SubmitAmenityReport = async (report: AmenityFields) => {
+export const SubmitHazardReport = async (report: HazardFields) => {
     const data = {
-        amenity_type: report.amenityType,
+        hazard_type: report.hazardType,
+        hazard_subtype: report.hazardSubtype,
+        hazard_subtype_detail: report.hazardSubtypeDetail,
         birth_year: report.birthYear,
         date: report.date.valueOf(),
         description: report.description,
@@ -16,7 +18,7 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity}, ${report.identityOpen}` : report.identity,
         suggestedSolution: report.suggestedSolution,
-        type: ReportType.Amenity,
+        type: ReportType.Hazard,
     };
 
     const options: RequestInit = {
@@ -29,7 +31,7 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
     };
 
     try {
-        const response = await fetch(AmenityUrl, options);
+        const response = await fetch(HazardUrl, options);
         
         if (response.ok) {
             // Success, return the point to the controller so it can be added to the map.
@@ -51,13 +53,13 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
     }
 };
 
-export const GetAmenityFeatureCollection = async (): Promise<FeatureCollection> => {
-    const response = await fetch(`${AmenityUrl}`);
+export const GetHazardFeatureCollection = async (): Promise<FeatureCollection> => {
+    const response = await fetch(`${HazardUrl}`);
 
     if (response.ok) {
         return await response.json() as FeatureCollection;
     } else {
-        console.log(`An error occurred while fetching the Amenity features: ${response.status} - ${response.statusText}`);
+        console.log(`An error occurred while fetching the Hazard/Concern features: ${response.status} - ${response.statusText}`);
         return {
             type: "FeatureCollection",
             features: []
