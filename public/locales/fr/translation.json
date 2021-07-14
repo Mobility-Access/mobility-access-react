@@ -218,6 +218,7 @@
     "form_location-choose": "French View Map",
     "form_location-description": "French Click on the map to mark the location you are making a report for. If you click on the wrong spot, you can either click on the correct location or drag the marker to the right place.",
     "form_location-description-mobile": "French Select 'Next' to view the map, choose a location by clicking or tapping on the map, then select the 'Continue' button to go to the next step.",
+    "form_location-description-mobile2": "French Choose a location by tapping on the map, then press 'Next' to continue.",
     "form_location-required": "French You must choose a location on the map before continuing.",
     "form_location-title": "French Location",
     "form-max-length-30": "French Too long! Maximum length is 30 characters.",

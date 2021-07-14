@@ -39,9 +39,6 @@ interface HazardFormProps {
 const minInputHeight = 56;
 
 const useStyles = makeStyles((theme) => ({
-    form: {
-        marginTop: theme.spacing(3),
-    },
     buttonBar: {
         marginBottom: theme.spacing(2),
         marginTop: theme.spacing(2),
@@ -67,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
     date: {
         marginTop: theme.spacing(1),
         minHeight: minInputHeight,
+    },
+    form: {
+        marginTop: theme.spacing(3),
     },
     input: {
         marginTop: theme.spacing(1),

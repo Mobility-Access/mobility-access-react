@@ -218,6 +218,7 @@
     "form_location-choose": "View Map",
     "form_location-description": "Click on the map to mark the location you are making a report for. If you click on the wrong spot, you can either click on the correct location or drag the marker to the right place.",
     "form_location-description-mobile": "Choose a location by tapping on the map, then press here to continue.",
+    "form_location-description-mobile2": "Choose a location by tapping on the map, then press 'Next' to continue.",
     "form_location-required": "You must choose a location on the map before continuing.",
     "form_location-title": "Location",
     "form-max-length-30": "Too long! Maximum length is 30 characters.",
