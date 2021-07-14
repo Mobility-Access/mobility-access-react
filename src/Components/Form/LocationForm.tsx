@@ -85,6 +85,7 @@ const LocationForm = (props: LocationFormProps) => {
         startMapClickListener,
         stopMapClickListener,
         toggleDialog } = { ...props };
+    const [locationError, setLocationError] = useState(false);
     const [reportCoords, setReportCoords] = useState(newReportCoords);
     const [point, setPoint] = useState<number[]>(formData.point);
     const [firstRun, setFirstRun] = useState(true);
@@ -106,9 +107,17 @@ const LocationForm = (props: LocationFormProps) => {
     };
 
     const handleNextClick = () => {
-        if (newReportCoords) {
-            formData.point = newReportCoords;
+        if (!newReportCoords) {
+            setLocationError(true);
+            return;
         }
+
+        if (newReportCoords && !newReportCoords.length) {
+            setLocationError(true);
+            return;
+        }
+
+        formData.point = newReportCoords;
         
         setFormData(formData);
 
@@ -141,6 +150,13 @@ const LocationForm = (props: LocationFormProps) => {
                         </Typography>
                     )
                 }
+                {
+                    locationError && (!newReportCoords || newReportCoords.length !== 2) && (
+                        <Typography className={classes.text} color="error">
+                            {t("form_location-required")}
+                        </Typography>
+                    )
+                }
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}
@@ -158,7 +174,6 @@ const LocationForm = (props: LocationFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
-                        disabled={newReportCoords && newReportCoords.length === 0}
                         onClick={handleNextClick}
                         variant="contained">
                         {t("form_next")}
@@ -208,7 +223,6 @@ const LocationForm = (props: LocationFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
-                        disabled={newReportCoords && newReportCoords.length === 0}
                         onClick={handleNextClick}
                         variant="contained">
                         {t("form_next")}
