@@ -8,7 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Typography from "@material-ui/core/Typography";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 import Colors from "../../Colors";
 
@@ -58,6 +58,9 @@ const TermsAndConditions = (props: TermsAndConditionsProps) => {
                         <Typography className={classes.subtitle}>
                             {t("form_consent-subtitle")}
                         </Typography>
+                        <Typography className={classes.subtitle}>
+                            {t("form_consent-walk-roll-map")}
+                        </Typography>
                         <Typography className={classes.text}>
                             {t("form_consent-preamble-1")}
                         </Typography>
@@ -67,8 +70,19 @@ const TermsAndConditions = (props: TermsAndConditionsProps) => {
                         <Typography className={classes.text}>
                             {t("form_consent-preamble-3")}
                         </Typography>
-                        <Typography className={classes.text}>
+                        <Typography className={classes.text} display="inline">
                             {t("form_consent-preamble-4")}
+                        </Typography>
+                        <Typography display="inline">
+                            <a href="mailto:trisalyn@uvic.ca">trisanlyn@uvic.ca</a>
+                        </Typography>
+                        <Typography className={classes.text} display="inline">
+                            {t("form_consent-preamble-5")}
+                        </Typography>
+                        <Typography display="inline">
+                            (<a href="tel:250-472-4545">250-472-4545</a>
+                            &nbsp;or&nbsp;
+                            <a href="mailto:ethics.uvic.ca">ethics@uvic.ca</a>).
                         </Typography>
                         <Typography className={classes.subtitle}>
                             {t("form_consent-privacy-policy-title")}

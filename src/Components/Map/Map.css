@@ -17,12 +17,14 @@
 }
 
 .map > .ol-viewport > .ol-overlaycontainer-stopevent > .ol-zoom {
-    left: auto;
-    right: 0.5em;
+    left: 0.5em;
+    right: auto;
 }
 
 .map {
+    flex-grow: 1;
     height: 100%;
+    position: relative;
 }
 
 .drawer {
@@ -32,4 +34,9 @@
 
 .drawerPaper {
     width: 400px;
+}
+
+.wrm-zoom-in .wrm-zoom-out {
+    background-color: white;
+    color: #082B49;
 }

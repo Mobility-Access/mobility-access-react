@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
             borderColor: Colors.contrastRed
         },
     },
+    error: {
+        marginTop: theme.spacing(1),
+    },
     input: {
         marginTop: theme.spacing(1),
     },
@@ -97,6 +100,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     const { cancel, formData, nextStep, prevStep, submit, setFormData  } = { ...props };
     const { t } = useTranslation();
     const [accept, setAccept] = useState(false);
+    const [error, setError] = useState(false);
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -192,6 +196,10 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     };
 
     const handleSubmit = () => {
+        if (!accept) {
+            setError(true);
+            return;
+        }
         formik.handleSubmit();
         setFormData(formik.values);
         submit(formik.values);
@@ -223,7 +231,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     return (
         <>
             <FormTitle title="form_disability_title" />
-            <form className={classes.disabilityForm} noValidate onSubmit={formik.handleSubmit}>
+            <form className={classes.disabilityForm} noValidate>
                 <div className={classes.question}>
                     <Typography>
                         {t("form_disability-question")}
@@ -396,7 +404,13 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                         </Typography>
                     </MenuItem> */}
                 </div>
-                
+                {
+                    error && !accept && (
+                        <Typography className={classes.error} color="error">
+                            {t("form_demographic-required")}
+                        </Typography>
+                    )
+                }
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}
@@ -414,8 +428,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
-                        disabled={!accept}
-                        type="submit"
+                        onClick={handleSubmit}
                         variant="contained">
                         {t("form_submit")}
                     </Button>

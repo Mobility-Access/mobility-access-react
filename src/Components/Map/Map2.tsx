@@ -25,6 +25,7 @@ import VectorLayer from "ol/layer/Vector"
 import Overlay from "ol/Overlay";
 import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
+import Zoom from "ol/control/Zoom";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
 import { withTranslation } from "react-i18next";
@@ -41,6 +42,8 @@ import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarr
 import { GetSafetyFeatureCollection } from "../Form/Safety/SafetyService";
 import { IncidentType, MicroBarrierType } from "../../FormTypes";
 
+import Legend from "./Legend";
+import Legend2 from "./Legend2";
 import Popup, { PopupContentItem } from "./Popup";
 import Colors from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
@@ -59,6 +62,8 @@ interface MapState {
     dialogVisible: boolean;
     hazardSource: VectorSource;
     incidentSource: VectorSource;
+    legendVisible: boolean;
+    legendVisible2: boolean;
     locationError: boolean;
     markers: Feature[];
     markerLayer: VectorLayer;
@@ -102,6 +107,10 @@ const styles = (theme: any) => createStyles({
         backgroundColor: Colors.contrast,
         color: Colors.primary,
     },
+    formContainer: {
+        overflowY: "auto",
+        width: "400px",
+    },
     locationForm: {
         backgroundColor: "white",
         bottom: 0,
@@ -118,6 +127,9 @@ const styles = (theme: any) => createStyles({
         color: Colors.primary,
         marginLeft: theme.spacing(4),
         marginTop: theme.spacing(4),
+    },
+    mapContainer: {
+        flexGrow: 1,
     },
     mobileLocation: {
         backgroundColor: Colors.contrast,
@@ -157,9 +169,9 @@ const styles = (theme: any) => createStyles({
         bottom: "0.5em",
         transform: "translateX(-50%)"
     },
-    snackbar: {
-        backgroundColor: Colors.contrast,
-        color: Colors.primary,
+    root: {
+        display: "flex",
+        height: "calc(100% - 65px)",
     },
 });
 
@@ -182,6 +194,11 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     incidentFeatures: Feature[] = [];
     safetyFeatures: Feature[] = [];
 
+    // Feature layers
+    amenityLayer!: VectorLayer;
+    hazardLayer!: VectorLayer;
+    incidentLayer!: VectorLayer;
+
     constructor(props: any) {
         super(props);
         this.positionFeature = new Feature();
@@ -193,6 +210,8 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             dialogVisible: true,
             hazardSource: new VectorSource(),
             incidentSource: new VectorSource(),
+            legendVisible: false,
+            legendVisible2: false,
             locationError: false,
             markers: [],
             markerLayer: new VectorLayer(),
@@ -222,6 +241,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         this.handleMapClick = this.handleMapClick.bind(this);
         this.handleMobileNewReportClick = this.handleMobileNewReportClick.bind(this);
         this.handleNewMobileMarker = this.handleNewMobileMarker.bind(this);
+        this.handleToggleLayerVisibliity = this.handleToggleLayerVisibliity.bind(this);
         this.handleTranslateEnd = this.handleTranslateEnd.bind(this);
         this.hideFeaturePopupOverlay = this.hideFeaturePopupOverlay.bind(this);
         this.renderFormWizard = this.renderFormWizard.bind(this);
@@ -321,7 +341,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
 
         this.state.amenitySource.addFeatures(new GeoJSON().readFeatures(amenityFeatureCollection));
 
-        const amenityLayer = new VectorLayer({
+        this.amenityLayer = new VectorLayer({
             map: this.map,
             source: this.state.amenitySource,
             style: this.getMarkerStyle(ReportType.Amenity)
@@ -336,7 +356,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
 
         this.state.hazardSource.addFeatures(new GeoJSON().readFeatures(hazardFeatureCollection));
 
-        const hazardLayer = new VectorLayer({
+        this.hazardLayer = new VectorLayer({
             map: this.map,
             source: this.state.hazardSource,
             style: this.getMarkerStyle(ReportType.Hazard)
@@ -366,7 +386,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
 
         this.state.incidentSource.addFeatures(new GeoJSON().readFeatures(incidentFeatureCollection));
 
-        const incidentLayer = new VectorLayer({
+        this.incidentLayer = new VectorLayer({
             map: this.map,
             source: this.state.incidentSource,
             style: this.getMarkerStyle(ReportType.Incident)
@@ -649,6 +669,20 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         });
     }
 
+    handleToggleLayerVisibliity(layerId: string, visible: boolean) {
+        switch (layerId) {
+            case "hazard":
+                this.hazardLayer.setSource(visible ? this.state.hazardSource : new VectorSource());
+                break;
+            case "amenity":
+                this.amenityLayer.setSource(visible ? this.state.amenitySource : new VectorSource());
+                break;
+            case "incident":
+                this.incidentLayer.setSource(visible ? this.state.incidentSource : new VectorSource());
+                break;
+        }
+    }
+
     handleTranslateEnd(event: TranslateEvent) {
         if (event && event.coordinate) {
             this.setReportCoords(event.coordinate);
@@ -689,9 +723,19 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     render() {
         const { classes, t } = this.props;
         return  (
-            <>
+            <div className={classes.root}>
                 <Hidden smDown>
-                    <Drawer
+                    <div className={classes.formContainer}>
+                        <FormWizard
+                            addNewFeature={this.handleAddNewFeature}
+                            clearFeaturePopup={this.hideFeaturePopupOverlay}
+                            newReportCoords={this.state.reportCoords}
+                            cancelOrComplete={this.handleCancelOrComplete}
+                            startMapClickListener={this.enableMapClickListener}
+                            stopMapClickListener={this.disableMapClickListener}
+                            toggleDialog={this.toggleDialog} />
+                    </div>
+                    {/* <Drawer
                         anchor="left"
                         classes={{
                             paper: "drawerPaper"
@@ -709,9 +753,11 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                             startMapClickListener={this.enableMapClickListener}
                             stopMapClickListener={this.disableMapClickListener}
                             toggleDialog={this.toggleDialog} />
-                    </Drawer>
+                    </Drawer> */}
                 </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
+                    <Legend toggleLayer={this.handleToggleLayerVisibliity} />
+                    <Legend2 />
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
                     <Hidden mdUp>
                         { this.state.newReportButtonVisible && (
@@ -786,7 +832,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                         )} */}
                     </Hidden>
                 </div>
-            </>
+            </div>
         );
     }
 }
