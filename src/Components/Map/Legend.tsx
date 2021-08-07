@@ -115,7 +115,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Legend = React.forwardRef((props: LegendProps, ref: any) => {
     const { toggleLayer } = { ...props };
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const classes = useStyles();
     const { t } = useTranslation();
     const [hazardVisible, setHazardVisible] = useState(true);

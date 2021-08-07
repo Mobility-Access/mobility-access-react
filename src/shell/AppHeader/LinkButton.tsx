@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 interface LinkButtonProps {
     className?: any;
     label: string;
+    onClick: () => void;
     path: string;
 }
 
@@ -22,17 +23,17 @@ const useStyles = makeStyles((theme) => ({
 
 // A Button component wrapped in a Link component so we can leverage
 // react-router-dom
-const LinkButton = (props: LinkButtonProps) => {
-    const { className, label, path } = props;
+const LinkButton = React.forwardRef((props: LinkButtonProps, ref: any) => {
+    const { className, label, onClick, path } = props;
     const classes = useStyles();
     
     return (
-        <Link to={path} className={`${classes.link} ${className}`}>
-            <Button className={classes.button} color="inherit">
+        <Link ref={ref} to={path} className={`${classes.link} ${className}`}>
+            <Button className={classes.button} color="inherit" onClick={onClick}>
                 {label}
             </Button>
         </Link>            
     );
-};
+});
 
 export default LinkButton;

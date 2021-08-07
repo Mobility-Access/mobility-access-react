@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.primary.main,
     },
     langaugeMenu: {
-        zIndex: 1,
+        zIndex: 1001,
     },
     link: {
         color: theme.palette.primary.main,
@@ -126,11 +126,11 @@ const Header = () => {
         setTabValue(index);
     };
 
-    const renderHelpButton = () => {
-        return (
-            <LinkButton path="/help" label={t("help")} />
-        );
-    };
+    // const renderHelpButton = () => {
+    //     return (
+    //         <LinkButton path="/help" label={t("help")} />
+    //     );
+    // };
 
     const renderLanguageMenu = () => {
         return (
@@ -163,9 +163,9 @@ const Header = () => {
 
     const renderSecondaryNav = () => {
         return (
-            <Hidden mdDown>
+            <Hidden smDown>
                 <LanguageSelector languages={languages} />
-                {renderHelpButton()}
+                {/* {renderHelpButton()} */}
             </Hidden>
         );
     };
@@ -173,7 +173,8 @@ const Header = () => {
     // Render a navigation menu when screen size is <= 960px
     const renderSecondaryNavAsList = () => {
         return (
-            <Hidden lgUp>
+            <Hidden mdUp>
+                <LanguageSelector languages={languages} />
                 <IconButton
                     aria-controls="app-bar-secondary-navigation-menu"
                     aria-haspopup="true"
@@ -191,43 +192,26 @@ const Header = () => {
                     open={Boolean(anchorEl)}
                     TransitionComponent={Fade}
                 >
-                    <Hidden mdUp>
-                        <Link className={classes.menuLink} to="/">
-                            <MenuItem
-                                onClick={handleMenuClose}
-                            >
-                                {t("map")}
-                            </MenuItem>
-                        </Link>
-                        <Link className={classes.menuLink} to="/explore">
-                            <MenuItem
-                                onClick={handleMenuClose}
-                            >
-                                {t("explore")}
-                            </MenuItem>
-                        </Link>
-                        <Link className={classes.menuLink} to="/about">
-                            <MenuItem
-                                onClick={handleMenuClose}
-                            >
-                                {t("common_about")}
-                            </MenuItem>
-                        </Link>
-                        <Link className={classes.menuLink} to="/contact">
-                            <MenuItem
-                                onClick={handleMenuClose}
-                            >
-                                {t("contact")}
-                            </MenuItem>
-                        </Link>
-                    </Hidden>
-                    <Link className={classes.menuLink} to="/help">
-                        <MenuItem
+                    {/* <div>
+                        <LinkButton
+                            label={t("map")}
                             onClick={handleMenuClose}
-                        >
-                            {t("help")}
-                        </MenuItem>
-                    </Link>
+                            path="/"
+                        />
+                    </div>
+                    <div>
+                        <LinkButton
+                            label={t("common_about")}
+                            onClick={handleMenuClose}
+                            path="/about"
+                        />
+                    </div>
+                    <MenuItem
+                        component={Link}
+                        to="/"
+                    >
+                        Map
+                    </MenuItem>
                     <MenuItem
                         onClick={handleLanguageChange}
                     >
@@ -235,7 +219,50 @@ const Header = () => {
                         <ListItemIcon>
                             <ArrowRight />
                         </ListItemIcon>
+                    </MenuItem> */}
+                    <MenuItem
+                        component={Link}
+                        onClick={handleMenuClose}
+                        to="/"
+                    >
+                        {t("map")}
                     </MenuItem>
+                    {/* <Link className={classes.menuLink} to="/explore">
+                        <MenuItem
+                            onClick={handleMenuClose}
+                        >
+                            {t("explore")}
+                        </MenuItem>
+                    </Link> */}
+                    <Link className={classes.menuLink} to="/about">
+                        <MenuItem
+                            onClick={handleMenuClose}
+                        >
+                            {t("common_about")}
+                        </MenuItem>
+                    </Link>
+                    {/* <Link className={classes.menuLink} to="/contact">
+                        <MenuItem
+                            onClick={handleMenuClose}
+                        >
+                            {t("contact")}
+                        </MenuItem>
+                    </Link> */}
+                    {/* <Link className={classes.menuLink} to="/help">
+                        <MenuItem
+                            onClick={handleMenuClose}
+                        >
+                            {t("help")}
+                        </MenuItem>
+                    </Link> */}
+                    {/* <MenuItem
+                        onClick={handleLanguageChange}
+                    >
+                        {"English"}
+                        <ListItemIcon>
+                            <ArrowRight />
+                        </ListItemIcon>
+                    </MenuItem> */}
                 </Menu>
             </Hidden>
         );
@@ -255,9 +282,9 @@ const Header = () => {
                     value={tabValue} 
                 >
                     <Tab component={Link} label={t("map")} to="/" />
-                    <Tab component={Link} label={t("explore")} to="/explore" />
+                    {/* <Tab component={Link} label={t("explore")} to="/explore" /> */}
                     <Tab component={Link} label={t("common_about")} to="/about" />
-                    <Tab component={Link} label={t("contact")} to="/contact" />
+                    {/* <Tab component={Link} label={t("contact")} to="/contact" /> */}
                 </Tabs>
             </Hidden>
         );
