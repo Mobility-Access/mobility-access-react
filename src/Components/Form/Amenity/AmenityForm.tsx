@@ -106,11 +106,13 @@ const AmenityForm = (props: AmenityProps) => {
     const amenityTypes: ChoiceItem[] = [
         { key: Amenity.Sidewalk, value: t("form_amenity-sidewalk")},
         { key: Amenity.Crosswalk , value: t("form_amenity-crosswalk") },
+        { key: Amenity.CurbCut, value: t("form_amenity-curb-cut") },
         { key: Amenity.Signal , value: t("form_amenity-signal") },
         { key: Amenity.Audible , value: t("form_amenity-audible") },
         { key: Amenity.StopSign , value: t("form_amenity-stop-sign") },
         { key: Amenity.Benches , value: t("form_amenity-benches") },
         { key: Amenity.Washroom , value: t("form_amenity-washroom") },
+        { key: Amenity.WaterFountain, value: t("form_amenity-water-fountain") },
         { key: Amenity.Lighting , value: t("form_amenity-lighting") },
         { key: Amenity.Transit , value: t("form_amenity-transit") },
         { key: Amenity.Signs , value: t("form_amenity-signs") },
@@ -227,13 +229,13 @@ const AmenityForm = (props: AmenityProps) => {
                         variant="outlined">
                         {t("form_cancel")}
                     </Button>
-                    {/* <Button
+                    <Button
                         className={classes.buttonBarButton}
                         color="primary"
                         onClick={handlePreviousClick}
                         variant="outlined">
                         {t("form_previous")}
-                    </Button> */}
+                    </Button>
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"

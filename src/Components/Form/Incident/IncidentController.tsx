@@ -84,6 +84,12 @@ const IncidentController = (props: IncidentControllerProps) => {
     };
 
     const prevStep = () => {
+        if (step === 1) {
+            setFormData(initialState);
+            cancelOrComplete();
+            return;
+        }
+        
         setStep(prev => prev - 1);
     };
 
@@ -108,28 +114,6 @@ const IncidentController = (props: IncidentControllerProps) => {
         switch (step) {
             case 1: {
                 return (
-                    <IncidentForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
-            }
-            case 2: {
-                return (
-                    <IncidentDescriptionForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
-            }
-            case 3: {
-                return (
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
@@ -142,6 +126,28 @@ const IncidentController = (props: IncidentControllerProps) => {
                         toggleDialog={toggleDialog}
                     />
                 )
+            }
+            case 2: {
+                return (
+                    <IncidentForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
+            }
+            case 3: {
+                return (
+                    <IncidentDescriptionForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
+                    />
+                );
             }
             case 4: {
                 return (

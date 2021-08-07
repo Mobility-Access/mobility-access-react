@@ -74,14 +74,14 @@ const TermsAndConditions = (props: TermsAndConditionsProps) => {
                             {t("form_consent-preamble-4")}
                         </Typography>
                         <Typography display="inline">
-                            <a href="mailto:trisalyn@uvic.ca">trisanlyn@uvic.ca</a>
+                            <a href="mailto:trisalyn@uvic.ca">trisalyn@uvic.ca</a>.&nbsp;
                         </Typography>
                         <Typography className={classes.text} display="inline">
                             {t("form_consent-preamble-5")}
                         </Typography>
                         <Typography display="inline">
                             (<a href="tel:250-472-4545">250-472-4545</a>
-                            &nbsp;or&nbsp;
+                            &nbsp;{t("form_consent-or")}&nbsp;
                             <a href="mailto:ethics.uvic.ca">ethics@uvic.ca</a>).
                         </Typography>
                         <Typography className={classes.subtitle}>

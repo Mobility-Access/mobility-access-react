@@ -158,7 +158,7 @@ const HazardForm = (props: HazardFormProps) => {
         { key: HazardCrossingSubtype.SignalWait, value: t("form_hazard-crossing-subtype-signal-wait") },
         { key: HazardCrossingSubtype.Visibliity, value: t("form_hazard-crossing-subtype-visibility") },
         { key: HazardCrossingSubtype.Markings, value: t("form_hazard-crossing-subtype-markings") },
-        { key: HazardCrossingSubtype.Crosswalk, value: t("form_common-other") },
+        { key: HazardCrossingSubtype.Other, value: t("form_common-other") },
     ];
 
     const hazardSidewalkSubtypes: ChoiceItem[] = [
@@ -559,6 +559,13 @@ const HazardForm = (props: HazardFormProps) => {
                         onClick={cancel}
                         variant="outlined">
                         {t("form_cancel")}
+                    </Button>
+                    <Button
+                        className={classes.buttonBarButton}
+                        color="primary"
+                        onClick={handlePreviousClick}
+                        variant="outlined">
+                        {t("form_previous")}
                     </Button>
                     <Button
                         className={classes.buttonBarButton}

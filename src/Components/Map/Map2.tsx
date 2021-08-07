@@ -47,7 +47,7 @@ import Legend2 from "./Legend2";
 import Popup, { PopupContentItem } from "./Popup";
 import Colors from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
-import barrierMarker from "../../images/icons/barrier_marker.svg";
+import barrierMarker from "../../images/icons/amenity_marker.svg";
 import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
 import safetyMarker from "../../images/icons/safety_marker.svg";
@@ -757,7 +757,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                 </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
                     <Legend toggleLayer={this.handleToggleLayerVisibliity} />
-                    <Legend2 />
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
                     <Hidden mdUp>
                         { this.state.newReportButtonVisible && (
