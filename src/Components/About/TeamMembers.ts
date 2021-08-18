@@ -34,6 +34,6 @@ const zahin = {
     img: zahin_img
 };
 
-const TeamMembers = [trisalyn, karen, dan, darren, zahin];
+const TeamMembers = [trisalyn, karen, dan, darren];
 
 export default TeamMembers;

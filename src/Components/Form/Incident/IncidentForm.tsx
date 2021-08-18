@@ -232,35 +232,6 @@ const IncidentForm = (props: IncidentFormProps) => {
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_incident-involvement-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="incident-involvement"
-                        name="incident-involvement"
-                        select
-                        value={formik.values.involvement}
-                        onChange={handleIncidentInvolvementSelect}
-                        error={formik.touched.involvement && Boolean(formik.errors.involvement)}
-                        helperText={formik.touched.involvement && formik.errors.involvement}
-                        variant="outlined"
-                    >
-                        {
-                            incidentInvolvementTypes.map((item) => {
-                                return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
-                                            {item.value}
-                                        </Typography>
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </TextField>
-                </div>
-                <div className={classes.question}>
-                    <Typography>
                         {t("form_incident-type-question")}
                     </Typography>
                     <TextField
@@ -349,6 +320,35 @@ const IncidentForm = (props: IncidentFormProps) => {
                         </TextField>
                     </div>
                 )}
+                <div className={classes.question}>
+                    <Typography>
+                        {t("form_incident-involvement-question")}
+                    </Typography>
+                    <TextField
+                        className={classes.input}
+                        fullWidth
+                        id="incident-involvement"
+                        name="incident-involvement"
+                        select
+                        value={formik.values.involvement}
+                        onChange={handleIncidentInvolvementSelect}
+                        error={formik.touched.involvement && Boolean(formik.errors.involvement)}
+                        helperText={formik.touched.involvement && formik.errors.involvement}
+                        variant="outlined"
+                    >
+                        {
+                            incidentInvolvementTypes.map((item) => {
+                                return (
+                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                        <Typography>
+                                            {item.value}
+                                        </Typography>
+                                    </MenuItem>
+                                )
+                            })
+                        }
+                    </TextField>
+                </div>
                 { formik.values.involvement && formik.values.involvement !== IncidentInvolvementType.Witness && (
                     <div className={classes.question}>
                         <Typography>
