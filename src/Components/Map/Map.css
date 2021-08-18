@@ -7,7 +7,7 @@
     }
 .ol-control {
     position: absolute;
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0);
     border-radius: 4px;
     padding: 2px;
 }
@@ -17,6 +17,7 @@
 }
 
 .map > .ol-viewport > .ol-overlaycontainer-stopevent > .ol-zoom {
+    background-color: rgba(255,255,255,0);
     left: 0.5em;
     right: auto;
 }
@@ -39,4 +40,36 @@
 .wrm-zoom-in .wrm-zoom-out {
     background-color: white;
     color: #082B49;
+}
+
+.ol-zoom .ol-zoom-in {
+    background: white;
+    border-radius: 5px 5px 0 0 !important;
+    box-shadow:
+        0px 3px 5px -1px rgba(0,0,0,0.2),
+        0px 6px 10px 0px rgba(0,0,0,0.14),
+        0px 1px 18px 0px rgba(0,0,0,0.12);
+    color: #082B49;
+    height: 32px;
+    width: 32px;
+}
+
+.ol-zoom .ol-zoom-out {
+    background: white;
+    border-radius: 0 0 5px 5px !important;
+    box-shadow:
+        0px 3px 5px -1px rgba(0,0,0,0.2),
+        0px 6px 10px 0px rgba(0,0,0,0.14),
+        0px 1px 18px 0px rgba(0,0,0,0.12);
+    color: #082B49;
+    height: 32px;
+    width: 32px;
+}
+
+.ol-control button:hover, .ol-control button:focus {
+    background-color: #d5d5d5 !important;
+}
+
+.ol-zoom .ol-unselectable .ol-control {
+    display: none;
 }

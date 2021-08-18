@@ -336,6 +336,8 @@
     "form_title": "French New Report",
     "form_yes": "Oui",
     "french": "Francais",
+    "geocoder-no-result": "French No results",
+    "geocoder-search": "French Search...",
     "help": "French Help",
     "language-button": "French",
     "legend_amenity": "French Missing Amenity",

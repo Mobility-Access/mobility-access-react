@@ -34,6 +34,7 @@ import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
 import "./Map.css";
+import Geocoder from "./Geocoder";
 import CancelDialog from "../Form/CancelDialog";
 import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
 import { GetHazardFeatureCollection } from "../Form/Hazard/HazardService"; 
@@ -108,8 +109,15 @@ const styles = (theme: any) => createStyles({
         color: Colors.primary,
     },
     formContainer: {
+        color: theme.palette.primary.main,
         overflowY: "auto",
         width: "400px",
+    },
+    geocoder: {
+        position: "absolute",
+        top: 90,
+        left: 11,
+        zIndex: 2
     },
     locationForm: {
         backgroundColor: "white",
@@ -166,7 +174,7 @@ const styles = (theme: any) => createStyles({
         fontWeight: "bold",
         left: "50%",
         position: "absolute",
-        bottom: "0.5em",
+        bottom: "1.5em",
         transform: "translateX(-50%)"
     },
     root: {
@@ -238,6 +246,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         this.handleConfirmNo = this.handleConfirmNo.bind(this);
         this.handleConfirmYes = this.handleConfirmYes.bind(this)
         this.handleFeatureClick = this.handleFeatureClick.bind(this);
+        this.handleGeocodeResult = this.handleGeocodeResult.bind(this);
         this.handleMapClick = this.handleMapClick.bind(this);
         this.handleMobileNewReportClick = this.handleMobileNewReportClick.bind(this);
         this.handleNewMobileMarker = this.handleNewMobileMarker.bind(this);
@@ -632,6 +641,13 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         }
     }
 
+    handleGeocodeResult = (coords: Coordinate) => {
+        if (coords && coords.length) {
+            this.map.getView().setCenter(coords);
+            this.map.getView().setZoom(12);
+        }
+    }       
+
     handleMapClick(event: MapBrowserEvent) {
         if (event && event.coordinate) {
             this.state.markerSource.clear();
@@ -756,6 +772,7 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                     </Drawer> */}
                 </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
+                    <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult}/>
                     <Legend toggleLayer={this.handleToggleLayerVisibliity} />
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
                     <Hidden mdUp>

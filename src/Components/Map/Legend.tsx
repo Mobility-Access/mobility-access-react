@@ -22,6 +22,7 @@ interface LegendProps {
 }
 
 const defaultPopupContentFontSize = "0.75em";
+const buttonHeight = "32px";
 
 const useStyles = makeStyles((theme) => ({
     close: {
@@ -37,6 +38,10 @@ const useStyles = makeStyles((theme) => ({
     },
     fab: {
         backgroundColor: "white",
+        borderRadius: "5px",
+        height: buttonHeight,
+        minHeight: buttonHeight,
+        width: buttonHeight,
     },
     item: {
         fontSize: defaultPopupContentFontSize,
@@ -61,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
         top: 10,
         right: 10,
         zIndex: 1,
+        "&:hover": {
+            backgroundColor: "#d5d5d5"
+        }
     },
     legendCloseButton: {
         flex: "0 1 auto",
