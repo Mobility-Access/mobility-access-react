@@ -16,10 +16,12 @@ export interface QuestionAnswer {
 
 const useStyles = makeStyles((theme) => ({
     answer: {
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        marginBottom: theme.spacing(1),
     },
     question: {
-        color: theme.palette.primary.main
+        color: theme.palette.primary.main,
+        marginBottom: theme.spacing(1),
     }
 }));
 

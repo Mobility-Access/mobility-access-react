@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
+import ListItem from "@material-ui/core/ListItem";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
@@ -391,10 +392,17 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     </div>
                 )}
                 <div className={classes.termsAndConditions}>
-                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />
-                    <Typography>
-                        {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
-                    </Typography>
+                    <ListItem
+                        button
+                        disableGutters={true}   
+                        onClick={handleTermsAndConditionsOpen}
+                    >
+                        <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />
+                        <Typography>
+                            {t("form_disability-terms-and-conditions-start")}<Link className={classes.link}>{t("form_disability-terms-and-conditions-end")}</Link>
+                        </Typography>
+                    </ListItem>
+                    
                     {/* <Button classes={{label: classes.termsAndConditionsButtonLabel}} className={classes.termsAndConditionsButton} onClick={handleTermsAndConditionsOpen} >
                         {t("form_disability-terms-and-conditions")}
                     </Button> */}
