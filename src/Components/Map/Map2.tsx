@@ -122,7 +122,6 @@ const styles = (theme: any) => createStyles({
     locationForm: {
         backgroundColor: "white",
         bottom: 0,
-        height: "25%",
         position: "absolute",
         width: "100%",
         zIndex: 3001

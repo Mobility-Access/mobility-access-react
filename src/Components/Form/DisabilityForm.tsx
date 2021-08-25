@@ -69,7 +69,8 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
     },
     link: {
-        color: Colors.contrastBrightBlue
+        color: Colors.contrastBrightBlue,
+        cursor: "pointer",
     },
     menuItem: {
         minHeight: minInputHeight,
@@ -392,16 +393,10 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     </div>
                 )}
                 <div className={classes.termsAndConditions}>
-                    <ListItem
-                        button
-                        disableGutters={true}   
-                        onClick={handleTermsAndConditionsOpen}
-                    >
-                        <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />
-                        <Typography>
-                            {t("form_disability-terms-and-conditions-start")}<Link className={classes.link}>{t("form_disability-terms-and-conditions-end")}</Link>
-                        </Typography>
-                    </ListItem>
+                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />                          
+                    <Typography>
+                        {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
+                    </Typography>
                     
                     {/* <Button classes={{label: classes.termsAndConditionsButtonLabel}} className={classes.termsAndConditionsButton} onClick={handleTermsAndConditionsOpen} >
                         {t("form_disability-terms-and-conditions")}

@@ -1,7 +1,8 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTranslation } from "react-i18next";
 import FormTitle from "./FormTitle";
 import Colors from "../../Colors";
@@ -56,12 +57,14 @@ const SuccessForm = (props: SuccessFormProps) => {
     const { reset } = { ...props };
     const { t } = useTranslation();
     const classes = useStyles();
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
 
     return (
         <>
             <FormTitle title="form_success-title" />
             <Typography className={classes.text}>
-                {t("form_success-description")}
+                { matches ? t("form_success-description") : t("form_success_description-mobile")}
             </Typography>
             <div className={classes.buttonBar}>
                 <Button
@@ -69,7 +72,7 @@ const SuccessForm = (props: SuccessFormProps) => {
                     color="primary"
                     onClick={reset}
                     variant="contained">
-                    {t("form_new-report")}
+                    { matches ? t("form_new-report") : t("form_common-close") }
                 </Button>
             </div>
         </>

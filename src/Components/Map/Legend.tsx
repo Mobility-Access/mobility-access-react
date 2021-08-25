@@ -6,8 +6,9 @@ import IconButton from "@material-ui/core/IconButton";
 import LayersIcon from "@material-ui/icons/Layers";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CloseIcon from "@material-ui/icons/Close";
 
 import { useTranslation } from "react-i18next";
@@ -123,7 +124,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Legend = React.forwardRef((props: LegendProps, ref: any) => {
     const { toggleLayer } = { ...props };
-    const [open, setOpen] = useState(true);
+    const theme = useTheme();
+    const matches = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
+    const [open, setOpen] = useState(matches);
     const classes = useStyles();
     const { t } = useTranslation();
     const [hazardVisible, setHazardVisible] = useState(true);

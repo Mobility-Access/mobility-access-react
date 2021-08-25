@@ -54,6 +54,9 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: "400px",
         "&:hover": {
             background: "#d5d5d5",
+        },
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "50%",
         }
     },
     listItemText: {
