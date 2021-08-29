@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import ArrowRight from "@material-ui/icons/ArrowRight";
 import Fade from "@material-ui/core/Fade/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
@@ -18,7 +16,6 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 import LanguageSelector from "./AppHeader/LanguageSelector";
-import LinkButton from "./AppHeader/LinkButton";
 import Colors from "../Colors";
 import Logo from "../images/logos/logo.png";
 
@@ -95,10 +92,6 @@ const Header = () => {
     const [languageMenuAnchorEl, setlanaguageMenuAnchorEl] = useState(null);
     const [tabValue, setTabValue] = useState(0);
     const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
-
-    const handleLanguageChange = (event: any) => {
-        setlanaguageMenuAnchorEl(event.target);
-    };
 
     const handleLanguageMenuClose = () => {
         setlanaguageMenuAnchorEl(null);
@@ -192,34 +185,6 @@ const Header = () => {
                     open={Boolean(anchorEl)}
                     TransitionComponent={Fade}
                 >
-                    {/* <div>
-                        <LinkButton
-                            label={t("map")}
-                            onClick={handleMenuClose}
-                            path="/"
-                        />
-                    </div>
-                    <div>
-                        <LinkButton
-                            label={t("common_about")}
-                            onClick={handleMenuClose}
-                            path="/about"
-                        />
-                    </div>
-                    <MenuItem
-                        component={Link}
-                        to="/"
-                    >
-                        Map
-                    </MenuItem>
-                    <MenuItem
-                        onClick={handleLanguageChange}
-                    >
-                        {"English"}
-                        <ListItemIcon>
-                            <ArrowRight />
-                        </ListItemIcon>
-                    </MenuItem> */}
                     <MenuItem
                         component={Link}
                         onClick={handleMenuClose}
@@ -227,13 +192,6 @@ const Header = () => {
                     >
                         {t("map")}
                     </MenuItem>
-                    {/* <Link className={classes.menuLink} to="/explore">
-                        <MenuItem
-                            onClick={handleMenuClose}
-                        >
-                            {t("explore")}
-                        </MenuItem>
-                    </Link> */}
                     <Link className={classes.menuLink} to="/about">
                         <MenuItem
                             onClick={handleMenuClose}
@@ -241,28 +199,6 @@ const Header = () => {
                             {t("common_about")}
                         </MenuItem>
                     </Link>
-                    {/* <Link className={classes.menuLink} to="/contact">
-                        <MenuItem
-                            onClick={handleMenuClose}
-                        >
-                            {t("contact")}
-                        </MenuItem>
-                    </Link> */}
-                    {/* <Link className={classes.menuLink} to="/help">
-                        <MenuItem
-                            onClick={handleMenuClose}
-                        >
-                            {t("help")}
-                        </MenuItem>
-                    </Link> */}
-                    {/* <MenuItem
-                        onClick={handleLanguageChange}
-                    >
-                        {"English"}
-                        <ListItemIcon>
-                            <ArrowRight />
-                        </ListItemIcon>
-                    </MenuItem> */}
                 </Menu>
             </Hidden>
         );

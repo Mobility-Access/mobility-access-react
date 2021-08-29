@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     question: {
         color: theme.palette.primary.main,
+        fontWeight: theme.typography.fontWeightBold,
         marginBottom: theme.spacing(1),
     }
 }));
@@ -33,9 +34,7 @@ const Faq = (props: FaqProps) => {
     return (
         <>
             <Typography className={classes.question} variant="body1">
-                <Box fontWeight="fontWeightBold">
-                    {t(`about_${qa.question}`)}
-                </Box>
+                {t(`about_${qa.question}`)}
             </Typography>
             <Typography className={classes.answer}>
                 {t(`about_${qa.answer}`)}

@@ -1,4 +1,4 @@
-import {Circle as CircleStyle, Fill, RegularShape, Stroke, Style} from 'ol/style';
+import { Fill, RegularShape, Stroke, Style } from 'ol/style';
 
 import Colors from "../../Colors";
 

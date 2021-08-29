@@ -14,6 +14,7 @@ const LogoFallback = () => {
             }}
         >
             <img
+                alt="Walk Roll Map logo"
                 src={logo}
                 style={{
                     height: 300,

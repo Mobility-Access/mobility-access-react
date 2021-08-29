@@ -174,7 +174,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
                                 color="primary"
                                 id="hazard"
                                 onChange={handleToggleVisibility}/>
-                            <img className={classes.legendMarker}  src={hazardMarker} />
+                            <img alt="hazard marker" className={classes.legendMarker}  src={hazardMarker} />
                             <div className={classes.legendText}>
                                 { t("legend_hazard") }
                             </div>
@@ -185,7 +185,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
                                 color="primary"
                                 id="amenity"
                                 onChange={handleToggleVisibility}/>
-                            <img className={classes.legendMarker}  src={amenityMarker} />
+                            <img alt="amenity marker" className={classes.legendMarker}  src={amenityMarker} />
                             <div className={classes.legendText}>
                                 { t("legend_amenity") }
                             </div>
@@ -196,7 +196,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
                                 color="primary"
                                 id="incident"
                                 onChange={handleToggleVisibility}/>
-                            <img className={classes.legendMarker}  src={incidentMarker} />
+                            <img alt="incident marker" className={classes.legendMarker}  src={incidentMarker} />
                             <div className={classes.legendText}>
                                 { t("legend_incident") }
                             </div>

@@ -21,13 +21,11 @@ import { AmenityFields } from "./Amenity/AmenityController";
 import FormTitle from "./FormTitle";
 import { HazardFields } from "./Hazard/HazardController";
 import { IncidentFields } from "./Incident/IncidentController";
-import { MicroBarrierFields } from "./MicroBarrier/MicroBarrierController";
-import { SafetyFields } from "./Safety/SafetyController";
 import Colors from "../../Colors";
 import { ChoiceItem, Gender, Identity } from "../../FormTypes";
 
 interface DemographicFormProps {
-    formData: AmenityFields | HazardFields | IncidentFields | MicroBarrierFields | SafetyFields;
+    formData: AmenityFields | HazardFields | IncidentFields;
     setFormData: Dispatch<SetStateAction<any>>;
     nextStep: () => void,
     prevStep: () => void,
@@ -108,7 +106,6 @@ const DemographicForm = (props: DemographicFormProps) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const [demographicOpen, setDemographicOpen] = useState(false);
-    const [demographicOpen2, setDemographicOpen2] = useState(false);
     const [identitySelectOpen, setIdentitySelectOpen] = useState(false);
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     const validationSchema = Yup.object({
@@ -176,10 +173,6 @@ const DemographicForm = (props: DemographicFormProps) => {
 
     const handleDemographicReasonClick = () => {
         setDemographicOpen(true)
-    };
-
-    const handleDemographicReason2Click = () => {
-        setDemographicOpen2(!demographicOpen2);
     };
 
     const handleGenderOpenChange = (event: any) => {

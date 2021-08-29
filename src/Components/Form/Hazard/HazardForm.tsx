@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Button from "@material-ui/core/Button";
 import ListSubheader from '@material-ui/core/ListSubheader';
 import MenuItem from "@material-ui/core/MenuItem";
@@ -200,13 +200,6 @@ const HazardForm = (props: HazardFormProps) => {
         formik.setFieldValue("date", value);
     };
 
-    const handleHazardSubtypeDetailSelect = (event: any) => {
-        // We never want an undefined value, so set to an empty string instead
-        const value = event.target.value || "";
-
-        formik.setFieldValue("hazardSubtypeDetail", value || "");
-    };
-
     const handleHazardSubtypeSelect = (event: any) => {
         // We never want an undefined value, so set to an empty string instead
         const value = event.target.value || "";
@@ -215,13 +208,6 @@ const HazardForm = (props: HazardFormProps) => {
         }
 
         formik.setFieldValue("hazardSubtype", value);
-
-        // Special case where there is no subtype detail for obstructions. 
-        // We have validation on the microBarrierSubtypeDetail field, so
-        // we have to set a value here.
-        // if (formik.values.microBarrierType === MicroBarrierType.Obstruction) {
-        //         formik.setFieldValue("microBarrierSubtypeDetail", value);
-        // }
     };
 
     const handleHazardTypeSelect = (event: any) => {
@@ -236,58 +222,6 @@ const HazardForm = (props: HazardFormProps) => {
     const handlePreviousClick = () => {
         setFormData(formData);
         prevStep();
-    };
-
-    const renderCrossingIssues = () => {
-        const crosswalkNeeded = hazardCrossingSubtypes[0];
-        const vehicleConflicts = hazardCrossingSubtypes.slice(1,4);
-        const yieldIssue = hazardCrossingSubtypes[4];
-        const pedestrianIssues = hazardCrossingSubtypes.slice(5, 10);
-        const remainder = hazardCrossingSubtypes.slice(9, 11);
-
-        return (
-            <>
-                <MenuItem className={classes.menuItem} key={crosswalkNeeded.key} value={crosswalkNeeded.key}>
-                    <Typography>
-                        {crosswalkNeeded.value}
-                    </Typography>
-                </MenuItem>
-                <ListSubheader className={classes.listSubHeader} key="vehicle-conflict-group">{t("form_hazard-vehicle-conflict-group")}</ListSubheader>
-                {vehicleConflicts.map((item) => {
-                    return (
-                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                            <Typography className={classes.listItem}>
-                                {item.value}
-                            </Typography>
-                        </MenuItem>
-                    )
-                })}
-                <MenuItem className={classes.menuItem} key={yieldIssue.key} value={yieldIssue.key}>
-                    <Typography>
-                        {yieldIssue.value}
-                    </Typography>
-                </MenuItem>
-                <ListSubheader className={classes.listSubHeader} key="signal-issues-group">{t("form_hazard-signal-issues-group")}</ListSubheader>
-                {pedestrianIssues.map((item) => {
-                    return (
-                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                            <Typography className={classes.listItem}>
-                                {item.value}
-                            </Typography>
-                        </MenuItem>
-                    )
-                })}
-                {remainder.map((item) => {
-                    return (
-                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                            <Typography>
-                                {item.value}
-                            </Typography>
-                        </MenuItem>
-                    )
-                })}
-            </>
-        );
     };
 
     const crossingCrosswalkNeeded = hazardCrossingSubtypes[0];

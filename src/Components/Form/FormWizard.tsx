@@ -13,8 +13,6 @@ import FormTitle from "./FormTitle";
 import AmenityController from "./Amenity/AmenityController";
 import HazardController from "./Hazard/HazardController";
 import IncidentController from "./Incident/IncidentController";
-import MicroBarrierController from "./MicroBarrier/MicroBarrierController";
-import SafetyController from "./Safety/SafetyController";
 import Colors from "../../Colors";
 import { ChoiceItem, ReportType } from "../../FormTypes";
 
@@ -24,7 +22,6 @@ interface FormWizardProps {
     clearFeaturePopup: () => void;
     newReportCoords: number[];    startMapClickListener: () => void;
     stopMapClickListener: () => void;
-    toggleDialog: () => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -76,14 +73,11 @@ const FormWizard = (props: FormWizardProps) => {
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener,
-        toggleDialog } = { ...props } ;
+        stopMapClickListener } = { ...props } ;
     const [type, setType] = useState<string | null>(null);
     const classes = useStyles();
     const { t } = useTranslation();
     const reportTypes: ChoiceItem[] = [
-        // { key: ReportType.MicroBarrier, value: "form_micro-barrier" },
-        // { key: ReportType.Safety, value: "form_concern" },
         { key: ReportType.Hazard, value: "form_report-type-hazard" },
         { key: ReportType.Amenity, value: "form_report_type-amenity" },
         { key: ReportType.Incident, value: "form_report_type-incident" }
@@ -109,14 +103,8 @@ const FormWizard = (props: FormWizardProps) => {
             case ReportType.Hazard: {
                 return renderHazardController();
             }
-            case ReportType.MicroBarrier: {
-                return renderMicroBarrierController();
-            }
             case ReportType.Incident: {
                 return renderIncidentController();
-            }
-            case ReportType.Safety: {
-                return renderSafetyController();
             }
             default: {
                 return renderReportSelection();
@@ -182,7 +170,7 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
-                toggleDialog={toggleDialog}/>
+            />
         )
     };
 
@@ -194,7 +182,7 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
-                toggleDialog={toggleDialog}/>
+            />
         )
     };
 
@@ -206,30 +194,8 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
-                toggleDialog={toggleDialog}/>
+            />
         )
-    };
-
-    const renderMicroBarrierController = () => {
-        return (
-            <MicroBarrierController
-                addNewFeature={addNewFeature}
-                cancelOrComplete={handleCancelorComplete}
-                newReportCoords={newReportCoords}
-                startMapClickListener={startMapClickListener}
-                stopMapClickListener={stopMapClickListener}
-                toggleDialog={toggleDialog}/>
-        );
-    };
-
-    const renderSafetyController = () => {
-        return <SafetyController
-            addNewFeature={addNewFeature}
-            cancelOrComplete={handleCancelorComplete}
-            newReportCoords={newReportCoords}
-            startMapClickListener={startMapClickListener}
-            stopMapClickListener={stopMapClickListener}
-            toggleDialog={toggleDialog}/>
     };
 
     return (

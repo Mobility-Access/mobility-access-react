@@ -1,11 +1,8 @@
 import React, { createRef } from "react"
 import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
 import Dialog from "@material-ui/core/Dialog";
-import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import "./Map.css";
@@ -19,13 +16,12 @@ import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
 import { fromLonLat } from "ol/proj"
-import {Circle as CircleStyle, Fill, Icon, RegularShape, Stroke, Style} from "ol/style";
+import {Circle as CircleStyle, Fill, Icon, Stroke, Style} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
 import Overlay from "ol/Overlay";
 import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
-import Zoom from "ol/control/Zoom";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
 import { withTranslation } from "react-i18next";
@@ -39,19 +35,13 @@ import CancelDialog from "../Form/CancelDialog";
 import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
 import { GetHazardFeatureCollection } from "../Form/Hazard/HazardService"; 
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
-import { GetMicroBarrierFeatureCollection } from "../Form/MicroBarrier/MicroBarrierService";
-import { GetSafetyFeatureCollection } from "../Form/Safety/SafetyService";
-import { IncidentType, MicroBarrierType } from "../../FormTypes";
 
 import Legend from "./Legend";
-import Legend2 from "./Legend2";
 import Popup, { PopupContentItem } from "./Popup";
 import Colors from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
-import barrierMarker from "../../images/icons/amenity_marker.svg";
 import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
-import safetyMarker from "../../images/icons/safety_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
@@ -69,13 +59,11 @@ interface MapState {
     markers: Feature[];
     markerLayer: VectorLayer;
     markerSource: VectorSource;
-    microBarrierSource: VectorSource;
     mobileLocationVisible: boolean;
     newReportButtonVisible: boolean;
     open: boolean;
     popupContentItems: PopupContentItem[];
     reportCoords: Coordinate;
-    safetySource: VectorSource;
     snackbarOpen: boolean;
 }
 
@@ -182,9 +170,9 @@ const styles = (theme: any) => createStyles({
     },
 });
 
-interface Map2Props extends WithStyles<typeof styles> {}
+interface MapProps extends WithStyles<typeof styles> {}
 
-class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
+class Map extends React.Component<MapProps & {t: any}, MapState> {
     map!: OLMap;
     mapDiv: any;
     positionFeature: Feature;
@@ -194,12 +182,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     wrapper: React.RefObject<any>;
     popover!: Overlay;
     popupContainer: React.RefObject<any>;
-
-    // Feature layer sources
-    amenityFeatures: Feature[] = [];
-    microBarrierFeatures: Feature[] = [];
-    incidentFeatures: Feature[] = [];
-    safetyFeatures: Feature[] = [];
 
     // Feature layers
     amenityLayer!: VectorLayer;
@@ -223,13 +205,11 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             markers: [],
             markerLayer: new VectorLayer(),
             markerSource: new VectorSource(),
-            microBarrierSource: new VectorSource(),
             mobileLocationVisible: false,
             newReportButtonVisible: true,
             open: true,
             popupContentItems: [],
             reportCoords: [],
-            safetySource: new VectorSource(),
             snackbarOpen: false,
         };
 
@@ -254,7 +234,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         this.hideFeaturePopupOverlay = this.hideFeaturePopupOverlay.bind(this);
         this.renderFormWizard = this.renderFormWizard.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
-        // this.toggleDialog = this.toggleDialog.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
     }
 
@@ -336,8 +315,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     addFeatureLayers() {
         this.addAmenityFeatureLayer();
         this.addHazardFeatureLayer();
-        // this.addMicroBarrierFeatureLayer();
-        // this.addSafetyFeatureLayer();
         this.addIncidentFeatureLayer();
     }
 
@@ -371,21 +348,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         });
     }
 
-    async addMicroBarrierFeatureLayer() {
-        const barrierFeatureCollection = await GetMicroBarrierFeatureCollection() || {
-            type: "FeatureCollection",
-            features: []
-        };
-
-        this.state.microBarrierSource.addFeatures(new GeoJSON().readFeatures(barrierFeatureCollection));
-
-        const barrierLayer = new VectorLayer({
-            map: this.map,
-            source: this.state.microBarrierSource,
-            style: this.getMarkerStyle(ReportType.MicroBarrier)
-        });
-    }
-
     async addIncidentFeatureLayer() {
         const incidentFeatureCollection = await GetIncidentFeatureCollection() || {
             type: "FeatureCollection",
@@ -398,21 +360,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
             map: this.map,
             source: this.state.incidentSource,
             style: this.getMarkerStyle(ReportType.Incident)
-        });
-    }
-
-    async addSafetyFeatureLayer() {
-        const safetyFeatureCollection = await GetSafetyFeatureCollection() || [{
-            type: "FeatureCollection",
-            features: []
-        }];
-
-        this.state.safetySource.addFeatures(new GeoJSON().readFeatures(safetyFeatureCollection));
-
-        const safetyLayer = new VectorLayer({
-            map: this.map,
-            source: this.state.safetySource,
-            style: this.getMarkerStyle(ReportType.Safety)
         });
     }
 
@@ -446,12 +393,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                 break;
             case ReportType.Incident:
                 marker = incidentMarker;
-                break;
-            case ReportType.MicroBarrier:
-                marker = barrierMarker;
-                break;
-            case ReportType.Safety:
-                marker = safetyMarker;
                 break;
             default:
                 marker = reportMarker;
@@ -507,33 +448,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                     value: `${capitalizeFirst(incidentType)} - ${capitalizeFirst(incidentWith)}`
                 });
                 break;
-            case ReportType.MicroBarrier:
-                const microbarrierType = feature.get("barrier_type");
-                const microbarrierSubtype = feature.get("barrier_subtype");
-
-                items.push({
-                    key: t("popup_microbarrier"),
-                    value: `${capitalizeFirst(microbarrierType)} - ${capitalizeFirst(microbarrierSubtype)}`
-                });
-
-                if (microbarrierType === MicroBarrierType.Infrastructure) {
-
-                    const infrastructureDetail = feature.get("barrier_detail");
-                    items.push({
-                        key: t("popup_microbarrier-infrastructure-detail"),
-                        value: capitalizeFirst(infrastructureDetail)
-                    });
-                }
-                break;
-            case ReportType.Safety:
-                const concernType = feature.get("concern_type");
-                const concernWith = feature.get("concern_with");
-
-                items.push({
-                    key: t("popup_concern"),
-                    value: `${capitalizeFirst(concernType)} - ${capitalizeFirst(concernWith)}`
-                });
-            break;
         }
 
 
@@ -588,12 +502,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                 break;
             case ReportType.Incident:
                 this.state.incidentSource.addFeature(feature);
-                break;
-            case ReportType.MicroBarrier:
-                this.state.microBarrierSource.addFeature(feature);
-                break;
-            case ReportType.Safety:
-                this.state.safetySource.addFeature(feature);
                 break;
             default:
                 console.log("Invalid ReportType detected, unable to add new feature to the map."); 
@@ -713,18 +621,12 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
         this.setState({reportCoords: newCoords});
     }
 
-    toggleDialog() {
-        console.log("Toggling");
-    }
-
     updatePositionFromGeolocation(position: any) {
         if (position && position.coords) {
             const { latitude, longitude } = position.coords;
             const coords = fromLonLat([longitude, latitude]);
             this.map.getView().setCenter(coords);
             this.map.getView().setZoom(15);
-
-            console.log(coords);
 
             this.positionFeature.setGeometry(coords ? new Point(coords) : undefined);
             this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
@@ -747,28 +649,8 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                             newReportCoords={this.state.reportCoords}
                             cancelOrComplete={this.handleCancelOrComplete}
                             startMapClickListener={this.enableMapClickListener}
-                            stopMapClickListener={this.disableMapClickListener}
-                            toggleDialog={this.toggleDialog} />
+                            stopMapClickListener={this.disableMapClickListener} />
                     </div>
-                    {/* <Drawer
-                        anchor="left"
-                        classes={{
-                            paper: "drawerPaper"
-                        }}
-                        className="drawer"
-                        open={this.state.open}
-                        variant="persistent"
-                    >
-                        <Toolbar />
-                        <FormWizard
-                            addNewFeature={this.handleAddNewFeature}
-                            clearFeaturePopup={this.hideFeaturePopupOverlay}
-                            newReportCoords={this.state.reportCoords}
-                            cancelOrComplete={this.handleCancelOrComplete}
-                            startMapClickListener={this.enableMapClickListener}
-                            stopMapClickListener={this.disableMapClickListener}
-                            toggleDialog={this.toggleDialog} />
-                    </Drawer> */}
                 </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
                     <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult}/>
@@ -777,7 +659,6 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                     <Hidden mdUp>
                         { this.state.newReportButtonVisible && (
                             <>
-                                {/* <Button className={classes.newReportButton} color="secondary" onClick={this.handleMobileNewReportClick} variant="contained">{ t("form_new-report") }</Button>     */}
                                 <Button className={classes.newReportButton2} color="secondary" onClick={this.handleMobileNewReportClick} variant="contained">{ t("form_new-report") }</Button>
                             </>
                         )}
@@ -828,23 +709,13 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
                                 newReportCoords={this.state.reportCoords}
                                 startMapClickListener={this.enableMapClickListener}
                                 stopMapClickListener={this.disableMapClickListener}
-                                toggleDialog={this.toggleDialog} />
+                            />
                         </Dialog>
                         <CancelDialog 
                             handleConfirmNo={this.handleConfirmNo}
                             handleConfirmYes={this.handleConfirmYes}
                             open={this.state.cancelDialogOpen}
                         />
-                        {/* { this.state.mobileLocationVisible && ( 
-                            <Button
-                                classes={{ root: classes.mobileLocation}}
-                                color="secondary"
-
-                                onClick={this.handleNewMobileMarker}
-                                variant="contained">
-                                {t("form_location-description-mobile")}
-                            </Button>
-                        )} */}
                     </Hidden>
                 </div>
             </div>
@@ -852,4 +723,4 @@ class Map2 extends React.Component<Map2Props & {t: any}, MapState> {
     }
 }
 
-export default withStyles(styles, {withTheme: true})(withTranslation()(Map2));
+export default withStyles(styles, {withTheme: true})(withTranslation()(Map));
