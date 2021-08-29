@@ -57,22 +57,6 @@ export enum Amenity {
     Other = "other",
 }
 
-export enum AmenityOld {
-    Sidewalk = "sidewalk",
-    Crosswalk = "crosswalk",
-    Signal = "signal",
-    StopSign = "stop-sign",
-    Benches = "benches",
-    Washroom = "washroom",
-    Lighting = "lighting",
-    Transit = "transit",
-    Signs = "signs",
-    Connections = "connections",
-    Shade = "shade",
-    Plants = "plants",
-    Other = "other",
-}
-
 export enum Disability {
     Yes = "yes",
     No = "no",
@@ -220,83 +204,6 @@ export enum IncidentType {
     Fall = "fall",
 }
 
-export enum MicroBarrierEnvironmentalSubtype {
-    Snow = "snow",
-    Ice = "ice",
-    Puddles = "puddles or splash zone",
-    Vegetation = "vegetation",
-    Other = "other",
-}
-
-export enum MicroBarrierInfrastructureCrossingSubtype {
-    Missing = "crosswalk is missing",
-    DangerousDrivers = "crosswalk dangerous - drivers",
-    DangerousVolume = "crosswalk dangerous - vehicle high volume",
-    DangerousSpeed = "crosswalk dangerous - vehicle high speeds",
-    DangerousVisibility = "crosswalk dangerous - poor visibliity of pedestrians",
-    WaitTime = "long wait time to cross",
-    Other = "other",
-}
-
-export enum MicroBarrierInfrastructureIntersectionSubtype {
-    CurbCutMissing = "curb cut - missing",
-    CurbCutDesign = "curb cut - poor design",
-    TrafficShortSignal = "traffic signal - short pedestrian interval",
-    TrafficSignalNotAudible = "traffic signal - needs audible",
-    TrafficSignalButtonAccess = "traffic signal - push button difficult access",
-    VehicleConflictLeft = "conflict left turning vehicle",
-    VehicleConflictRight = "conflict right turning vehicle",
-    VehicleConflictRightRed = "conflict right turning vehicle on red",
-    Visibility = "poor visibility of pedestrians",
-    Other = "other",
-}
-
-export enum MicroBarrierInfrastructureSidewalkType {
-    Narrow = "too narrow",
-    TripRoots = "tripping hazard - buckling pavement roots",
-    TripUneven = "tripping hazard - uneven",
-    TripHolesCracks = "tripping hazard - holes cracks",
-    Uncomfortable = "uncomfortable surface",
-    Driveway = "driveway slope issue",
-    Other = "other",
-}
-
-export enum MicroBarrierInfrastructureSubtype {
-    Sidewalk = "sidewalk",
-    Crossing = "crossing",
-    Intersection = "intersection",
-}
-
-export enum MicroBarrierObstructionFixedSubtype {
-    Bollard = "bollard",
-    Pole = "pole",
-    Mailbox = "mailbox",
-    BikeRack = "bike rack",
-    BusShelter = "bus shelter",
-    Other = "other"
-}
-
-export enum MicroBarrierObstructionSubtype {
-    Fixed = "fixed",
-    Transient = "transient",
-}
-
-export enum MicroBarrierObstructionTransientSubtype {
-    Sandwich = "sandwich board",
-    BicycleParking = "parked bicycle or scooter",
-    Trash = "garbage or recycling bins",
-    Vehicle = "parked vehicle or delivery van",
-    ConstructionUnsafe = "construction inadequate or missing pedestrian detour",
-    ConstructionSigns = "construction signs blocking sidewalk",
-    Other = "other"
-}
-
-export enum MicroBarrierType {
-    Infrastructure = "infrastructure",
-    Obstruction = "obstruction",
-    Environmental = "environmental",
-}
-
 export enum Mobility {
     Yes = "yes",
     No = "no",
@@ -317,45 +224,4 @@ export enum ReportType {
     Amenity = "amenity",
     Hazard = "hazard-concern",
     Incident = "incident",
-    MicroBarrier = "barrier",
-    Safety = "safety",
 };
-
-export enum SafetyType {
-    VehicleTraffic = "vehicle traffic",
-    PersonalSafety = "personal safety",
-    OtherUsers = "other path users",
-    PoorAesthetics = "poor aesthetics",
-}
-
-export enum SafetyOtherUsersSubtype {
-    Bicycles = "bicycles",
-    Dogs = "dogs",
-    EScooters = "e-scooters",
-    Mobility = "mobility scooters or electric wheelchairs",
-    Other = "other",
-    OtherWheeled = "roller blades skateboards kick scooters",
-}
-
-export enum SafetyPoorAestheticsSubtype {
-    BlankWall = "blank wall",
-    Litter = "litter",
-    Maintenance = "unmaintained infrastructure or vegetation",
-    Other = "other",
-}
-
-export enum SafetyPersonalSafetySubtype {
-    DeadEnds = "dead ends",
-    Gathering = "gathering of unknown people",
-    Harrassment = "harrassment or unwanted attention",
-    Lighting = "inadequate lighting",
-    Other = "other",
-}
-
-export enum SafetyVehicleTrafficSubtype {
-    Exhaust = "exhaust",
-    Noise = "noise",
-    Other = "other",
-    Speed = "speed",
-    Volume = "volume",
-}

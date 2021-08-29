@@ -25,7 +25,6 @@ interface IncidentControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
-    toggleDialog: () => void;
 }
 
 const initialState: IncidentFields = {
@@ -55,8 +54,7 @@ const IncidentController = (props: IncidentControllerProps) => {
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener,
-        toggleDialog } = { ...props };
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
 
     // If a location for the report was passed in, use that for the intial state
@@ -123,7 +121,6 @@ const IncidentController = (props: IncidentControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
-                        toggleDialog={toggleDialog}
                     />
                 )
             }

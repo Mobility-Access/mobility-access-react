@@ -23,7 +23,6 @@ interface HazardControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
-    toggleDialog: () => void;
 }
 
 const initialState: HazardFields = {
@@ -52,8 +51,7 @@ const HazardController = (props: HazardControllerProps) => {
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener,
-        toggleDialog } = { ...props };
+        stopMapClickListener } = { ...props };
     const [open, setOpen] = useState(false);
 
     // If a location for the report was passed in, use that for the intial state
@@ -120,7 +118,6 @@ const HazardController = (props: HazardControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
-                        toggleDialog={toggleDialog}
                     />
                 );
             }
