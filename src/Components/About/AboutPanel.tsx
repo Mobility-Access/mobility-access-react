@@ -17,6 +17,8 @@ import Colors from "../../Colors";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
+        height: "calc(100vh - 64px)",
+        overflowY: "scroll",
     },
     aboutPaper: {
         backgroundColor: fade(Colors.gray, 0.1),
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     subHeading: {
+        color: theme.palette.primary.main,
         marginBottom: theme.spacing(2),
     },
     supporterLogo: {
@@ -60,7 +63,11 @@ const AboutPanel = () => {
                         {t("common_about")}
                     </Typography>
                     <Typography className={classes.aboutDescription} variant="h5">
-                        {t("about_description")}
+                        <div>{t("about_description1")}</div>
+                        <br></br>
+                        <div>{t("about_description2")}</div>
+                        <br></br>
+                        <div>{t("about_description3")}</div>
                     </Typography>
                 </Paper>
             </AboutGrid>

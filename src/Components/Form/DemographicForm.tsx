@@ -5,6 +5,7 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -240,7 +241,8 @@ const DemographicForm = (props: DemographicFormProps) => {
     return (
         <>
             <FormTitle title="form_demographics" />
-            <MenuItem
+            <ListItem
+                button
                 className={classes.demographicQuestion}
                 disableGutters={true}
                 key="demographicQuestion"
@@ -252,7 +254,7 @@ const DemographicForm = (props: DemographicFormProps) => {
                 <ListItemIcon className={classes.iconContainer}>
                     <NavigateNext className={classes.icon}/>
                 </ListItemIcon>   
-            </MenuItem>
+            </ListItem>
             <form className={classes.demographicForm} noValidate onSubmit={formik.handleSubmit}>
                 <div>
                     <Typography>

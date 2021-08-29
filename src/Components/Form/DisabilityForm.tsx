@@ -6,6 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Link from "@material-ui/core/Link";
+import ListItem from "@material-ui/core/ListItem";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField"
@@ -61,11 +62,15 @@ const useStyles = makeStyles((theme) => ({
             borderColor: Colors.contrastRed
         },
     },
+    error: {
+        marginTop: theme.spacing(1),
+    },
     input: {
         marginTop: theme.spacing(1),
     },
     link: {
-        color: Colors.contrastBrightBlue
+        color: Colors.contrastBrightBlue,
+        cursor: "pointer",
     },
     menuItem: {
         minHeight: minInputHeight,
@@ -97,6 +102,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     const { cancel, formData, nextStep, prevStep, submit, setFormData  } = { ...props };
     const { t } = useTranslation();
     const [accept, setAccept] = useState(false);
+    const [error, setError] = useState(false);
     const [open, setOpen] = useState(false);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
@@ -192,6 +198,10 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     };
 
     const handleSubmit = () => {
+        if (!accept) {
+            setError(true);
+            return;
+        }
         formik.handleSubmit();
         setFormData(formik.values);
         submit(formik.values);
@@ -223,7 +233,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
     return (
         <>
             <FormTitle title="form_disability_title" />
-            <form className={classes.disabilityForm} noValidate onSubmit={formik.handleSubmit}>
+            <form className={classes.disabilityForm} noValidate>
                 <div className={classes.question}>
                     <Typography>
                         {t("form_disability-question")}
@@ -383,10 +393,11 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     </div>
                 )}
                 <div className={classes.termsAndConditions}>
-                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />
+                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />                          
                     <Typography>
                         {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
                     </Typography>
+                    
                     {/* <Button classes={{label: classes.termsAndConditionsButtonLabel}} className={classes.termsAndConditionsButton} onClick={handleTermsAndConditionsOpen} >
                         {t("form_disability-terms-and-conditions")}
                     </Button> */}
@@ -396,7 +407,13 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                         </Typography>
                     </MenuItem> */}
                 </div>
-                
+                {
+                    error && !accept && (
+                        <Typography className={classes.error} color="error">
+                            {t("form_demographic-required")}
+                        </Typography>
+                    )
+                }
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}
@@ -414,8 +431,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     <Button
                         className={classes.buttonBarButton}
                         color="primary"
-                        disabled={!accept}
-                        type="submit"
+                        onClick={handleSubmit}
                         variant="contained">
                         {t("form_submit")}
                     </Button>

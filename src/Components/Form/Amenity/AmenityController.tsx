@@ -77,6 +77,11 @@ const AmenityController = (props: AmenityControllerProps) => {
     };
 
     const prevStep = () => {
+        if (step === 1) {
+            setFormData(initialState);
+            cancelOrComplete();
+            return;
+        }
         setStep(prev => prev - 1);
     };
 
@@ -101,17 +106,6 @@ const AmenityController = (props: AmenityControllerProps) => {
         switch (step) {
             case 1: {
                 return (
-                    <AmenityForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
-            }
-            case 2: {
-                return (
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
@@ -122,6 +116,17 @@ const AmenityController = (props: AmenityControllerProps) => {
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
                         toggleDialog={toggleDialog}
+                    />
+                );
+            }
+            case 2: {
+                return (
+                    <AmenityForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
                     />
                 );
             }

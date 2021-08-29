@@ -81,6 +81,12 @@ const HazardController = (props: HazardControllerProps) => {
     };
 
     const prevStep = () => {
+        if (step === 1) {
+            setFormData(initialState);
+            cancelOrComplete();
+            return;
+        }
+        
         setStep(prev => prev - 1);
     };
 
@@ -105,17 +111,6 @@ const HazardController = (props: HazardControllerProps) => {
         switch (step) {
             case 1: {
                 return (
-                    <HazardForm
-                        cancel={handleCancelClick}
-                        formData={formData}
-                        nextStep={nextStep}
-                        prevStep={prevStep}
-                        setFormData={setMyData}
-                    />
-                );
-            }
-            case 2: {
-                return (
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
@@ -126,6 +121,17 @@ const HazardController = (props: HazardControllerProps) => {
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
                         toggleDialog={toggleDialog}
+                    />
+                );
+            }
+            case 2: {
+                return (
+                    <HazardForm
+                        cancel={handleCancelClick}
+                        formData={formData}
+                        nextStep={nextStep}
+                        prevStep={prevStep}
+                        setFormData={setMyData}
                     />
                 );
             }

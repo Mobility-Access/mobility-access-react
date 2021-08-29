@@ -34,7 +34,7 @@ const CancelDialog = (props: CancelDialogProps) => {
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus color="primary" onClick={handleConfirmNo}>
+                <Button color="primary" onClick={handleConfirmNo}>
                     {t("form_no")}
                 </Button>
                 <Button color="primary" onClick={handleConfirmYes}>

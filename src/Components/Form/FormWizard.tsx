@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
+import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import NavigateNext from "@material-ui/icons/NavigateNext";
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     icon: {
         color: theme.palette.primary.main,
     },
-    menuItem: {
+    listItem: {
         minHeight: 64,
     },
     reportQuestion: {
@@ -152,10 +152,11 @@ const FormWizard = (props: FormWizardProps) => {
         return (
             reportTypes.map(
                 (item) => (
-                    <MenuItem
-                        className={classes.menuItem}
+                    <ListItem
+                        button
+                        className={classes.listItem}
                         key={item.key}
-                            onClick={() => handleReportTypeClick(item.key)}
+                        onClick={() => handleReportTypeClick(item.key)}
                     >
                         <Typography className={classes.choiceLabel}>
                             {t(item.value)}
@@ -163,7 +164,7 @@ const FormWizard = (props: FormWizardProps) => {
                         <ListItemIcon>
                             <NavigateNext className={classes.icon}/>
                         </ListItemIcon>   
-                    </MenuItem>
+                    </ListItem>
                 )
             )
         );
