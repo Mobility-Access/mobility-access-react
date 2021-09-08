@@ -3,13 +3,6 @@ import phac_img from "../../images/supporters/phac.png";
 import ucsb_img from "../../images/supporters/ucsb.png";
 import uvic_img from "../../images/supporters/uvic.jpg";
 
-const acart  = {
-    name: "acart",
-    alt: "Acart logo",
-    img: acart_img,
-    url: "https://acart.com/"
-};
-
 const phac  = {
     name: "phac",
     alt: "Public Health Agency of Canada logo",
@@ -31,6 +24,6 @@ const uvic = {
     url: "https://www.uvic.ca/"
 };
 
-const Supporters = [phac, ucsb, uvic, acart];
+const Supporters = [phac, ucsb, uvic];
 
 export default Supporters;
