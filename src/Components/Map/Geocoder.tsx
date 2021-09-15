@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import Collapse from "@material-ui/core/Collapse";
 import Fab from "@material-ui/core/Fab";
@@ -8,6 +8,8 @@ import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import SearchIcon from "@material-ui/icons/Search";
+
+import debounce from "lodash.debounce";
 
 import { Coordinate } from "ol/coordinate";
 import { fromLonLat } from "ol/proj"
@@ -40,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
 
     },
     collapse: {
-        height: height
+        height: height,
+        [theme.breakpoints.down('sm')]: {
+            maxWidth: "50%",
+        }
     },
     input: {
         background: "white",
@@ -87,32 +92,17 @@ const Geocoder = (props: GeocoderProps) => {
         setInputOpen(!inputOpen);
     };
 
-    const handleChange = (event: any) => {
-        setValue(event.target.value);
-    };
-
     const handleGeocodeResultClick = (item: GeocodeResultItem) => {
         if (item && item.coords && item.coords.length) {
             setGeocodeResult([]);
             setInputOpen(false);
+            setValue("");
             handleGeocodeResult && handleGeocodeResult(item.coords);
         }
     };
 
-    const handleKeyDown = (event: any) => {
-        if (event.keyCode === 13 && value) {
-            performGeocode();
-        }
-
-        // If the user is deleting text and we already have results,
-        // assume a new search and clear the results
-        if (event.keyCode === 8 && geocodeResult && geocodeResult.length) {
-            setGeocodeResult([]);
-        }
-    };
-
-    const performGeocode = async () => {
-        const url = `${GeocoderUrl}?q=${value}&limit=5&format=json`;
+    const performGeocode = async (val: string) => {
+        const url = `${GeocoderUrl}?q=${val}&limit=5&format=json`;
         const response = await fetch(url);
 
         if (response.ok) {
@@ -123,6 +113,18 @@ const Geocoder = (props: GeocoderProps) => {
             console.log(`An error occurred while processing your request: ${response.status} - ${response.statusText}`);
         }
     };
+
+        const handleChange = (event: any) => {
+        setValue(event.target.value);
+
+        if (event.target.value.length > 2) {
+            handleChangeWithDebounce(event.target.value)
+        }
+    };
+
+    const handleChangeWithDebounce = useCallback(
+        debounce((val: string) => performGeocode(val), 300), []
+    );
 
     const processResults = (json: any) => {
         if (json && json.length) {
@@ -158,7 +160,6 @@ const Geocoder = (props: GeocoderProps) => {
                             InputProps={{classes: {input: classes.input}}}
                             inputRef={input => input && input.focus()}
                             onChange={handleChange}
-                            onKeyDown={handleKeyDown}
                             placeholder={t("geocoder-search")}
                             value={value}
                             variant="outlined" />
