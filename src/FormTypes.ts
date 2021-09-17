@@ -34,7 +34,8 @@ export interface AmenityFeature {
 
 export interface FeatureCollection {
     type: "FeatureCollection",
-    features: AmenityFeature[]
+    features: AmenityFeature[],
+    totalCount: number,
 }
 
 // Enums

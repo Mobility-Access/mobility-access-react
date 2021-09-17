@@ -60,7 +60,8 @@ export const GetAmenityFeatureCollection = async (): Promise<FeatureCollection> 
         console.log(`An error occurred while fetching the Amenity features: ${response.status} - ${response.statusText}`);
         return {
             type: "FeatureCollection",
-            features: []
+            features: [],
+            totalCount: 0,
         };
     }
 };
