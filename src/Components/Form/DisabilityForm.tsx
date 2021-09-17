@@ -192,7 +192,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
             setError(true);
             return;
         }
-        formik.handleSubmit();
+        // formik.handleSubmit();
         setFormData(formik.values);
         submit(formik.values);
     }

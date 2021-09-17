@@ -5,18 +5,18 @@ import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-import "./Map.css";
 import { Coordinate } from "ol/coordinate";
-import Feature from "ol/Feature";
+import {boundingExtent} from 'ol/extent';
+import Feature, { FeatureLike } from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import Point from "ol/geom/Point";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
-import { Vector as VectorSource } from 'ol/source';
+import { Cluster, Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
 import { fromLonLat } from "ol/proj"
-import {Circle as CircleStyle, Fill, Icon, Stroke, Style} from "ol/style";
+import {Circle as CircleStyle, Fill, Icon, Stroke, Style, Text} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
 import Overlay from "ol/Overlay";
@@ -38,7 +38,7 @@ import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 
 import Legend from "./Legend";
 import Popup, { PopupContentItem } from "./Popup";
-import Colors from "../../Colors";
+import Colors, { MarkerColor } from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
 import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
@@ -47,11 +47,14 @@ import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
 
 interface MapState {
+    amenityClusterSource: Cluster
     amenitySource: VectorSource;
     cancelDialogOpen: boolean;
     dialogOpen: boolean;
     dialogVisible: boolean;
+    hazardClusterSource: Cluster;
     hazardSource: VectorSource;
+    incidentClusterSource: Cluster;
     incidentSource: VectorSource;
     legendVisible: boolean;
     legendVisible2: boolean;
@@ -182,6 +185,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     wrapper: React.RefObject<any>;
     popover!: Overlay;
     popupContainer: React.RefObject<any>;
+    styleCache: any;
 
     // Feature layers
     amenityLayer!: VectorLayer;
@@ -193,11 +197,14 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.positionFeature = new Feature();
         this.accuracyFeature = new Feature();
         this.state = {
+            amenityClusterSource: new Cluster({}),
             amenitySource: new VectorSource(),
             cancelDialogOpen: false,
             dialogOpen: false,
             dialogVisible: true,
+            hazardClusterSource: new Cluster({}),
             hazardSource: new VectorSource(),
+            incidentClusterSource: new Cluster({}),
             incidentSource: new VectorSource(),
             legendVisible: false,
             legendVisible2: false,
@@ -264,6 +271,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             })}),
         );
 
+        this.styleCache = {
+            "amenity": {},
+            "hazard-concern": {},
+            "incident": {}
+        };
+
         this.addFeatureLayers();
 
         new VectorLayer({
@@ -312,6 +325,25 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.map.updateSize();
     }
 
+    getClusterSourceStyle(feature: FeatureLike, reportType: ReportType) {
+        const features = feature.get("features");
+        if (!features || features.length === 0) {
+            return undefined;
+        }
+        const size = feature.get("features").length;
+        let style: any = this.styleCache[reportType][size] as any;
+        if (!style) {
+            if (size === 1) {
+                style = this.getMarkerStyle(reportType);
+            }
+            else {
+                style = this.getMarkerClusterStyle(reportType, size);
+            }
+        }
+        this.styleCache[reportType][size] = style;
+        return style;
+    }
+
     addFeatureLayers() {
         this.addAmenityFeatureLayer();
         this.addHazardFeatureLayer();
@@ -326,10 +358,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.state.amenitySource.addFeatures(new GeoJSON().readFeatures(amenityFeatureCollection));
 
+        this.state.amenityClusterSource.setSource(this.state.amenitySource);
+
         this.amenityLayer = new VectorLayer({
             map: this.map,
-            source: this.state.amenitySource,
-            style: this.getMarkerStyle(ReportType.Amenity)
+            source: this.state.amenityClusterSource,
+            style: (feature: FeatureLike) => this.getClusterSourceStyle(feature, ReportType.Amenity)
         });
     }
 
@@ -341,10 +375,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.state.hazardSource.addFeatures(new GeoJSON().readFeatures(hazardFeatureCollection));
 
+        this.state.hazardClusterSource.setSource(this.state.hazardSource);
+
         this.hazardLayer = new VectorLayer({
             map: this.map,
-            source: this.state.hazardSource,
-            style: this.getMarkerStyle(ReportType.Hazard)
+            source: this.state.hazardClusterSource,
+            style: (feature: FeatureLike) => this.getClusterSourceStyle(feature, ReportType.Hazard)
         });
     }
 
@@ -356,10 +392,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.state.incidentSource.addFeatures(new GeoJSON().readFeatures(incidentFeatureCollection));
 
+        this.state.incidentClusterSource.setSource(this.state.incidentSource);
+
         this.incidentLayer = new VectorLayer({
             map: this.map,
-            source: this.state.incidentSource,
-            style: this.getMarkerStyle(ReportType.Incident)
+            source: this.state.incidentClusterSource,
+            style: (feature: FeatureLike) => this.getClusterSourceStyle(feature, ReportType.Incident)
         });
     }
 
@@ -381,6 +419,47 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         // Start listening for map click for new report marker
         this.map.on("singleclick", this.handleMapClick);
     };
+
+    getMarkerClusterStyle(reportType: string, size: number) {
+        let color;
+        switch (reportType) {
+            case ReportType.Amenity:
+                color = MarkerColor.amenity;
+                break;
+            case ReportType.Hazard:
+                color = MarkerColor.hazard;
+                break;
+            case ReportType.Incident:
+                color = MarkerColor.incident;
+                break;
+            default:
+                color = "#ffffff";
+        }
+
+        const style = new Style({
+            image: new CircleStyle({
+                radius: 18,
+                stroke: new Stroke({
+                    color: color,
+                }),
+                fill: new Fill({
+                    color: color,
+                })
+            }),
+            text: new Text({
+                text: size.toString(),
+                fill: new Fill({
+                    color: Colors.primary
+                }),
+                scale: 1.25,
+                stroke: new Stroke({
+                    width: 0.5
+                })
+            })
+        });
+
+        return style;
+    }
 
     getMarkerStyle(reportType?: string) {
         let marker;
@@ -408,7 +487,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         });
     };
 
-    getPopupContentItems(feature: any): PopupContentItem[] {
+    getPopupContentItems(clusterFeature: any): PopupContentItem[] {
         const capitalizeFirst = (str: string) => {
             if (str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
@@ -417,12 +496,14 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             }
         };
 
-        if (!feature) {
+        if (!clusterFeature || !clusterFeature.get("features") || clusterFeature.get("features").length === 0) {
             return [];
         }
 
         const items: PopupContentItem[] = [];
         const t = this.props.t;
+
+        const feature = clusterFeature.get("features")[0];
 
         switch (feature.get("type")) {
             case ReportType.Amenity:
@@ -532,17 +613,36 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             return feature;
         });
 
-        if (feature) {
-            const geometry = feature.getGeometry() as Point;
-
-            if (!geometry) {
-                return;
+        const isCluster = (feature: FeatureLike) => {
+            if (!feature || !feature.get("features")) {
+                return false;
             }
 
-            const coords = geometry.getCoordinates();
-            const items = this.getPopupContentItems(feature);
-            this.setState({popupContentItems: items});
-            this.popover.setPosition(coords);
+            return feature.get("features").length > 1;
+        };
+
+        if (feature) {
+            if (isCluster(feature)) {
+                const features = feature.get("features");
+                const extent = boundingExtent(
+                    features.map((r: any) => r.getGeometry().getCoordinates())
+                );
+                if (extent) {
+                    this.map.getView().fit(extent, {duration: 1000, padding: [100, 100, 100, 100]});
+                }
+            }
+            else {
+                const geometry = feature.getGeometry() as Point;
+
+                if (!geometry) {
+                    return;
+                }
+    
+                const coords = geometry.getCoordinates();
+                const items = this.getPopupContentItems(feature);
+                this.setState({popupContentItems: items});
+                this.popover.setPosition(coords);
+            }
         } else {
             this.popover.setPosition(undefined);
         }
@@ -595,13 +695,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     handleToggleLayerVisibliity(layerId: string, visible: boolean) {
         switch (layerId) {
             case "hazard":
-                this.hazardLayer.setSource(visible ? this.state.hazardSource : new VectorSource());
+                this.hazardLayer.setSource(visible ? this.state.hazardClusterSource : new VectorSource());
                 break;
             case "amenity":
-                this.amenityLayer.setSource(visible ? this.state.amenitySource : new VectorSource());
+                this.amenityLayer.setSource(visible ? this.state.amenityClusterSource : new VectorSource());
                 break;
             case "incident":
-                this.incidentLayer.setSource(visible ? this.state.incidentSource : new VectorSource());
+                this.incidentLayer.setSource(visible ? this.state.incidentClusterSource : new VectorSource());
                 break;
         }
     }
