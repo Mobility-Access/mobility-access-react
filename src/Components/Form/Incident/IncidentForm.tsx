@@ -82,7 +82,8 @@ const useStyles = makeStyles((theme) => ({
         minHeight: minInputHeight,
         '&.Mui-selected': {
             borderLeft: `6px solid ${Colors.contrast}`
-        }
+        },
+        whiteSpace: "normal",
     },
     question: {
         marginTop: theme.spacing(4),
@@ -209,7 +210,7 @@ const IncidentForm = (props: IncidentFormProps) => {
     const renderHitByOrNearmissSubtypes = () => {
         const items = [];
 
-        items.push(<ListSubheader className={classes.listSubHeader} key="vehicle-group">{t("form_incident-vehicle")}</ListSubheader>);
+        items.push(<ListSubheader className={classes.listSubHeader} disableSticky={true} key="vehicle-group">{t("form_incident-vehicle")}</ListSubheader>);
 
         for (let i = 0; i < incidentHitByOrNearmissSubtypes.length; i++ ) {
             // eslint-disable-next-line

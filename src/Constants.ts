@@ -4,3 +4,4 @@ export const GeocoderUrl = "https://nominatim.openstreetmap.org/search";
 export const AmenityUrl = `${ApiUrl}/amenity`;
 export const HazardUrl = `${ApiUrl}/hazard`;
 export const IncidentUrl = `${ApiUrl}/incident`;
+

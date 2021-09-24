@@ -8,5 +8,11 @@ const Colors = {
     olButton: "#6690B9",
 };
 
+export const MarkerColor = {
+    amenity: "#407EC9AA",
+    hazard: "#FFC845AA",
+    incident: "#F8485EAA"
+};
+
 
 export default Colors;
