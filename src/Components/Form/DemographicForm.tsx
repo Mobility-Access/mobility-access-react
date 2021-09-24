@@ -91,7 +91,8 @@ const useStyles = makeStyles((theme) => ({
         minHeight: minInputHeight,
         '&.Mui-selected': {
             borderLeft: `6px solid ${Colors.contrast}`
-        }
+        },
+        whiteSpace: "normal"
     },
     multiSelect: {
         minHeight: minInputHeight,

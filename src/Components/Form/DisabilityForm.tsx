@@ -68,7 +68,8 @@ const useStyles = makeStyles((theme) => ({
         minHeight: minInputHeight,
         '&.Mui-selected': {
             borderLeft: `6px solid ${Colors.contrast}`
-        }
+        },
+        whiteSpace: "normal",
     },
     question: {
         marginTop: theme.spacing(4),
@@ -123,6 +124,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         { key: DisabilityType.Mobility, value: t("form_demographic_disability_type_mobility") },
         { key: DisabilityType.Cognitive, value: t("form_demographic_disability_type_cognitive") },
         { key: DisabilityType.Other, value: t("form_common-other") },
+        { key: DisabilityType.NoResponse, value: t("form_demographic_disability_no-response") },
     ];
     const mobilityTypes: ChoiceItem[] = [
         { key: Mobility.Yes, value: t("form_demographic_mobility-yes") },

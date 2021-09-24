@@ -83,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
         minHeight: minInputHeight,
         '&.Mui-selected': {
             borderLeft: `6px solid ${Colors.contrast}`
-        }
+        },
+        whiteSpace: "normal",
     },
     option: {
         marginLeft: theme.spacing(1),
@@ -333,7 +334,7 @@ const HazardForm = (props: HazardFormProps) => {
                                     {crossingCrosswalkNeeded.value}
                                 </Typography>
                             </MenuItem>
-                            <ListSubheader className={classes.listSubHeader} key="vehicle-conflict-group">{t("form_hazard-vehicle-conflict-group")}</ListSubheader>
+                            <ListSubheader className={classes.listSubHeader} disableSticky={true} key="vehicle-conflict-group">{t("form_hazard-vehicle-conflict-group")}</ListSubheader>
                             {crossingVehicleConflicts.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
@@ -348,7 +349,7 @@ const HazardForm = (props: HazardFormProps) => {
                                     {crossingYieldIssue.value}
                                 </Typography>
                             </MenuItem>
-                            <ListSubheader className={classes.listSubHeader} key="signal-issues-group">{t("form_hazard-signal-issues-group")}</ListSubheader>
+                            <ListSubheader className={classes.listSubHeader} disableSticky={true} key="signal-issues-group">{t("form_hazard-signal-issues-group")}</ListSubheader>
                             {crossingPedestrianIssues.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>

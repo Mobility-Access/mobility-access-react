@@ -108,7 +108,7 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
                     <Typography>
-                        {t("form_common-describe")}
+                        {t("form_incident-describe")}
                     </Typography>
                     <TextField
                         className={classes.input}
@@ -125,7 +125,7 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
                     >
                     </TextField>
                 </div>
-                <div className={classes.question}>
+                {/* <div className={classes.question}>
                     <Typography>
                         {t("form_common-suggested-solution")}
                     </Typography>
@@ -143,7 +143,7 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
                         helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
                     >
                     </TextField>
-                </div>
+                </div> */}
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}

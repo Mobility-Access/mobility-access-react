@@ -69,6 +69,7 @@ export enum DisabilityType {
     Mobility = "mobility",
     Cognitive = "cognitive",
     Other = "other",
+    NoResponse = "no response",
 }
 
 export enum Gender {

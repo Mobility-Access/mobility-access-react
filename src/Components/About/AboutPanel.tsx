@@ -27,8 +27,13 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(5),
     },
     aboutDescription: {
+        fontSize: "1.25rem",
         marginBottom: theme.spacing(3),
         marginTop: theme.spacing(3),
+    },
+    aboutTitle: {
+        fontSize: "3rem",
+        fontWeight: 500
     },
     sectionBody: {
         marginBottom: theme.spacing(3),
@@ -59,10 +64,10 @@ const AboutPanel = () => {
         return (
             <AboutGrid>
                 <Paper className={classes.aboutPaper} variant="outlined">
-                    <Typography variant="h2">
+                    <Typography className={classes.aboutTitle}>
                         {t("common_about")}
                     </Typography>
-                    <Typography className={classes.aboutDescription} variant="h5">
+                    <Typography className={classes.aboutDescription}>
                         <div>{t("about_description1")}</div>
                         <br></br>
                         <div>{t("about_description2")}</div>

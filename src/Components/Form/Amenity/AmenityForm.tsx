@@ -67,7 +67,8 @@ const useStyles = makeStyles((theme) => ({
         minHeight: minInputHeight,
         '&.Mui-selected': {
             borderLeft: `6px solid ${Colors.contrast}`
-        }
+        },
+        whiteSpace: "normal",
     },
     question: {
         marginTop: theme.spacing(4),
@@ -186,7 +187,7 @@ const AmenityForm = (props: AmenityProps) => {
                     >
                     </TextField>
                 </div>
-                <div className={classes.question}>
+                {/* <div className={classes.question}>
                     <Typography>
                         {t("form_common-suggested-solution")}
                     </Typography>
@@ -204,7 +205,7 @@ const AmenityForm = (props: AmenityProps) => {
                         helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
                     >
                     </TextField>
-                </div>
+                </div> */}
                 <div className={classes.question}>
                     <Typography>
                         {t("form_amenity-date")}

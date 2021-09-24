@@ -11,6 +11,7 @@ import Feature, { FeatureLike } from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import Point from "ol/geom/Point";
+import PinchRotate from "ol/interaction/PinchRotate";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
 import { Cluster, Vector as VectorSource } from 'ol/source';
@@ -24,6 +25,7 @@ import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
+import { withRouter } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 
 import FormWizard from "../Form/FormWizard";
@@ -37,6 +39,7 @@ import { GetHazardFeatureCollection } from "../Form/Hazard/HazardService";
 import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 
 import Legend from "./Legend";
+import NavigationWarning from "./NavigationWarning";
 import Popup, { PopupContentItem } from "./Popup";
 import Colors, { MarkerColor } from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
@@ -63,6 +66,7 @@ interface MapState {
     markerLayer: VectorLayer;
     markerSource: VectorSource;
     mobileLocationVisible: boolean;
+    navigationWarning: boolean;
     newReportButtonVisible: boolean;
     open: boolean;
     popupContentItems: PopupContentItem[];
@@ -186,6 +190,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     popover!: Overlay;
     popupContainer: React.RefObject<any>;
     styleCache: any;
+    _isMounted: boolean;
 
     // Feature layers
     amenityLayer!: VectorLayer;
@@ -194,17 +199,18 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
     constructor(props: any) {
         super(props);
+        this._isMounted = false;
         this.positionFeature = new Feature();
         this.accuracyFeature = new Feature();
         this.state = {
-            amenityClusterSource: new Cluster({}),
+            amenityClusterSource: new Cluster({ distance: 40 }),
             amenitySource: new VectorSource(),
             cancelDialogOpen: false,
             dialogOpen: false,
             dialogVisible: true,
-            hazardClusterSource: new Cluster({}),
+            hazardClusterSource: new Cluster({ distance: 40 }),
             hazardSource: new VectorSource(),
-            incidentClusterSource: new Cluster({}),
+            incidentClusterSource: new Cluster({ distance: 40 }),
             incidentSource: new VectorSource(),
             legendVisible: false,
             legendVisible2: false,
@@ -213,6 +219,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             markerLayer: new VectorLayer(),
             markerSource: new VectorSource(),
             mobileLocationVisible: false,
+            navigationWarning: true, 
             newReportButtonVisible: true,
             open: true,
             popupContentItems: [],
@@ -242,9 +249,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.renderFormWizard = this.renderFormWizard.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
+        // this.handleBackButton = this.handleBackButton.bind(this);
+        // this.handleCancelNavigation = this.handleCancelNavigation.bind(this);
+        // this.handleConfirmNavigation = this.handleConfirmNavigation.bind(this);
     }
 
     componentDidMount() {
+        this._isMounted = true;
         this.map = new OLMap({
             layers: [
                 new TileLayer({
@@ -256,6 +267,14 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 zoom: 13,
             }),
         });
+
+        const interactions = this.map.getInteractions().getArray();
+        if (interactions) {
+            const pinchRotateInteraction = interactions.filter((i) => { return i instanceof PinchRotate });
+            if (pinchRotateInteraction && pinchRotateInteraction.length) {
+                pinchRotateInteraction[0].setActive(false);
+            }
+        }
 
         this.positionFeature.setStyle(
             new Style({
@@ -322,8 +341,38 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         // Start listening for clicks on features for popups
         this.map.on("singleclick", this.handleFeatureClick);
 
+        // if (window.history) {
+        //     window.history.pushState("nohb", "", "");
+        //     window.addEventListener("popstate", this.handleBackButton);
+
+        // }
+
         this.map.updateSize();
     }
+
+    // componentWillUnmount() {
+    //     window.removeEventListener("popstate", this.handleBackButton);
+    // }
+
+    // handleBackButton() {
+    //     if (this.state.reportCoords && this.state.reportCoords.length) {
+    //         console.log("Report is unfinished");
+    //         this.setState({ navigationWarning: true });
+    //     }
+    //     else {
+    //         window.history.back();
+    //     }
+    // }
+
+    // handleCancelNavigation() {
+    //     this.setState({ navigationWarning: false });
+    //     window.history.pushState("nohb", "", "");
+    // }
+
+    // handleConfirmNavigation() {
+    //     this.setState({ navigationWarning: false });
+    //     window.history.back();
+    // }
 
     getClusterSourceStyle(feature: FeatureLike, reportType: ReportType) {
         const features = feature.get("features");
@@ -717,7 +766,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     setReportCoords(coords: Coordinate) {
-        let newCoords = coords || [];
+        const newCoords = coords || [];
         this.setState({reportCoords: newCoords});
     }
 
@@ -816,6 +865,11 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                             handleConfirmYes={this.handleConfirmYes}
                             open={this.state.cancelDialogOpen}
                         />
+                        {/* <NavigationWarning
+                            handleConfirmNo={this.handleCancelNavigation}
+                            handleConfirmYes={this.handleConfirmNavigation}
+                            open={this.state.navigationWarning}
+                        /> */}
                     </Hidden>
                 </div>
             </div>

@@ -51,6 +51,10 @@ const useStyles = makeStyles((theme) => ({
     logo: {
         height: 56,
         marginRight: theme.spacing(3),
+        [theme.breakpoints.down("sm")]: {
+            height: 48,
+            marginRight: theme.spacing(2),
+        },
     },
     menuButton: {
         color: theme.palette.primary.main,
@@ -72,8 +76,10 @@ const useStyles = makeStyles((theme) => ({
     title: {
         [theme.breakpoints.down("md")]: {
             flexGrow: 1,
+            fontSize: "1.25em",
         },
         color: theme.palette.primary.main,
+        fontSize: "2em",
         fontWeight: "bold"
     }
 }));
@@ -234,16 +240,15 @@ const Header = () => {
                 color="secondary"
                 position="fixed" >
                 <Toolbar>
-                    { currentLanguage.key === "en" && (
-                        <img
-                            alt="Walk Roll Map logo"
-                            className={classes.logo}
-                            src={Logo}
-                        />
-                    )}
-                    <Typography className={classes.title} variant="h4">
-                        {t("site-name")}
+                    <img
+                        alt="Walk Roll Map logo"
+                        className={classes.logo}
+                        src={Logo}
+                    />
+                    <Typography className={classes.title} >
+                            {t("site-name")}
                     </Typography>
+
                     {renderTabs()}
                     {renderLanguageMenu()}
                     {renderSecondaryNav()}
