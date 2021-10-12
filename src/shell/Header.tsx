@@ -173,7 +173,7 @@ const Header = () => {
     const renderSecondaryNavAsList = () => {
         return (
             <Hidden mdUp>
-                <LanguageSelector languages={languages} />
+                {/* <LanguageSelector languages={languages} /> */}
                 <IconButton
                     aria-controls="app-bar-secondary-navigation-menu"
                     aria-haspopup="true"
@@ -251,7 +251,7 @@ const Header = () => {
 
                     {renderTabs()}
                     {renderLanguageMenu()}
-                    {renderSecondaryNav()}
+                    {/* {renderSecondaryNav()} */}
                     {renderSecondaryNavAsList()}
                 </Toolbar>
             </AppBar>
