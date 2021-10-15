@@ -775,7 +775,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             const { latitude, longitude } = position.coords;
             const coords = fromLonLat([longitude, latitude]);
             this.map.getView().setCenter(coords);
-            this.map.getView().setZoom(15);
+            this.map.getView().setZoom(13);
 
             this.positionFeature.setGeometry(coords ? new Point(coords) : undefined);
             this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
