@@ -47,7 +47,18 @@ import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
-import { ReportType } from "../../FormTypes";
+import { AmenityTypes,
+    HazardConcernSubtypes,
+    HazardCrossingSubtypes,
+    HazardSidewalkSubtypes,
+    HazardWeatherSeasonalSubtypes,
+    HazardType,
+    HazardTypes,
+    IncidentFallSubtypes,
+    IncidentHitByOrNearmissSubtypes,
+    IncidentType,
+    IncidentTypes,
+    ReportType } from "../../FormTypes";
 
 interface MapState {
     amenityClusterSource: Cluster
@@ -556,27 +567,49 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         switch (feature.get("type")) {
             case ReportType.Amenity:
-                const amenityType = feature.get("amenity_type");
-                items.push({
-                    key: t("popup_missing-amenity"),
-                    value: capitalizeFirst(amenityType)
-                });
+                const amenityTypeKey = feature.get("amenity_type");
+                const amenityType = AmenityTypes.find(x => x.key === amenityTypeKey);
+                if (amenityType) {
+                    items.push({
+                        key: t("popup_missing-amenity"),
+                        value: capitalizeFirst(t(amenityType.value))
+                    });
+                }
                 break;
             case ReportType.Hazard:
-                const hazardType = feature.get("hazard_type");
-                const hazardSubtype = feature.get("hazard_subtype");
-                items.push({
-                    key: t("popup_hazard"),
-                    value: `${capitalizeFirst(hazardType)} - ${capitalizeFirst(hazardSubtype)}`
-                });
+                const hazardTypeKey = feature.get("hazard_type");
+                const hazardSubtypeKey = feature.get("hazard_subtype");
+                const hazardType = HazardTypes.find(x => x.key === hazardTypeKey);
+
+                if (hazardType) {
+                    const hazardSubtype = this.getHazardSubtype(hazardType.key, hazardSubtypeKey);
+
+                    if (hazardSubtype) {
+                        items.push({
+                            key: t("popup_hazard"),
+                            value: `${capitalizeFirst(t(hazardType.value))} - ${capitalizeFirst(t(hazardSubtype.value))}`
+                        });
+                    }
+                }
+                
+                
                 break;
             case ReportType.Incident:
-                const incidentType = feature.get("incident_type");
-                const incidentWith = feature.get("incident_with");
-                items.push({
-                    key: t("popup_incident"),
-                    value: `${capitalizeFirst(incidentType)} - ${capitalizeFirst(incidentWith)}`
-                });
+                const incidentTypeKey = feature.get("incident_type");
+                const incidentSubtypeKey = feature.get("incident_with");
+                const incidentType = IncidentTypes.find(x => x.key === incidentTypeKey);
+
+                if (incidentType) {
+                    const incidentSubtype = this.getIncidentWith(incidentType.key, incidentSubtypeKey);
+
+                    if (incidentSubtype) {
+                        items.push({
+                            key: t("popup_incident"),
+                            value: `${capitalizeFirst(t(incidentType.value))} - ${capitalizeFirst(t(incidentSubtype.value))}`
+                        });
+                    }
+                }
+
                 break;
         }
 
@@ -616,6 +649,33 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         }
 
         return items;
+    }
+
+    getHazardSubtype(hazardTypeKey: string, hazardSubtypeKey: string) {
+        switch (hazardTypeKey) {
+            case HazardType.Concern:
+                return HazardConcernSubtypes.find(x => x.key === hazardSubtypeKey);
+            case HazardType.Crossing:
+                return HazardCrossingSubtypes.find(x => x.key === hazardSubtypeKey);
+            case HazardType.Sidewalk:
+                return HazardSidewalkSubtypes.find(x => x.key === hazardSubtypeKey);
+            case HazardType.WeatherSeasonal:
+                return HazardWeatherSeasonalSubtypes.find(x => x.key === hazardSubtypeKey);
+            default:
+                return undefined;
+        }
+    }
+
+    getIncidentWith(incidentTypeKey: string, incidentSubtypeKey: string) {
+        switch (incidentTypeKey) {
+            case IncidentType.Fall:
+                return IncidentFallSubtypes.find(x => x.key === incidentSubtypeKey);
+            case IncidentType.HitBy:
+            case IncidentType.NearMiss:
+                return IncidentHitByOrNearmissSubtypes.find(x => x.key === incidentSubtypeKey);
+            default:
+                return undefined;
+        }
     }
 
     handleAddNewFeature(reportType: ReportType, geojson: any) {
