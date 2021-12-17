@@ -35,7 +35,7 @@ const ContentContainer = () => {
             <Route path="/contact"><ContactPanel /></Route>
             <Route path="/explore"><ExplorationPanel /></Route>
             <Route path="/help"><HelpPanel /></Route>
-            <Route path="/admin"><Admin /></Route>
+            <Route path="/reports"><Admin /></Route>
             <Route path="/amenity/:id"><AmenityAdmin /></Route>
         </div>
     )
