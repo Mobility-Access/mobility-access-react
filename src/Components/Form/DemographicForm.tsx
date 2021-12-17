@@ -32,7 +32,7 @@ interface DemographicFormProps {
     cancel: () => void,
 }
 
-interface NumberItem {
+export interface NumberItem {
     key: number;
     value: number;
 }
@@ -281,21 +281,21 @@ const DemographicForm = (props: DemographicFormProps) => {
                 </div>
                 { formik.values.gender === Gender.Other && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_demographic_gender-question-other")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="gender-self-description"
-                        name="gender-self-description"
-                        value={formik.values.genderOpen}
-                        onChange={handleGenderOpenChange}
-                        error={formik.touched.genderOpen && Boolean(formik.errors.genderOpen)}
-                        helperText={formik.touched.genderOpen && formik.errors.genderOpen}
-                        variant="outlined"
-                    />
-                </div>
+                        <Typography>
+                            {t("form_demographic_gender-question-other")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="gender-self-description"
+                            name="gender-self-description"
+                            value={formik.values.genderOpen}
+                            onChange={handleGenderOpenChange}
+                            error={formik.touched.genderOpen && Boolean(formik.errors.genderOpen)}
+                            helperText={formik.touched.genderOpen && formik.errors.genderOpen}
+                            variant="outlined"
+                        />
+                    </div>
                 )}
                 <div className={classes.question}>
                     <Typography>
@@ -349,7 +349,7 @@ const DemographicForm = (props: DemographicFormProps) => {
                         </Button>
                     </TextField>
                 </div>
-                { formik.values.identity.includes(Gender.Other) && (
+                { formik.values.identity.includes(Identity.Other) && (
                     <div className={classes.question}>
                     <Typography>
                         {t("form_demographic_identity-question-other")}

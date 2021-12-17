@@ -253,131 +253,131 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                 </div>
                 { formik.values.disability === Disability.Yes && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability-type-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="disability-type"
-                        name="disability-type"
-                        select
-                        value={formik.values.disabilityType}
-                        onChange={handleDisabilityTypeSelect}
-                        error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
-                        helperText={formik.touched.disabilityType && formik.errors.disabilityType}
-                        variant="outlined"
-                    >
-                        {
-                            disabilityTypeTypes.map((item) => {
-                                return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
-                                            {item.value}
-                                        </Typography>
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </TextField>
-                </div>
+                        <Typography>
+                            {t("form_disability-type-question")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="disability-type"
+                            name="disability-type"
+                            select
+                            value={formik.values.disabilityType}
+                            onChange={handleDisabilityTypeSelect}
+                            error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
+                            helperText={formik.touched.disabilityType && formik.errors.disabilityType}
+                            variant="outlined"
+                        >
+                            {
+                                disabilityTypeTypes.map((item) => {
+                                    return (
+                                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                            <Typography>
+                                                {item.value}
+                                            </Typography>
+                                        </MenuItem>
+                                    )
+                                })
+                            }
+                        </TextField>
+                    </div>
                 )}
                 { formik.values.disabilityType === DisabilityType.Other && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability_disability-type-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="disability-type-description"
-                        name="disability-type-description"
-                        value={formik.values.disabilityTypeOpen}
-                        onChange={handleDisabilityTypeOpenChange}
-                        error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
-                        helperText={formik.touched.disabilityType && formik.errors.disabilityType}
-                        variant="outlined"
-                    />
+                        <Typography>
+                            {t("form_disability_disability-type-question")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="disability-type-description"
+                            name="disability-type-description"
+                            value={formik.values.disabilityTypeOpen}
+                            onChange={handleDisabilityTypeOpenChange}
+                            error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
+                            helperText={formik.touched.disabilityType && formik.errors.disabilityType}
+                            variant="outlined"
+                        />
                     </div>
                 )}
                 { formik.values.disability === Disability.Yes && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability-mobility-aid-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="mobility-aid"
-                        name="mobility-aid"
-                        select
-                        value={formik.values.mobilityAid}
-                        onChange={handleMobilityAidSelect}
-                        error={formik.touched.mobilityAid && Boolean(formik.errors.mobilityAid)}
-                        helperText={formik.touched.mobilityAid && formik.errors.mobilityAid}
-                        variant="outlined"
-                    >
-                        {
-                            mobilityTypes.map((item) => {
-                                return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
-                                            {item.value}
-                                        </Typography>
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </TextField>
-                </div>
+                        <Typography>
+                            {t("form_disability-mobility-aid-question")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="mobility-aid"
+                            name="mobility-aid"
+                            select
+                            value={formik.values.mobilityAid}
+                            onChange={handleMobilityAidSelect}
+                            error={formik.touched.mobilityAid && Boolean(formik.errors.mobilityAid)}
+                            helperText={formik.touched.mobilityAid && formik.errors.mobilityAid}
+                            variant="outlined"
+                        >
+                            {
+                                mobilityTypes.map((item) => {
+                                    return (
+                                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                            <Typography>
+                                                {item.value}
+                                            </Typography>
+                                        </MenuItem>
+                                    )
+                                })
+                            }
+                        </TextField>
+                    </div>
                 )}
                 { formik.values.mobilityAid === Mobility.Yes && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability-mobility-aid-type-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="mobility-aid-type"
-                        name="mobility-aid-type"
-                        select
-                        value={formik.values.mobilityAidType}
-                        onChange={handleMobilityAidTypeSelect}
-                        error={formik.touched.mobilityAidType && Boolean(formik.errors.mobilityAidType)}
-                        helperText={formik.touched.mobilityAidType && formik.errors.mobilityAidType}
-                        variant="outlined"
-                    >
-                        {
-                            mobilityAidTypes.map((item) => {
-                                return (
-                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
-                                        <Typography>
-                                            {item.value}
-                                        </Typography>
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </TextField>
-                </div>
+                        <Typography>
+                            {t("form_disability-mobility-aid-type-question")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="mobility-aid-type"
+                            name="mobility-aid-type"
+                            select
+                            value={formik.values.mobilityAidType}
+                            onChange={handleMobilityAidTypeSelect}
+                            error={formik.touched.mobilityAidType && Boolean(formik.errors.mobilityAidType)}
+                            helperText={formik.touched.mobilityAidType && formik.errors.mobilityAidType}
+                            variant="outlined"
+                        >
+                            {
+                                mobilityAidTypes.map((item) => {
+                                    return (
+                                        <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                            <Typography>
+                                                {item.value}
+                                            </Typography>
+                                        </MenuItem>
+                                    )
+                                })
+                            }
+                        </TextField>
+                    </div>
                 )}
                 { formik.values.mobilityAidType === MobilityAid.Other && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability_mobility-aid-type-other-question")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="mobility-aid-type-other-description"
-                        name="mobility-aid-type-other-description"
-                        value={formik.values.mobilityAidTypeOpen}
-                        onChange={handleMobilityAidTypeOpenChange}
-                        error={formik.touched.mobilityAidTypeOpen && Boolean(formik.errors.mobilityAidTypeOpen)}
-                        helperText={formik.touched.mobilityAidTypeOpen && formik.errors.mobilityAidTypeOpen}
-                        variant="outlined"
-                    />
+                        <Typography>
+                            {t("form_disability_mobility-aid-type-other-question")}
+                        </Typography>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="mobility-aid-type-other-description"
+                            name="mobility-aid-type-other-description"
+                            value={formik.values.mobilityAidTypeOpen}
+                            onChange={handleMobilityAidTypeOpenChange}
+                            error={formik.touched.mobilityAidTypeOpen && Boolean(formik.errors.mobilityAidTypeOpen)}
+                            helperText={formik.touched.mobilityAidTypeOpen && formik.errors.mobilityAidTypeOpen}
+                            variant="outlined"
+                        />
                     </div>
                 )}
                 <div className={classes.termsAndConditions}>

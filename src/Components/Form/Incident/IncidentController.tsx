@@ -28,7 +28,7 @@ interface IncidentControllerProps {
 }
 
 const initialState: IncidentFields = {
-    birthYear: -1,
+    birthYear: '',
     date: new Date(),
     description: "",
     disability: "",

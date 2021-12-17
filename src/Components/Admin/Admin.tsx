@@ -17,16 +17,14 @@ import TableRow from "@material-ui/core/TableRow";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
-import FirstPageIcon from "@material-ui/icons/FirstPage";
-import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
-import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
-import LastPageIcon from "@material-ui/icons/LastPage";
+import { Link } from "react-router-dom";
 
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
-import { GetPoints } from "../../Services/AdminServices";
+import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
-import { AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
+import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
 import { getLocalDateFromUtcMilliseconds } from "../../utilities";
+import { TextField } from "@material-ui/core";
 
 interface Category {
     display: string;
@@ -40,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
     deleteButton: {
         borderColor: Colors.contrastRed,
         color: Colors.contrastRed,
-        minWidth: 90,
+        minWidth: 75,
         '&:hover': {
             borderColor: Colors.contrastRed
-        }
+        },
     },
     drawer: {
         width: drawerWidth,
@@ -51,6 +49,18 @@ const useStyles = makeStyles((theme) => ({
     },
     drawerPaper: {
         width: drawerWidth,
+    },
+    editButton: {
+        marginRight: "5px",
+        minWidth: 75,
+    },
+    filterButton: {
+        marginLeft: theme.spacing(1),
+        minWidth: 90,
+    },
+    filterContainer: {
+        display: "flex",
+        marginBottom: theme.spacing(5),
     },
     headerRow: {
         fontWeight: theme.typography.fontWeightBold,
@@ -79,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
 
 const categories = [
     {
-        display: "All Points",
+        display: "All Reports",
         type: "point",
         url: PointUrl
     },
@@ -108,7 +118,7 @@ const columns = [
     },
     {
         id: "type",
-        label: "ReportType",
+        label: "Report Type",
         minWidth: "200px"
     },
     {
@@ -132,24 +142,69 @@ const Admin = () => {
     const classes = useStyles();
     const [category, setCategory] = useState<Category>(categories[0]);
     const [count, setCount] = useState(0);
+    const [filterId, setFilterId] = useState("");
     const [open, setOpen] = useState(false);
     const [page, setPage] = useState(0);
     const [rows, setRows] = useState<any[]>([]);
+    const [visibleRows, setVisibleRows] = useState<any[]>([]);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [rowToDelete, setRowToDelete] = useState(0);
+    const [showFooter, setShowFooter] = useState(true);
 
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const handleCancelDelete = () => {
+        setRowToDelete(0);
         setOpen(false);
     };
 
-    const handleConfirmDelete = () => {
-        console.log("Item deleted");
+    const handleClearFilter = () => {
+        setFilterId("");
+        setVisibleRows(rows);
+        setShowFooter(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        const row = rows.find((row: any) => row.properties.id === rowToDelete);
+        if (row) {
+            const type = row.properties.type === "hazard-concern" ? "hazard": row.properties.type;
+            const url = `${AdminUrl}/${type}/${rowToDelete}`;
+            const result = await DeletePoint(url);
+
+            if (result.success) {
+                setCount(count - 1);
+            } else {
+                console.log(`An error occurred while trying to delete report with ID: ${rowToDelete}.`);
+            }   
+        }
+        setRowToDelete(0);
         setOpen(false);
     };
 
-    const handleDelete = (id: number, type: string) => {
+    const handleDelete = (id: number) => {
+        setRowToDelete(id);
         setOpen(true);
+    };
+
+    const handleFilterById = () => {
+        if (!filterId) {
+            handleClearFilter();
+            return;
+        }
+
+        const row = rows.find((row: any) => row.properties.id === parseInt(filterId));
+
+        if (row) {
+            setVisibleRows([row]);
+        } else {
+            setVisibleRows([]);
+        }
+
+        setShowFooter(false);
+    };
+
+    const handleFilterIdChange = (event: any) => {
+        setFilterId(event.target.value);
     };
 
     const handlePageChange = (event: any, newPage: number) => {
@@ -162,47 +217,52 @@ const Admin = () => {
     
     const handleSelection = (item: Category) => {
         setCategory(item);
+        setPage(0);
     };
 
     const renderTable = () => {
         return (
-            <TableContainer> 
-                <Table size="small" stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            { columns.map((column) => (
-                                <TableCell
-                                    className={classes.headerRow}
-                                    key={column.id}
-                                    style={{ minWidth: column.minWidth}}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
+            <div>
+                <TableContainer> 
+                    <Table size="small" stickyHeader>
+                        <TableHead>
+                            <TableRow>
+                                { columns.map((column) => (
+                                    <TableCell
+                                        className={classes.headerRow}
+                                        key={column.id}
+                                        style={{ minWidth: column.minWidth}}
+                                    >
+                                        {column.label}
+                                    </TableCell>
+                                ))}
 
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        { rows.map((item) => (
-                            <TableReportRow handleDelete={handleDelete} key={item.id} row={item.properties} />
-                        ))}
-                    </TableBody>
-                    <TableFooter>
-                        <TableRow>
-                            <TablePagination
-                                ActionsComponent={CustomTablePaginationActions}
-                                colSpan={columns.length}
-                                count={count}
-                                onPageChange={handlePageChange}
-                                onRowsPerPageChange={handleRowsPerPageChange}
-                                page={page}
-                                rowsPerPage={rowsPerPage}
-                                rowsPerPageOptions={[10, 25, 50, 100]}
-                            />
-                        </TableRow>
-                    </TableFooter>
-                </Table>
-            </TableContainer>
+                            </TableRow>
+                        </TableHead>
+                        { visibleRows.length > 0 && (
+                            <TableBody>
+                                { visibleRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
+                                    <TableReportRow handleDelete={handleDelete} key={item.id} row={item.properties} />
+                                ))}
+                            </TableBody>
+                        )}
+                        {showFooter && ( 
+                            <TableFooter>
+                                <TableRow>
+                                <TablePagination
+                                    count={count}
+                                    onChangePage={handlePageChange}
+                                    onChangeRowsPerPage={handleRowsPerPageChange}
+                                    page={page}
+                                    rowsPerPage={rowsPerPage}
+                                    rowsPerPageOptions={[10, 25, 50, 100]}
+                                />
+                                </TableRow>
+                            </TableFooter>
+                        )}
+                    </Table>
+                </TableContainer>
+            </div>
         );
     };
 
@@ -211,9 +271,10 @@ const Admin = () => {
             const results  = await GetPoints(category.url, page + 1, rowsPerPage);
             const data = results.features;
             setRows(data);
+            setVisibleRows(rows);
             setCount(results.totalCount);
         })()
-    }, [category, page, rowsPerPage]);
+    }, [category, count]);
  
     return (
         <div className={classes.root}>
@@ -243,7 +304,18 @@ const Admin = () => {
                     <Typography className={classes.title}>
                         { category.display }
                     </Typography>
-                     { renderTable() }
+                    <div className={classes.filterContainer}>
+                        <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
+
+                        </TextField>
+                        <Button className={classes.filterButton} color="primary" onClick={handleFilterById} variant="outlined">
+                            Filter
+                        </Button>
+                        <Button className={classes.filterButton} color="primary" onClick={handleClearFilter} variant="outlined">
+                            Clear
+                        </Button>
+                    </div>
+                    { renderTable() }
                 </div>
             }
             <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
@@ -266,9 +338,9 @@ interface ReportRowProps {
 const TableReportRow = (props: ReportRowProps) => {
     const { handleDelete, row } = props;
     const classes = useStyles();
+    const rowType = row.type === "hazard-concern" ? "hazard" : row.type;
 
     const handleDeleteButtonClicked = (id: number, type: string) => {
-        console.log("Asked to delete: " + id);
         handleDelete(id, type);
     };
 
@@ -276,13 +348,22 @@ const TableReportRow = (props: ReportRowProps) => {
         <>
             <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
-                <TableCell>{row.type}</TableCell>
+                <TableCell>{rowType}</TableCell>
                 <TableCell>{getLocalDateFromUtcMilliseconds(row.date)}</TableCell>
                 <TableCell>{getLocalDateFromUtcMilliseconds   (row.date_reported)}</TableCell>
                 <TableCell>
                     <Button
+                        className={classes.editButton}
+                        color="primary"
+                        component={Link}
+                        to={`/${rowType}/${row.id}`}
+                        variant="outlined"
+                    >
+                        Edit
+                    </Button>
+                    <Button
                         className={classes.deleteButton}
-                        onClick={() => handleDeleteButtonClicked(row.id, row.type)}
+                        onClick={() => handleDeleteButtonClicked(row.id, rowType)}
                         variant="outlined"
                     >
                         Delete
@@ -292,73 +373,5 @@ const TableReportRow = (props: ReportRowProps) => {
         </>
     );
 };
-
-interface CustomTablePaginationActionsProps {
-    count: number;
-    onPageChange: (event: any, page: number) => void;
-    page: number;
-    rowsPerPage: number;
-}
-
-const useStylesTablePaginationActions = makeStyles((theme) => ({
-    root: {
-      flexShrink: 0,
-      marginLeft: theme.spacing(2.5),
-    },
-  }));
-
-const CustomTablePaginationActions = (props: CustomTablePaginationActionsProps) => {
-    const classes = useStylesTablePaginationActions();
-    const { count, page, rowsPerPage, onPageChange } = props;
-
-    const handleFirstPageButtonClick = (event: any) => {
-        onPageChange(event, 0);
-    };
-    
-      const handleBackButtonClick = (event: any) => {
-        onPageChange(event, page - 1);
-    };
-    
-      const handleNextButtonClick = (event: any) => {
-        onPageChange(event, page + 1);
-    };
-    
-      const handleLastPageButtonClick = (event: any) => {
-        onPageChange(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
-    };
-
-    return (
-        <div className={classes.root}>
-            <IconButton
-                aria-label="first page"
-                disabled={page === 0}
-                onClick={handleFirstPageButtonClick}
-            >
-                <FirstPageIcon />
-            </IconButton>
-            <IconButton
-                aria-label="previous page"
-                disabled={page === 0} 
-                onClick={handleBackButtonClick}
-            >
-                <KeyboardArrowLeft />
-            </IconButton>
-            <IconButton
-                aria-label="next page"
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                onClick={handleNextButtonClick}
-            >
-                <KeyboardArrowRight />
-            </IconButton>
-            <IconButton
-                aria-label="last page" 
-                disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-                onClick={handleLastPageButtonClick}
-            >
-                <LastPageIcon />
-            </IconButton>
-        </div>
-    );
-}
 
 export default Admin;

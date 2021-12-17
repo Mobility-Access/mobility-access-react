@@ -23,9 +23,9 @@ interface AmenityControllerProps {
     stopMapClickListener: () => void;
 }
 
-const initialState: AmenityFields = {
+export const initialState: AmenityFields = {
     amenityType: "",
-    birthYear: -1,
+    birthYear: '',
     date: new Date(),
     description: "",
     disability: "",

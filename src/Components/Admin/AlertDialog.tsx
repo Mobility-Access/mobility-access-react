@@ -6,42 +6,35 @@ import DialogContent from '@material-ui/core/DialogContent';
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-import Colors from "../../Colors";
 
-interface ConfirmDeleteDialogProps {
+interface AlertDialogProps {
+    buttonClick: () => void;
     open: boolean;
-    handleConfirmYes: () => void;
-    handleConfirmNo: () => void;
+    message: string;
 }
 
 const useStyles = makeStyles((theme) => ({
-    confirmDeleteButton: {
-        color: Colors.contrastRed,
-    },
     text: {
         marginBottom: theme.spacing(3),
         marginTop: theme.spacing(3),
     },
 }));
 
-const ConfirmDeleteDialog = (props: ConfirmDeleteDialogProps) => {
-    const { handleConfirmNo, handleConfirmYes, open } =  { ...props };
+const AlertDialog = (props: AlertDialogProps) => {
+    const { buttonClick, open, message } =  { ...props };
     const classes = useStyles();
 
     return (
         <>
-            <Dialog open={open} onClose={handleConfirmNo}>
+            <Dialog open={open} onClose={buttonClick}>
             <DialogContent>
                 <Typography className={classes.text}>
-                    Are you sure you want to delete this report? This action cannot be undone!
+                    {message}
                 </Typography>
             </DialogContent>
             <DialogActions>
-                <Button className={classes.confirmDeleteButton} onClick={handleConfirmYes}>
-                    Confirm Delete
-                </Button>
-                <Button color="primary" onClick={handleConfirmNo}> 
-                    Cancel
+                <Button color="primary" onClick={buttonClick}> 
+                    Continue
                 </Button>
             </DialogActions>
         </Dialog>
@@ -49,4 +42,4 @@ const ConfirmDeleteDialog = (props: ConfirmDeleteDialogProps) => {
     );
 };
 
-export default ConfirmDeleteDialog;
+export default AlertDialog;

@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 
 import Admin from "../Components/Admin/Admin";
+import AmenityAdmin from "../Components/Admin/AmenityAdmin";
 import Map from "../Components/Map/Map";
 import AboutPanel from "../Components/About/AboutPanel";
 import ContactPanel from "../Components/Contact/ContactPanel";
@@ -35,6 +36,7 @@ const ContentContainer = () => {
             <Route path="/explore"><ExplorationPanel /></Route>
             <Route path="/help"><HelpPanel /></Route>
             <Route path="/admin"><Admin /></Route>
+            <Route path="/amenity/:id"><AmenityAdmin /></Route>
         </div>
     )
 };
