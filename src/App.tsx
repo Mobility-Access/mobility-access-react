@@ -1,6 +1,9 @@
 import React, { Suspense } from "react";
 import { unstable_createMuiStrictModeTheme as createMuiTheme, MuiThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 
+import ReactGA from "react-ga4";
+import { ga4MeasurementId } from "./config";
+
 // import Header from "./shell/Header";
 // import ContentContainer from "./shell/ContentContainer";
 
@@ -34,6 +37,10 @@ let appTheme = createMuiTheme({
 appTheme = responsiveFontSizes(appTheme);
 
 function App() {
+    if (ga4MeasurementId) {
+        ReactGA.initialize(ga4MeasurementId);
+    }
+   
     return (
         <MuiThemeProvider theme={appTheme} >
             <Suspense fallback={<LogoFallback />}>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,6 +19,7 @@ import { Link } from "react-router-dom";
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import Colors from "../Colors";
 import Logo from "../images/logos/logo.png";
+import BikeMapsLogo from "../images/logos/BikeMapsORG_Logo_notxt_sm.png";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +39,9 @@ const useStyles = makeStyles((theme) => ({
     },
     indicator: {
         backgroundColor: theme.palette.primary.main,
+    },
+    languageLink: {
+        marginRight: theme.spacing(5),
     },
     langaugeMenu: {
         zIndex: 1001,
@@ -131,43 +136,83 @@ const Header = () => {
     //     );
     // };
 
-    const renderLanguageMenu = () => {
+    const renderBikeMapsLink = () => {
+        if (i18n.language === "en") {
+            return (
+                <IconButton aria-label="Hyperlink to BikeMaps English site." href="https://bikemaps.org" target="_blank">
+                    <img
+                        alt="BikeMaps logo"
+                        src={BikeMapsLogo}
+                    />
+                </IconButton>
+            )
+        }
+
+        // French site
         return (
-            <Menu
-                id="app-bar-language-selector"
-                anchorEl={languageMenuAnchorEl}
-                className={classes.langaugeMenu}
-                getContentAnchorEl={null}
-                anchorOrigin={{vertical: "top", horizontal: "left"}}
-                transformOrigin={{vertical: "top", horizontal: "right"}}
-                keepMounted
-                open={Boolean(languageMenuAnchorEl)}
-                onClose={handleLanguageMenuClose}
-                TransitionComponent={Fade}
-            >
-                {languages.map(
-                    (item) => (
-                        <MenuItem
-                            className={classes.menuItem}
-                            key={item.key}
-                                onClick={() => handleSelectLanguage(item)}
-                        >
-                            {t(item.value)}    
-                        </MenuItem>
-                    )
-                )}
-            </Menu>
-        );
+            <IconButton aria-label="Hyperlink to BikeMaps French site." href="https://bikemaps.org/fr" target="_blank">
+                <img
+                    alt="BikeMaps logo"
+                    src={BikeMapsLogo}
+                />
+            </IconButton>
+        )
     };
 
-    const renderSecondaryNav = () => {
+    const renderLanguageLink = () => {
+        if (i18n.language === "en") {
+            return (
+                <Button aria-label="Hyperlink to French version of WalkRollMap." className={classes.languageLink} color="primary" href="https://onmarcheonroule.org" target="_blank">
+                    Francais
+                </Button>
+            )
+        }
+
+        // French site
         return (
-            <Hidden smDown>
-                <LanguageSelector languages={languages} />
-                {/* {renderHelpButton()} */}
-            </Hidden>
-        );
+            <Button aria-label="Hyperlink to English version of WalkRollMap." className={classes.languageLink} color="primary" href="https://walkrollmap.org" target="_blank">
+                English
+            </Button>
+        )
     };
+
+    // const renderLanguageMenu = () => {
+    //     return (
+    //         <Menu
+    //             id="app-bar-language-selector"
+    //             anchorEl={languageMenuAnchorEl}
+    //             className={classes.langaugeMenu}
+    //             getContentAnchorEl={null}
+    //             anchorOrigin={{vertical: "top", horizontal: "left"}}
+    //             transformOrigin={{vertical: "top", horizontal: "right"}}
+    //             keepMounted
+    //             open={Boolean(languageMenuAnchorEl)}
+    //             onClose={handleLanguageMenuClose}
+    //             TransitionComponent={Fade}
+    //         >
+    //             {languages.map(
+    //                 (item) => (
+    //                     <MenuItem
+    //                         className={classes.menuItem}
+    //                         key={item.key}
+    //                             onClick={() => handleSelectLanguage(item)}
+    //                     >
+    //                         {t(item.value)}    
+    //                     </MenuItem>
+    //                 )
+    //             )}
+    //         </Menu>
+    //     );
+    // };
+
+    // const renderSecondaryNav = () => {
+    //     return (
+    //         <Hidden smDown>
+    //             <LanguageSelector languages={languages} />
+    //             {/* {renderHelpButton()} */}
+    //         </Hidden>
+    //     );
+    // };
 
     // Render a navigation menu when screen size is <= 960px
     const renderSecondaryNavAsList = () => {
@@ -250,9 +295,11 @@ const Header = () => {
                     </Typography>
 
                     {renderTabs()}
-                    {renderLanguageMenu()}
-                    {/* {renderSecondaryNav()} */}
-                    {renderSecondaryNavAsList()}
+                    {/* {renderLanguageMenu()}
+                    {renderSecondaryNav()}
+                    {renderSecondaryNavAsList()} */}
+                    {renderLanguageLink()}
+                    {renderBikeMapsLink()}
                 </Toolbar>
             </AppBar>
         </div>

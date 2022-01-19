@@ -28,6 +28,8 @@ import MapBrowserEvent from "ol/MapBrowserEvent";
 import { withRouter } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 
+import ReactGA from "react-ga4";
+
 import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
@@ -255,6 +257,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     componentDidMount() {
+        ReactGA.send({hitType: "pageview", page: "map"});
         this._isMounted = true;
         this.map = new OLMap({
             layers: [
