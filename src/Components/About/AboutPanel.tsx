@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+
+import ReactGA from "react-ga4";
 
 import { useTranslation } from "react-i18next";
 
@@ -159,6 +161,10 @@ const AboutPanel = () => {
             </>
         );
     };
+
+    useEffect(() => {
+        ReactGA.send({hitType: "pageview", page: "about"});
+    });
 
     return (
         <div className={classes.root}>
