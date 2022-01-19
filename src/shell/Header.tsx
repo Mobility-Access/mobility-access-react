@@ -137,9 +137,9 @@ const Header = () => {
     // };
 
     const renderBikeMapsLink = () => {
-        if (i18n.language === "en") {
+        if (i18n.language.startsWith("fr")) {
             return (
-                <IconButton aria-label="Hyperlink to BikeMaps English site." href="https://bikemaps.org" target="_blank">
+                <IconButton aria-label="Hyperlink to BikeMaps French site." href="https://bikemaps.org/fr" target="_blank">
                     <img
                         alt="BikeMaps logo"
                         src={BikeMapsLogo}
@@ -150,7 +150,7 @@ const Header = () => {
 
         // French site
         return (
-            <IconButton aria-label="Hyperlink to BikeMaps French site." href="https://bikemaps.org/fr" target="_blank">
+            <IconButton aria-label="Hyperlink to BikeMaps English site." href="https://bikemaps.org" target="_blank">
                 <img
                     alt="BikeMaps logo"
                     src={BikeMapsLogo}
@@ -160,18 +160,18 @@ const Header = () => {
     };
 
     const renderLanguageLink = () => {
-        if (i18n.language === "en") {
+        if (i18n.language.startsWith("fr")) {
             return (
-                <Button aria-label="Hyperlink to French version of WalkRollMap." className={classes.languageLink} color="primary" href="https://onmarcheonroule.org" target="_blank">
-                    Francais
+                <Button aria-label="Hyperlink to English version of WalkRollMap." className={classes.languageLink} color="primary" href="https://walkrollmap.org" target="_blank">
+                    English
                 </Button>
             )
         }
 
         // French site
         return (
-            <Button aria-label="Hyperlink to English version of WalkRollMap." className={classes.languageLink} color="primary" href="https://walkrollmap.org" target="_blank">
-                English
+            <Button aria-label="Hyperlink to French version of WalkRollMap." className={classes.languageLink} color="primary" href="https://onmarcheonroule.org" target="_blank">
+                Francais
             </Button>
         )
     };
