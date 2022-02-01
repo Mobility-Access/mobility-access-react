@@ -27,7 +27,7 @@ interface IncidentControllerProps {
     stopMapClickListener: () => void;
 }
 
-const initialState: IncidentFields = {
+export const initialState: IncidentFields = {
     birthYear: '',
     date: new Date(),
     description: "",

@@ -25,7 +25,7 @@ interface HazardControllerProps {
     stopMapClickListener: () => void;
 }
 
-const initialState: HazardFields = {
+export const initialState: HazardFields = {
     hazardType: "",
     hazardSubtype: "",
     hazardSubtypeDetail: "",

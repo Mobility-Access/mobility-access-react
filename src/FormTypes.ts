@@ -290,20 +290,42 @@ export enum IncidentType {
 }
 
 export const IncidentFallSubtypes: ChoiceItem[] = [
-    { key: IncidentFallSubtype.Slip, value: "form_incident-subtype-fall-slip"},
-    { key: IncidentFallSubtype.Trip, value: "form_incident-subtype-fall-trip"},  
-    { key: IncidentFallSubtype.Other, value: "form_incident-subtype-fall-other"},  
+    { key: IncidentFallSubtype.Slip, value: "form_incident-subtype-fall-slip" },
+    { key: IncidentFallSubtype.Trip, value: "form_incident-subtype-fall-trip" },  
+    { key: IncidentFallSubtype.Other, value: "form_incident-subtype-fall-other" },  
 ];
 
 export const IncidentHitByOrNearmissSubtypes: ChoiceItem[] = [
-    { key: IncidentHitByOrNearmissSubtype.VehicleRightTurn, value: "form_incident-subtype-vehicle-right"},
-    { key: IncidentHitByOrNearmissSubtype.VehicleRightTurnRed, value: "form_incident-subtype-vehicle-right-red"},  
-    { key: IncidentHitByOrNearmissSubtype.VehicleLeftTurn, value: "form_incident-subtype-vehicle-left"},  
-    { key: IncidentHitByOrNearmissSubtype.VehicleHeadOn, value: "form_incident-subtype-vehicle-head-on"},  
-    { key: IncidentHitByOrNearmissSubtype.VehicleFromBehind, value: "form_incident-subtype-vehicle-from-behind"},  
-    { key: IncidentHitByOrNearmissSubtype.Cyclist, value: "form_incident-subtype-cyclist"},  
-    { key: IncidentHitByOrNearmissSubtype.Animal, value: "form_incident-subtype-animal"},  
-    { key: IncidentHitByOrNearmissSubtype.Other, value: "form_incident-subtype-other"},  
+    { key: IncidentHitByOrNearmissSubtype.VehicleRightTurn, value: "form_incident-subtype-vehicle-right" },
+    { key: IncidentHitByOrNearmissSubtype.VehicleRightTurnRed, value: "form_incident-subtype-vehicle-right-red" },  
+    { key: IncidentHitByOrNearmissSubtype.VehicleLeftTurn, value: "form_incident-subtype-vehicle-left" },  
+    { key: IncidentHitByOrNearmissSubtype.VehicleHeadOn, value: "form_incident-subtype-vehicle-head-on" },  
+    { key: IncidentHitByOrNearmissSubtype.VehicleFromBehind, value: "form_incident-subtype-vehicle-from-behind" },  
+    { key: IncidentHitByOrNearmissSubtype.Cyclist, value: "form_incident-subtype-cyclist" },  
+    { key: IncidentHitByOrNearmissSubtype.Animal, value: "form_incident-subtype-animal" },  
+    { key: IncidentHitByOrNearmissSubtype.Other, value: "form_incident-subtype-other" },  
+];
+
+export const IncidentInjuryTypes: ChoiceItem[] = [
+    { key: IncidentInjury.None, value: "form_incident-injury-none" },
+    { key: IncidentInjury.SelfTreatment, value: "form_incident-injury-self-treatment" },
+    { key: IncidentInjury.FamilyDoctor, value: "form_incident-injury-family-doctor" },
+    { key: IncidentInjury.SelfER, value: "form_incident-injury-self-er" },
+    { key: IncidentInjury.AmbulanceER, value: "form_incident-injury-ambulance-er" },
+    { key: IncidentInjury.Hospital, value: "form_incident-injury-hospital" },
+];
+
+
+export const IncidentInjuryWitnessTypes: ChoiceItem[] = [
+    { key: IncidentInjuryWitness.None, value: "form_incident-injury-witness-none" },
+    { key: IncidentInjuryWitness.Minor, value: "form_incident-injury-witness-minor" },
+    { key: IncidentInjuryWitness.Ambulance, value: "form_incident-injury-witness-ambulance" },
+];
+
+export const IncidentInvolvementTypes: ChoiceItem[] = [
+    { key: IncidentInvolvementType.Self, value: "form_incident-involvement-self" },
+    { key: IncidentInvolvementType.Care, value: "form_incident-involvement-care" },
+    { key: IncidentInvolvementType.Witness, value: "form_incident-involvement-witness" },
 ];
 
 export const IncidentTypes: ChoiceItem[] = [

@@ -22,7 +22,7 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import TableReportRow from "./TableReportRow";
 import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
-import { AdminUrl, AmenityUrl } from "../../Constants";
+import { AdminUrl, HazardUrl } from "../../Constants";
 import { TextField } from "@material-ui/core";
 import { categories } from "./Admin";
 import { ReportType } from "../../FormTypes";
@@ -100,7 +100,7 @@ const columns = [
     },
     {
         id: "incidentDate",
-        label: "Incident/Last Noticed Date",
+        label: "Last Noticed Date",
         minWidth: "250px"
     },
     {
@@ -110,7 +110,7 @@ const columns = [
     }
 ];
 
-const AmenityAdmin = () => {
+const HazardAdmin = () => {
     const classes = useStyles();
     const [count, setCount] = useState(0);
     const [filterId, setFilterId] = useState("");
@@ -234,7 +234,7 @@ const AmenityAdmin = () => {
 
     useEffect(() => {
         (async () => {
-            const results  = await GetPoints(AmenityUrl, page + 1, rowsPerPage);
+            const results  = await GetPoints(HazardUrl, page + 1, rowsPerPage);
             const data = results.features;
             setRows(data);
             setVisibleRows(rows);
@@ -254,7 +254,7 @@ const AmenityAdmin = () => {
                     { categories.map((item) => {
                         return (
                             <ListItem
-                                className={ReportType.Amenity === item.type ? classes.selected : undefined}
+                                className={ReportType.Hazard === item.type || "hazard" === item.type ? classes.selected : undefined}
                                 // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
                             >
@@ -276,7 +276,7 @@ const AmenityAdmin = () => {
             {
                 <div className={classes.tableContainer}>
                     <Typography className={classes.title}>
-                        Missing Amenities
+                        Hazards/Concerns
                     </Typography>
                     <div className={classes.filterContainer}>
                         <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
@@ -297,4 +297,4 @@ const AmenityAdmin = () => {
     )
 };
 
-export default AmenityAdmin;
+export default HazardAdmin;

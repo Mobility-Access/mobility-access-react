@@ -20,12 +20,12 @@ import { HazardFields } from "./HazardController";
 import FormTitle from "../FormTitle";
 import Colors from "../../../Colors";
 import {
-    ChoiceItem,
-    HazardConcernSubtype,
-    HazardCrossingSubtype,
-    HazardSidewalkSubtype,
+    HazardConcernSubtypes,
+    HazardCrossingSubtypes,
+    HazardSidewalkSubtypes,
     HazardType,
-    HazardWeatherSeasonalSubtype
+    HazardTypes,
+    HazardWeatherSeasonalSubtypes
 } from "../../../FormTypes";
 
 interface HazardFormProps {
@@ -131,71 +131,6 @@ const HazardForm = (props: HazardFormProps) => {
         },
         validationSchema: validationSchema
     });
-
-    const hazardConcernSubtypes: ChoiceItem[] = [
-        { key: HazardConcernSubtype.VehicleNumber, value: t("form_hazard-concern-subtype-vehicle-numbers") },
-        { key: HazardConcernSubtype.VehicleSpeed, value: t("form_hazard-concern-subtype-vehicle-speed") },
-        { key: HazardConcernSubtype.Bicycles, value: t("form_hazard-concern-subtype-bicycles") },
-        { key: HazardConcernSubtype.EScooters, value: t("form_hazard-concern-subtype-escooters") },
-        { key: HazardConcernSubtype.OtherWheels, value: t("form_hazard-concern-subtype-other-wheels") },
-        { key: HazardConcernSubtype.MobilityWheeled, value: t("form_hazard-concern-subtype-mobility-wheeled") },
-        { key: HazardConcernSubtype.Dogs, value: t("form_hazard-concern-subtype-dogs") },
-        { key: HazardConcernSubtype.Lighting, value: t("form_hazard-concern-subtype-lighting") },
-        { key: HazardConcernSubtype.Isloated, value: t("form_hazard-concern-subtype-isolated") },
-        { key: HazardConcernSubtype.Harassment, value: t("form_hazard-concern-subtype-harassment") },
-        { key: HazardConcernSubtype.People, value: t("form_hazard-concern-subtype-people") },
-        { key: HazardConcernSubtype.Other, value: t("form_common-other") },
-    ];
-
-    const hazardCrossingSubtypes: ChoiceItem[] = [
-        { key: HazardCrossingSubtype.Crosswalk, value: t("form_hazard-crossing-subtype-crosswalk") },
-        { key: HazardCrossingSubtype.VehicleConflictRight, value: t("form_hazard-crossing-subtype-vehicle-right") },
-        { key: HazardCrossingSubtype.VehicleConflictRightRed, value: t("form_hazard-crossing-subtype-vehicle-right-red") },
-        { key: HazardCrossingSubtype.VehicleConflictLeft, value: t("form_hazard-crossing-subtype-vehicle-left") },
-        { key: HazardCrossingSubtype.FailureToYield, value: t("form_hazard-crossing-subtype-yield") },
-        { key: HazardCrossingSubtype.SignalShort, value: t("form_hazard-crossing-subtype-signal-short") },
-        { key: HazardCrossingSubtype.SignalNotAudible, value: t("form_hazard-crossing-subtype-signal-audible") },
-        { key: HazardCrossingSubtype.SignalButton, value: t("form_hazard-crossing-subtype-signal-button") },
-        { key: HazardCrossingSubtype.SignalWait, value: t("form_hazard-crossing-subtype-signal-wait") },
-        { key: HazardCrossingSubtype.Visibliity, value: t("form_hazard-crossing-subtype-visibility") },
-        { key: HazardCrossingSubtype.Markings, value: t("form_hazard-crossing-subtype-markings") },
-        { key: HazardCrossingSubtype.Other, value: t("form_common-other") },
-    ];
-
-    const hazardSidewalkSubtypes: ChoiceItem[] = [
-        { key: HazardSidewalkSubtype.Bollard, value: t("form_hazard-sidewalk-subtype-bollard") },
-        { key: HazardSidewalkSubtype.Pole, value: t("form_hazard-sidewalk-subtype-pole") },
-        { key: HazardSidewalkSubtype.Uneven, value: t("form_hazard-sidewalk-subtype-uneven") },
-        { key: HazardSidewalkSubtype.Mailbox, value: t("form_hazard-sidewalk-subtype-mailbox") },
-        { key: HazardSidewalkSubtype.BikeRack, value: t("form_hazard-sidewalk-subtype-bike-rack") },
-        { key: HazardSidewalkSubtype.BusShelter, value: t("form_hazard-sidewalk-subtype-bus-shelter") },
-        { key: HazardSidewalkSubtype.Vegetation, value: t("form_hazard-sidewalk-subtype-vegetation") },
-        { key: HazardSidewalkSubtype.Sign, value: t("form_hazard-sidewalk-subtype-sign") },
-        { key: HazardSidewalkSubtype.ParkedBike, value: t("form_hazard-sidewalk-subtype-parked-bike") },
-        { key: HazardSidewalkSubtype.Bins, value: t("form_hazard-sidewalk-subtype-bins") },
-        { key: HazardSidewalkSubtype.ParkedVehicles, value: t("form_hazard-sidewalk-subtype-parked-vehicles") },
-        { key: HazardSidewalkSubtype.Construction, value: t("form_hazard-sidewalk-subtype-construction") },
-        { key: HazardSidewalkSubtype.MissingCurbCut, value: t("form_hazard-sidewalk-subtype-missing-curb-cut") },
-        { key: HazardSidewalkSubtype.Narrow, value: t("form_hazard-sidewalk-subtype-narrow") },
-        { key: HazardSidewalkSubtype.Surface, value: t("form_hazard-sidewalk-subtype-surface") },
-        { key: HazardSidewalkSubtype.Slope, value: t("form_hazard-sidewalk-subtype-slope") },
-        { key: HazardSidewalkSubtype.Other, value: t("form_common-other") },
-    ];
-
-    const hazardTypes: ChoiceItem[] = [
-        { key: HazardType.Sidewalk, value: t("form_hazard-type-sidewalk-infrastructure") },
-        { key: HazardType.Crossing, value: t("form_hazard-type-crossing") },
-        { key: HazardType.WeatherSeasonal, value: t("form_hazard-type-weather-seasonal") },
-        { key: HazardType.Concern, value: t("form_hazard-type-concern") },
-    ];
-
-    const hazardWeatherSeasonalSubtypes: ChoiceItem[] = [
-        { key: HazardWeatherSeasonalSubtype.Snow, value: t("form_hazard-weather-subtype-snow") },
-        { key: HazardWeatherSeasonalSubtype.Ice, value: t("form_hazard-weather-subtype-ice") },
-        { key: HazardWeatherSeasonalSubtype.Water, value: t("form_hazard-weather-subtype-water") },
-        { key: HazardWeatherSeasonalSubtype.Leaves, value: t("form_hazard-weather-subtype-leaves") },
-        { key: HazardWeatherSeasonalSubtype.Other, value: t("form_common-other") },
-    ];
  
     const handleDateChange = (value: any) => {
         formik.setFieldValue("date", value);
@@ -225,14 +160,14 @@ const HazardForm = (props: HazardFormProps) => {
         prevStep();
     };
 
-    const crossingCrosswalkNeeded = hazardCrossingSubtypes[0];
-    const crossingVehicleConflicts = hazardCrossingSubtypes.slice(1,4);
-    const crossingYieldIssue = hazardCrossingSubtypes[4];
-    const crossingPedestrianIssues = hazardCrossingSubtypes.slice(5, 9);
-    const crossingRemainder = hazardCrossingSubtypes.slice(9, 12);
+    const crossingCrosswalkNeeded = HazardCrossingSubtypes[0];
+    const crossingVehicleConflicts = HazardCrossingSubtypes.slice(1,4);
+    const crossingYieldIssue = HazardCrossingSubtypes[4];
+    const crossingPedestrianIssues = HazardCrossingSubtypes.slice(5, 9);
+    const crossingRemainder = HazardCrossingSubtypes.slice(9, 12);
 
-    const sidewalkObstructions = hazardSidewalkSubtypes.slice(0, 11);
-    const sidewalkRemainder = hazardSidewalkSubtypes.slice(11);
+    const sidewalkObstructions = HazardSidewalkSubtypes.slice(0, 11);
+    const sidewalkRemainder = HazardSidewalkSubtypes.slice(11);
 
     return (
         <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
@@ -255,11 +190,11 @@ const HazardForm = (props: HazardFormProps) => {
                         variant="outlined"
                     >
                         {
-                            hazardTypes.map((item) => {
+                            HazardTypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
@@ -292,7 +227,7 @@ const HazardForm = (props: HazardFormProps) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography className={classes.listItem}>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
@@ -303,7 +238,7 @@ const HazardForm = (props: HazardFormProps) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
@@ -331,7 +266,7 @@ const HazardForm = (props: HazardFormProps) => {
                         >
                             <MenuItem className={classes.menuItem} key={crossingCrosswalkNeeded.key} value={crossingCrosswalkNeeded.key}>
                                 <Typography>
-                                    {crossingCrosswalkNeeded.value}
+                                    {t(crossingCrosswalkNeeded.value)}
                                 </Typography>
                             </MenuItem>
                             <ListSubheader className={classes.listSubHeader} disableSticky={true} key="vehicle-conflict-group">{t("form_hazard-vehicle-conflict-group")}</ListSubheader>
@@ -339,14 +274,14 @@ const HazardForm = (props: HazardFormProps) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography className={classes.listItem}>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
                             })}
                             <MenuItem className={classes.menuItem} key={crossingYieldIssue.key} value={crossingYieldIssue.key}>
                                 <Typography>
-                                    {crossingYieldIssue.value}
+                                    {t(crossingYieldIssue.value)}
                                 </Typography>
                             </MenuItem>
                             <ListSubheader className={classes.listSubHeader} disableSticky={true} key="signal-issues-group">{t("form_hazard-signal-issues-group")}</ListSubheader>
@@ -354,7 +289,7 @@ const HazardForm = (props: HazardFormProps) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography className={classes.listItem}>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
@@ -363,7 +298,7 @@ const HazardForm = (props: HazardFormProps) => {
                                 return (  
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
@@ -389,11 +324,11 @@ const HazardForm = (props: HazardFormProps) => {
                             variant="outlined"
                         >
                             {
-                                hazardWeatherSeasonalSubtypes.map((item) => {
+                                HazardWeatherSeasonalSubtypes.map((item) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
@@ -420,11 +355,11 @@ const HazardForm = (props: HazardFormProps) => {
                             variant="outlined"
                         >
                             {
-                                hazardConcernSubtypes.map((item) => {
+                                HazardConcernSubtypes.map((item) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )

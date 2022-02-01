@@ -1,7 +1,8 @@
-import { AdminUrl, AdminAmenityUrl } from "../Constants";
-import { FeatureCollection, IdentityTypes } from "../FormTypes";
+import { AdminUrl, AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl } from "../Constants";
 import { AmenityFields } from "../Components/Form/Amenity/AmenityController";
-import { Gender, Identity, MobilityAid, ReportType } from "../FormTypes";
+import { HazardFields } from "../Components/Form/Hazard/HazardController";
+import { IncidentFields } from "../Components/Form/Incident/IncidentController"
+import { FeatureCollection, Gender, MobilityAid, ReportType } from "../FormTypes";
 
 export const DeletePoint = async (url: string) => {
     const response = await fetch(`${url}`, {
@@ -54,6 +55,98 @@ export const GetAmenity = async (id: string) => {
             };
             return {
                 amenity,
+                success: result.success
+            };
+        } else {
+            return result;
+        }
+        
+    } else {
+        console.log(`An error occurred while fetching amenity with id: ${id}.`);
+        return undefined;
+    }
+};
+
+export const GetHazard = async (id: string) => {
+    const url = `${AdminUrl}/hazard/${id}`;
+    const response = await fetch(`${url}`);
+
+    if (response.ok) {
+        const result = await response.json();
+
+        if (result.success) {
+            const data = result.feature;
+            const genderValues = parseGender(data.gender);
+            const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
+            const hazard: HazardFields = {
+                hazardType: data.hazard_type,
+                hazardSubtype: data.hazard_subtype,
+                hazardSubtypeDetail: data.hazard_subtype_detail,
+                birthYear: data.birth_year,
+                date: data.date,
+                description: data.description,
+                disability: data.disability,
+                disabilityType: data.disability_type,
+                disabilityTypeOpen: "",
+                gender: genderValues.gender,
+                genderOpen: genderValues.genderOpen,
+                identity: data.race,
+                identityOpen: "",
+                mobilityAid: data.mobility_aid,
+                mobilityAidType: mobilityAidTypeValues.mobilityAidType,
+                mobilityAidTypeOpen: mobilityAidTypeValues.mobilityAidTypeOpen,
+                point: data.geom,
+                suggestedSolution: data.suggestedSolution 
+            };
+            return {
+                hazard,
+                success: result.success
+            };
+        } else {
+            return result;
+        }
+        
+    } else {
+        console.log(`An error occurred while fetching amenity with id: ${id}.`);
+        return undefined;
+    }
+};
+
+export const GetIncident = async (id: string) => {
+    const url = `${AdminUrl}/incident/${id}`;
+    const response = await fetch(`${url}`);
+
+    if (response.ok) {
+        const result = await response.json();
+
+        if (result.success) {
+            const data = result.feature;
+            const genderValues = parseGender(data.gender);
+            const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
+            const incident: IncidentFields = {
+                incidentType: data.incident_type,
+                incidentSubtype: data.incident_with,
+                injury: data.injury_type,
+                involvement: data.involvement,
+                birthYear: data.birth_year,
+                date: data.date,
+                description: data.description,
+                disability: data.disability,
+                disabilityType: data.disability_type,
+                disabilityTypeOpen: "",
+                gender: genderValues.gender,
+                genderOpen: genderValues.genderOpen,
+                identity: data.race,
+                identityOpen: "",
+                mobilityAid: data.mobility_aid,
+                mobilityAidType: mobilityAidTypeValues.mobilityAidType,
+                mobilityAidTypeOpen: mobilityAidTypeValues.mobilityAidTypeOpen,
+                point: data.geom,
+                suggestedSolution: data.suggestedSolution 
+            };
+
+            return {
+                incident,
                 success: result.success
             };
         } else {
@@ -134,6 +227,109 @@ export const UpdateAmenityReport = async (report: any, id: string) => {
     }
 }
 
+export const UpdateHazardReport = async (report: any, id: string) => {
+    const data = {
+        hazard_type: report.hazardType,
+        hazard_subtype: report.hazardSubtype,
+        hazard_subtype_detail: report.hazardSubtypeDetail,
+        birth_year: report.birthYear,
+        date: report.date.valueOf(),
+        description: report.description,
+        disability: report.disability,
+        disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
+        gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
+        geom: report.point,
+        mobility_aid: report.mobilityAid,
+        mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
+        race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
+        suggestedSolution: report.suggestedSolution,
+        type: ReportType.Hazard,
+    };
+
+    const options: RequestInit = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        referrerPolicy: "origin",
+        body: JSON.stringify(data)
+    };
+
+    try {
+        const response = await fetch(`${AdminHazardUrl}/${id}`, options);
+        
+        if (response.ok) {
+            // Success, return the point to the controller so it can be added to the map.
+            return response.json();
+        }
+        else {
+            // The server returned an error
+            console.log(`An error occurred while processing your request: ${response.status} - ${response.statusText}`);
+            return {
+                serverError: true
+            };
+        }
+    } catch (e) {
+        // A network error occurred
+        console.log(`A network error occurred: ${e}`)
+        return {
+            networkError: true
+        };
+    }
+}
+
+export const UpdateIncidentReport = async (report: any, id: string) => {
+    const data = {
+        incident_type: report.incidentType,
+        incident_subtype: report.indicentSubtype,
+        injury: report.injury,
+        involvement: report.involvement,
+        birth_year: report.birthYear,
+        date: report.date.valueOf(),
+        description: report.description,
+        disability: report.disability,
+        disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
+        gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
+        geom: report.point,
+        mobility_aid: report.mobilityAid,
+        mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
+        race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
+        suggestedSolution: report.suggestedSolution,
+        type: ReportType.Incident,
+    };
+
+    const options: RequestInit = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        referrerPolicy: "origin",
+        body: JSON.stringify(data)
+    };
+
+    try {
+        const response = await fetch(`${AdminIncidentUrl}/${id}`, options);
+        
+        if (response.ok) {
+            // Success, return the point to the controller so it can be added to the map.
+            return response.json();
+        }
+        else {
+            // The server returned an error
+            console.log(`An error occurred while processing your request: ${response.status} - ${response.statusText}`);
+            return {
+                serverError: true
+            };
+        }
+    } catch (e) {
+        // A network error occurred
+        console.log(`A network error occurred: ${e}`)
+        return {
+            networkError: true
+        };
+    }
+}
+
 function parseGender(value: string) {
     const genderValues = {
         gender: "",
@@ -159,6 +355,8 @@ function parseMobilityAid(value: string) {
     if (value.startsWith(MobilityAid.Other)) {
         mobValues.mobilityAidType = MobilityAid.Other;
         mobValues.mobilityAidTypeOpen = value.substring(8);
+    } else {
+        mobValues.mobilityAidType = value;
     }
 
     return mobValues;

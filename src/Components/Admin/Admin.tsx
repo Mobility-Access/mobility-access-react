@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -14,20 +13,22 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { Link } from "react-router-dom";
 
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+import TableReportRow from "./TableReportRow";
 import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
 import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
 import { getLocalDateFromUtcMilliseconds } from "../../utilities";
-import { TextField } from "@material-ui/core";
 
 interface Category {
     display: string;
+    path: string;
     type: string;
     url: string;
 }
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 75,
     },
     filterButton: {
+        height: "48px",
         marginLeft: theme.spacing(1),
         minWidth: 90,
     },
@@ -87,24 +89,28 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const categories = [
+export const categories = [
     {
         display: "All Reports",
+        path: "/reports",
         type: "point",
         url: PointUrl
     },
     {
         display: "Hazards/Concerns",
+        path: "/reports/hazard",
         type: "hazard",
         url: HazardUrl
     },
     {
         display: "Missing Amenities",
+        path: "/reports/amenity",
         type: "amenity",
         url: AmenityUrl
     },
     {
         display: "Incidents",
+        path: "/reports/incident",
         type: "incident",
         url: IncidentUrl
     },
@@ -186,7 +192,8 @@ const Admin = () => {
         setOpen(true);
     };
 
-    const handleFilterById = () => {
+    const handleFilterById = (e: any) => {
+        e.preventDefault();
         if (!filterId) {
             handleClearFilter();
             return;
@@ -226,7 +233,7 @@ const Admin = () => {
                 <TableContainer> 
                     <Table size="small" stickyHeader>
                         <TableHead>
-                            <TableRow>
+                            <TableRow key="tableHeader">
                                 { columns.map((column) => (
                                     <TableCell
                                         className={classes.headerRow}
@@ -248,15 +255,15 @@ const Admin = () => {
                         )}
                         {showFooter && ( 
                             <TableFooter>
-                                <TableRow>
-                                <TablePagination
-                                    count={count}
-                                    onChangePage={handlePageChange}
-                                    onChangeRowsPerPage={handleRowsPerPageChange}
-                                    page={page}
-                                    rowsPerPage={rowsPerPage}
-                                    rowsPerPageOptions={[10, 25, 50, 100]}
-                                />
+                                <TableRow key="tableFooter">
+                                    <TablePagination
+                                        count={count}
+                                        onChangePage={handlePageChange}
+                                        onChangeRowsPerPage={handleRowsPerPageChange}
+                                        page={page}
+                                        rowsPerPage={rowsPerPage}
+                                        rowsPerPageOptions={[10, 25, 50, 100]}
+                                    />
                                 </TableRow>
                             </TableFooter>
                         )}
@@ -288,15 +295,23 @@ const Admin = () => {
                     { categories.map((item) => {
                         return (
                             <ListItem
-                                button
                                 className={category.type === item.type ? classes.selected : undefined}
+                                // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
-                                onClick={() => handleSelection(item)}
                             >
-                                <ListItemText primary={item.display} />
+                                <Link to={item.path}>
+                                    <ListItemText primary={item.display} />
+                                </Link>
                             </ListItem>
                         )
                     })}
+                    <ListItem
+                        key="export"
+                    >
+                        <Link to={"/reports/export"}>
+                            <ListItemText primary={"Export Data"} />
+                        </Link>
+                    </ListItem>
                 </List>
             </Drawer>
             {
@@ -305,15 +320,17 @@ const Admin = () => {
                         { category.display }
                     </Typography>
                     <div className={classes.filterContainer}>
-                        <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
+                        <form onSubmit={handleFilterById}>
+                            <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
 
-                        </TextField>
-                        <Button className={classes.filterButton} color="primary" onClick={handleFilterById} variant="outlined">
-                            Filter
-                        </Button>
-                        <Button className={classes.filterButton} color="primary" onClick={handleClearFilter} variant="outlined">
-                            Clear
-                        </Button>
+                            </TextField>
+                            <Button className={classes.filterButton} color="primary" type="submit" variant="outlined">
+                                Filter
+                            </Button>
+                            <Button className={classes.filterButton} color="primary" onClick={handleClearFilter} variant="outlined">
+                                Clear
+                            </Button>
+                        </form>
                     </div>
                     { renderTable() }
                 </div>
@@ -321,57 +338,6 @@ const Admin = () => {
             <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
         </div>
     )
-};
-
-interface ReportRow {
-    date: number;
-    date_reported: number;
-    id: number;
-    type: string;
-}
-
-interface ReportRowProps {
-    handleDelete: (id: number, type: string) => void;
-    row: ReportRow;
-}
-
-const TableReportRow = (props: ReportRowProps) => {
-    const { handleDelete, row } = props;
-    const classes = useStyles();
-    const rowType = row.type === "hazard-concern" ? "hazard" : row.type;
-
-    const handleDeleteButtonClicked = (id: number, type: string) => {
-        handleDelete(id, type);
-    };
-
-    return (
-        <>
-            <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
-                <TableCell>{rowType}</TableCell>
-                <TableCell>{getLocalDateFromUtcMilliseconds(row.date)}</TableCell>
-                <TableCell>{getLocalDateFromUtcMilliseconds   (row.date_reported)}</TableCell>
-                <TableCell>
-                    <Button
-                        className={classes.editButton}
-                        color="primary"
-                        component={Link}
-                        to={`/${rowType}/${row.id}`}
-                        variant="outlined"
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        className={classes.deleteButton}
-                        onClick={() => handleDeleteButtonClicked(row.id, rowType)}
-                        variant="outlined"
-                    >
-                        Delete
-                    </Button>
-                </TableCell>
-            </TableRow>
-        </>
-    );
 };
 
 export default Admin;

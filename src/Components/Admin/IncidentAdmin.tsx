@@ -22,7 +22,7 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import TableReportRow from "./TableReportRow";
 import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
-import { AdminUrl, AmenityUrl } from "../../Constants";
+import { AdminUrl, IncidentUrl } from "../../Constants";
 import { TextField } from "@material-ui/core";
 import { categories } from "./Admin";
 import { ReportType } from "../../FormTypes";
@@ -100,7 +100,7 @@ const columns = [
     },
     {
         id: "incidentDate",
-        label: "Incident/Last Noticed Date",
+        label: "Incident",
         minWidth: "250px"
     },
     {
@@ -110,7 +110,7 @@ const columns = [
     }
 ];
 
-const AmenityAdmin = () => {
+const IncidentAdmin = () => {
     const classes = useStyles();
     const [count, setCount] = useState(0);
     const [filterId, setFilterId] = useState("");
@@ -234,7 +234,7 @@ const AmenityAdmin = () => {
 
     useEffect(() => {
         (async () => {
-            const results  = await GetPoints(AmenityUrl, page + 1, rowsPerPage);
+            const results  = await GetPoints(IncidentUrl, page + 1, rowsPerPage);
             const data = results.features;
             setRows(data);
             setVisibleRows(rows);
@@ -254,13 +254,12 @@ const AmenityAdmin = () => {
                     { categories.map((item) => {
                         return (
                             <ListItem
-                                className={ReportType.Amenity === item.type ? classes.selected : undefined}
-                                // component={props => <Link {...props} to={item.path} />}
+                                className={ReportType.Incident === item.type ? classes.selected : undefined}
+                                component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
+                                // onClick={() => handleSelection(item)}
                             >
-                                <Link to={item.path}>
-                                    <ListItemText primary={item.display} />
-                                </Link>
+                                <ListItemText primary={item.display} />
                             </ListItem>
                         )
                     })}
@@ -276,7 +275,7 @@ const AmenityAdmin = () => {
             {
                 <div className={classes.tableContainer}>
                     <Typography className={classes.title}>
-                        Missing Amenities
+                        Incidents
                     </Typography>
                     <div className={classes.filterContainer}>
                         <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
@@ -297,4 +296,4 @@ const AmenityAdmin = () => {
     )
 };
 
-export default AmenityAdmin;
+export default IncidentAdmin;
