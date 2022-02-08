@@ -37,7 +37,8 @@ import {
     Mobility,
     MobilityAid,
     MobilityTypes,
-    MobilityAidTypes } from "../../FormTypes";
+    MobilityAidTypes,
+    ReportType } from "../../FormTypes";
 import { NumberItem } from "../Form/DemographicForm";
 import AdminMap from "./AdminMap";
 
@@ -287,6 +288,10 @@ const AmenityDetail = () => {
         if (formik.values.genderOpen && event.target.value !== Gender.Other) {
             formik.setFieldValue("genderOpen", "");
         }
+    };
+
+    const handleGeometryChange = (coords: number[]) => {
+        formik.setFieldValue("point", coords)
     };
 
     const handleIdentityChange = (event: any) => {
@@ -720,7 +725,7 @@ const AmenityDetail = () => {
                                 Click and drag the marker to change the report location.
                             </div>
                             <div className={classes.mapContainer}>
-                                {/* <AdminMap reportType={ReportType.Amenity} /> */}
+                                <AdminMap coords={formik.values.point} handleGometryChange={handleGeometryChange} reportType={ReportType.Amenity} />
                             </div>
                         </div>
                     </div>

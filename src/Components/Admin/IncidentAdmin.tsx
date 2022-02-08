@@ -255,11 +255,11 @@ const IncidentAdmin = () => {
                         return (
                             <ListItem
                                 className={ReportType.Incident === item.type ? classes.selected : undefined}
-                                component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
-                                // onClick={() => handleSelection(item)}
                             >
-                                <ListItemText primary={item.display} />
+                                <Link to={item.path}>
+                                    <ListItemText primary={item.display} />
+                                </Link>
                             </ListItem>
                         )
                     })}

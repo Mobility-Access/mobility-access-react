@@ -1,72 +1,138 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import React, { createRef } from "react"
+import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 
+import "./AdminMap.css";
+import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import TileLayer from "ol/layer/Tile";
-import VectorLayer from "ol/layer/Vector"
+import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
-import { fromLonLat } from "ol/proj"
 import { Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
+import TileLayer from "ol/layer/Tile";
+import VectorLayer from "ol/layer/Vector"
 import OLView from "ol/View";
 
 import "ol/ol.css";
-
-import { ReportType } from "../../FormTypes";
 import { getMarkerStyle } from "../../utilities";
 
+interface AdminMapState {
+    markers: Feature[];
+    markerLayer: VectorLayer;
+    markerSource: VectorSource;
+    reportCoords: Coordinate;
+}
 
-interface AdminMapProps {
-    // handleGometryChange: () => void;
+const styles = (theme: any) => createStyles({
+    mapContainer: {
+        flexGrow: 1,
+    },
+    root: {
+        display: "flex",
+        height: "calc(100% - 65px)",
+    },
+});
+
+interface AdminMapProps extends WithStyles<typeof styles> {
+    coords: number[];
+    handleGometryChange: (coords: number[]) => void;
     reportType: "amenity" | "hazard-concern" | "incident";
 }
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        height: "100%",
-        width: "100%",
-    }
-}));
+class AdminMap extends React.Component<AdminMapProps, AdminMapState> {
+    centerMap: boolean = true;
+    map!: OLMap;
+    mapDiv: any;
+    translate!: Translate;
+    wrapper: React.RefObject<any>;
 
-const AdminMap = (props: AdminMapProps) => {
-    const classes = useStyles();
-    const { reportType } = { ...props }
-    const [map, setMap] = useState<OLMap>(new OLMap({
-        layers: [
-            new TileLayer({
-                source: new OSMSource()
+    constructor(props: any) {
+        super(props);
+
+        this.state = {
+            markers: [],
+            markerLayer: new VectorLayer(),
+            markerSource: new VectorSource(),
+            reportCoords: [],
+        };
+
+        this.wrapper = createRef();
+
+        // Bind functions so 'this' is accessible at run time
+        this.handleTranslateEnd = this.handleTranslateEnd.bind(this);    }
+
+    componentDidMount() {
+        this.map = new OLMap({
+            layers: [
+                new TileLayer({
+                    source: new OSMSource()
+                }),
+            ],
+            view: new OLView({
+                center: this.props.coords,
+                maxZoom: 18,
+                zoom: 16,
             }),
-        ],
-        view: new OLView({
-            center: fromLonLat([-123.3501, 48.42661]),
-            zoom: 13,
-        }),
-    }));
+        });
 
-    const style = getMarkerStyle(reportType);
 
-    const layer = new VectorLayer({
-        source: new VectorSource({
-            features: [
-                new Feature({
-                    geometry: new Point(fromLonLat([4.35247, 50.84673]))
-                })
-            ]
-        }),
-        style,
-    });
-    
+        this.state.markerSource.addFeatures(this.state.markers);
+        this.state.markerLayer.setMap(this.map);
+        this.state.markerLayer.setSource(this.state.markerSource);
 
-    useEffect(() => {
-        if ( map.getTarget() === undefined) {
-            map.setTarget("map");
+        this.translate = new Translate({
+            features: this.state.markerLayer.getSource().getFeaturesCollection(),
+        });
+
+        this.translate.on("translateend", this.handleTranslateEnd);
+        // Listen for drag events on the report marker
+        this.map.addInteraction(this.translate);
+        
+        if (this.map.getTarget() === undefined) {
+            this.map.setTarget("adminMap");
         }
-    });
 
-    return (
-        <div id="map" className={classes.root}></div>
-    );
+        this.map.updateSize();
+    }
+
+    componentDidUpdate() {
+        // The map only needs to be centered once when the coords prop becomes available
+        if (this.centerMap && this.props.coords.length === 2) {
+            this.map.getView().setCenter(this.props.coords);
+            
+            // The marker source object also needs to be updated at this point and the
+            // feature only added once.
+            const feature = new Feature();
+            const style = getMarkerStyle(this.props.reportType);
+            feature.setGeometry(new Point(this.props.coords));
+            feature.setStyle(style);
+    
+            this.state.markerSource.addFeature(feature);
+            this.centerMap = false;
+        }
+    }
+
+    // Handler that gets called when the dragging of the report marker stops.
+    // Calls the handleGeometryChange function from the parent component in
+    // order to update the geometry stored in the form of the parent component.
+    handleTranslateEnd(event: TranslateEvent) {
+        const feature = this.state.markerSource.getFeatures()[0];
+        const geometry = feature.getGeometry() as Point;
+        if (geometry) {
+            const coordinate = geometry.getCoordinates();
+            this.props.handleGometryChange(coordinate)
+        }
+    }
+
+    render() {
+        const { classes} = this.props;
+        return  (
+            <div className={classes.root}>
+                <div id="adminMap" className="map" ref={this.wrapper} >
+                </div>
+            </div>
+        );
+    }
 }
 
-export default AdminMap;
+export default withStyles(styles, {withTheme: true})(AdminMap);

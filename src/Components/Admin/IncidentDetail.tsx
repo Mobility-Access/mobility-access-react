@@ -319,6 +319,10 @@ const IncidentDetail = () => {
         }
     };
 
+    const handleGeometryChange = (coords: number[]) => {
+        formik.setFieldValue("point", coords)
+    };
+
     const handleIdentityChange = (event: any) => {
         formik.setFieldValue("identity", event.target.value);
     };
@@ -949,7 +953,7 @@ const IncidentDetail = () => {
                                 Click and drag the marker to change the report location.
                             </div>
                             <div className={classes.mapContainer}>
-                                {/* <AdminMap reportType={ReportType.Incident} /> */}
+                                <AdminMap coords={formik.values.point} handleGometryChange={handleGeometryChange} reportType={ReportType.Incident} />
                             </div>
                         </div>
                     </div>

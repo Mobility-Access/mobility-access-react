@@ -2,10 +2,10 @@ import { Icon, Style } from "ol/style";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 
 import { ReportType } from "./FormTypes";
-import amenityMarker from "./images/icons/amenity_marker.svg";
-import hazardMarker from "./images/icons/hazard_marker.svg";
-import incidentMarker from "./images/icons/incident_marker.svg";
-import reportMarker from "./images/icons/report_marker.svg";
+import amenityMarker from "./images/icons/amenity_marker38.png";
+import hazardMarker from "./images/icons/hazard_marker38.png";
+import incidentMarker from "./images/icons/incident_marker38.png";
+import reportMarker from "./images/icons/report_marker38.png";
 
 export const getLocalDateFromUtcMilliseconds = (millis: number) => {
     const date = new Date(0);
@@ -32,9 +32,9 @@ export const getMarkerStyle = (reportType?: string) => {
 
     return new Style({
         image: new Icon({
-            anchor: [0.5, 0.75],
-            anchorYUnits: IconAnchorUnits.FRACTION,
-            scale: 0.35,
+            anchor: [0.5, 38],
+            anchorXUnits: IconAnchorUnits.FRACTION,
+            anchorYUnits: IconAnchorUnits.PIXELS,
             src: marker
         })
     });
