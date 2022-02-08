@@ -50,6 +50,7 @@ import incidentMarker from "../../images/icons/incident_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
+import { getMarkerStyle } from "../../utilities";
 
 interface MapState {
     amenityClusterSource: Cluster
@@ -267,6 +268,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             ],
             view: new OLView({
                 center: fromLonLat([-123.3501, 48.42661]),
+                maxZoom: 18,
                 zoom: 13,
             }),
         });
@@ -623,7 +625,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
     handleAddNewFeature(reportType: ReportType, geojson: any) {
         const feature = new GeoJSON().readFeature(geojson);
-        const style = this.getMarkerStyle(reportType);
+        const style = getMarkerStyle(reportType);
         feature.setStyle(style);
 
         switch (reportType) {
@@ -712,7 +714,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             this.state.markerSource.clear();
             this.setReportCoords(event.coordinate);
             const feature = new Feature();
-            const style = this.getMarkerStyle();
+            const style = getMarkerStyle();
             feature.setStyle(style);
             feature.setGeometry(new Point(event.coordinate));
             this.state.markerSource.addFeature(feature);

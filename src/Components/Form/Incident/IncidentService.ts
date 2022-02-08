@@ -63,7 +63,8 @@ export const GetIncidentFeatureCollection = async (): Promise<FeatureCollection>
         console.log(`An error occurred while fetching the Incident features: ${response.status} - ${response.statusText}`);
         return {
             type: "FeatureCollection",
-            features: []
+            features: [],
+            totalCount: 0,
         };
     }
 };

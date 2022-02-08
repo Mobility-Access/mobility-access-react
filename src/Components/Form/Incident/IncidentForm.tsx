@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from "react";
 import Button from "@material-ui/core/Button";
-import ListSubheader from '@material-ui/core/ListSubheader';
+import ListSubheader from "@material-ui/core/ListSubheader";
 import MenuItem from "@material-ui/core/MenuItem";
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,13 +19,15 @@ import frLocale from "date-fns/locale/fr";
 import FormTitle from "../FormTitle";
 import { IncidentFields } from "./IncidentController";
 import Colors from "../../../Colors";
-import { ChoiceItem,
-    IncidentFallSubtype,
-    IncidentHitByOrNearmissSubtype,
-    IncidentInjury,
-    IncidentInjuryWitness,
+import {
+    IncidentFallSubtypes,
+    IncidentHitByOrNearmissSubtypes,
+    IncidentInjuryTypes,
+    IncidentInjuryWitnessTypes,
     IncidentInvolvementType,
-    IncidentType } from "../../../FormTypes";
+    IncidentInvolvementTypes,
+    IncidentType,
+    IncidentTypes } from "../../../FormTypes";
 
 interface IncidentFormProps {
     formData: IncidentFields;
@@ -119,50 +121,6 @@ const IncidentForm = (props: IncidentFormProps) => {
     });
     const classes = useStyles();
 
-    const incidentFallSubtypes: ChoiceItem[] = [
-        { key: IncidentFallSubtype.Slip, value: t("form_incident-subtype-fall-slip")},
-        { key: IncidentFallSubtype.Trip, value: t("form_incident-subtype-fall-trip")},  
-        { key: IncidentFallSubtype.Other, value: t("form_incident-subtype-fall-other")},  
-    ];
-
-    const incidentHitByOrNearmissSubtypes: ChoiceItem[] = [
-        { key: IncidentHitByOrNearmissSubtype.VehicleRightTurn, value: t("form_incident-subtype-vehicle-right")},
-        { key: IncidentHitByOrNearmissSubtype.VehicleRightTurnRed, value: t("form_incident-subtype-vehicle-right-red")},  
-        { key: IncidentHitByOrNearmissSubtype.VehicleLeftTurn, value: t("form_incident-subtype-vehicle-left")},  
-        { key: IncidentHitByOrNearmissSubtype.VehicleHeadOn, value: t("form_incident-subtype-vehicle-head-on")},  
-        { key: IncidentHitByOrNearmissSubtype.VehicleFromBehind, value: t("form_incident-subtype-vehicle-from-behind")},  
-        { key: IncidentHitByOrNearmissSubtype.Cyclist, value: t("form_incident-subtype-cyclist")},  
-        { key: IncidentHitByOrNearmissSubtype.Animal, value: t("form_incident-subtype-animal")},  
-        { key: IncidentHitByOrNearmissSubtype.Other, value: t("form_incident-subtype-other")},  
-    ];
-
-    const incidentInjuryTypes: ChoiceItem[] = [
-        { key: IncidentInjury.None, value: t("form_incident-injury-none")},
-        { key: IncidentInjury.SelfTreatment, value: t("form_incident-injury-self-treatment")},
-        { key: IncidentInjury.FamilyDoctor, value: t("form_incident-injury-family-doctor")},
-        { key: IncidentInjury.SelfER, value: t("form_incident-injury-self-er")},
-        { key: IncidentInjury.AmbulanceER, value: t("form_incident-injury-ambulance-er")},
-        { key: IncidentInjury.Hospital, value: t("form_incident-injury-hospital")},
-    ];
-
-    const incidentInjuryWitnessTypes: ChoiceItem[] = [
-        { key: IncidentInjuryWitness.None, value: t("form_incident-injury-witness-none")},
-        { key: IncidentInjuryWitness.Minor, value: t("form_incident-injury-witness-minor")},
-        { key: IncidentInjuryWitness.Ambulance, value: t("form_incident-injury-witness-ambulance")},
-    ];
-
-    const incidentInvolvementTypes: ChoiceItem[] = [
-        { key: IncidentInvolvementType.Self, value: t("form_incident-involvement-self")},
-        { key: IncidentInvolvementType.Care, value: t("form_incident-involvement-care")},
-        { key: IncidentInvolvementType.Witness, value: t("form_incident-involvement-witness")},
-    ];
-    
-    const incidentTypes: ChoiceItem[] = [
-        { key: IncidentType.HitBy, value: t("form_incident-type-hit-by")},
-        { key: IncidentType.NearMiss, value: t("form_incident-type-near-miss")},
-        { key: IncidentType.Fall, value: t("form_incident-type-fall")},
-    ];
-
     const handleDateChange = (value: any) => {
         formik.setFieldValue("date", value);
     };
@@ -199,7 +157,7 @@ const IncidentForm = (props: IncidentFormProps) => {
         formik.setFieldValue("incidentType", event.target.value);
     };
 
-    const handlehandleInjurySelect = (event: any) => {
+    const handleInjurySelect = (event: any) => {
         if (event.target.value !== formik.values.injury) {
             // TODO: Reset other fields when selection changes
         }
@@ -212,15 +170,15 @@ const IncidentForm = (props: IncidentFormProps) => {
 
         items.push(<ListSubheader className={classes.listSubHeader} disableSticky={true} key="vehicle-group">{t("form_incident-vehicle")}</ListSubheader>);
 
-        for (let i = 0; i < incidentHitByOrNearmissSubtypes.length; i++ ) {
+        for (let i = 0; i < IncidentHitByOrNearmissSubtypes.length; i++ ) {
             // eslint-disable-next-line
             // @ts-ignore
             items.push(
-                <MenuItem className={classes.menuItem} key={incidentHitByOrNearmissSubtypes[i].key} value={incidentHitByOrNearmissSubtypes[i].key}>
-                <Typography className={i < 5 ? classes.listItem : undefined}>
-                    {incidentHitByOrNearmissSubtypes[i].value}
-                </Typography>
-            </MenuItem>
+                <MenuItem className={classes.menuItem} key={IncidentHitByOrNearmissSubtypes[i].key} value={IncidentHitByOrNearmissSubtypes[i].key}>
+                    <Typography className={i < 5 ? classes.listItem : undefined}>
+                        {IncidentHitByOrNearmissSubtypes[i].value}
+                    </Typography>
+                </MenuItem>
             );
         }
 
@@ -248,7 +206,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                         variant="outlined"
                     >
                         {
-                            incidentTypes.map((item) => {
+                            IncidentTypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
@@ -308,7 +266,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                             variant="outlined"
                         >
                             {
-                                incidentFallSubtypes.map((item) => {
+                                IncidentFallSubtypes.map((item) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
@@ -338,7 +296,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                         variant="outlined"
                     >
                         {
-                            incidentInvolvementTypes.map((item) => {
+                            IncidentInvolvementTypes.map((item) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
@@ -362,13 +320,13 @@ const IncidentForm = (props: IncidentFormProps) => {
                             name="incident-injury-severity"
                             select
                             value={formik.values.injury}
-                            onChange={handlehandleInjurySelect}
+                            onChange={handleInjurySelect}
                             error={formik.touched.injury && Boolean(formik.errors.injury)}
                             helperText={formik.touched.injury && formik.errors.injury}
                             variant="outlined"
                         >
                             {
-                                incidentInjuryTypes.map((item) => {
+                                IncidentInjuryTypes.map((item) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
@@ -393,13 +351,13 @@ const IncidentForm = (props: IncidentFormProps) => {
                             name="incident-injury-witness-severity"
                             select
                             value={formik.values.injury}
-                            onChange={handlehandleInjurySelect}
+                            onChange={handleInjurySelect}
                             error={formik.touched.injury && Boolean(formik.errors.injury)}
                             helperText={formik.touched.injury && formik.errors.injury}
                             variant="outlined"
                         >
                             {
-                                incidentInjuryWitnessTypes.map((item) => {
+                                IncidentInjuryWitnessTypes.map((item) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>

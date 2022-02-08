@@ -62,7 +62,8 @@ export const GetHazardFeatureCollection = async (): Promise<FeatureCollection> =
         console.log(`An error occurred while fetching the Hazard/Concern features: ${response.status} - ${response.statusText}`);
         return {
             type: "FeatureCollection",
-            features: []
+            features: [],
+            totalCount: 0,
         };
     }
 };
