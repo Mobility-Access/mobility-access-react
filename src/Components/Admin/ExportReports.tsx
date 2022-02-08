@@ -5,21 +5,10 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableFooter from "@material-ui/core/TableFooter";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
-import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { Link } from "react-router-dom";
-
-import { useTranslation } from "react-i18next";
 
 import { categories } from "./Admin";
 import { AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl } from "../../Constants";
@@ -31,6 +20,7 @@ const drawerWidth = "250px";
 const useStyles = makeStyles((theme) => ({
     button: {
         marginRight: theme.spacing(1),
+        minWidth: "95px",
     },
     buttonBar: {
         marginTop: theme.spacing(2),
@@ -109,7 +99,6 @@ const ExportReports = () => {
                         return (
                             <ListItem
                                 className={undefined}
-                                // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
                             >
                                 <Link to={item.path}>
@@ -138,13 +127,13 @@ const ExportReports = () => {
                     </Typography>
                     <div className={classes.buttonBar}>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "csv")} variant="outlined">
-                            Export to CSV
+                            CSV
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "json")} variant="outlined">
-                            Export to JSON
+                            JSON
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "geojson")} variant="outlined">
-                            Export to GeoJSON
+                            GeoJSON
                         </Button>
                     </div>
                 </div>
@@ -154,13 +143,13 @@ const ExportReports = () => {
                     </Typography>
                     <div className={classes.buttonBar}>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
-                            Export to CSV
+                            CSV
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
-                            Export to JSON
+                            JSON
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "geojson")} variant="outlined">
-                            Export to GeoJSON
+                            GeoJSON
                         </Button>
                     </div>
                 </div>
@@ -170,13 +159,13 @@ const ExportReports = () => {
                     </Typography>
                     <div className={classes.buttonBar}>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "csv")} variant="outlined">
-                            Export to CSV
+                            CSV
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "json")} variant="outlined">
-                            Export to JSON
+                            JSON
                         </Button>
                         <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "geojson")} variant="outlined">
-                            Export to GeoJSON
+                            GeoJSON
                         </Button>
                     </div>
                 </div>

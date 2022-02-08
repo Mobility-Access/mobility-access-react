@@ -255,7 +255,6 @@ const AmenityAdmin = () => {
                         return (
                             <ListItem
                                 className={ReportType.Amenity === item.type ? classes.selected : undefined}
-                                // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
                             >
                                 <Link to={item.path}>

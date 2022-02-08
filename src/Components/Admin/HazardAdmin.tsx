@@ -255,7 +255,6 @@ const HazardAdmin = () => {
                         return (
                             <ListItem
                                 className={ReportType.Hazard === item.type || "hazard" === item.type ? classes.selected : undefined}
-                                // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
                             >
                                 <Link to={item.path}>
