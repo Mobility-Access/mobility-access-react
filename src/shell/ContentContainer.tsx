@@ -2,6 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 
+import AboutPanel from "../Components/About/AboutPanel";
 import Admin from "../Components/Admin/Admin";
 import AmenityAdmin from "../Components/Admin/AmenityAdmin";
 import AmenityDetail from "../Components/Admin/AmenityDetail";
@@ -10,13 +11,14 @@ import HazardAdmin from "../Components/Admin/HazardAdmin";
 import HazardDetail from "../Components/Admin/HazardDetail";
 import IncidentAdmin from "../Components/Admin/IncidentAdmin";
 import IncidentDetail from "../Components/Admin/IncidentDetail";
-import Map from "../Components/Map/Map";
-import AboutPanel from "../Components/About/AboutPanel";
+import Login from "../Components/Admin/Login";
+import NewUser from "../Components/Admin/NewUser";
 import ContactPanel from "../Components/Contact/ContactPanel";
 import ExplorationPanel from "../Components/Exploration/ExplorationPanel";
 import HelpPanel from "../Components/Help/HelpPanel";
-import Header from "./Header";
+import Map from "../Components/Map/Map";
 
+import Header from "./Header";
 
 import "./ContentContainer.css";
 
@@ -49,6 +51,8 @@ const ContentContainer = () => {
             <Route path="/reports/incident/:id"><IncidentDetail /></Route>
             <Route exact path="/reports/incident"><IncidentAdmin /></Route>
             <Route exact path="/reports"><Admin /></Route>
+            <Route exact path="/reports/login"><Login /></Route>
+            <Route exact path="/reports/new user"><NewUser /></Route>
         </div>
     )
 };
