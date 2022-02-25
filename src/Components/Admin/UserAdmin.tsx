@@ -13,19 +13,25 @@ import TableFooter from "@material-ui/core/TableFooter";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
+import TextField from "@material-ui/core/TextField";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { Link } from "react-router-dom";
 
-import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
-import TableReportRow from "./TableReportRow";
-import { DeletePoint, GetPoints } from "../../Services/AdminServices";
-import Colors from "../../Colors";
-import { AdminUrl, HazardUrl } from "../../Constants";
-import { TextField } from "@material-ui/core";
 import { categories } from "./Admin";
-import { ReportType } from "../../FormTypes";
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
+import UserRow from "./UserRow";
+import { DeleteUser, GetUsers } from "../../Services/AdminServices";
+import Colors from "../../Colors";
+import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
+
+interface Category {
+    display: string;
+    path: string;
+    type: string;
+    url: string;
+}
 
 const drawerWidth = "250px";
 
@@ -50,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 75,
     },
     filterButton: {
+        height: "48px",
         marginLeft: theme.spacing(1),
         minWidth: 90,
     },
@@ -86,22 +93,32 @@ const columns = [
     {
         id: "id",
         label: "Id",
+        minWidth: "100px"
+    },
+    {
+        id: "username",
+        label: "Username",
         minWidth: "150px"
     },
     {
-        id: "type",
-        label: "Report Type",
-        minWidth: "200px"
-    },
-    {
-        id: "dateReported",
-        label: "Date Reported",
+        id: "email",
+        label: "Email",
         minWidth: "250px"
     },
     {
-        id: "incidentDate",
-        label: "Last Noticed Date",
-        minWidth: "250px"
+        id: "isAdmin",
+        label: "Is Admin",
+        minWidth: "125px"
+    },
+    {
+        id: "canDownload",
+        label: "Can Download Reports",
+        minWidth: "125px"
+    },
+    {
+        id: "canEdit",
+        label: "Can Edit Reports",
+        minWidth: "125px",
     },
     {
         id: "action",
@@ -110,8 +127,9 @@ const columns = [
     }
 ];
 
-const HazardAdmin = () => {
+const UserAdmin = () => {
     const classes = useStyles();
+    const [category, setCategory] = useState<Category>(categories[4]);
     const [count, setCount] = useState(0);
     const [filterId, setFilterId] = useState("");
     const [open, setOpen] = useState(false);
@@ -122,7 +140,7 @@ const HazardAdmin = () => {
     const [rowToDelete, setRowToDelete] = useState(0);
     const [showFooter, setShowFooter] = useState(true);
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    // const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const handleCancelDelete = () => {
         setRowToDelete(0);
@@ -140,7 +158,7 @@ const HazardAdmin = () => {
         if (row) {
             const type = row.properties.type === "hazard-concern" ? "hazard": row.properties.type;
             const url = `${AdminUrl}/${type}/${rowToDelete}`;
-            const result = await DeletePoint(url);
+            const result = await DeleteUser(url);
 
             if (result.success) {
                 setCount(count - 1);
@@ -157,7 +175,8 @@ const HazardAdmin = () => {
         setOpen(true);
     };
 
-    const handleFilterById = () => {
+    const handleFilterById = (e: any) => {
+        e.preventDefault();
         if (!filterId) {
             handleClearFilter();
             return;
@@ -185,6 +204,11 @@ const HazardAdmin = () => {
     const handleRowsPerPageChange = (event: any) => {
         setRowsPerPage(event.target.value);
     };
+    
+    const handleSelection = (item: Category) => {
+        setCategory(item);
+        setPage(0);
+    };
 
     const renderTable = () => {
         return (
@@ -192,7 +216,7 @@ const HazardAdmin = () => {
                 <TableContainer> 
                     <Table size="small" stickyHeader>
                         <TableHead>
-                            <TableRow>
+                            <TableRow key="tableHeader">
                                 { columns.map((column) => (
                                     <TableCell
                                         className={classes.headerRow}
@@ -208,21 +232,21 @@ const HazardAdmin = () => {
                         { visibleRows.length > 0 && (
                             <TableBody>
                                 { visibleRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
-                                    <TableReportRow handleDelete={handleDelete} key={item.id} row={item.properties} />
+                                    <UserRow handleDelete={handleDelete} key={item.id} row={item} />
                                 ))}
                             </TableBody>
                         )}
                         {showFooter && ( 
                             <TableFooter>
-                                <TableRow>
-                                <TablePagination
-                                    count={count}
-                                    onPageChange={handlePageChange}
-                                    onChangeRowsPerPage={handleRowsPerPageChange}
-                                    page={page}
-                                    rowsPerPage={rowsPerPage}
-                                    rowsPerPageOptions={[10, 25, 50, 100]}
-                                />
+                                <TableRow key="tableFooter">
+                                    <TablePagination
+                                        count={count}
+                                        onPageChange={handlePageChange}
+                                        onChangeRowsPerPage={handleRowsPerPageChange}
+                                        page={page}
+                                        rowsPerPage={rowsPerPage}
+                                        rowsPerPageOptions={[10, 25, 50, 100]}
+                                    />
                                 </TableRow>
                             </TableFooter>
                         )}
@@ -234,13 +258,13 @@ const HazardAdmin = () => {
 
     useEffect(() => {
         (async () => {
-            const results  = await GetPoints(HazardUrl, page + 1, rowsPerPage);
-            const data = results.features;
+            const results  = await GetUsers(category.url, page + 1, rowsPerPage);
+            const data = results.users;
             setRows(data);
             setVisibleRows(rows);
             setCount(results.totalCount);
         })()
-    }, [count]);
+    }, [category, count]);
  
     return (
         <div className={classes.root}>
@@ -254,7 +278,8 @@ const HazardAdmin = () => {
                     { categories.map((item) => {
                         return (
                             <ListItem
-                                className={ReportType.Hazard === item.type || "hazard" === item.type ? classes.selected : undefined}
+                                className={category.type === item.type ? classes.selected : undefined}
+                                // component={props => <Link {...props} to={item.path} />}
                                 key={item.type}
                             >
                                 <Link to={item.path}>
@@ -275,18 +300,20 @@ const HazardAdmin = () => {
             {
                 <div className={classes.tableContainer}>
                     <Typography className={classes.title}>
-                        Hazards/Concerns
+                        { category.display }
                     </Typography>
                     <div className={classes.filterContainer}>
-                        <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
+                        <form onSubmit={handleFilterById}>
+                            <TextField label="Filter by Id" onChange={handleFilterIdChange} value={filterId}>
 
-                        </TextField>
-                        <Button className={classes.filterButton} color="primary" onClick={handleFilterById} variant="outlined">
-                            Filter
-                        </Button>
-                        <Button className={classes.filterButton} color="primary" onClick={handleClearFilter} variant="outlined">
-                            Clear
-                        </Button>
+                            </TextField>
+                            <Button className={classes.filterButton} color="primary" type="submit" variant="outlined">
+                                Filter
+                            </Button>
+                            <Button className={classes.filterButton} color="primary" onClick={handleClearFilter} variant="outlined">
+                                Clear
+                            </Button>
+                        </form>
                     </div>
                     { renderTable() }
                 </div>
@@ -296,4 +323,4 @@ const HazardAdmin = () => {
     )
 };
 
-export default HazardAdmin;
+export default UserAdmin;

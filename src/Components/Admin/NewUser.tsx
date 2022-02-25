@@ -1,61 +1,178 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+import { makeStyles } from "@material-ui/core/styles";
+import Snackbar from "@material-ui/core/Snackbar";
+import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
+import Alert from "@material-ui/lab/Alert";
+
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import Colors from "../../Colors";
+import { CreateUserService } from "../../Services/AdminServices";
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        display: "flex",
-        height: "calc(100vh - 64px)",
-        overflowY: "scroll",
+    button: {
+        minWidth: "95px",
     },
-    aboutPaper: {
-        backgroundColor: fade(Colors.gray, 0.1),
-        marginTop: theme.spacing(5),
-        marginBottom: theme.spacing(5),
-        padding: theme.spacing(5),
+    buttonBar: {
+        marginTop: theme.spacing(2),
+        textAlign: "right",
     },
-    aboutDescription: {
-        fontSize: "1.25rem",
-        marginBottom: theme.spacing(3),
+    form: {
         marginTop: theme.spacing(3),
     },
-    aboutTitle: {
-        fontSize: "3rem",
-        fontWeight: 500
+    grid: {
+        flexDirection: "column",
     },
-    sectionBody: {
-        marginBottom: theme.spacing(3),
+    input: {
+        marginTop: theme.spacing(2),
     },
-    sectionTitle: {
-        marginBottom: theme.spacing(2),
+    root: {
+        display: "flex",
+        marginTop: theme.spacing(5),
+        overflowY: "scroll",
     },
-    subContainerGrid: {
-        marginLeft: theme.spacing(2),
-        marginRight: theme.spacing(2),
-    },
-    subHeading: {
+    title: {
         color: theme.palette.primary.main,
-        marginBottom: theme.spacing(2),
-    },
-    supporterLogo: {
-        maxWidth: "200px",
+        fontSize: "36px"
     },
 }));
 
 const NewUser = () => {
     const classes = useStyles();
+    const [open, setOpen] = useState(false);
+
+    const validationSchema = Yup.object({
+        confirmPassword: Yup
+            .string()
+            .required("Confirmation password is required")
+            .oneOf([Yup.ref("password"), null], "Passwords must match"),
+        email: Yup
+            .string()
+            .required("Email is required"),
+        password: Yup
+            .string()
+            .min(6, "Password must be at least 6 characters long")
+            .required("Password is required."),
+        username: Yup
+            .string()
+            .required("Username is required."),
+    });
+
+    const formik = useFormik({
+        initialValues: {
+            confirmPassword: "",
+            email: "",
+            password: "",
+            username: ""
+        },
+        onSubmit: (values) => {
+            handleSubmit();
+        },
+        validationSchema: validationSchema
+    });
+
+    const handleSnackbarClose = () => {
+        console.log("Redirecting to login page.");
+        setOpen(false);
+    };
+
+    const handleSubmit = async () => {
+        const result = await CreateUserService(formik.values.username, formik.values.password, formik.values.email);
+
+        if (result.success) {
+            setOpen(true);
+        }
+        setOpen(true);
+    };
+
+    // TODO - Add handler to redirect user to login page/main reports page after creating a new account
 
     return (
         <div className={classes.root}>
-            <Paper>
-                This is a piece of paper.
-            </Paper>
-
+            <Grid
+                alignItems="center"
+                container
+                direction="column"
+                justify="center"
+                
+            >
+                <Grid item xs={6}>
+                    <Typography className={classes.title}>
+                        New User
+                    </Typography>
+                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="username"
+                            label="Username"
+                            value={formik.values.username}
+                            onChange={formik.handleChange}
+                            error={formik.touched.username && Boolean(formik.errors.username)}
+                            helperText={formik.touched.username && formik.errors.username}
+                            variant="outlined"
+                        />
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="email"
+                            label="Email"
+                            value={formik.values.email}
+                            onChange={formik.handleChange}
+                            error={formik.touched.email && Boolean(formik.errors.email)}
+                            helperText={formik.touched.email && formik.errors.email}
+                            variant="outlined"
+                        />
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="password"
+                            label="Password"
+                            value={formik.values.password}
+                            onChange={formik.handleChange}
+                            error={formik.touched.password && Boolean(formik.errors.password)}
+                            helperText={formik.touched.password && formik.errors.password}
+                            type="password"
+                            variant="outlined"
+                        />
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="confirm-password"
+                            label="Confirm Password"
+                            value={formik.values.confirmPassword}
+                            onChange={(event) => formik.setFieldValue("confirmPassword", event.target.value)}
+                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                            type="password"
+                            variant="outlined"
+                        />
+                        <div className={classes.buttonBar}>
+                            <Button
+                                className={classes.button}
+                                color="primary"
+                                type="submit"
+                                variant="outlined"
+                            >
+                                Create
+                            </Button>
+                        </div>
+                    </form>
+                </Grid>
+            </Grid>
+            <Snackbar
+                autoHideDuration={15000}
+                onClose={handleSnackbarClose}
+                open={open}
+            >
+                <Alert onClose={handleSnackbarClose} severity="success">
+                    "New user successfully created. You will be taken to the login page shortly."
+                </Alert>
+            </Snackbar>
         </div>
     );
 }

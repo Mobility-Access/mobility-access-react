@@ -217,7 +217,7 @@ const AmenityAdmin = () => {
                                 <TableRow>
                                 <TablePagination
                                     count={count}
-                                    onChangePage={handlePageChange}
+                                    onPageChange={handlePageChange}
                                     onChangeRowsPerPage={handleRowsPerPageChange}
                                     page={page}
                                     rowsPerPage={rowsPerPage}

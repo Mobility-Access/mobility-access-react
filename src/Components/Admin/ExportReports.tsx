@@ -14,6 +14,7 @@ import { categories } from "./Admin";
 import { AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl } from "../../Constants";
 import Colors from "../../Colors";
 import { ReportType } from "../../FormTypes";
+import { ExportReports as ExportReportsAdmin } from "../../Services/AdminServices";
 
 const drawerWidth = "250px";
 
@@ -63,27 +64,22 @@ const useStyles = makeStyles((theme) => ({
 const ExportReports = () => {
     const classes = useStyles();
 
-    const getAdminUrl = (type: string) => {
-        switch(type) {
-            case ReportType.Amenity:
-                return AdminAmenityUrl;
-            case ReportType.Hazard:
-                return AdminHazardUrl;
-            case ReportType.Incident:
-                return AdminIncidentUrl;
-            default:
-                return "";
-        }
-    }
+    const handleExport = async (type: string, format: string) => {
+        const response = await ExportReportsAdmin(type, format);
 
-    const handleExport = (type: string, format: string) => {
-        const baseUrl = getAdminUrl(type);
-        const url = `${baseUrl}/export?format=${format}`;
-        const link = document.createElement("a");
-        link.href = url;
-        document.body.appendChild(link);
-        link.click();
-        link.parentNode?.removeChild(link);
+        if (response && response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+            link.parentNode?.removeChild(link);
+        } else if (response && response.status === 401) {
+            console.log("Received a 401 on export.");
+        } else {
+            console.log("Some other error happened. ");
+        }
     };
 
     return (
