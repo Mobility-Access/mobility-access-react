@@ -107,8 +107,8 @@ const UserRow = (props: UserRowProps) => {
                 <TableCell>{row.username}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{ getIcon(row.isAdmin) }</TableCell>
-                <TableCell>{ getIcon(row.canEdit) }</TableCell>
-                <TableCell>{ getIcon(row.canDownload) }</TableCell>
+                {/* <TableCell>{ getIcon(row.canEdit) }</TableCell>
+                <TableCell>{ getIcon(row.canDownload) }</TableCell> */}
                 <TableCell>
                     <Button
                         className={classes.editButton}

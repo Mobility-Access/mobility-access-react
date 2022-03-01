@@ -84,15 +84,7 @@ export const DeleteUser = async (url: string) => {
         method: "DELETE",
     });
 
-    if (response.ok) {
-        return await response.json();
-    } else {
-        console.log(`An error occured while deleting user at ${url}`);
-        return {
-            message: `An error occured while deleting user at ${url}`,
-            success: false
-        };
-    }
+    return response;
 }
 
 export const ExportReports = async (type: string, format: string) => {
@@ -318,6 +310,15 @@ export const GetPoints = async (url: string, page?: number, rows?: number): Prom
     }
 };
 
+export const GetUser = async (id: string): Promise<any> => {
+    const url = `${AdminUrl}/user/${id}`;
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
+
+    return response;
+};
+
 export const GetUsers = async (url: string, page?: number, rows?: number): Promise<any> => {
     // if (page !== undefined && page >= 0 && rows !== undefined && rows > 0) {
     //     url = `${url}?page=${page}&rows=${rows}`
@@ -483,6 +484,26 @@ export const UpdateIncidentReport = async (report: any, id: string) => {
         };
     }
 }
+
+export const UpdateUser = async (userDetails: any, id: string) => {
+    const data = {
+        can_download: userDetails.canDownload,
+        can_edit: userDetails.canEdit,
+        is_admin: userDetails.isAdmin,
+        email: userDetails.email,
+    };
+
+    const options: RequestInit = {
+        headers: createAuthHeader(),
+        method: "POST",
+        referrerPolicy: "origin",
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(`${AdminUrl}/user/${id}`, options);
+
+    return response;
+};
 
 const getAdminUrlByType = (type: string) => {
     switch(type) {

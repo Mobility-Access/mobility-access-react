@@ -18,6 +18,7 @@ import ContactPanel from "../Components/Contact/ContactPanel";
 import ExplorationPanel from "../Components/Exploration/ExplorationPanel";
 import HelpPanel from "../Components/Help/HelpPanel";
 import Map from "../Components/Map/Map";
+import UserDetail from "../Components/Admin/UserDetail";
 
 import Header from "./Header";
 import PrivateRoute from "./PrivateRoute";
@@ -55,7 +56,8 @@ const ContentContainer = () => {
             <PrivateRoute exact path="/reports"><Admin /></PrivateRoute>
             <Route exact path="/reports/login"><Login /></Route>
             <Route exact path="/reports/newuser"><NewUser /></Route>
-            <Route exact path="/reports/user"><UserAdmin /></Route>
+            <PrivateRoute path="/reports/user/:id"><UserDetail /></PrivateRoute>
+            <PrivateRoute exact path="/reports/user"><UserAdmin /></PrivateRoute>
         </div>
     )
 };

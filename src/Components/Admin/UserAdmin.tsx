@@ -24,7 +24,7 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import UserRow from "./UserRow";
 import { DeleteUser, GetUsers } from "../../Services/AdminServices";
 import Colors from "../../Colors";
-import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
+import { AdminUrl } from "../../Constants";
 
 interface Category {
     display: string;
@@ -110,16 +110,16 @@ const columns = [
         label: "Is Admin",
         minWidth: "125px"
     },
-    {
-        id: "canDownload",
-        label: "Can Download Reports",
-        minWidth: "125px"
-    },
-    {
-        id: "canEdit",
-        label: "Can Edit Reports",
-        minWidth: "125px",
-    },
+    // {
+    //     id: "canDownload",
+    //     label: "Can Download Reports",
+    //     minWidth: "125px"
+    // },
+    // {
+    //     id: "canEdit",
+    //     label: "Can Edit Reports",
+    //     minWidth: "125px",
+    // },
     {
         id: "action",
         label: "Actions",
@@ -154,17 +154,20 @@ const UserAdmin = () => {
     };
 
     const handleConfirmDelete = async () => {
-        const row = rows.find((row: any) => row.properties.id === rowToDelete);
+        const row = rows.find((row: any) => row.id === rowToDelete);
         if (row) {
-            const type = row.properties.type === "hazard-concern" ? "hazard": row.properties.type;
-            const url = `${AdminUrl}/${type}/${rowToDelete}`;
-            const result = await DeleteUser(url);
+            const url = `${AdminUrl}/user/${rowToDelete}`;
+            const response = await DeleteUser(url);
 
-            if (result.success) {
+            if (response.ok) {
                 setCount(count - 1);
+            } else if (response.status === 401) {
+                console.warn("You must be logged in to delete a user.");
+            } else if (response.status === 403) {
+                console.warn("You are not authorized to delete a user.");
             } else {
                 console.log(`An error occurred while trying to delete report with ID: ${rowToDelete}.`);
-            }   
+            }
         }
         setRowToDelete(0);
         setOpen(false);
@@ -182,7 +185,7 @@ const UserAdmin = () => {
             return;
         }
 
-        const row = rows.find((row: any) => row.properties.id === parseInt(filterId));
+        const row = rows.find((row: any) => row.id === parseInt(filterId));
 
         if (row) {
             setVisibleRows([row]);
@@ -261,10 +264,10 @@ const UserAdmin = () => {
             const results  = await GetUsers(category.url, page + 1, rowsPerPage);
             const data = results.users;
             setRows(data);
-            setVisibleRows(rows);
+            setVisibleRows(data);
             setCount(results.totalCount);
         })()
-    }, [category, count]);
+    }, [count]);
  
     return (
         <div className={classes.root}>

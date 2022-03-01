@@ -17,4 +17,4 @@ export const AdminAmenityUrl = `${AdminUrl}/amenity`;
 export const AdminHazardUrl = `${AdminUrl}/hazard`;
 export const AdminIncidentUrl = `${AdminUrl}/incident`;
 export const AdminTokenUrl = `${AdminUrl}/token`;
-export const AdminUserUrl = `${AdminUrl}/user`;
+export const AdminUserUrl = `${AdminUrl}/users`;

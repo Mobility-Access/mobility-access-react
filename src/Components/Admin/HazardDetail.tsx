@@ -8,7 +8,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { Link } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
@@ -955,8 +954,6 @@ const HazardDetail = () => {
                     </div>
                 </div>
             )}
-            
-        
         </>
     );
 };
