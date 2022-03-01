@@ -967,8 +967,7 @@ const IncidentDetail = () => {
                     </div>
                 </div>
             )}
-            
-        
+            <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
         </>
     );
 };

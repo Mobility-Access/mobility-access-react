@@ -249,7 +249,7 @@ const HazardDetail = () => {
     };
 
     const handleConfirmDelete = async () => {
-        const url = `${AdminUrl}/incident/${id}`;
+        const url = `${AdminUrl}/hazard/${id}`;
         const result = await DeletePoint(url);
 
         if (result.success) {
@@ -952,6 +952,7 @@ const HazardDetail = () => {
                             saveClick={handleSaveButtonClicked}
                         />
                     </div>
+                    <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
                 </div>
             )}
         </>
