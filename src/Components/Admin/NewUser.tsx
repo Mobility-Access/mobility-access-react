@@ -9,6 +9,7 @@ import Alert from "@material-ui/lab/Alert";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { Redirect } from "react-router-dom";
 
 import Colors from "../../Colors";
 import { CreateUserService } from "../../Services/AdminServices";
@@ -44,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const NewUser = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [redirect, setRedirect] = useState(false);
 
     const validationSchema = Yup.object({
         confirmPassword: Yup
@@ -76,8 +78,8 @@ const NewUser = () => {
     });
 
     const handleSnackbarClose = () => {
-        console.log("Redirecting to login page.");
         setOpen(false);
+        setRedirect(true);
     };
 
     const handleSubmit = async () => {
@@ -92,88 +94,101 @@ const NewUser = () => {
     // TODO - Add handler to redirect user to login page/main reports page after creating a new account
 
     return (
-        <div className={classes.root}>
-            <Grid
-                alignItems="center"
-                container
-                direction="column"
-                justify="center"
-                
-            >
-                <Grid item xs={6}>
-                    <Typography className={classes.title}>
-                        New User
-                    </Typography>
-                    <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
-                        <TextField
-                            className={classes.input}
-                            fullWidth
-                            id="username"
-                            label="Username"
-                            value={formik.values.username}
-                            onChange={formik.handleChange}
-                            error={formik.touched.username && Boolean(formik.errors.username)}
-                            helperText={formik.touched.username && formik.errors.username}
-                            variant="outlined"
-                        />
-                        <TextField
-                            className={classes.input}
-                            fullWidth
-                            id="email"
-                            label="Email"
-                            value={formik.values.email}
-                            onChange={formik.handleChange}
-                            error={formik.touched.email && Boolean(formik.errors.email)}
-                            helperText={formik.touched.email && formik.errors.email}
-                            variant="outlined"
-                        />
-                        <TextField
-                            className={classes.input}
-                            fullWidth
-                            id="password"
-                            label="Password"
-                            value={formik.values.password}
-                            onChange={formik.handleChange}
-                            error={formik.touched.password && Boolean(formik.errors.password)}
-                            helperText={formik.touched.password && formik.errors.password}
-                            type="password"
-                            variant="outlined"
-                        />
-                        <TextField
-                            className={classes.input}
-                            fullWidth
-                            id="confirm-password"
-                            label="Confirm Password"
-                            value={formik.values.confirmPassword}
-                            onChange={(event) => formik.setFieldValue("confirmPassword", event.target.value)}
-                            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
-                            helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
-                            type="password"
-                            variant="outlined"
-                        />
-                        <div className={classes.buttonBar}>
-                            <Button
-                                className={classes.button}
-                                color="primary"
-                                type="submit"
-                                variant="outlined"
-                            >
-                                Create
-                            </Button>
-                        </div>
-                    </form>
-                </Grid>
-            </Grid>
-            <Snackbar
-                autoHideDuration={15000}
-                onClose={handleSnackbarClose}
-                open={open}
-            >
-                <Alert onClose={handleSnackbarClose} severity="success">
-                    "New user successfully created. You will be taken to the login page shortly."
-                </Alert>
-            </Snackbar>
-        </div>
+        <>
+            {
+                !redirect && (
+                    <div className={classes.root}>
+                        <Grid
+                            alignItems="center"
+                            container
+                            direction="column"
+                            justify="center"
+                            
+                        >
+                            <Grid item xs={6}>
+                                <Typography className={classes.title}>
+                                    New User
+                                </Typography>
+                                <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
+                                    <TextField
+                                        className={classes.input}
+                                        fullWidth
+                                        id="username"
+                                        label="Username"
+                                        value={formik.values.username}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.username && Boolean(formik.errors.username)}
+                                        helperText={formik.touched.username && formik.errors.username}
+                                        variant="outlined"
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        fullWidth
+                                        id="email"
+                                        label="Email"
+                                        value={formik.values.email}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.email && Boolean(formik.errors.email)}
+                                        helperText={formik.touched.email && formik.errors.email}
+                                        variant="outlined"
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        fullWidth
+                                        id="password"
+                                        label="Password"
+                                        value={formik.values.password}
+                                        onChange={formik.handleChange}
+                                        error={formik.touched.password && Boolean(formik.errors.password)}
+                                        helperText={formik.touched.password && formik.errors.password}
+                                        type="password"
+                                        variant="outlined"
+                                    />
+                                    <TextField
+                                        className={classes.input}
+                                        fullWidth
+                                        id="confirm-password"
+                                        label="Confirm Password"
+                                        value={formik.values.confirmPassword}
+                                        onChange={(event) => formik.setFieldValue("confirmPassword", event.target.value)}
+                                        error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                                        helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                                        type="password"
+                                        variant="outlined"
+                                    />
+                                    <div className={classes.buttonBar}>
+                                        <Button
+                                            className={classes.button}
+                                            color="primary"
+                                            type="submit"
+                                            variant="outlined"
+                                        >
+                                            Create
+                                        </Button>
+                                    </div>
+                                </form>
+                            </Grid>
+                        </Grid>
+                        <Snackbar
+                            autoHideDuration={5000}
+                            onClose={handleSnackbarClose}
+                            open={open}
+                        >
+                            <Alert onClose={handleSnackbarClose} severity="success">
+                                "New user successfully created. An admin must now activate your account."
+                            </Alert>
+                        </Snackbar>
+                    </div>
+                )
+            }
+            {
+                redirect && (
+                    <Redirect to={{pathname: "/"}} />
+                )
+            }
+        </>
+        
+        
     );
 }
 
