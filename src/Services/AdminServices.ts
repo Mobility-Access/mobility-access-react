@@ -1,15 +1,68 @@
-import { AdminUrl, AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl } from "../Constants";
+import { AdminUrl, AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl, AdminTokenUrl } from "../Constants";
 import { AmenityFields } from "../Components/Form/Amenity/AmenityController";
 import { HazardFields } from "../Components/Form/Hazard/HazardController";
 import { IncidentFields } from "../Components/Form/Incident/IncidentController"
 import { FeatureCollection, Gender, MobilityAid, ReportType } from "../FormTypes";
 
+const createAuthHeader = (username?: string, password?: string) => {
+    let authHeaderValue = "";
+
+    if (username && password) {
+        const basicToken = btoa(`${username}:${password}`);
+        authHeaderValue = `Basic ${basicToken}`
+    } else {
+        const jwt = localStorage.getItem("wrmjwt") || "";
+        authHeaderValue = `Bearer ${jwt}`;
+    }
+
+    return {
+        "Authorization": authHeaderValue,
+        "Content-Type": "application/json",
+    };
+};
+
+export const CreateUserService = async (username: string, password: string, email: string) => {
+    const options: RequestInit = {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        method: "POST",
+        referrerPolicy: "origin",
+        body: JSON.stringify({
+            email,
+            password,
+            username
+        })
+    };
+
+    try {
+        const response = await fetch(`${AdminUrl}/user`, options);
+        
+        if (response.ok) {
+            const result = await response.json();
+            return result;            
+        }
+        else {
+            // The server returned an error
+            console.log(`An error occurred while creating a new user: ${username}. ${response.status} - ${response.statusText}`);
+            return {
+                message: `An error occurred while creating a new user: ${username}. ${response.status} - ${response.statusText}`,
+                success: false,
+            };
+        }
+    } catch (e) {
+        // A network error occurred
+        console.log(`A network error occurred: ${e}`)
+        return {
+            message: `An unexpected network error occurred. Please try again.`,
+            success: false
+        };
+    }
+};
+
 export const DeletePoint = async (url: string) => {
     const response = await fetch(`${url}`, {
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-            },
+        headers: createAuthHeader(),
         referrerPolicy: "origin",
         method: "DELETE",
     });
@@ -24,9 +77,84 @@ export const DeletePoint = async (url: string) => {
     }
 }
 
+export const DeleteUser = async (url: string) => {
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader(),
+        referrerPolicy: "origin",
+        method: "DELETE",
+    });
+
+    return response;
+}
+
+export const ExportReports = async (type: string, format: string) => {
+    const options: RequestInit = {
+        headers: createAuthHeader(),
+    };
+    const baseUrl = getAdminUrlByType(type);
+    const url = `${baseUrl}/export?format=${format}`;
+
+    try {
+        return await fetch(url, options);
+    } catch (e) {
+        // A network error occurred
+        console.log(`A network error occurred: ${e}`)
+        return undefined;
+    }
+};
+
+export const GetUserToken = async (username: string, password: string) => {
+    const headers = createAuthHeader(username, password);
+    const options: RequestInit = {
+        headers,
+        method: "POST",
+        referrerPolicy: "origin",
+    };
+
+    try {
+        const response = await fetch(AdminTokenUrl, options);
+        
+        if (response.ok) {
+            const result = await response.json();
+            return {
+                duration: result.duration,
+                message: "Success",
+                status: response.status,
+                success: true,
+                token: result.token
+            };            
+        }
+        else {
+            if (response.status === 401) {
+                return {
+                    message: "Invalid username or password.",
+                    status: response.status,
+                    success: false,
+                }
+            }
+            // The server returned an error
+            console.log(`An error occurred while attempting to login: ${username}. ${response.status} - ${response.statusText}`);
+            return {
+                message: `An error occurred while attempting to login: ${username}. ${response.status} - ${response.statusText}`,
+                status: 500,
+                success: false,
+            };
+        }
+    } catch (e) {
+        // A network error occurred
+        console.log(`A network error occurred: ${e}`)
+        return {
+            message: "An unexpected network error occurred. Please try again.",
+            success: false
+        };
+    }
+}
+
 export const GetAmenity = async (id: string) => {
     const url = `${AdminUrl}/amenity/${id}`;
-    const response = await fetch(`${url}`);
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
 
     if (response.ok) {
         const result = await response.json();
@@ -69,7 +197,9 @@ export const GetAmenity = async (id: string) => {
 
 export const GetHazard = async (id: string) => {
     const url = `${AdminUrl}/hazard/${id}`;
-    const response = await fetch(`${url}`);
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
 
     if (response.ok) {
         const result = await response.json();
@@ -114,7 +244,9 @@ export const GetHazard = async (id: string) => {
 
 export const GetIncident = async (id: string) => {
     const url = `${AdminUrl}/incident/${id}`;
-    const response = await fetch(`${url}`);
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
 
     if (response.ok) {
         const result = await response.json();
@@ -178,6 +310,35 @@ export const GetPoints = async (url: string, page?: number, rows?: number): Prom
     }
 };
 
+export const GetUser = async (id: string): Promise<any> => {
+    const url = `${AdminUrl}/user/${id}`;
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
+
+    return response;
+};
+
+export const GetUsers = async (url: string, page?: number, rows?: number): Promise<any> => {
+    // if (page !== undefined && page >= 0 && rows !== undefined && rows > 0) {
+    //     url = `${url}?page=${page}&rows=${rows}`
+    // }
+    
+    const response = await fetch(`${url}`, {
+        headers: createAuthHeader()
+    });
+
+    if (response.ok) {
+        return await response.json() as any[];
+    } else {
+        console.log(`An error occurred while fetching the list of users: ${response.status} - ${response.statusText}`);
+        return {
+            mesage: `An error occurred while fetching the list of users: ${response.status} - ${response.statusText}`,
+            success: false
+        };
+    }
+};
+
 export const UpdateAmenityReport = async (report: any, id: string) => {
     const data = {
         amenity_type: report.amenityType,
@@ -196,9 +357,7 @@ export const UpdateAmenityReport = async (report: any, id: string) => {
     };
 
     const options: RequestInit = {
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: createAuthHeader(),
         method: "POST",
         referrerPolicy: "origin",
         body: JSON.stringify(data)
@@ -247,9 +406,7 @@ export const UpdateHazardReport = async (report: any, id: string) => {
     };
 
     const options: RequestInit = {
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: createAuthHeader(),
         method: "POST",
         referrerPolicy: "origin",
         body: JSON.stringify(data)
@@ -299,9 +456,7 @@ export const UpdateIncidentReport = async (report: any, id: string) => {
     };
 
     const options: RequestInit = {
-        headers: {
-            "Content-Type": "application/json",
-        },
+        headers: createAuthHeader(),
         method: "POST",
         referrerPolicy: "origin",
         body: JSON.stringify(data)
@@ -327,6 +482,39 @@ export const UpdateIncidentReport = async (report: any, id: string) => {
         return {
             networkError: true
         };
+    }
+}
+
+export const UpdateUser = async (userDetails: any, id: string) => {
+    const data = {
+        can_download: userDetails.canDownload,
+        can_edit: userDetails.canEdit,
+        is_admin: userDetails.isAdmin,
+        email: userDetails.email,
+    };
+
+    const options: RequestInit = {
+        headers: createAuthHeader(),
+        method: "POST",
+        referrerPolicy: "origin",
+        body: JSON.stringify(data)
+    };
+
+    const response = await fetch(`${AdminUrl}/user/${id}`, options);
+
+    return response;
+};
+
+const getAdminUrlByType = (type: string) => {
+    switch(type) {
+        case ReportType.Amenity:
+            return AdminAmenityUrl;
+        case ReportType.Hazard:
+            return AdminHazardUrl;
+        case ReportType.Incident:
+            return AdminIncidentUrl;
+        default:
+            return "";
     }
 }
 

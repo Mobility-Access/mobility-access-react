@@ -739,8 +739,7 @@ const AmenityDetail = () => {
                     </div>
                 </div>
             )}
-            
-        
+            <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
         </>
     );
 };

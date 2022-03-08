@@ -23,7 +23,7 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import TableReportRow from "./TableReportRow";
 import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
-import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl } from "../../Constants";
+import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl, AdminUserUrl } from "../../Constants";
 import { getLocalDateFromUtcMilliseconds } from "../../utilities";
 
 interface Category {
@@ -113,6 +113,12 @@ export const categories = [
         path: "/reports/incident",
         type: "incident",
         url: IncidentUrl
+    },
+    {
+        display: "Users",
+        path: "/reports/user",
+        type: "user",
+        url: AdminUserUrl
     },
 ];
 
@@ -258,7 +264,7 @@ const Admin = () => {
                                 <TableRow key="tableFooter">
                                     <TablePagination
                                         count={count}
-                                        onChangePage={handlePageChange}
+                                        onPageChange={handlePageChange}
                                         onChangeRowsPerPage={handleRowsPerPageChange}
                                         page={page}
                                         rowsPerPage={rowsPerPage}

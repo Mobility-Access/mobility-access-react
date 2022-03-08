@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Route } from "react-router-dom";
 
+import AboutPanel from "../Components/About/AboutPanel";
 import Admin from "../Components/Admin/Admin";
 import AmenityAdmin from "../Components/Admin/AmenityAdmin";
 import AmenityDetail from "../Components/Admin/AmenityDetail";
@@ -10,13 +11,17 @@ import HazardAdmin from "../Components/Admin/HazardAdmin";
 import HazardDetail from "../Components/Admin/HazardDetail";
 import IncidentAdmin from "../Components/Admin/IncidentAdmin";
 import IncidentDetail from "../Components/Admin/IncidentDetail";
-import Map from "../Components/Map/Map";
-import AboutPanel from "../Components/About/AboutPanel";
+import Login from "../Components/Admin/Login";
+import NewUser from "../Components/Admin/NewUser";
+import UserAdmin from "../Components/Admin/UserAdmin";
 import ContactPanel from "../Components/Contact/ContactPanel";
 import ExplorationPanel from "../Components/Exploration/ExplorationPanel";
 import HelpPanel from "../Components/Help/HelpPanel";
-import Header from "./Header";
+import Map from "../Components/Map/Map";
+import UserDetail from "../Components/Admin/UserDetail";
 
+import Header from "./Header";
+import PrivateRoute from "./PrivateRoute";
 
 import "./ContentContainer.css";
 
@@ -41,14 +46,18 @@ const ContentContainer = () => {
             <Route path="/contact"><ContactPanel /></Route>
             <Route path="/explore"><ExplorationPanel /></Route>
             <Route path="/help"><HelpPanel /></Route>
-            <Route path="/reports/amenity/:id"><AmenityDetail /></Route>
-            <Route exact path="/reports/amenity"><AmenityAdmin /></Route>
-            <Route exact path="/reports/export"><ExportReports /></Route>
-            <Route path="/reports/hazard/:id"><HazardDetail /></Route>
-            <Route exact path="/reports/hazard"><HazardAdmin /></Route>
-            <Route path="/reports/incident/:id"><IncidentDetail /></Route>
-            <Route exact path="/reports/incident"><IncidentAdmin /></Route>
-            <Route exact path="/reports"><Admin /></Route>
+            <PrivateRoute path="/reports/amenity/:id"><AmenityDetail /></PrivateRoute>
+            <PrivateRoute exact path="/reports/amenity"><AmenityAdmin /></PrivateRoute>
+            <PrivateRoute exact path="/reports/export"><ExportReports /></PrivateRoute>
+            <PrivateRoute path="/reports/hazard/:id"><HazardDetail /></PrivateRoute>
+            <PrivateRoute exact path="/reports/hazard"><HazardAdmin /></PrivateRoute>
+            <PrivateRoute path="/reports/incident/:id"><IncidentDetail /></PrivateRoute>
+            <PrivateRoute exact path="/reports/incident"><IncidentAdmin /></PrivateRoute>
+            <PrivateRoute exact path="/reports"><Admin /></PrivateRoute>
+            <Route exact path="/reports/login"><Login /></Route>
+            <Route exact path="/reports/newuser"><NewUser /></Route>
+            <PrivateRoute path="/reports/user/:id"><UserDetail /></PrivateRoute>
+            <PrivateRoute exact path="/reports/user"><UserAdmin /></PrivateRoute>
         </div>
     )
 };

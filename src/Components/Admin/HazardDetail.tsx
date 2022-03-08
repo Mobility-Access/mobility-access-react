@@ -8,7 +8,6 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 
 import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { Link } from "react-router-dom";
 
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
@@ -250,7 +249,7 @@ const HazardDetail = () => {
     };
 
     const handleConfirmDelete = async () => {
-        const url = `${AdminUrl}/incident/${id}`;
+        const url = `${AdminUrl}/hazard/${id}`;
         const result = await DeletePoint(url);
 
         if (result.success) {
@@ -953,10 +952,9 @@ const HazardDetail = () => {
                             saveClick={handleSaveButtonClicked}
                         />
                     </div>
+                    <ConfirmDeleteDialog handleConfirmNo={handleCancelDelete} handleConfirmYes={handleConfirmDelete} open={open} />
                 </div>
             )}
-            
-        
         </>
     );
 };
