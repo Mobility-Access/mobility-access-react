@@ -1,7 +1,7 @@
-export const ApiUrl = "http://127.0.0.1:5000/api";
-// export const ApiUrl = "http://178.128.225.253/api";
-export const AdminUrl = "http://127.0.0.1:5000/admin";
-// export const AdminUrl = "https://walkrollmap.org/admin";
+import { BaseUrl } from "./config";
+
+export const ApiUrl = `${BaseUrl}/api`;
+export const AdminUrl = `${BaseUrl}/admin`;
 export const GeocoderUrl = "https://nominatim.openstreetmap.org/search";
 
 // Basic API URLs that return limited fields for each report
@@ -18,3 +18,4 @@ export const AdminHazardUrl = `${AdminUrl}/hazard`;
 export const AdminIncidentUrl = `${AdminUrl}/incident`;
 export const AdminTokenUrl = `${AdminUrl}/token`;
 export const AdminUserUrl = `${AdminUrl}/users`;
+
