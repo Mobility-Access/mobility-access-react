@@ -73,6 +73,7 @@ const ExportReports = () => {
             const link = document.createElement("a");
             link.href = url;
             document.body.appendChild(link);
+            link.setAttribute("download", `${type}.${format}`);
             link.click();
             link.parentNode?.removeChild(link);
         } else if (response && response.status === 401) {

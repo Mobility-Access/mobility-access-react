@@ -197,8 +197,6 @@ const UserDetail = () => {
         })()
     }, []);
 
-
-
     return (
         <>
             <div>
