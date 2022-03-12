@@ -176,7 +176,7 @@ const IncidentForm = (props: IncidentFormProps) => {
             items.push(
                 <MenuItem className={classes.menuItem} key={IncidentHitByOrNearmissSubtypes[i].key} value={IncidentHitByOrNearmissSubtypes[i].key}>
                     <Typography className={i < 5 ? classes.listItem : undefined}>
-                        {IncidentHitByOrNearmissSubtypes[i].value}
+                        {t(IncidentHitByOrNearmissSubtypes[i].value)}
                     </Typography>
                 </MenuItem>
             );
@@ -210,7 +210,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
@@ -270,7 +270,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
@@ -300,7 +300,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                                 return (
                                     <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                         <Typography>
-                                            {item.value}
+                                            {t(item.value)}
                                         </Typography>
                                     </MenuItem>
                                 )
@@ -330,7 +330,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
@@ -361,7 +361,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                                     return (
                                         <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
                                             <Typography>
-                                                {item.value}
+                                                {t(item.value)}
                                             </Typography>
                                         </MenuItem>
                                     )
