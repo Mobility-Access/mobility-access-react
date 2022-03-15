@@ -11,7 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 
 import { categories } from "./Admin";
-import { AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl } from "../../Constants";
 import Colors from "../../Colors";
 import { ReportType } from "../../FormTypes";
 import { ExportReports as ExportReportsAdmin } from "../../Services/AdminServices";

@@ -19,6 +19,7 @@ import ExplorationPanel from "../Components/Exploration/ExplorationPanel";
 import HelpPanel from "../Components/Help/HelpPanel";
 import Map from "../Components/Map/Map";
 import UserDetail from "../Components/Admin/UserDetail";
+import Swagger from "../Components/Swagger";
 
 import Header from "./Header";
 import PrivateRoute from "./PrivateRoute";
@@ -58,6 +59,7 @@ const ContentContainer = () => {
             <Route exact path="/reports/newuser"><NewUser /></Route>
             <PrivateRoute path="/reports/user/:id"><UserDetail /></PrivateRoute>
             <PrivateRoute exact path="/reports/user"><UserAdmin /></PrivateRoute>
+            <Route exact path="/swagger.json"><Swagger /></Route>
         </div>
     )
 };
