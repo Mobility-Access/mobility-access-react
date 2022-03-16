@@ -203,7 +203,7 @@ const AboutPanel = () => {
                     <Typography>
                         {t("about_open-data-description-start")}
                         <RouterLink to="/swagger.json">
-                            {`${BaseUrl}/swagger.json.`}
+                            {"here."}
                         </RouterLink>
                         {" "}
                         {t("about_open-data-spec")}
