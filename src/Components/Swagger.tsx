@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 
+import { SwaggerUrl } from "../Constants";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         height: "calc(100vh - 64px)",
@@ -16,7 +18,7 @@ const Swagger = () => {
 
     return (
         <div className={classes.root}>
-            <SwaggerUI url="http://localhost:5000/api/swagger.json" />
+            <SwaggerUI url={SwaggerUrl} />
         </div>
     );
 };
