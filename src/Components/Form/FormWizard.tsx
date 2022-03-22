@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
+import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { makeStyles } from "@material-ui/core/styles";
@@ -14,6 +15,7 @@ import AmenityController from "./Amenity/AmenityController";
 import HazardController from "./Hazard/HazardController";
 import IncidentController from "./Incident/IncidentController";
 import Colors from "../../Colors";
+import { defaultLanguage } from "../../config";
 import { ChoiceItem, ReportType } from "../../FormTypes";
 
 interface FormWizardProps {
@@ -94,6 +96,27 @@ const FormWizard = (props: FormWizardProps) => {
         setType(null);
     };
 
+    const renderBikeMapsLink = () => {
+        let hyperlink = "https://BikeMaps.org";
+
+        switch(defaultLanguage) {
+            case "fr":
+                hyperlink = `${hyperlink}/fr`;
+                break;
+            case "es":
+                hyperlink = `${hyperlink}/es`;
+                break;
+            default:
+                break;
+        }
+
+        return (
+            <Link href={hyperlink} rel="noopener noreferrer" target="_blank" underline="always">
+                BikeMaps.org
+            </Link>
+        );
+    };
+
     const renderPanel = () => {
         switch(type) {
             
@@ -118,6 +141,10 @@ const FormWizard = (props: FormWizardProps) => {
                 <FormTitle title="form_title" />
                 <Typography className={classes.text}>
                     {t("form_report-description")}
+                </Typography>
+                <Typography className={classes.text}>
+                    {t("form_report-description-bikemaps-link")}
+                    {renderBikeMapsLink()}.
                 </Typography>
                 <Typography className={classes.reportQuestion}>
                     {t("form_report-type")}
