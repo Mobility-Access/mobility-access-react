@@ -246,6 +246,7 @@
     "form_previous": "Previous",
     "form_report-description": "Welcome to WalkRollMap! Help make your walking or rolling environment safer and more accessible by mapping your experiences.",
     "form_report-description-bikemaps-link": "On a bicycle? Please report at ",
+    "form_report-description-bikemaps-link-suffix": ".",
     "form_report-type": "What type of report would you like to map?",
     "form_report_type-amenity": "Suggest a Missing Amenity (e.g. sidewalk, bench, etc.)",
     "form_report-type-hazard": "Report a Hazard or Concern",

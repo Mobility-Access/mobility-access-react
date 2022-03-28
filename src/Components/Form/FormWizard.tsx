@@ -144,7 +144,8 @@ const FormWizard = (props: FormWizardProps) => {
                 </Typography>
                 <Typography className={classes.text}>
                     {t("form_report-description-bikemaps-link")}
-                    {renderBikeMapsLink()}.
+                    {renderBikeMapsLink()}
+                    {t("form_report-description-bikemaps-link-suffix")}
                 </Typography>
                 <Typography className={classes.reportQuestion}>
                     {t("form_report-type")}

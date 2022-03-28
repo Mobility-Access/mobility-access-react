@@ -247,7 +247,7 @@
     "form_report-description": "Bienvenue sur On marche, on roule! Contribuez à rendre l’environnement où vous roulez ou marchez plus sécuritaire et plus accessible en cartographiant vos expériences.",
     "form_report-type": "Quel type de rapport aimeriez-vous cartographier? ",
     "form_report-description-bikemaps-link": "À vélo? SVP allez au ",
-    "form_report-description-bikemaps-link-postfix": "pour nous envoyer vos expériences",
+    "form_report-description-bikemaps-link-suffix": " pour nous envoyer vos expériences.",
     "form_report_type-amenity": "Suggérer une commodité ou un aménagement manquant (par exemple, trottoir, banc, etc.)",
     "form_report-type-hazard": "Signaler un danger ou une préoccupation",
     "form_report_type-incident": "Signaler un incident (collision, chute ou quasi-collision)",
