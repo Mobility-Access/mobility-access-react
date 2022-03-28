@@ -10,6 +10,7 @@ export const AmenityUrl = `${ApiUrl}/amenity`;
 export const HazardUrl = `${ApiUrl}/hazard`;
 export const IncidentUrl = `${ApiUrl}/incident`;
 export const UserUrl = `${ApiUrl}/user`;
+export const SwaggerUrl = `${ApiUrl}/swagger.json`;
 
 // URLs used by admin pages with full access to all report fields
 export const AdminPointUrl = `${AdminUrl}/point`;

@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
+import Link from "@material-ui/core/Link";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import Typography from "@material-ui/core/Typography";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+
+import { Link as RouterLink } from "react-router-dom";
 
 import ReactGA from "react-ga4";
 
@@ -14,7 +18,10 @@ import Faq, { QuestionAnswer } from "./Faq";
 import Supporters from "./Supporters";
 import TeamMember from "./TeamMember";
 import TeamMembers from "./TeamMembers";
+import { BaseUrl } from "../../config";
 import Colors from "../../Colors";
+import { AmenityUrl, HazardUrl, IncidentUrl } from "../../Constants";
+import { ReportType } from "../../FormTypes";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +44,19 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "3rem",
         fontWeight: 500
     },
+    button: {
+        marginRight: theme.spacing(1),
+        minWidth: "95px",
+    },
+    buttonBar: {
+        display: "flex",
+        marginTop: theme.spacing(2),
+    },
+    exportBlock: {
+        marginBottom: theme.spacing(5),
+        marginLeft: theme.spacing(3),
+        marginTop: theme.spacing(3),
+    },
     sectionBody: {
         marginBottom: theme.spacing(3),
     },
@@ -49,7 +69,14 @@ const useStyles = makeStyles((theme) => ({
     },
     subHeading: {
         color: theme.palette.primary.main,
+        fontSize: "2rem",
+        fontWeight: 500,
         marginBottom: theme.spacing(2),
+    },
+    subTitle: {
+        color: theme.palette.primary.main,
+        fontSize: "20px",
+        marginRight: theme.spacing(1),
     },
     supporterLogo: {
         maxWidth: "200px",
@@ -61,6 +88,56 @@ const AboutPanel = () => {
     const classes = useStyles();
     const theme = useTheme();
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
+
+    const exportReports = async (type: string, format: string) => {
+        const options: RequestInit = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        const baseUrl = getUrlByType(type);
+        const url = `${baseUrl}/export?format=${format}`;
+    
+        try {
+            return await fetch(url, options);
+        } catch (e) {
+            // A network error occurred
+            console.log(`A network error occurred: ${e}`)
+            return undefined;
+        }
+    };
+
+    const getUrlByType = (type: string) => {
+        switch(type) {
+            case ReportType.Amenity:
+                return AmenityUrl;
+            case ReportType.Hazard:
+                return HazardUrl;
+            case ReportType.Incident:
+                return IncidentUrl;
+            default:
+                return "";
+        }
+    }
+
+    const handleExport = async (type: string, format: string) => {
+        const response = await exportReports(type, format);
+
+        if (response && response.ok) {
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            document.body.appendChild(link);
+            link.setAttribute("download", `${type}.${format}`);
+            link.click();
+            link.parentNode?.removeChild(link);
+        } else if (response && response.status === 401) {
+            console.log("Received a 401 on export.");
+        } else {
+            console.log("Some other error happened. ");
+        }
+    };
 
     const renderAboutDescription = () => {
         return (
@@ -93,7 +170,7 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid className={classes.sectionTitle}>
-                    <Typography className={classes.subHeading} variant="h4">
+                    <Typography className={classes.subHeading}>
                         {t("about_faq")}
                     </Typography>
                 </AboutGrid>
@@ -114,15 +191,88 @@ const AboutPanel = () => {
         );
     };
 
+    const renderOpenData = () => {
+        return (
+            <>
+                <AboutGrid>
+                    <Typography className={classes.subHeading}>
+                        {t("about_open-data")} 
+                    </Typography>
+                </AboutGrid>
+                <AboutGrid className={classes.sectionBody}>
+                    <Typography>
+                        {t("about_open-data-description-1")}
+                        <RouterLink to="/swagger.json">
+                            {t("about_open-data-description-2")}
+                        </RouterLink>
+                        {t("about_open-data-description-3")}
+                        <RouterLink target="_blank" to="/api/swagger.json">
+                            {`${BaseUrl}/api/swagger.json.`}
+                        </RouterLink>
+                        {t("about_open-data-description-4")}
+                    </Typography>
+                    <div className={classes.exportBlock}>
+                        <Typography className={classes.subTitle}>
+                            Hazards/Concerns
+                        </Typography>
+                        <div className={classes.buttonBar}>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "csv")} variant="outlined">
+                                CSV
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "json")} variant="outlined">
+                                JSON
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "geojson")} variant="outlined">
+                                GeoJSON
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={classes.exportBlock}>
+                        <Typography className={classes.subTitle}>
+                            Missing Amenties
+                        </Typography>
+                        <div className={classes.buttonBar}>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
+                                CSV
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
+                                JSON
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "geojson")} variant="outlined">
+                                GeoJSON
+                            </Button>
+                        </div>
+                    </div>
+                    <div className={classes.exportBlock}>
+                        <Typography className  ={classes.subTitle}>
+                            Incidents
+                        </Typography>
+                        <div className={classes.buttonBar}>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "csv")} variant="outlined">
+                                CSV
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "json")} variant="outlined">
+                                JSON
+                            </Button>
+                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "geojson")} variant="outlined">
+                                GeoJSON
+                            </Button>
+                        </div>
+                    </div>
+                </AboutGrid>
+            </>
+        );
+    };
+
     const renderOurTeam = () => {
         return (
             <>
                 <AboutGrid className={classes.sectionTitle}>
-                    <Typography className={classes.subHeading} variant="h4">
+                    <Typography className={classes.subHeading}>
                         {t("about_our-team")}
                     </Typography>
                 </AboutGrid>
-                <AboutGrid>
+                <AboutGrid className={classes.sectionBody}>
                     <Grid container alignItems="stretch" spacing={isXs ? 0 : 4} className={classes.subContainerGrid}>
                     {
                         TeamMembers.map((item, index) => {
@@ -143,7 +293,7 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid>
-                    <Typography className={classes.subHeading} variant="h4">
+                    <Typography className={classes.subHeading}>
                         {t("about_supporters")} 
                     </Typography>
                 </AboutGrid>
@@ -177,6 +327,7 @@ const AboutPanel = () => {
                 {renderFaq()}
                 {renderSupporters()}
                 {renderOurTeam()}
+                {renderOpenData()}
             </Grid>
 
         </div>
