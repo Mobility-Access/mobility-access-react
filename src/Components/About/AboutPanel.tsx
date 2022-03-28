@@ -201,17 +201,15 @@ const AboutPanel = () => {
                 </AboutGrid>
                 <AboutGrid className={classes.sectionBody}>
                     <Typography>
-                        {t("about_open-data-description-start")}
+                        {t("about_open-data-description-1")}
                         <RouterLink to="/swagger.json">
-                            {"here."}
+                            {t("about_open-data-description-2")}
                         </RouterLink>
-                        {" "}
-                        {t("about_open-data-spec")}
+                        {t("about_open-data-description-3")}
                         <RouterLink target="_blank" to="/api/swagger.json">
                             {`${BaseUrl}/api/swagger.json.`}
                         </RouterLink>
-                        {" "}
-                        {t("about_open-data-download-desription")}
+                        {t("about_open-data-description-4")}
                     </Typography>
                     <div className={classes.exportBlock}>
                         <Typography className={classes.subTitle}>
