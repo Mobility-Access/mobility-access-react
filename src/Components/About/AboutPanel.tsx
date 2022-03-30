@@ -213,7 +213,7 @@ const AboutPanel = () => {
                     </Typography>
                     <div className={classes.exportBlock}>
                         <Typography className={classes.subTitle}>
-                            Hazards/Concerns
+                            {t("about_open-data-hazard-concern")}
                         </Typography>
                         <div className={classes.buttonBar}>
                             <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "csv")} variant="outlined">
@@ -229,7 +229,7 @@ const AboutPanel = () => {
                     </div>
                     <div className={classes.exportBlock}>
                         <Typography className={classes.subTitle}>
-                            Missing Amenties
+                            {t("about_open-data-missing-amenities")}
                         </Typography>
                         <div className={classes.buttonBar}>
                             <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
@@ -245,7 +245,7 @@ const AboutPanel = () => {
                     </div>
                     <div className={classes.exportBlock}>
                         <Typography className  ={classes.subTitle}>
-                            Incidents
+                            {t("about_open-data-incident")}
                         </Typography>
                         <div className={classes.buttonBar}>
                             <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "csv")} variant="outlined">
