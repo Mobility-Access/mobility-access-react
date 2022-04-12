@@ -28,6 +28,7 @@ interface IncidentControllerProps {
 }
 
 export const initialState: IncidentFields = {
+    archived: false,
     birthYear: '',
     date: new Date(),
     description: "",
@@ -47,6 +48,7 @@ export const initialState: IncidentFields = {
     mobilityAidTypeOpen: "",
     point: [],
     suggestedSolution: "",
+    visible: true
 };
 
 const IncidentController = (props: IncidentControllerProps) => {

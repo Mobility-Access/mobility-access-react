@@ -1,6 +1,6 @@
 import { HazardFields } from "./HazardController";
 import { HazardUrl } from "../../../Constants";
-import { FeatureCollection, ReportType } from "../../../FormTypes";
+import { ReportType } from "../../../FormTypes";
 
 export const SubmitHazardReport = async (report: HazardFields) => {
     const data = {
@@ -49,21 +49,6 @@ export const SubmitHazardReport = async (report: HazardFields) => {
         console.log(`A network error occurred: ${e}`)
         return {
             networkError: true
-        };
-    }
-};
-
-export const GetHazardFeatureCollection = async (): Promise<FeatureCollection> => {
-    const response = await fetch(`${HazardUrl}`);
-
-    if (response.ok) {
-        return await response.json() as FeatureCollection;
-    } else {
-        console.log(`An error occurred while fetching the Hazard/Concern features: ${response.status} - ${response.statusText}`);
-        return {
-            type: "FeatureCollection",
-            features: [],
-            totalCount: 0,
         };
     }
 };

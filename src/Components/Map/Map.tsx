@@ -34,11 +34,9 @@ import FormWizard from "../Form/FormWizard";
 
 import "ol/ol.css";
 import "./Map.css";
+import { GetReportsAsFeatureCollection } from "../../Services/ApiServices";
 import Geocoder from "./Geocoder";
 import CancelDialog from "../Form/CancelDialog";
-import { GetAmenityFeatureCollection } from "../Form/Amenity/AmenityService";
-import { GetHazardFeatureCollection } from "../Form/Hazard/HazardService"; 
-import { GetIncidentFeatureCollection } from "../Form/Incident/IncidentService";
 
 import Legend from "./Legend";
 import NavigationWarning from "./NavigationWarning";
@@ -405,7 +403,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addAmenityFeatureLayer() {
-        const amenityFeatureCollection = await GetAmenityFeatureCollection() || {
+        const amenityFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Amenity, true) || {
             type: "FeatureCollection",
             features: []
         };
@@ -422,7 +420,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addHazardFeatureLayer() {
-        const hazardFeatureCollection = await GetHazardFeatureCollection() || {
+        const hazardFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Hazard, true) || {
             type: "FeatureCollection",
             features: []
         };
@@ -439,7 +437,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addIncidentFeatureLayer() {
-        const incidentFeatureCollection = await GetIncidentFeatureCollection() || {
+        const incidentFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Incident, true) || {
             type: "FeatureCollection",
             features: []
         };

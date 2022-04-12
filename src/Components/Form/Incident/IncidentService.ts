@@ -1,6 +1,6 @@
 import { IncidentFields } from "./IncidentController";
 import { IncidentUrl } from "../../../Constants";
-import { FeatureCollection, ReportType } from "../../../FormTypes";
+import { ReportType } from "../../../FormTypes";
 
 export const SubmitIncidentReport = async (report: IncidentFields) => {
     const data = {
@@ -50,21 +50,6 @@ export const SubmitIncidentReport = async (report: IncidentFields) => {
         console.log(`A network error occurred: ${e}`)
         return {
             networkError: true
-        };
-    }
-};
-
-export const GetIncidentFeatureCollection = async (): Promise<FeatureCollection> => {
-    const response = await fetch(`${IncidentUrl}`);
-
-    if (response.ok) {
-        return await response.json() as FeatureCollection;
-    } else {
-        console.log(`An error occurred while fetching the Incident features: ${response.status} - ${response.statusText}`);
-        return {
-            type: "FeatureCollection",
-            features: [],
-            totalCount: 0,
         };
     }
 };

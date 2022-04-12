@@ -26,6 +26,7 @@ interface HazardControllerProps {
 }
 
 export const initialState: HazardFields = {
+    archived: false,
     hazardType: "",
     hazardSubtype: "",
     hazardSubtypeDetail: "",
@@ -43,7 +44,8 @@ export const initialState: HazardFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
-    suggestedSolution: ""
+    suggestedSolution: "",
+    visible: true
 };
 
 const HazardController = (props: HazardControllerProps) => {
