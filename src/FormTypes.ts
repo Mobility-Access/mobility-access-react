@@ -1,6 +1,7 @@
 // Interfaces
 
 export interface BaseFields {
+    archived?: boolean;
     birthYear: string;
     date: any;
     description: string;
@@ -16,6 +17,7 @@ export interface BaseFields {
     mobilityAidTypeOpen?: string;
     point: number[];
     suggestedSolution: string;
+    visible?: boolean;
 }
 
 export interface ChoiceItem {

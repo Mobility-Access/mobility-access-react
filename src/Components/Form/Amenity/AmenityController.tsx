@@ -24,6 +24,7 @@ interface AmenityControllerProps {
 }
 
 export const initialState: AmenityFields = {
+    archived: false,
     amenityType: "",
     birthYear: '',
     date: new Date(),
@@ -39,7 +40,8 @@ export const initialState: AmenityFields = {
     mobilityAidType: "",
     mobilityAidTypeOpen: "",
     point: [],
-    suggestedSolution: ""
+    suggestedSolution: "",
+    visible: true
 };
 
 const AmenityController = (props: AmenityControllerProps) => {

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
+import Checkbox from "@material-ui/core/Checkbox";
 import Divider from "@material-ui/core/Divider";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import MenuItem from "@material-ui/core/MenuItem";
 import { makeStyles } from "@material-ui/core/styles";
@@ -19,7 +21,6 @@ import enLocale from "date-fns/locale/en-US";
 import { useHistory, useParams } from  "react-router-dom";
 
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
-import AlertDialog from "./AlertDialog";
 import EditButtonBar from "./EditButtonBar"
 import { DeletePoint, GetHazard, UpdateHazardReport } from "../../Services/AdminServices";
 import Colors from "../../Colors";
@@ -232,6 +233,10 @@ const HazardDetail = () => {
         validationSchema: validationSchema
     });
 
+    const handleArchivedChange = (event: any) => {
+        formik.setFieldValue("archived", event.target.checked);
+    };
+
     const handleBirthYearSelect = (event: any) => {
         formik.setFieldValue("birthYear", event.target.value);
     };
@@ -370,6 +375,10 @@ const HazardDetail = () => {
 
         setShowForm(false);
         setShowSaveResult(true);
+    };
+
+    const handleVisibleChange = (event: any) => {
+        formik.setFieldValue("visible", event.target.checked);
     };
 
     useEffect(() => {
@@ -933,6 +942,28 @@ const HazardDetail = () => {
                                         />
                                     </div>
                                 )}
+                                <div className={classes.question}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox 
+                                                checked={formik.values.visible}
+                                                color="primary"
+                                                onChange={handleVisibleChange}
+                                            />}
+                                        label="Visible. Toggle off the visibility of a report to hide it from the map."
+                                    />
+                                </div>
+                                <div className={classes.question}>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={formik.values.archived}
+                                                color="primary"
+                                                onChange={handleArchivedChange}
+                                            />}
+                                        label="Archived. Mark a report as archived so it is inaccessible through our API, but still editable with the admin UI. Archived reports are not visible on the map."
+                                    />
+                                </div>
                             </form>
                         </div>
                         <div className={classes.containerItem}>

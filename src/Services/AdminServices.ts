@@ -164,6 +164,7 @@ export const GetAmenity = async (id: string) => {
             const genderValues = parseGender(data.gender);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const amenity: AmenityFields = {
+                archived: data.archived,
                 amenityType: data.amenity_type,
                 birthYear: data.birth_year,
                 date: data.date,
@@ -179,7 +180,8 @@ export const GetAmenity = async (id: string) => {
                 mobilityAidType: mobilityAidTypeValues.mobilityAidType,
                 mobilityAidTypeOpen: mobilityAidTypeValues.mobilityAidTypeOpen,
                 point: data.geom,
-                suggestedSolution: data.suggestedSolution 
+                suggestedSolution: data.suggestedSolution,
+                visible: data.visible
             };
             return {
                 amenity,
@@ -209,6 +211,7 @@ export const GetHazard = async (id: string) => {
             const genderValues = parseGender(data.gender);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const hazard: HazardFields = {
+                archived: data.archived,
                 hazardType: data.hazard_type,
                 hazardSubtype: data.hazard_subtype,
                 hazardSubtypeDetail: data.hazard_subtype_detail,
@@ -226,7 +229,8 @@ export const GetHazard = async (id: string) => {
                 mobilityAidType: mobilityAidTypeValues.mobilityAidType,
                 mobilityAidTypeOpen: mobilityAidTypeValues.mobilityAidTypeOpen,
                 point: data.geom,
-                suggestedSolution: data.suggestedSolution 
+                suggestedSolution: data.suggestedSolution,
+                visible: data.visible 
             };
             return {
                 hazard,
@@ -256,6 +260,7 @@ export const GetIncident = async (id: string) => {
             const genderValues = parseGender(data.gender);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const incident: IncidentFields = {
+                archived: data.archived,
                 incidentType: data.incident_type,
                 incidentSubtype: data.incident_with,
                 injury: data.injury_type,
@@ -274,7 +279,8 @@ export const GetIncident = async (id: string) => {
                 mobilityAidType: mobilityAidTypeValues.mobilityAidType,
                 mobilityAidTypeOpen: mobilityAidTypeValues.mobilityAidTypeOpen,
                 point: data.geom,
-                suggestedSolution: data.suggestedSolution 
+                suggestedSolution: data.suggestedSolution,
+                visible: data.visible
             };
 
             return {
@@ -342,6 +348,7 @@ export const GetUsers = async (url: string, page?: number, rows?: number): Promi
 export const UpdateAmenityReport = async (report: any, id: string) => {
     const data = {
         amenity_type: report.amenityType,
+        archived: report.archived,
         birth_year: report.birthYear,
         date: report.date.valueOf(),
         description: report.description,
@@ -354,6 +361,7 @@ export const UpdateAmenityReport = async (report: any, id: string) => {
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
         suggestedSolution: report.suggestedSolution,
         type: ReportType.Amenity,
+        visible: report.visible
     };
 
     const options: RequestInit = {
@@ -388,6 +396,7 @@ export const UpdateAmenityReport = async (report: any, id: string) => {
 
 export const UpdateHazardReport = async (report: any, id: string) => {
     const data = {
+        archived: report.archived,
         hazard_type: report.hazardType,
         hazard_subtype: report.hazardSubtype,
         hazard_subtype_detail: report.hazardSubtypeDetail,
@@ -403,6 +412,7 @@ export const UpdateHazardReport = async (report: any, id: string) => {
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
         suggestedSolution: report.suggestedSolution,
         type: ReportType.Hazard,
+        visible: report.visible
     };
 
     const options: RequestInit = {
@@ -437,6 +447,7 @@ export const UpdateHazardReport = async (report: any, id: string) => {
 
 export const UpdateIncidentReport = async (report: any, id: string) => {
     const data = {
+        archived: report.archived,
         incident_type: report.incidentType,
         incident_subtype: report.indicentSubtype,
         injury: report.injury,
@@ -453,6 +464,7 @@ export const UpdateIncidentReport = async (report: any, id: string) => {
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
         suggestedSolution: report.suggestedSolution,
         type: ReportType.Incident,
+        visible: report.visible
     };
 
     const options: RequestInit = {

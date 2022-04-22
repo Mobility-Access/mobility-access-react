@@ -1,6 +1,6 @@
 import { AmenityFields } from "./AmenityController";
 import { AmenityUrl } from "../../../Constants";
-import { FeatureCollection, ReportType } from "../../../FormTypes";
+import { ReportType } from "../../../FormTypes";
 
 export const SubmitAmenityReport = async (report: AmenityFields) => {
     const data = {
@@ -47,21 +47,6 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
         console.log(`A network error occurred: ${e}`)
         return {
             networkError: true
-        };
-    }
-};
-
-export const GetAmenityFeatureCollection = async (): Promise<FeatureCollection> => {
-    const response = await fetch(`${AmenityUrl}`);
-
-    if (response.ok) {
-        return await response.json() as FeatureCollection;
-    } else {
-        console.log(`An error occurred while fetching the Amenity features: ${response.status} - ${response.statusText}`);
-        return {
-            type: "FeatureCollection",
-            features: [],
-            totalCount: 0,
         };
     }
 };
