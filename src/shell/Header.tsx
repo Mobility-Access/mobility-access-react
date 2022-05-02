@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade/Fade"
+import Fade from "@material-ui/core/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
@@ -94,7 +94,8 @@ const Header = () => {
     // The supported languages keyed by their language code.
     const languages = [
         { key: "en", value: "english" },
-        { key: "fr", value: "french" }
+        { key: "fr", value: "french" },
+        { key: "es", value: "spanish" }
     ];
 
     const classes = useStyles();
@@ -176,34 +177,34 @@ const Header = () => {
         )
     };
 
-    // const renderLanguageMenu = () => {
-    //     return (
-    //         <Menu
-    //             id="app-bar-language-selector"
-    //             anchorEl={languageMenuAnchorEl}
-    //             className={classes.langaugeMenu}
-    //             getContentAnchorEl={null}
-    //             anchorOrigin={{vertical: "top", horizontal: "left"}}
-    //             transformOrigin={{vertical: "top", horizontal: "right"}}
-    //             keepMounted
-    //             open={Boolean(languageMenuAnchorEl)}
-    //             onClose={handleLanguageMenuClose}
-    //             TransitionComponent={Fade}
-    //         >
-    //             {languages.map(
-    //                 (item) => (
-    //                     <MenuItem
-    //                         className={classes.menuItem}
-    //                         key={item.key}
-    //                             onClick={() => handleSelectLanguage(item)}
-    //                     >
-    //                         {t(item.value)}    
-    //                     </MenuItem>
-    //                 )
-    //             )}
-    //         </Menu>
-    //     );
-    // };
+    const renderLanguageMenu = () => {
+        return (
+            <Menu
+                id="app-bar-language-selector"
+                anchorEl={languageMenuAnchorEl}
+                className={classes.langaugeMenu}
+                getContentAnchorEl={null}
+                anchorOrigin={{vertical: "top", horizontal: "left"}}
+                transformOrigin={{vertical: "top", horizontal: "right"}}
+                keepMounted
+                open={Boolean(languageMenuAnchorEl)}
+                onClose={handleLanguageMenuClose}
+                TransitionComponent={Fade}
+            >
+                {languages.map(
+                    (item) => (
+                        <MenuItem
+                            className={classes.menuItem}
+                            key={item.key}
+                                onClick={() => handleSelectLanguage(item)}
+                        >
+                            {t(item.value)}    
+                        </MenuItem>
+                    )
+                )}
+            </Menu>
+        );
+    };
 
     // const renderSecondaryNav = () => {
     //     return (
@@ -295,10 +296,11 @@ const Header = () => {
                     </Typography>
 
                     {renderTabs()}
-                    {/* {renderLanguageMenu()}
-                    {renderSecondaryNav()}
+                    {/* {renderLanguageMenu()} */}
+                    <LanguageSelector languages={languages} position="below" />
+                    {/*renderSecondaryNav()}
                     {renderSecondaryNavAsList()} */}
-                    {renderLanguageLink()}
+                    {/* {renderLanguageLink()} */}
                     {renderBikeMapsLink()}
                 </Toolbar>
             </AppBar>

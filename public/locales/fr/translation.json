@@ -273,7 +273,7 @@
     "geocoder-no-result": "Aucun résultat",
     "geocoder-search": "Chercher",
     "help": "Aide",
-    "language-button": "French",
+    "language-button": "Langue",
     "legend_amenity": "Aménagement manquant",
     "legend_hazard": "Danger ou préoccupation",
     "legend_incident": "Incident",
@@ -288,5 +288,6 @@
     "popup_id": "ID",
     "popup_incident": "Incident",
     "popup_missing-amenity": "Aménagement manquant",
-    "site-name": "OnMarcheOnRoule.org"
+    "site-name": "OnMarcheOnRoule.org",
+    "spanish": "Español"
 }

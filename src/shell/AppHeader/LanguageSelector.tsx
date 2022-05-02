@@ -64,7 +64,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 endIcon={position && position === "left" ? <ArrowRight /> : <ArrowDropDownIcon />}
                 onClick={handleLanguageButttonClick}
             >
-                {t(currentLanguage.value)}
+                {t("language-button")}
             </Button>
             <Menu
                 id="app-bar-language-selector"
@@ -75,15 +75,30 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 TransitionComponent={Fade}
             >
                 {languages.map(
-                    (item) => (
-                        <MenuItem
-                            className={classes.menuItem}
-                            key={item.key}
-                                onClick={() => handleSelectLanguage(item)}
-                        >
-                            {t(item.value)}    
-                        </MenuItem>
-                    )
+                    (item) => {
+                        if (item.key === "fr") {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    component={"a"}
+                                    href={"https://onmarcheonroule.org"}
+                                    key={item.key}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>    
+                            );
+                        } else {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    key={item.key}
+                                    onClick={() => handleSelectLanguage(item)}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>  
+                            )
+                        }
+                    }
                 )}
             </Menu>
         </>
