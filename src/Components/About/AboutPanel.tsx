@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
         fontSize: "3rem",
         fontWeight: 500
     },
+    answer: {
+        color: theme.palette.primary.main,
+        marginBottom: theme.spacing(1),
+    },
     button: {
         marginRight: theme.spacing(1),
         minWidth: "95px",
@@ -56,6 +60,14 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(5),
         marginLeft: theme.spacing(3),
         marginTop: theme.spacing(3),
+    },
+    link: {
+       color: "#0000EE" 
+    },
+    question: {
+        color: theme.palette.primary.main,
+        fontWeight: theme.typography.fontWeightBold,
+        marginBottom: theme.spacing(1),
     },
     sectionBody: {
         marginBottom: theme.spacing(3),
@@ -84,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AboutPanel = () => {
-    const { t } = useTranslation();
+    const { i18n, t } = useTranslation();
     const classes = useStyles();
     const theme = useTheme();
     const isXs = useMediaQuery(theme.breakpoints.down("sm"));
@@ -184,6 +196,22 @@ const AboutPanel = () => {
                                     </Grid>
                                 );
                             })
+                        }
+                        {/* FAQ #6 has a hyperlink in it, so the Faq component can't be used to render it. */}
+                        {
+                            i18n.language.startsWith("en") && (
+                                <Grid item xs={12} key={qa.length}>
+                                    <Typography className={classes.question} variant="body1">
+                                        {t(`about_q6`)}
+                                    </Typography>
+                                    <Typography className={classes.answer}>
+                                        {t(`about_a6`)}
+                                        <Link className={classes.link} href="https://youtu.be/xl4mwfglA_0" target="_blank">
+                                            {"https://youtu.be/xl4mwfglA_0"}
+                                        </Link>
+                                    </Typography>    
+                                </Grid>
+                            )
                         }
                         </Grid>
                 </AboutGrid>
