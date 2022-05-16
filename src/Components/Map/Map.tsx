@@ -363,7 +363,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             this.state.amenityClusterSource.setDistance(0);
             this.state.hazardClusterSource.setDistance(0);
             this.state.incidentClusterSource.setDistance(0);
-        } else if (this.previousZoom >= this.clusterZoomThreshold) {
+        } else if (newZoom < this.clusterZoomThreshold && this.previousZoom >= this.clusterZoomThreshold) {
             // Enable clustering by setting the distance of the cluster sources back to the default
             this.state.amenityClusterSource.setDistance(this.defaultClusterDistance);
             this.state.hazardClusterSource.setDistance(this.defaultClusterDistance);
