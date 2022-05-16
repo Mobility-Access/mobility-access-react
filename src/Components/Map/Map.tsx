@@ -25,7 +25,6 @@ import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
-import { withRouter } from "react-router-dom";
 import { withTranslation } from "react-i18next";
 
 import ReactGA from "react-ga4";
@@ -39,7 +38,6 @@ import Geocoder from "./Geocoder";
 import CancelDialog from "../Form/CancelDialog";
 
 import Legend from "./Legend";
-import NavigationWarning from "./NavigationWarning";
 import Popup, { PopupContentItem } from "./Popup";
 import Colors, { MarkerColor } from "../../Colors";
 import amenityMarker from "../../images/icons/amenity_marker.svg";
@@ -192,26 +190,31 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     popupContainer: React.RefObject<any>;
     styleCache: any;
     _isMounted: boolean;
+    previousZoom: number;
 
     // Feature layers
     amenityLayer!: VectorLayer;
     hazardLayer!: VectorLayer;
     incidentLayer!: VectorLayer;
 
+    clusterZoomThreshold: number = 18;
+    defaultClusterDistance: number = 40;
+
     constructor(props: any) {
         super(props);
+        this.previousZoom = 0;
         this._isMounted = false;
         this.positionFeature = new Feature();
         this.accuracyFeature = new Feature();
         this.state = {
-            amenityClusterSource: new Cluster({ distance: 40 }),
+            amenityClusterSource: new Cluster({ distance: this.defaultClusterDistance }),
             amenitySource: new VectorSource(),
             cancelDialogOpen: false,
             dialogOpen: false,
             dialogVisible: true,
-            hazardClusterSource: new Cluster({ distance: 40 }),
+            hazardClusterSource: new Cluster({ distance: this.defaultClusterDistance }),
             hazardSource: new VectorSource(),
-            incidentClusterSource: new Cluster({ distance: 40 }),
+            incidentClusterSource: new Cluster({ distance: this.defaultClusterDistance }),
             incidentSource: new VectorSource(),
             legendVisible: false,
             legendVisible2: false,
@@ -250,9 +253,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.renderFormWizard = this.renderFormWizard.bind(this);
         this.setReportCoords = this.setReportCoords.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
-        // this.handleBackButton = this.handleBackButton.bind(this);
-        // this.handleCancelNavigation = this.handleCancelNavigation.bind(this);
-        // this.handleConfirmNavigation = this.handleConfirmNavigation.bind(this);
+        this.handleMoveEnd = this.handleMoveEnd.bind(this);
     }
 
     componentDidMount() {
@@ -266,7 +267,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             ],
             view: new OLView({
                 center: fromLonLat([-123.3501, 48.42661]),
-                maxZoom: 18,
+                maxZoom:20,
                 zoom: 13,
             }),
         });
@@ -344,13 +345,32 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         // Start listening for clicks on features for popups
         this.map.on("singleclick", this.handleFeatureClick);
 
-        // if (window.history) {
-        //     window.history.pushState("nohb", "", "");
-        //     window.addEventListener("popstate", this.handleBackButton);
-
-        // }
+        this.map.on("moveend", this.handleMoveEnd);
 
         this.map.updateSize();
+    }
+
+    // Used to set cluster distance so individual features appear at high zoom levels.
+    handleMoveEnd() {
+        const newZoom = this.map.getView().getZoom();
+        if (!newZoom || newZoom === this.previousZoom) {
+            // No action needed when the map is panned, only when zoom changes.
+            return;
+        }
+
+        if (newZoom >= this.clusterZoomThreshold && this.previousZoom < this.clusterZoomThreshold) {
+            // Disable clustering by setting the distance of the cluster sources to 0
+            this.state.amenityClusterSource.setDistance(0);
+            this.state.hazardClusterSource.setDistance(0);
+            this.state.incidentClusterSource.setDistance(0);
+        } else if (this.previousZoom >= this.clusterZoomThreshold) {
+            // Enable clustering by setting the distance of the cluster sources back to the default
+            this.state.amenityClusterSource.setDistance(this.defaultClusterDistance);
+            this.state.hazardClusterSource.setDistance(this.defaultClusterDistance);
+            this.state.incidentClusterSource.setDistance(this.defaultClusterDistance);
+        }
+
+        this.previousZoom = newZoom;
     }
 
     // componentWillUnmount() {
