@@ -350,7 +350,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.map.updateSize();
     }
 
-    // Used to set cluster distance so individual features appear at high zoom levels.
+    // Used to alter the source of layers between a clustered source and non-clustered source.
     handleMoveEnd() {
         const newZoom = this.map.getView().getZoom();
         if (!newZoom || newZoom === this.previousZoom) {
@@ -359,15 +359,15 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         }
 
         if (newZoom >= this.clusterZoomThreshold && this.previousZoom < this.clusterZoomThreshold) {
-            // Disable clustering by setting the distance of the cluster sources to 0
-            this.state.amenityClusterSource.setDistance(0);
-            this.state.hazardClusterSource.setDistance(0);
-            this.state.incidentClusterSource.setDistance(0);
+            // Disable clustering by setting the layer's source to a standard source
+            this.amenityLayer.setSource(this.state.amenitySource);
+            this.hazardLayer.setSource(this.state.hazardSource);
+            this.incidentLayer.setSource(this.state.incidentSource);
         } else if (newZoom < this.clusterZoomThreshold && this.previousZoom >= this.clusterZoomThreshold) {
-            // Enable clustering by setting the distance of the cluster sources back to the default
-            this.state.amenityClusterSource.setDistance(this.defaultClusterDistance);
-            this.state.hazardClusterSource.setDistance(this.defaultClusterDistance);
-            this.state.incidentClusterSource.setDistance(this.defaultClusterDistance);
+            // Enable clustering by setting the layer's source to a clustered source
+            this.amenityLayer.setSource(this.state.amenityClusterSource);
+            this.hazardLayer.setSource(this.state.hazardClusterSource);
+            this.incidentLayer.setSource(this.state.incidentClusterSource);
         }
 
         this.previousZoom = newZoom;
@@ -398,14 +398,17 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     // }
 
     getClusterSourceStyle(feature: FeatureLike, reportType: ReportType) {
+        let size: number;
         const features = feature.get("features");
         if (!features || features.length === 0) {
-            return undefined;
+            size = 0;
+        } else {
+            size = feature.get("features").length;
         }
-        const size = feature.get("features").length;
+        
         let style: any = this.styleCache[reportType][size] as any;
         if (!style) {
-            if (size === 1) {
+            if (size <= 1) {
                 style = this.getMarkerStyle(reportType);
             }
             else {
@@ -559,7 +562,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         });
     };
 
-    getPopupContentItems(clusterFeature: any): PopupContentItem[] {
+    getPopupContentItems(clickedFeature: any): PopupContentItem[] {
         const capitalizeFirst = (str: string) => {
             if (str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
@@ -567,15 +570,26 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 return "";
             }
         };
+        const items: PopupContentItem[] = [];
+        let feature: any;
 
-        if (!clusterFeature || !clusterFeature.get("features") || clusterFeature.get("features").length === 0) {
-            return [];
+        if (!clickedFeature) {
+            return items;
+        } 
+        
+        const features = clickedFeature.get("features");
+
+        if (features) {
+            if (features.length === 0) {
+                return items;
+            } else {
+                feature = features[0];
+            }
+        } else {
+            feature = clickedFeature;
         }
 
-        const items: PopupContentItem[] = [];
         const t = this.props.t;
-
-        const feature = clusterFeature.get("features")[0];
 
         switch (feature.get("type")) {
             case ReportType.Amenity:
