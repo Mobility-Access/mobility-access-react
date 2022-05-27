@@ -334,6 +334,10 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             },
             projection: this.map.getView().getProjection(),
         });
+
+        if (navigator && "geolocation in navigator") {
+            navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
+        }
         
         if (this.map.getTarget() === undefined) {
             this.map.setTarget("map");
