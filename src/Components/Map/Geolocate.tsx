@@ -21,13 +21,14 @@ const useStyles = makeStyles((theme) => ({
         height: height,
         minHeight: height,
         width: height,
-
     },
     root: {
         display: "flex"
     }
 }));
 
+
+// A component Material UI Floating Action Button used for triggering geolocation.
 const Geolocate = (props: GeolocateProps) => {
     const { className, handleGeolocate } = props;
     const classes = useStyles();
