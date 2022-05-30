@@ -5,8 +5,9 @@ import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
+import Control from "ol/control/Control";
 import { Coordinate } from "ol/coordinate";
-import {boundingExtent} from 'ol/extent';
+import {boundingExtent} from "ol/extent";
 import Feature, { FeatureLike } from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
@@ -35,6 +36,7 @@ import "ol/ol.css";
 import "./Map.css";
 import { GetReportsAsFeatureCollection } from "../../Services/ApiServices";
 import Geocoder from "./Geocoder";
+import Geolocate from "./Geolocate";
 import CancelDialog from "../Form/CancelDialog";
 
 import Legend from "./Legend";
@@ -47,6 +49,7 @@ import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
 import { getMarkerStyle } from "../../utilities";
+import { defaultCentre, defaultZoom } from "../../config";
 
 interface MapState {
     amenityClusterSource: Cluster
@@ -111,6 +114,12 @@ const styles = (theme: any) => createStyles({
         position: "absolute",
         top: 90,
         left: 11,
+        zIndex: 2
+    },
+    geolocate: {
+        position: "absolute",
+        bottom: 29,
+        right: 11,
         zIndex: 2
     },
     locationForm: {
@@ -254,6 +263,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.setReportCoords = this.setReportCoords.bind(this);
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
         this.handleMoveEnd = this.handleMoveEnd.bind(this);
+        this.handleGeolocate = this.handleGeolocate.bind(this);
     }
 
     componentDidMount() {
@@ -266,9 +276,9 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 }),
             ],
             view: new OLView({
-                center: fromLonLat([-123.3501, 48.42661]),
+                center: fromLonLat(defaultCentre),
                 maxZoom:20,
-                zoom: 13,
+                zoom: defaultZoom,
             }),
         });
 
@@ -324,13 +334,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             },
             projection: this.map.getView().getProjection(),
         });
-        
-        if (this.map.getTarget() === undefined) {
-            this.map.setTarget("map");
-        }
 
         if (navigator && "geolocation in navigator") {
             navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
+        }
+        
+        if (this.map.getTarget() === undefined) {
+            this.map.setTarget("map");
         }
 
         this.popover = new Overlay({
@@ -348,6 +358,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.map.on("moveend", this.handleMoveEnd);
 
         this.map.updateSize();
+    }
+
+    handleGeolocate() {
+        if (navigator && "geolocation in navigator") {
+            navigator.geolocation.getCurrentPosition(this.updatePositionFromGeolocation);
+        }
     }
 
     // Used to alter the source of layers between a clustered source and non-clustered source.
@@ -840,6 +856,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 </Hidden>
                 <div id="map" className="map" ref={this.wrapper} >
                     <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult}/>
+                    <Geolocate className={classes.geolocate} handleGeolocate={this.handleGeolocate} />
                     <Legend toggleLayer={this.handleToggleLayerVisibliity} />
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />
                     <Hidden mdUp>

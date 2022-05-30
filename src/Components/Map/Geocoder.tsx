@@ -29,13 +29,13 @@ interface GeocodeResultItem {
     id: number
 }
 
-const borderRadius = "4px";
+const borderRadius = "5px";
 const height = "32px";
 
 const useStyles = makeStyles((theme) => ({
     button: {
         backgroundColor: "white",
-        borderRadius: "5px",
+        borderRadius: borderRadius,
         height: height,
         minHeight: height,
         width: height,
