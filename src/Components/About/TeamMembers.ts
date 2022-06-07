@@ -4,6 +4,7 @@ import darren_img from "../../images/team/darren.jpg";
 import denise_img from "../../images/team/denise.jpg";
 import karen_img from "../../images/team/karen.jpg"
 import kate_img from "../../images/team/kate.jpg";
+import jess_img from "../../images/team/jess.jpg";
 import marie_soleil_img from "../../images/team/marie-soleil.jpg";
 import meghan_img from "../../images/team/meghan.jpg";
 import trisalyn_img from "../../images/team/trisalyn.jpg";
@@ -44,6 +45,12 @@ const kate = {
     img: kate_img
 };
 
+const jess = {
+    alt: "Jess",
+    name: "jess",
+    img: jess_img
+};
+
 const marie_soleil = {
     alt: "Marie-Soleil",
     name: "marie-soleil",
@@ -62,6 +69,6 @@ const trisalyn = {
     img: trisalyn_img
 };
 
-const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, kate, colby, darren];
+const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, kate, colby, jess, darren];
 
 export default TeamMembers;
