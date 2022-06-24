@@ -5,13 +5,13 @@ import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 
-import Control from "ol/control/Control";
 import { Coordinate } from "ol/coordinate";
-import {boundingExtent} from "ol/extent";
+import { boundingExtent, createEmpty, extend, Extent } from "ol/extent";
 import Feature, { FeatureLike } from "ol/Feature";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import Point from "ol/geom/Point";
+import { fromExtent } from "ol/geom/Polygon";
 import PinchRotate from "ol/interaction/PinchRotate";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
@@ -49,7 +49,7 @@ import reportMarker from "../../images/icons/report_marker.svg";
 import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
 import { getMarkerStyle } from "../../utilities";
-import { defaultCentre, defaultZoom } from "../../config";
+import { defaultExtent } from "../../config";
 
 interface MapState {
     amenityClusterSource: Cluster
@@ -276,9 +276,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 }),
             ],
             view: new OLView({
-                center: fromLonLat(defaultCentre),
                 maxZoom:20,
-                zoom: defaultZoom,
             }),
         });
 
@@ -357,7 +355,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.map.on("moveend", this.handleMoveEnd);
 
-        this.map.updateSize();
+        const _this = this;
+
+        setTimeout(function() {
+            _this.map.updateSize();
+
+            _this.map.getView().fit(defaultExtent as Extent, { size: _this.map.getSize()});
+        }, 0);
     }
 
     handleGeolocate() {
