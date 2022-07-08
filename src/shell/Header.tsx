@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade/Fade"
+import Fade from "@material-ui/core/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
@@ -14,7 +14,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import Colors from "../Colors";
@@ -94,7 +94,8 @@ const Header = () => {
     // The supported languages keyed by their language code.
     const languages = [
         { key: "en", value: "english" },
-        { key: "fr", value: "french" }
+        { key: "fr", value: "french" },
+        { key: "es", value: "spanish" }
     ];
 
     const classes = useStyles();
@@ -103,6 +104,8 @@ const Header = () => {
     const [languageMenuAnchorEl, setlanaguageMenuAnchorEl] = useState(null);
     const [tabValue, setTabValue] = useState(0);
     const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
+    const history = useHistory();
+    const location = useLocation();
 
     const handleLanguageMenuClose = () => {
         setlanaguageMenuAnchorEl(null);
@@ -117,11 +120,18 @@ const Header = () => {
         setlanaguageMenuAnchorEl(null);
     };
 
+    const handleLanguageChange = () => {
+        if (location.pathname === "/explore") {
+            history.push("/");
+        }
+    };
+
     const handleSelectLanguage = (item: {key: string, value: string}) => {
         if (item.key !== currentLanguage.key) {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
         }
+        console.log(location.pathname);
 
         handleLanguageMenuClose();
     };
@@ -176,34 +186,34 @@ const Header = () => {
         )
     };
 
-    // const renderLanguageMenu = () => {
-    //     return (
-    //         <Menu
-    //             id="app-bar-language-selector"
-    //             anchorEl={languageMenuAnchorEl}
-    //             className={classes.langaugeMenu}
-    //             getContentAnchorEl={null}
-    //             anchorOrigin={{vertical: "top", horizontal: "left"}}
-    //             transformOrigin={{vertical: "top", horizontal: "right"}}
-    //             keepMounted
-    //             open={Boolean(languageMenuAnchorEl)}
-    //             onClose={handleLanguageMenuClose}
-    //             TransitionComponent={Fade}
-    //         >
-    //             {languages.map(
-    //                 (item) => (
-    //                     <MenuItem
-    //                         className={classes.menuItem}
-    //                         key={item.key}
-    //                             onClick={() => handleSelectLanguage(item)}
-    //                     >
-    //                         {t(item.value)}    
-    //                     </MenuItem>
-    //                 )
-    //             )}
-    //         </Menu>
-    //     );
-    // };
+    const renderLanguageMenu = () => {
+        return (
+            <Menu
+                id="app-bar-language-selector"
+                anchorEl={languageMenuAnchorEl}
+                className={classes.langaugeMenu}
+                getContentAnchorEl={null}
+                anchorOrigin={{vertical: "top", horizontal: "left"}}
+                transformOrigin={{vertical: "top", horizontal: "right"}}
+                keepMounted
+                open={Boolean(languageMenuAnchorEl)}
+                onClose={handleLanguageMenuClose}
+                TransitionComponent={Fade}
+            >
+                {languages.map(
+                    (item) => (
+                        <MenuItem
+                            className={classes.menuItem}
+                            key={item.key}
+                                onClick={() => handleSelectLanguage(item)}
+                        >
+                            {t(item.value)}    
+                        </MenuItem>
+                    )
+                )}
+            </Menu>
+        );
+    };
 
     // const renderSecondaryNav = () => {
     //     return (
@@ -306,7 +316,7 @@ const Header = () => {
                     <Hidden smDown>
                         {renderTabs()}
                     </Hidden>
-                    {renderLanguageLink()}
+                    <LanguageSelector handleLanguageChange={handleLanguageChange} languages={languages} position="below" />
                     <Hidden smDown>
                         {renderBikeMapsLink()}
                     </Hidden>
@@ -314,6 +324,11 @@ const Header = () => {
                     {/* {renderLanguageMenu()} */}
                     {/* {renderSecondaryNav()} */}
                     {renderSecondaryNavAsList()}
+
+                    
+                    {/*renderSecondaryNav()}
+                    {renderSecondaryNavAsList()} */}
+                    {/* {renderLanguageLink()} */}
                 </Toolbar>
             </AppBar>
         </div>
