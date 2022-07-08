@@ -243,13 +243,22 @@ const Header = () => {
                     >
                         {t("map")}
                     </MenuItem>
-                    <Link className={classes.menuLink} to="/about">
-                        <MenuItem
-                            onClick={handleMenuClose}
-                        >
-                            {t("common_about")}
-                        </MenuItem>
-                    </Link>
+                    <MenuItem
+                        component={Link}
+                        onClick={handleMenuClose}
+                        to="/explore"
+                    >
+                        {t("header-explore")}
+                    </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        onClick={handleMenuClose}
+                        to="/about"
+                    >
+                        {t("common_about")}
+                    </MenuItem>
+                    <MenuItem>
+                    </MenuItem>
                 </Menu>
             </Hidden>
         );
@@ -257,23 +266,24 @@ const Header = () => {
 
     // Render the navigation tabs for screen sizes > 960px
     const renderTabs = () => {
+        const isEnglish = (i18n.language.startsWith("en"));
+
         return (
-            <Hidden smDown>
-                <Tabs
-                    centered
-                    classes={{
-                        indicator: classes.indicator
-                    }}
-                    className={classes.tabs}
-                    onChange={handleTabChange}
-                    value={tabValue} 
-                >
-                    <Tab component={Link} label={t("map")} to="/" />
-                    {/* <Tab component={Link} label={t("explore")} to="/explore" /> */}
-                    <Tab component={Link} label={t("common_about")} to="/about" />
-                    {/* <Tab component={Link} label={t("contact")} to="/contact" /> */}
-                </Tabs>
-            </Hidden>
+            <Tabs
+                centered
+                classes={{
+                    indicator: classes.indicator
+                }}
+                className={classes.tabs}
+                onChange={handleTabChange}
+                value={tabValue} 
+            >
+                <Tab component={Link} label={t("map")} to="/" />
+                { isEnglish && (
+                    <Tab component={Link} label={t("header-explore")} to="/explore" />
+                )}
+                <Tab component={Link} label={t("common_about")} to="/about" />
+            </Tabs>
         );
     };
 
@@ -293,13 +303,17 @@ const Header = () => {
                     <Typography className={classes.title} >
                             {t("site-name")}
                     </Typography>
-
-                    {renderTabs()}
-                    {/* {renderLanguageMenu()}
-                    {renderSecondaryNav()}
-                    {renderSecondaryNavAsList()} */}
+                    <Hidden smDown>
+                        {renderTabs()}
+                    </Hidden>
                     {renderLanguageLink()}
-                    {renderBikeMapsLink()}
+                    <Hidden smDown>
+                        {renderBikeMapsLink()}
+                    </Hidden>
+                    
+                    {/* {renderLanguageMenu()} */}
+                    {/* {renderSecondaryNav()} */}
+                    {renderSecondaryNavAsList()}
                 </Toolbar>
             </AppBar>
         </div>
