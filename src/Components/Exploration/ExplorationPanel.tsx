@@ -9,10 +9,20 @@ const useStyles = makeStyles((theme) => ({
         zIndex: theme.zIndex.drawer + 1,
         color: '#fff',
     },
+    frame: {
+        border: 0,
+        display: "flex",
+        height: "100%",
+        overflowY: "scroll",
+        width: "100%"
+    },
     root: {
         display: "flex",
         height: "100%",
         overflowY: "scroll",
+        paddingTop: "16px",
+        paddingRight: "15px",
+        paddingBottom: "15px",
         width: "100%"
     }
 }));
@@ -41,7 +51,7 @@ const ExplorationPanel = () => {
 
     return (
         <div className={classes.root}>
-            <iframe id="explorationFrame" className={classes.root} src="https://walkrollmap.shinyapps.io/visualize_wrm_app/"/>
+            <iframe id="explorationFrame" className={classes.frame} src="https://walkrollmap.shinyapps.io/visualize_wrm_app/"/>
             <Backdrop
                 className={classes.backdrop}
                 open={loading}

@@ -51,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none",
     },
     linkButton: {
-        color: theme.palette.primary.main,
+        minHeight: 0,
+        minWidth: 0,
+        padding: 0
     },
     logo: {
         height: 56,
@@ -140,16 +142,10 @@ const Header = () => {
         setTabValue(index);
     };
 
-    // const renderHelpButton = () => {
-    //     return (
-    //         <LinkButton path="/help" label={t("help")} />
-    //     );
-    // };
-
     const renderBikeMapsLink = () => {
         if (i18n.language.startsWith("fr")) {
             return (
-                <IconButton aria-label="Hyperlink to BikeMaps French site." href="https://bikemaps.org/fr" target="_blank">
+                <IconButton aria-label="Hyperlink to BikeMaps French site." className={classes.linkButton} href="https://bikemaps.org/fr" target="_blank">
                     <img
                         alt="BikeMaps logo"
                         src={BikeMapsLogo}
@@ -160,7 +156,7 @@ const Header = () => {
 
         // French site
         return (
-            <IconButton aria-label="Hyperlink to BikeMaps English site." href="https://bikemaps.org" target="_blank">
+            <IconButton aria-label="Hyperlink to BikeMaps English site." className={classes.linkButton} href="https://bikemaps.org" target="_blank">
                 <img
                     alt="BikeMaps logo"
                     src={BikeMapsLogo}
