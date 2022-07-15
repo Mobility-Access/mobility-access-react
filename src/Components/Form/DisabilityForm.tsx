@@ -416,7 +416,12 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                     </Button>
                 </div>
             </form>
-            <TermsAndConditions onAccept={handleAcceptTermsAndConditions} onDecline={handleDeclineTermsAndConditions} open={open}/>
+            <TermsAndConditions
+                location={formData.point}
+                onAccept={handleAcceptTermsAndConditions}
+                onDecline={handleDeclineTermsAndConditions}
+                open={open}
+            />
         </>
     );
 };
