@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import Colors from "../../Colors";
 
 interface LanguageSelectorProps {
+    handleLanguageChange: () => void;
     languages: { key: string, value: string}[];
     position?: "below" | "left";
 }
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LanguageSelector = (props: LanguageSelectorProps) => {
-    const { languages, position } = props;
+    const { handleLanguageChange, languages, position } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
@@ -41,6 +42,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         if (item.key !== currentLanguage.key) {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
+            handleLanguageChange();
         }
 
         handleMenuClose();
@@ -64,7 +66,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 endIcon={position && position === "left" ? <ArrowRight /> : <ArrowDropDownIcon />}
                 onClick={handleLanguageButttonClick}
             >
-                {t(currentLanguage.value)}
+                {t("language-button")}
             </Button>
             <Menu
                 id="app-bar-language-selector"
@@ -75,15 +77,30 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                 TransitionComponent={Fade}
             >
                 {languages.map(
-                    (item) => (
-                        <MenuItem
-                            className={classes.menuItem}
-                            key={item.key}
-                                onClick={() => handleSelectLanguage(item)}
-                        >
-                            {t(item.value)}    
-                        </MenuItem>
-                    )
+                    (item) => {
+                        if (item.key === "fr") {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    component={"a"}
+                                    href={"https://onmarcheonroule.org"}
+                                    key={item.key}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>    
+                            );
+                        } else {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    key={item.key}
+                                    onClick={() => handleSelectLanguage(item)}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>  
+                            )
+                        }
+                    }
                 )}
             </Menu>
         </>

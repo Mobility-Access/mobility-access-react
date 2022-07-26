@@ -1,5 +1,5 @@
 {
-    "about_a1": "Data is available for cities and advocacy groups interested in better walking and rolling environments in your community.  We are also a team that does active transportation research and will use the data to better understand barriers to safe, accessible, and equitable walking and rolling.",
+    "about_a1": "Data is available for cities and advocacy groups interested in better walking and rolling environments in your community. We are also a team that does active transportation research and will use the data to better understand barriers to safe, accessible, and equitable walking and rolling.",
     "about_a2": "You do not need to create an account to report a barrier or an incident.",
     "about_a3": "Yes, we don’t ask for any identifiable personal information. We do ask demographic questions to help us understand who we have reached and whose information is missing. As well, people may experience their environment differently based on gender or race and so this is important data to collect.",
     "about_a4": "Yes, the data collected on WalkRollMap.org is open. If you have any problems downloading the data, please get in touch by contacting us at info@walkrollmap.org.",
@@ -97,6 +97,11 @@
     "form_consent-preamble-3": "The data collected from this research will enable researchers and graduate students to study the patterns of pedestrian barriers, collisions, and near misses across Canada. The information you share on WalkRollMap.org regarding location and details on the barrier or incident will be available to the public. Demographic and injury data will not be shared unless aggregated to further protect individual identities. The data collected is stored within Canada. We use demographic data collected to tailor outreach efforts to improve the representativeness of the data. Understanding the geographical patterns to barriers and risk for pedestrians will enable better decision-making regarding future priorities for active transportation planning in regions where data has been provided by citizen mappers.",
     "form_consent-preamble-4": "Funding for this research project has been provided by the Public Health Agency of Canada. If you have any questions regarding this research, please contact Dr. Trisalyn Nelson, ",
     "form_consent-preamble-5": "In addition, you may verify the ethical approval of this study, or raise any concerns you might have, by contacting the Human Research Ethics Office at the University of Victoria ",
+    "form_consent-preamble-us-1": "As part of a research project, we are interested in obtaining information regarding your experiences as you walk or use a mobility device. Specifically, we would like to know about any barriers you’ve encountered or any incidents that you have had. The data collected is completely anonymous. The survey should take approximately 2-5 minutes.",
+    "form_consent-preamble-us-2": "By adding a geographic marker onto this website and answering questions, you are consenting to participate in a study conducted by researchers from the Department of Geography at the University of California, Santa Barbara. The study is led by Dr. Trisalyn Nelson. All information gathered will be completely anonymous. However, in providing additional details you may knowingly or unknowingly identify yourself. The research team reserves the right to redact any public facing information that may identify an individual. Volunteers must be 18 years of age or older to participate. Parents or guardians may log the details for participants under the age of 18. Please be advised that once a volunteer participant has submitted their survey, it cannot be withdrawn as data are fully anonymous. Also, the data may be used in additional future studies. ",
+    "form_consent-preamble-us-3": "The data collected from this research will enable researchers and graduate students to study the patterns of pedestrian barriers, collisions, and near misses across the United States. The information you share on WalkRollMap.org regarding location and details on the barrier or incident will be available to the public. Demographic and injury data will not be shared unless aggregated to further protect individual identities. The data collected is stored within the United States. We use demographic data collected to tailor outreach efforts to improve the representativeness of the data. Understanding the geographical patterns to barriers and risk for pedestrians will enable better decision-making regarding future priorities for active transportation planning in regions where data has been provided by citizen mappers.",
+    "form_consent-preamble-us-4": "If you have any questions regarding this research, please contact Dr. Trisalyn Nelson, ",
+    "form_consent-preamble-us-5": "In addition, you may verify the ethical approval of this study, or raise any concerns you might have, by contacting the Human Subjects Coordinator at the University of California, Santa Barbara ",
     "form_consent-subtitle": "Citizen Based Web-Mapping of Pedestrian Barriers and Safety Incidents",
     "form_consent-title": "Letter of Informed Consent",
     "form_consent-walk-roll-map": "WalkRollMap.org",
@@ -271,11 +276,12 @@
     "form_success-title": "Success!",
     "form_title": "New Report",
     "form_yes": "Yes",
-    "french": "French",
+    "french": "Français",
     "geocoder-no-result": "No results",
     "geocoder-search": "Search...",
+    "header-explore": "Explore",
     "help": "Help",
-    "language-button": "English",
+    "language-button": "Language",
     "legend_amenity": "Missing Amenity",
     "legend_hazard": "Hazard or Concern",
     "legend_incident": "Incident",
@@ -290,5 +296,6 @@
     "popup_id": "Id",
     "popup_incident": "Incident",
     "popup_missing-amenity": "Missing Amenity",
-    "site-name": "Walk Roll Map"
+    "site-name": "Walk Roll Map",
+    "spanish": "Español"
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade/Fade"
+import Fade from "@material-ui/core/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
@@ -14,7 +14,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import Colors from "../Colors";
@@ -51,7 +51,9 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none",
     },
     linkButton: {
-        color: theme.palette.primary.main,
+        minHeight: 0,
+        minWidth: 0,
+        padding: 0
     },
     logo: {
         height: 56,
@@ -94,7 +96,8 @@ const Header = () => {
     // The supported languages keyed by their language code.
     const languages = [
         { key: "en", value: "english" },
-        { key: "fr", value: "french" }
+        { key: "fr", value: "french" },
+        { key: "es", value: "spanish" }
     ];
 
     const classes = useStyles();
@@ -103,6 +106,8 @@ const Header = () => {
     const [languageMenuAnchorEl, setlanaguageMenuAnchorEl] = useState(null);
     const [tabValue, setTabValue] = useState(0);
     const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
+    const history = useHistory();
+    const location = useLocation();
 
     const handleLanguageMenuClose = () => {
         setlanaguageMenuAnchorEl(null);
@@ -117,11 +122,18 @@ const Header = () => {
         setlanaguageMenuAnchorEl(null);
     };
 
+    const handleLanguageChange = () => {
+        if (location.pathname === "/explore") {
+            history.push("/");
+        }
+    };
+
     const handleSelectLanguage = (item: {key: string, value: string}) => {
         if (item.key !== currentLanguage.key) {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
         }
+        console.log(location.pathname);
 
         handleLanguageMenuClose();
     };
@@ -130,16 +142,10 @@ const Header = () => {
         setTabValue(index);
     };
 
-    // const renderHelpButton = () => {
-    //     return (
-    //         <LinkButton path="/help" label={t("help")} />
-    //     );
-    // };
-
     const renderBikeMapsLink = () => {
         if (i18n.language.startsWith("fr")) {
             return (
-                <IconButton aria-label="Hyperlink to BikeMaps French site." href="https://bikemaps.org/fr" target="_blank">
+                <IconButton aria-label="Hyperlink to BikeMaps French site." className={classes.linkButton} href="https://bikemaps.org/fr" target="_blank">
                     <img
                         alt="BikeMaps logo"
                         src={BikeMapsLogo}
@@ -150,7 +156,7 @@ const Header = () => {
 
         // French site
         return (
-            <IconButton aria-label="Hyperlink to BikeMaps English site." href="https://bikemaps.org" target="_blank">
+            <IconButton aria-label="Hyperlink to BikeMaps English site." className={classes.linkButton} href="https://bikemaps.org" target="_blank">
                 <img
                     alt="BikeMaps logo"
                     src={BikeMapsLogo}
@@ -176,34 +182,34 @@ const Header = () => {
         )
     };
 
-    // const renderLanguageMenu = () => {
-    //     return (
-    //         <Menu
-    //             id="app-bar-language-selector"
-    //             anchorEl={languageMenuAnchorEl}
-    //             className={classes.langaugeMenu}
-    //             getContentAnchorEl={null}
-    //             anchorOrigin={{vertical: "top", horizontal: "left"}}
-    //             transformOrigin={{vertical: "top", horizontal: "right"}}
-    //             keepMounted
-    //             open={Boolean(languageMenuAnchorEl)}
-    //             onClose={handleLanguageMenuClose}
-    //             TransitionComponent={Fade}
-    //         >
-    //             {languages.map(
-    //                 (item) => (
-    //                     <MenuItem
-    //                         className={classes.menuItem}
-    //                         key={item.key}
-    //                             onClick={() => handleSelectLanguage(item)}
-    //                     >
-    //                         {t(item.value)}    
-    //                     </MenuItem>
-    //                 )
-    //             )}
-    //         </Menu>
-    //     );
-    // };
+    const renderLanguageMenu = () => {
+        return (
+            <Menu
+                id="app-bar-language-selector"
+                anchorEl={languageMenuAnchorEl}
+                className={classes.langaugeMenu}
+                getContentAnchorEl={null}
+                anchorOrigin={{vertical: "top", horizontal: "left"}}
+                transformOrigin={{vertical: "top", horizontal: "right"}}
+                keepMounted
+                open={Boolean(languageMenuAnchorEl)}
+                onClose={handleLanguageMenuClose}
+                TransitionComponent={Fade}
+            >
+                {languages.map(
+                    (item) => (
+                        <MenuItem
+                            className={classes.menuItem}
+                            key={item.key}
+                                onClick={() => handleSelectLanguage(item)}
+                        >
+                            {t(item.value)}    
+                        </MenuItem>
+                    )
+                )}
+            </Menu>
+        );
+    };
 
     // const renderSecondaryNav = () => {
     //     return (
@@ -243,13 +249,22 @@ const Header = () => {
                     >
                         {t("map")}
                     </MenuItem>
-                    <Link className={classes.menuLink} to="/about">
-                        <MenuItem
-                            onClick={handleMenuClose}
-                        >
-                            {t("common_about")}
-                        </MenuItem>
-                    </Link>
+                    <MenuItem
+                        component={Link}
+                        onClick={handleMenuClose}
+                        to="/explore"
+                    >
+                        {t("header-explore")}
+                    </MenuItem>
+                    <MenuItem
+                        component={Link}
+                        onClick={handleMenuClose}
+                        to="/about"
+                    >
+                        {t("common_about")}
+                    </MenuItem>
+                    <MenuItem>
+                    </MenuItem>
                 </Menu>
             </Hidden>
         );
@@ -257,23 +272,24 @@ const Header = () => {
 
     // Render the navigation tabs for screen sizes > 960px
     const renderTabs = () => {
+        const isEnglish = (i18n.language.startsWith("en"));
+
         return (
-            <Hidden smDown>
-                <Tabs
-                    centered
-                    classes={{
-                        indicator: classes.indicator
-                    }}
-                    className={classes.tabs}
-                    onChange={handleTabChange}
-                    value={tabValue} 
-                >
-                    <Tab component={Link} label={t("map")} to="/" />
-                    {/* <Tab component={Link} label={t("explore")} to="/explore" /> */}
-                    <Tab component={Link} label={t("common_about")} to="/about" />
-                    {/* <Tab component={Link} label={t("contact")} to="/contact" /> */}
-                </Tabs>
-            </Hidden>
+            <Tabs
+                centered
+                classes={{
+                    indicator: classes.indicator
+                }}
+                className={classes.tabs}
+                onChange={handleTabChange}
+                value={tabValue} 
+            >
+                <Tab component={Link} label={t("map")} to="/" />
+                { isEnglish && (
+                    <Tab component={Link} label={t("header-explore")} to="/explore" />
+                )}
+                <Tab component={Link} label={t("common_about")} to="/about" />
+            </Tabs>
         );
     };
 
@@ -293,13 +309,22 @@ const Header = () => {
                     <Typography className={classes.title} >
                             {t("site-name")}
                     </Typography>
+                    <Hidden smDown>
+                        {renderTabs()}
+                    </Hidden>
+                    <LanguageSelector handleLanguageChange={handleLanguageChange} languages={languages} position="below" />
+                    <Hidden smDown>
+                        {renderBikeMapsLink()}
+                    </Hidden>
+                    
+                    {/* {renderLanguageMenu()} */}
+                    {/* {renderSecondaryNav()} */}
+                    {renderSecondaryNavAsList()}
 
-                    {renderTabs()}
-                    {/* {renderLanguageMenu()}
-                    {renderSecondaryNav()}
+                    
+                    {/*renderSecondaryNav()}
                     {renderSecondaryNavAsList()} */}
-                    {renderLanguageLink()}
-                    {renderBikeMapsLink()}
+                    {/* {renderLanguageLink()} */}
                 </Toolbar>
             </AppBar>
         </div>
