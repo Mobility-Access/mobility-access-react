@@ -1,3 +1,4 @@
+import cindy_img from "../../images/team/cindy.jpg";
 import colby_img from "../../images/team/colby.jpg";
 import dan_img from "../../images/team/dan.jpg";
 import darren_img from "../../images/team/darren.jpg";
@@ -8,6 +9,12 @@ import jess_img from "../../images/team/jess.jpg";
 import marie_soleil_img from "../../images/team/marie-soleil.jpg";
 import meghan_img from "../../images/team/meghan.jpg";
 import trisalyn_img from "../../images/team/trisalyn.jpg";
+
+const cindy = {
+    alt: "Cindy",
+    name: "cindy",
+    img: cindy_img
+};
 
 const colby = {
     alt: "Colby",
@@ -69,6 +76,6 @@ const trisalyn = {
     img: trisalyn_img
 };
 
-const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, kate, colby, jess, darren];
+const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, cindy, kate, colby, jess, darren];
 
 export default TeamMembers;
