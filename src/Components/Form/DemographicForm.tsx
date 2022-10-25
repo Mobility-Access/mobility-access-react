@@ -232,6 +232,14 @@ const DemographicForm = (props: DemographicFormProps) => {
         prevStep();
     };
 
+    const handleKeyDown = (e: any) => {
+        if (e.keyCode === 13 || e.keyCode === 40) {
+            if (!identitySelectOpen) {
+                setIdentitySelectOpen(true);
+            }
+        }
+    };
+
     return (
         <>
             <FormTitle title="form_demographics" />
@@ -310,6 +318,7 @@ const DemographicForm = (props: DemographicFormProps) => {
                         value={formik.values.identity}
                         onChange={handleIdentitySelect}
                         onClick={handleIdentityClick}
+                        onKeyDown={handleKeyDown}
                         error={formik.touched.identity && Boolean(formik.errors.identity)}
                         helperText={formik.touched.identity && formik.errors.identity}
                         variant="outlined"

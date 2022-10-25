@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import Hidden from "@material-ui/core/Hidden";
 import Link from "@material-ui/core/Link";
+import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import { makeStyles } from "@material-ui/core/styles";
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
         minHeight: 64,
     },
     reportQuestion: {
+        fontSize: "1rem",
         fontWeight: 600,
         marginBottom: theme.spacing(3),
         marginTop: theme.spacing(3),
@@ -147,7 +149,7 @@ const FormWizard = (props: FormWizardProps) => {
                     {renderBikeMapsLink()}
                     {t("form_report-description-bikemaps-link-suffix")}
                 </Typography>
-                <Typography className={classes.reportQuestion}>
+                <Typography className={classes.reportQuestion} variant="h3">
                     {t("form_report-type")}
                 </Typography>
                 {renderReportTypeOptions()}
@@ -166,23 +168,29 @@ const FormWizard = (props: FormWizardProps) => {
 
     const renderReportTypeOptions = () => {
         return (
-            reportTypes.map(
-                (item) => (
-                    <ListItem
-                        button
-                        className={classes.listItem}
-                        key={item.key}
-                        onClick={() => handleReportTypeClick(item.key)}
-                    >
-                        <Typography className={classes.choiceLabel}>
-                            {t(item.value)}
-                        </Typography>
-                        <ListItemIcon>
-                            <NavigateNext className={classes.icon}/>
-                        </ListItemIcon>   
-                    </ListItem>
-                )
-            )
+            <List>
+                {
+                    reportTypes.map(
+                        (item) => (
+                            <ListItem
+                                button
+                                className={classes.listItem}
+                                component={"li"}
+                                key={item.key}
+                                onClick={() => handleReportTypeClick(item.key)}
+                                role={"listitem"}
+                            >
+                                <Typography className={classes.choiceLabel}>
+                                    {t(item.value)}
+                                </Typography>
+                                <ListItemIcon>
+                                    <NavigateNext className={classes.icon}/>
+                                </ListItemIcon>   
+                            </ListItem>
+                        )
+                    )
+                }
+            </List>
         );
     };
 

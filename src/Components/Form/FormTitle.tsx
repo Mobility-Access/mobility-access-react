@@ -10,6 +10,7 @@ interface FormTitleProps {
 
 const useStyles = makeStyles((theme) => ({
     title: {
+        fontSize: "1.25em",
         fontWeight: "bold",
         textAlign: "center",
         width: "100%",
@@ -28,12 +29,12 @@ const FormTitle = (props: FormTitleProps) => {
 
     return (
         <>
-        <Toolbar className={classes.toolbar}>
-            <Typography className={classes.title} variant="h6">
-                {t(title)}
-            </Typography>
-        </Toolbar>
-    </>
+            <Toolbar className={classes.toolbar}>
+                <Typography className={classes.title} variant="h2">
+                    {t(title)}
+                </Typography>
+            </Toolbar>
+        </>
     );
 };
 

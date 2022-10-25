@@ -16,6 +16,9 @@ const LazyContentContainer = React.lazy(() => import("./shell/ContentContainer")
 
 let appTheme = createMuiTheme({
     palette: {
+        error: {
+            main: Colors.contrastRed,
+        },
         primary: {
             main: Colors.primary,
         },

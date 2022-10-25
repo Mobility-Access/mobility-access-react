@@ -168,8 +168,8 @@ const Geocoder = (props: GeocoderProps) => {
 
                 }
                 { !open && (
-                    <Fab className={classes.button} onClick={onClickFab}>
-                        <SearchIcon />
+                    <Fab aria-label="Address search" className={classes.button} onClick={onClickFab}>
+                        <SearchIcon titleAccess="Search icon" />
                     </Fab>
                 )}
             </div>            

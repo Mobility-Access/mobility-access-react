@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     },
     legendTitle: {
         flex: "0 1 auto",
+        fontSize: "1em",
         fontWeight: "bold",
         left: "50%",
         position: "absolute",
@@ -159,7 +160,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
             <div className={open ? classes.open : classes.closed}>
                 <div className={classes.legend}>
                 <div className={classes.legendHeader}>
-                        <Typography className={classes.legendTitle}>
+                        <Typography className={classes.legendTitle} variant="h3">
                             { t("legend-title") }
                         </Typography>
                         <IconButton aria-label="close-legend-button" className={classes.legendCloseButton} onClick={toggleLegend}>
@@ -206,6 +207,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
             </div>
             {!open && (
                 <Fab
+                    aria-label="Legend toggle"
                     classes={{
                         root: classes.fab
                     }}

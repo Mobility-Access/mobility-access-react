@@ -39,7 +39,7 @@ const ContentContainer = () => {
     const classes = useStyles();
 
     return  (
-        <div className={classes.container}>
+        <main className={classes.container}>
             <Header />
             <div className={classes.appBarSpacer}></div>
             <Route exact path="/"><Map /></Route>
@@ -60,7 +60,7 @@ const ContentContainer = () => {
             <PrivateRoute path="/reports/user/:id"><UserDetail /></PrivateRoute>
             <PrivateRoute exact path="/reports/user"><UserAdmin /></PrivateRoute>
             <Route exact path="/swagger.json"><Swagger /></Route>
-        </div>
+        </main>
     )
 };
 

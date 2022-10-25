@@ -50,7 +50,7 @@ const ExplorationPanel = () => {
     });
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} id="explore-tabpanel" role="tabpanel">
             <iframe id="explorationFrame" className={classes.frame} src="https://walkrollmap.shinyapps.io/visualize_wrm_app/"/>
             <Backdrop
                 className={classes.backdrop}

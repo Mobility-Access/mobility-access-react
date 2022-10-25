@@ -362,6 +362,14 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
             _this.map.getView().fit(defaultExtent as Extent, { size: _this.map.getSize()});
         }, 0);
+
+        setTimeout(function() {
+            const canvas = _this.wrapper.current.getElementsByTagName("canvas");
+
+            if (canvas && canvas.length) {
+                canvas[0].setAttribute("aria-label", "Map showing report locations. Data available for download on the application's About page.");
+            }
+        }, 5000);
     }
 
     handleGeolocate() {
@@ -846,7 +854,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     render() {
         const { classes, t } = this.props;
         return  (
-            <div className={classes.root}>
+            <div className={classes.root} id="map-tabpanel" role="tabpanel">
                 <Hidden smDown>
                     <div className={classes.formContainer}>
                         <FormWizard
@@ -858,8 +866,8 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                             stopMapClickListener={this.disableMapClickListener} />
                     </div>
                 </Hidden>
-                <div id="map" className="map" ref={this.wrapper} >
-                    <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult}/>
+                <div id="map" className="map" ref={this.wrapper} tabIndex={0}>
+                    <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult} />
                     <Geolocate className={classes.geolocate} handleGeolocate={this.handleGeolocate} />
                     <Legend toggleLayer={this.handleToggleLayerVisibliity} />
                     <Popup items={this.state.popupContentItems} ref={this.popupContainer} />

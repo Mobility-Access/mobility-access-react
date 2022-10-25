@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: Colors.contrastBrightBlue,
         cursor: "pointer",
+        textDecoration: "underline",
     },
     menuItem: {
         minHeight: minInputHeight,

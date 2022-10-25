@@ -1,10 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 
 import Fab from "@material-ui/core/Fab";
 import { makeStyles } from "@material-ui/core/styles";
 import GpsFixedIcon from "@material-ui/icons/GpsFixed";
-
-import { useTranslation } from "react-i18next";
 
 interface GeolocateProps {
     className?: any;
@@ -32,13 +30,12 @@ const useStyles = makeStyles((theme) => ({
 const Geolocate = (props: GeolocateProps) => {
     const { className, handleGeolocate } = props;
     const classes = useStyles();
-    const { t } = useTranslation();
 
     return (
         <div className={`${className}`}>
             <div className={classes.root}>
-                <Fab className={classes.button} onClick={handleGeolocate}>
-                    <GpsFixedIcon />
+                <Fab aria-label="Find my location" className={classes.button} onClick={handleGeolocate}>
+                    <GpsFixedIcon titleAccess="Geolocate icon" />
                 </Fab>
             </div>            
         </div>
