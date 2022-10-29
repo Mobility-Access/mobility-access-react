@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Link from "@material-ui/core/Link";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { fade } from "@material-ui/core/styles/colorManipulator";
@@ -155,7 +157,7 @@ const AboutPanel = () => {
         return (
             <AboutGrid>
                 <Paper className={classes.aboutPaper} variant="outlined">
-                    <Typography className={classes.aboutTitle}>
+                    <Typography className={classes.aboutTitle} variant="h2">
                         {t("common_about")}
                     </Typography>
                     <Typography className={classes.aboutDescription}>
@@ -182,38 +184,44 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid className={classes.sectionTitle}>
-                    <Typography className={classes.subHeading}>
+                    <Typography className={classes.subHeading} variant="h3">
                         {t("about_faq")}
                     </Typography>
                 </AboutGrid>
                 <AboutGrid className={classes.sectionBody}>
                     <Grid container alignItems="stretch" spacing={1} className={classes.subContainerGrid}>
-                        {
-                            qa.map((item, index) => {
-                                return (
-                                    <Grid item xs={12} key={index}>
-                                        <Faq qa={item} />
-                                    </Grid>
-                                );
-                            })
-                        }
-                        {/* FAQ #6 has a hyperlink in it, so the Faq component can't be used to render it. */}
-                        {
-                            i18n.language.startsWith("en") && (
-                                <Grid item xs={12} key={qa.length}>
-                                    <Typography className={classes.question} variant="body1">
-                                        {t(`about_q6`)}
-                                    </Typography>
-                                    <Typography className={classes.answer}>
-                                        {t(`about_a6`)}
-                                        <Link className={classes.link} href="https://youtu.be/xl4mwfglA_0" target="_blank">
-                                            {"https://youtu.be/xl4mwfglA_0"}
-                                        </Link>
-                                    </Typography>    
-                                </Grid>
-                            )
-                        }
-                        </Grid>
+                        <List>
+                            {
+                                qa.map((item, index) => {
+                                    return (
+                                        <ListItem>
+                                            <Grid item xs={12} key={index}>
+                                                <Faq qa={item} />
+                                            </Grid>
+                                        </ListItem>
+                                    );
+                                })
+                            }
+                            {/* FAQ #6 has a hyperlink in it, so the Faq component can't be used to render it. */}
+                            {
+                                i18n.language.startsWith("en") && (
+                                    <ListItem>
+                                        <Grid item xs={12} key={qa.length}>
+                                            <Typography className={classes.question} variant="body1">
+                                                {t(`about_q6`)}
+                                            </Typography>
+                                            <Typography className={classes.answer}>
+                                                {t(`about_a6`)}
+                                                <Link className={classes.link} href="https://youtu.be/xl4mwfglA_0" target="_blank">
+                                                    {"https://youtu.be/xl4mwfglA_0"}
+                                                </Link>
+                                            </Typography>    
+                                        </Grid>
+                                    </ListItem>
+                                )
+                            }
+                        </List>
+                    </Grid>
                 </AboutGrid>
             </>
         );
@@ -223,7 +231,7 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid>
-                    <Typography className={classes.subHeading}>
+                    <Typography className={classes.subHeading} variant="h3">
                         {t("about_open-data")} 
                     </Typography>
                 </AboutGrid>
@@ -240,49 +248,49 @@ const AboutPanel = () => {
                         {t("about_open-data-description-4")}
                     </Typography>
                     <div className={classes.exportBlock}>
-                        <Typography className={classes.subTitle}>
+                        <Typography className={classes.subTitle} variant="h4">
                             {t("about_open-data-hazard-concern")}
                         </Typography>
                         <div className={classes.buttonBar}>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "csv")} variant="outlined">
+                            <Button aria-label="Click to export hazard data in CSV format" className={classes.button} onClick={() => handleExport(ReportType.Hazard, "csv")} variant="outlined">
                                 CSV
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "json")} variant="outlined">
+                            <Button aria-label="Click to export hazard data in JSON format" className={classes.button} onClick={() => handleExport(ReportType.Hazard, "json")} variant="outlined">
                                 JSON
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Hazard, "geojson")} variant="outlined">
+                            <Button aria-label="Click to export hazard data in GeoJSON format" className={classes.button} onClick={() => handleExport(ReportType.Hazard, "geojson")} variant="outlined">
                                 GeoJSON
                             </Button>
                         </div>
                     </div>
                     <div className={classes.exportBlock}>
-                        <Typography className={classes.subTitle}>
+                        <Typography className={classes.subTitle} variant="h4">
                             {t("about_open-data-missing-amenities")}
                         </Typography>
                         <div className={classes.buttonBar}>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
+                            <Button aria-label="Click to export amenity data in CSV format" className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
                                 CSV
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
+                            <Button aria-label="Click to export amenity data in JSON format"className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
                                 JSON
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Amenity, "geojson")} variant="outlined">
+                            <Button aria-label="Click to export amenity data in GeoJSON format" className={classes.button} onClick={() => handleExport(ReportType.Amenity, "geojson")} variant="outlined">
                                 GeoJSON
                             </Button>
                         </div>
                     </div>
                     <div className={classes.exportBlock}>
-                        <Typography className  ={classes.subTitle}>
+                        <Typography className  ={classes.subTitle} variant="h4">
                             {t("about_open-data-incident")}
                         </Typography>
                         <div className={classes.buttonBar}>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "csv")} variant="outlined">
+                            <Button aria-label="Click to export incident data in CSV format" className={classes.button} onClick={() => handleExport(ReportType.Incident, "csv")} variant="outlined">
                                 CSV
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "json")} variant="outlined">
+                            <Button aria-label="Click to export incident data in JSON format" className={classes.button} onClick={() => handleExport(ReportType.Incident, "json")} variant="outlined">
                                 JSON
                             </Button>
-                            <Button className={classes.button} onClick={() => handleExport(ReportType.Incident, "geojson")} variant="outlined">
+                            <Button aria-label="Click to export incident data in GeoJSON format" className={classes.button} onClick={() => handleExport(ReportType.Incident, "geojson")} variant="outlined">
                                 GeoJSON
                             </Button>
                         </div>
@@ -296,7 +304,7 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid className={classes.sectionTitle}>
-                    <Typography className={classes.subHeading}>
+                    <Typography className={classes.subHeading} variant="h3"> 
                         {t("about_our-team")}
                     </Typography>
                 </AboutGrid>
@@ -321,7 +329,7 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid>
-                    <Typography className={classes.subHeading}>
+                    <Typography className={classes.subHeading} variant="h3">
                         {t("about_supporters")} 
                     </Typography>
                 </AboutGrid>
@@ -345,7 +353,7 @@ const AboutPanel = () => {
     });
 
     return (
-        <div className={classes.root}>
+        <div className={classes.root} id="about-tabpanel" role="tabpanel">
             <Grid
                 container
                 justify="center"

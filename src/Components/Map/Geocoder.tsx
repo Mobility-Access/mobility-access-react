@@ -156,6 +156,9 @@ const Geocoder = (props: GeocoderProps) => {
                 { inputOpen && (
                     <Collapse className={classes.collapse} classes={{ wrapper: classes.wrapper }} in={inputOpen} >
                         <TextField
+                            aria-autocomplete="list"
+                            aria-controls="address-list"
+                            aria-haspopup="listbox"
                             classes={{root: classes.textField}}
                             InputProps={{classes: {input: classes.input}}}
                             inputRef={input => input && input.focus()}
@@ -164,37 +167,37 @@ const Geocoder = (props: GeocoderProps) => {
                             value={value}
                             variant="outlined" />
                     </Collapse>
-                )
-
-                }
+                )}
                 { !open && (
-                    <Fab className={classes.button} onClick={onClickFab}>
-                        <SearchIcon />
+                    <Fab aria-label="Address search" className={classes.button} onClick={onClickFab}>
+                        <SearchIcon titleAccess="Search icon" />
                     </Fab>
                 )}
             </div>            
-            {
-                geocodeResult && geocodeResult.length !== 0 && (
-                    <List>
-                        {
-                            geocodeResult.map((item) => {
-                                return (
-                                    <ListItem
-                                        button
-                                        className={classes.listItem}
-                                        divider={true}
-                                        key={item.id }
-                                        onClick={() => handleGeocodeResultClick(item)}
-                                    > 
-                                        <ListItemText className={classes.listItemText} primary={item.displayName} key={item.id} />
-                                    </ListItem>
-                                    
-                                )
-                            })
-                        }
-                    </List>
-                )
-            }
+            <div aria-live="polite" role="region" id="address-list">
+                {
+                    geocodeResult && geocodeResult.length !== 0 && (
+                        <List>
+                            {
+                                geocodeResult.map((item) => {
+                                    return (
+                                        <ListItem
+                                            button
+                                            className={classes.listItem}
+                                            divider={true}
+                                            key={item.id }
+                                            onClick={() => handleGeocodeResultClick(item)}
+                                        > 
+                                            <ListItemText className={classes.listItemText} primary={item.displayName} key={item.id} />
+                                        </ListItem>
+                                        
+                                    )
+                                })
+                            }
+                        </List>
+                    )
+                }
+            </div>
         </div>
     );
 };

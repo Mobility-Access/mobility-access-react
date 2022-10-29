@@ -140,10 +140,13 @@ const AmenityForm = (props: AmenityProps) => {
             <FormTitle title="form_amenity-details" />
             <form className={classes.amenityForm} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_amenity-type-question")}
-                    </Typography>
+                    <label htmlFor="amenity">
+                        <Typography>
+                            {t("form_amenity-type-question")}
+                        </Typography>
+                    </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="amenity"
@@ -152,8 +155,9 @@ const AmenityForm = (props: AmenityProps) => {
                         value={formik.values.amenityType}
                         onChange={handleAmenityTypeSelect}
                         error={formik.touched.amenityType && Boolean(formik.errors.amenityType)}
-                        helperText={formik.touched.amenityType && formik.errors.amenityType}
+                        helperText={formik.touched.amenityType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.amenityType}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             amenityTypes.map((item) => {
@@ -169,9 +173,11 @@ const AmenityForm = (props: AmenityProps) => {
                     </TextField>
                 </div>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_common-describe")}
-                    </Typography>
+                    <label htmlFor="amenity-description">
+                        <Typography>
+                            {t("form_common-describe")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -183,33 +189,17 @@ const AmenityForm = (props: AmenityProps) => {
                         value={formik.values.description}
                         onChange={(event) => formik.setFieldValue("description", event.target.value)}
                         error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        helperText={formik.touched.description && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.description}</p>)}
+                        required
                     >
                     </TextField>
                 </div>
-                {/* <div className={classes.question}>
-                    <Typography>
-                        {t("form_common-suggested-solution")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="incident-suggested-solution"
-                        name="incident-suggested-solution"
-                        multiline
-                        rows={6}
-                        variant="outlined"
-                        value={formik.values.suggestedSolution}
-                        onChange={(event) => formik.setFieldValue("suggestedSolution", event.target.value)}
-                        error={formik.touched.suggestedSolution && Boolean(formik.errors.suggestedSolution)}
-                        helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
-                    >
-                    </TextField>
-                </div> */}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_amenity-date")}
-                    </Typography>
+                    <label htmlFor="amenity-date-picker">
+                        <Typography>
+                            {t("form_amenity-date")}
+                        </Typography>
+                    </label>
                     <KeyboardDateTimePicker
                         className={classes.date}
                         disableFuture
@@ -220,6 +210,7 @@ const AmenityForm = (props: AmenityProps) => {
                         name="amenity-date-picker"
                         onChange={handleDateChange}
                         value={formik.values.date}
+                        required
                     />
                 </div>
                 <div className={classes.buttonBar}>

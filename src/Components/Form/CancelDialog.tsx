@@ -27,22 +27,26 @@ const CancelDialog = (props: CancelDialogProps) => {
 
     return (
         <>
-            <Dialog open={open} onClose={handleConfirmNo}>
-            <DialogContent>
-                <Typography className={classes.text}>
-                    {t("form_dialog_warn")}
-                </Typography>
-            </DialogContent>
-            <DialogActions>
-                <Button color="primary" onClick={handleConfirmNo}>
-                    {t("form_no")}
-                </Button>
-                <Button color="primary" onClick={handleConfirmYes}>
-                    {t("form_yes")}
-                </Button>
-            </DialogActions>
-        </Dialog>
-    </>
+            <Dialog
+                aria-describedby="cancel-dialog-content"
+                open={open}
+                onClose={handleConfirmNo}
+            >
+                <DialogContent>
+                    <Typography className={classes.text} id="cancel-dialog-content">
+                        {t("form_dialog_warn")}
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus color="primary" onClick={handleConfirmNo}>
+                        {t("form_no")}
+                    </Button>
+                    <Button color="primary" onClick={handleConfirmYes}>
+                        {t("form_yes")}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 };
 

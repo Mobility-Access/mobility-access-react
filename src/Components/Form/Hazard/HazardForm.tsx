@@ -174,10 +174,13 @@ const HazardForm = (props: HazardFormProps) => {
             <FormTitle title="form_hazard-title" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_hazard-type-question")}
-                    </Typography>
+                    <label htmlFor="hazard-type">
+                        <Typography>
+                            {t("form_hazard-type-question")}
+                        </Typography>
+                    </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="hazard-type"
@@ -186,8 +189,9 @@ const HazardForm = (props: HazardFormProps) => {
                         value={formik.values.hazardType}
                         onChange={handleHazardTypeSelect}
                         error={formik.touched.hazardType && Boolean(formik.errors.hazardType)}
-                        helperText={formik.touched.hazardType && formik.errors.hazardType}
+                        helperText={formik.touched.hazardType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.hazardType}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             HazardTypes.map((item) => {
@@ -204,9 +208,11 @@ const HazardForm = (props: HazardFormProps) => {
                 </div>
                 {formik.values.hazardType === HazardType.Sidewalk && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_hazard-sidewalk-subtype-question")}
-                        </Typography>
+                        <label htmlFor="hazard-subtype-sidewalk">
+                            <Typography>
+                                {t("form_hazard-sidewalk-subtype-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -216,8 +222,9 @@ const HazardForm = (props: HazardFormProps) => {
                             value={formik.values.hazardSubtype}
                             onChange={handleHazardSubtypeSelect}
                             error={formik.touched.hazardSubtype && Boolean(formik.errors.hazardSubtype)}
-                            helperText={formik.touched.hazardSubtype && formik.errors.hazardSubtype}
+                            helperText={formik.touched.hazardSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.hazardSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             <ListSubheader className={classes.listSubHeader} disableSticky={true} key="sidewalk-obstruction-group">
                                 {t("form_hazard-sidewalk-obstruction-group")}
@@ -249,9 +256,11 @@ const HazardForm = (props: HazardFormProps) => {
                 )}
                 {formik.values.hazardType === HazardType.Crossing && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_hazard-crossing-subtype-question")}
-                        </Typography>
+                        <label htmlFor="hazard-subtype-crossing">
+                            <Typography>
+                                {t("form_hazard-crossing-subtype-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -261,8 +270,9 @@ const HazardForm = (props: HazardFormProps) => {
                             value={formik.values.hazardSubtype}
                             onChange={handleHazardSubtypeSelect}
                             error={formik.touched.hazardSubtype && Boolean(formik.errors.hazardSubtype)}
-                            helperText={formik.touched.hazardSubtype && formik.errors.hazardSubtype}
+                            helperText={formik.touched.hazardSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.hazardSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             <MenuItem className={classes.menuItem} key={crossingCrosswalkNeeded.key} value={crossingCrosswalkNeeded.key}>
                                 <Typography>
@@ -308,9 +318,11 @@ const HazardForm = (props: HazardFormProps) => {
                 )}
                 {formik.values.hazardType === HazardType.WeatherSeasonal && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_hazard-weather-subtype-question")}
-                        </Typography>
+                        <label htmlFor="hazard-subtype-weather">
+                            <Typography>
+                                {t("form_hazard-weather-subtype-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -320,8 +332,9 @@ const HazardForm = (props: HazardFormProps) => {
                             value={formik.values.hazardSubtype}
                             onChange={handleHazardSubtypeSelect}
                             error={formik.touched.hazardSubtype && Boolean(formik.errors.hazardSubtype)}
-                            helperText={formik.touched.hazardSubtype && formik.errors.hazardSubtype}
+                            helperText={formik.touched.hazardSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.hazardSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 HazardWeatherSeasonalSubtypes.map((item) => {
@@ -339,9 +352,11 @@ const HazardForm = (props: HazardFormProps) => {
                 )}
                 {formik.values.hazardType === HazardType.Concern && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_hazard-concern-subtype-question")}
-                        </Typography>
+                        <label htmlFor="hazard-subtype-concern">
+                            <Typography>
+                                {t("form_hazard-concern-subtype-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -351,8 +366,9 @@ const HazardForm = (props: HazardFormProps) => {
                             value={formik.values.hazardSubtype}
                             onChange={handleHazardSubtypeSelect}
                             error={formik.touched.hazardSubtype && Boolean(formik.errors.hazardSubtype)}
-                            helperText={formik.touched.hazardSubtype && formik.errors.hazardSubtype}
+                            helperText={formik.touched.hazardSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.hazardSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 HazardConcernSubtypes.map((item) => {
@@ -369,9 +385,11 @@ const HazardForm = (props: HazardFormProps) => {
                     </div>
                 )}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_common-describe")}
-                    </Typography>
+                    <label htmlFor="hazard-description">
+                        <Typography>
+                            {t("form_common-describe")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -383,14 +401,17 @@ const HazardForm = (props: HazardFormProps) => {
                         value={formik.values.description}
                         onChange={(event) => formik.setFieldValue("description", event.target.value)}
                         error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        helperText={formik.touched.description && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.description}</p>)}
+                        required
                     >
                     </TextField>
                 </div>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_common-suggested-solution")}
-                    </Typography>
+                    <label htmlFor="hazard-suggested-solution">
+                        <Typography>
+                            {t("form_common-suggested-solution")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -402,14 +423,16 @@ const HazardForm = (props: HazardFormProps) => {
                         value={formik.values.suggestedSolution}
                         onChange={(event) => formik.setFieldValue("suggestedSolution", event.target.value)}
                         error={formik.touched.suggestedSolution && Boolean(formik.errors.suggestedSolution)}
-                        helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
+                        helperText={formik.touched.suggestedSolution && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.suggestedSolution}</p>)}
                     >
                     </TextField>
                 </div>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_hazard-date")}
-                    </Typography>
+                    <label htmlFor="hazard-date-picker">
+                        <Typography>
+                            {t("form_hazard-date")}
+                        </Typography>
+                    </label>
                     <KeyboardDateTimePicker
                         className={classes.date}
                         disableFuture
@@ -420,6 +443,7 @@ const HazardForm = (props: HazardFormProps) => {
                         name="hazard-date-picker"
                         onChange={handleDateChange}
                         value={formik.values.date}
+                        required
                     />
                 </div>
                 <div className={classes.buttonBar}>

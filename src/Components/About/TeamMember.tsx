@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         marginTop: theme.spacing(1),
     },
+    name: {
+        fontSize: "1.5rem"
+    },
     root: {
         alignItems: "center",
         display: "flex",
@@ -49,8 +52,8 @@ const TeamMember = (props: TeamMemberProps) => {
     const classes = useStyles();
 
     return (
-        <Paper className={classes.root} elevation={3}>
-            <Typography variant="h5">
+        <Paper aria-label="Card with team member information" className={classes.root} elevation={3}>
+            <Typography className={classes.name} variant="h4">
                 {t(`about_${name}-name`)}
             </Typography>
             <Typography variant="subtitle1">

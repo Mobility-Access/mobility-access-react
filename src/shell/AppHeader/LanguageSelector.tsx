@@ -43,6 +43,7 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
             handleLanguageChange();
+            document.documentElement.lang = item.key;
         }
 
         handleMenuClose();

@@ -63,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: Colors.contrastBrightBlue,
         cursor: "pointer",
+        textDecoration: "underline",
     },
     menuItem: {
         minHeight: minInputHeight,
@@ -223,10 +224,13 @@ const DisabilityForm = (props: DisabilityFormProps) => {
             <FormTitle title="form_disability_title" />
             <form className={classes.disabilityForm} noValidate>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_disability-question")}
-                    </Typography>
+                    <label htmlFor="disability">
+                        <Typography>
+                            {t("form_disability-question")}
+                        </Typography>
+                    </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="disability"
@@ -235,8 +239,9 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                         value={formik.values.disability}
                         onChange={handleDisabilitySelect}
                         error={formik.touched.disability && Boolean(formik.errors.disability)}
-                        helperText={formik.touched.disability && formik.errors.disability}
+                        helperText={formik.touched.disability && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.disability}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             disabilityTypes.map((item) => {
@@ -253,9 +258,11 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                 </div>
                 { formik.values.disability === Disability.Yes && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_disability-type-question")}
-                        </Typography>
+                        <label htmlFor="disability-type">
+                            <Typography>
+                                {t("form_disability-type-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -265,8 +272,9 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                             value={formik.values.disabilityType}
                             onChange={handleDisabilityTypeSelect}
                             error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
-                            helperText={formik.touched.disabilityType && formik.errors.disabilityType}
+                            helperText={formik.touched.disabilityType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.disabilityType}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 disabilityTypeTypes.map((item) => {
@@ -284,9 +292,11 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                 )}
                 { formik.values.disabilityType === DisabilityType.Other && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_disability_disability-type-question")}
-                        </Typography>
+                        <label htmlFor="disability-type-description">
+                            <Typography>
+                                {t("form_disability_disability-type-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -295,16 +305,18 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                             value={formik.values.disabilityTypeOpen}
                             onChange={handleDisabilityTypeOpenChange}
                             error={formik.touched.disabilityType && Boolean(formik.errors.disabilityType)}
-                            helperText={formik.touched.disabilityType && formik.errors.disabilityType}
+                            helperText={formik.touched.disabilityType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.disabilityType}</p>)}
                             variant="outlined"
                         />
                     </div>
                 )}
                 { formik.values.disability === Disability.Yes && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_disability-mobility-aid-question")}
-                        </Typography>
+                        <label htmlFor="mobility-aid">
+                            <Typography>
+                                {t("form_disability-mobility-aid-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -314,7 +326,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                             value={formik.values.mobilityAid}
                             onChange={handleMobilityAidSelect}
                             error={formik.touched.mobilityAid && Boolean(formik.errors.mobilityAid)}
-                            helperText={formik.touched.mobilityAid && formik.errors.mobilityAid}
+                            helperText={formik.touched.mobilityAid && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.mobilityAid}</p>)}
                             variant="outlined"
                         >
                             {
@@ -333,9 +345,11 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                 )}
                 { formik.values.mobilityAid === Mobility.Yes && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_disability-mobility-aid-type-question")}
-                        </Typography>
+                        <label htmlFor="mobility-aid-type">
+                            <Typography>
+                                {t("form_disability-mobility-aid-type-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -345,7 +359,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                             value={formik.values.mobilityAidType}
                             onChange={handleMobilityAidTypeSelect}
                             error={formik.touched.mobilityAidType && Boolean(formik.errors.mobilityAidType)}
-                            helperText={formik.touched.mobilityAidType && formik.errors.mobilityAidType}
+                            helperText={formik.touched.mobilityAidType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.mobilityAidType}</p>)}
                             variant="outlined"
                         >
                             {
@@ -364,9 +378,11 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                 )}
                 { formik.values.mobilityAidType === MobilityAid.Other && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_disability_mobility-aid-type-other-question")}
-                        </Typography>
+                        <label htmlFor="mobility-aid-type-other-description">
+                            <Typography>
+                                {t("form_disability_mobility-aid-type-other-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -375,20 +391,28 @@ const DisabilityForm = (props: DisabilityFormProps) => {
                             value={formik.values.mobilityAidTypeOpen}
                             onChange={handleMobilityAidTypeOpenChange}
                             error={formik.touched.mobilityAidTypeOpen && Boolean(formik.errors.mobilityAidTypeOpen)}
-                            helperText={formik.touched.mobilityAidTypeOpen && formik.errors.mobilityAidTypeOpen}
+                            helperText={formik.touched.mobilityAidTypeOpen && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.mobilityAidTypeOpen}</p>)}
                             variant="outlined"
                         />
                     </div>
                 )}
                 <div className={classes.termsAndConditions}>
-                    <Checkbox checked={accept} color="primary" onChange={handleTermsAndConditions} />                          
-                    <Typography>
-                        {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
-                    </Typography>
+                    <Checkbox
+                        id="terms-and-conditions-checkbox"
+                        checked={accept}
+                        color="primary"
+                        onChange={handleTermsAndConditions}
+                        role="checkbox"
+                        aria-checked={accept}/>                     
+                    <label htmlFor="terms-and-conditions-checkbox">
+                        <Typography>
+                            {t("form_disability-terms-and-conditions-start")}<Link className={classes.link} onClick={handleTermsAndConditionsOpen}>{t("form_disability-terms-and-conditions-end")}</Link>
+                        </Typography>
+                    </label>
                 </div>
                 {
                     error && !accept && (
-                        <Typography className={classes.error} color="error">
+                        <Typography className={classes.error} color="error" role="alert">
                             {t("form_demographic-required")}
                         </Typography>
                     )

@@ -132,6 +132,7 @@ const Header = () => {
         if (item.key !== currentLanguage.key) {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
+            document.documentElement.lang = item.key
         }
         console.log(location.pathname);
 
@@ -284,17 +285,17 @@ const Header = () => {
                 onChange={handleTabChange}
                 value={tabValue} 
             >
-                <Tab component={Link} label={t("map")} to="/" />
+                <Tab aria-controls="map-tabpanel" component={Link} id="map-tab" label={t("map")} to="/" />
                 { isEnglish && (
-                    <Tab component={Link} label={t("header-explore")} to="/explore" />
+                    <Tab aria-controls="explore-tabpanel" component={Link} id="explore-tab" label={t("header-explore")} to="/explore" />
                 )}
-                <Tab component={Link} label={t("common_about")} to="/about" />
+                <Tab component={Link} id="about-tabpanel" label={t("common_about")} to="/about" />
             </Tabs>
         );
     };
 
     return (
-        <div className={classes.root}>
+        <nav className={classes.root}>
             <AppBar
                 className={classes.appBar}
                 classes={{positionFixed: classes.appBarStatic}}
@@ -306,7 +307,7 @@ const Header = () => {
                         className={classes.logo}
                         src={Logo}
                     />
-                    <Typography className={classes.title} >
+                    <Typography className={classes.title} variant="h1">
                             {t("site-name")}
                     </Typography>
                     <Hidden smDown>
@@ -327,7 +328,7 @@ const Header = () => {
                     {/* {renderLanguageLink()} */}
                 </Toolbar>
             </AppBar>
-        </div>
+        </nav>
     );
 };
 

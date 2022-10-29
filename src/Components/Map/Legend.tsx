@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme) => ({
     },
     legendTitle: {
         flex: "0 1 auto",
+        fontSize: "1em",
         fontWeight: "bold",
         left: "50%",
         position: "absolute",
@@ -135,16 +136,16 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
 
     const handleToggleVisibility = (e: any) => {
         switch (e.target.id) {
-            case "hazard":
-                toggleLayer(e.target.id, !hazardVisible);
+            case "legend-hazard-checkbox":
+                toggleLayer("hazard", !hazardVisible);
                 setHazardVisible(!hazardVisible);
                 break;
-            case "amenity":
-                toggleLayer(e.target.id, !amenityVisible);
+            case "legend-amenity-checkbox":
+                toggleLayer("amenity", !amenityVisible);
                 setAmenityVisible(!amenityVisible);
                 break;
-            case "incident":
-                toggleLayer(e.target.id, !incidentVisible);
+            case "legend-incident-checkbox":
+                toggleLayer("incident", !incidentVisible);
                 setIncidentVisible(!incidentVisible);
                 break;
         }
@@ -159,7 +160,7 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
             <div className={open ? classes.open : classes.closed}>
                 <div className={classes.legend}>
                 <div className={classes.legendHeader}>
-                        <Typography className={classes.legendTitle}>
+                        <Typography className={classes.legendTitle} variant="h3">
                             { t("legend-title") }
                         </Typography>
                         <IconButton aria-label="close-legend-button" className={classes.legendCloseButton} onClick={toggleLegend}>
@@ -172,40 +173,53 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
                             <Checkbox
                                 checked={hazardVisible}
                                 color="primary"
-                                id="hazard"
-                                onChange={handleToggleVisibility}/>
+                                id="legend-hazard-checkbox"
+                                onChange={handleToggleVisibility}
+                                role="checkbox"
+                                aria-checked={hazardVisible}/>
                             <img alt="hazard marker" className={classes.legendMarker}  src={hazardMarker} />
-                            <div className={classes.legendText}>
-                                { t("legend_hazard") }
-                            </div>
+                            <label htmlFor="legend-hazard-checkbox">
+                                <div className={classes.legendText}>
+                                    { t("legend_hazard") }
+                                </div>
+                            </label>
                         </ListItem>
                         <ListItem disableGutters={true} key="amenity">
                             <Checkbox
                                 checked={amenityVisible}
                                 color="primary"
-                                id="amenity"
-                                onChange={handleToggleVisibility}/>
+                                id="legend-amenity-checkbox"
+                                onChange={handleToggleVisibility}
+                                role="checkbox"
+                                aria-checked={amenityVisible}/>
                             <img alt="amenity marker" className={classes.legendMarker}  src={amenityMarker} />
-                            <div className={classes.legendText}>
-                                { t("legend_amenity") }
-                            </div>
+                            <label htmlFor="legend-amenity-checkbox">
+                                <div className={classes.legendText}>
+                                    { t("legend_amenity") }
+                                </div>
+                            </label>
                         </ListItem>
                         <ListItem disableGutters={true} key="incident">
                             <Checkbox
                                 checked={incidentVisible}
                                 color="primary"
-                                id="incident"
-                                onChange={handleToggleVisibility}/>
+                                id="legend-incident-checkbox"
+                                onChange={handleToggleVisibility}
+                                role="checkbox"
+                                aria-checked={incidentVisible}/>
                             <img alt="incident marker" className={classes.legendMarker}  src={incidentMarker} />
-                            <div className={classes.legendText}>
-                                { t("legend_incident") }
-                            </div>
+                            <label htmlFor="legend-incident-checkbox">
+                                <div className={classes.legendText}>
+                                    { t("legend_incident") }
+                                </div>
+                            </label>
                         </ListItem>
                     </List>
                 </div>
             </div>
             {!open && (
                 <Fab
+                    aria-label="Legend toggle"
                     classes={{
                         root: classes.fab
                     }}
