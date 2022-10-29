@@ -190,9 +190,11 @@ const IncidentForm = (props: IncidentFormProps) => {
             <FormTitle title="form_incident-details" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_incident-type-question")}
-                    </Typography>
+                    <label htmlFor="incident-type">
+                        <Typography>
+                            {t("form_incident-type-question")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -202,8 +204,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                         value={formik.values.incidentType}
                         onChange={handleIncidentTypeSelect}
                         error={formik.touched.incidentType && Boolean(formik.errors.incidentType)}
-                        helperText={formik.touched.incidentType && formik.errors.incidentType}
+                        helperText={formik.touched.incidentType && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.incidentType}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             IncidentTypes.map((item) => {
@@ -220,16 +223,18 @@ const IncidentForm = (props: IncidentFormProps) => {
                 </div>
                 { (formik.values.incidentType === IncidentType.HitBy || formik.values.incidentType === IncidentType.NearMiss) && (
                     <div className={classes.question}>
-                        { formik.values.incidentType === IncidentType.HitBy && (
-                            <Typography>
-                                {t("form_incident-hit-by-question")}
-                            </Typography>
-                        )}
-                        { formik.values.incidentType === IncidentType.NearMiss && (
-                            <Typography>
-                                {t("form_incident-near-miss-question")}
-                            </Typography>
-                        )}
+                        <label htmlFor="incident-hit-by-or-near-miss-subtype">
+                            { formik.values.incidentType === IncidentType.HitBy && (
+                                <Typography>
+                                    {t("form_incident-hit-by-question")}
+                                </Typography>
+                            )}
+                            { formik.values.incidentType === IncidentType.NearMiss && (
+                                <Typography>
+                                    {t("form_incident-near-miss-question")}
+                                </Typography>
+                            )}
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -239,8 +244,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                             value={formik.values.incidentSubtype}
                             onChange={handleIncidentSubtypeSelect}
                             error={formik.touched.incidentSubtype && Boolean(formik.errors.incidentSubtype)}
-                            helperText={formik.touched.incidentSubtype && formik.errors.incidentSubtype}
+                            helperText={formik.touched.incidentSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.incidentSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 renderHitByOrNearmissSubtypes()
@@ -250,9 +256,11 @@ const IncidentForm = (props: IncidentFormProps) => {
                 )}
                 { formik.values.incidentType === IncidentType.Fall && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_incident-fall-question")}
-                        </Typography>
+                        <label htmlFor="incident-fall-type">
+                            <Typography>
+                                {t("form_incident-fall-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -262,8 +270,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                             value={formik.values.incidentSubtype}
                             onChange={handleIncidentSubtypeSelect}
                             error={formik.touched.incidentSubtype && Boolean(formik.errors.incidentSubtype)}
-                            helperText={formik.touched.incidentSubtype && formik.errors.incidentSubtype}
+                            helperText={formik.touched.incidentSubtype && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.incidentSubtype}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 IncidentFallSubtypes.map((item) => {
@@ -280,9 +289,11 @@ const IncidentForm = (props: IncidentFormProps) => {
                     </div>
                 )}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_incident-involvement-question")}
-                    </Typography>
+                    <label htmlFor="incident-involvement">
+                        <Typography>
+                            {t("form_incident-involvement-question")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -292,8 +303,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                         value={formik.values.involvement}
                         onChange={handleIncidentInvolvementSelect}
                         error={formik.touched.involvement && Boolean(formik.errors.involvement)}
-                        helperText={formik.touched.involvement && formik.errors.involvement}
+                        helperText={formik.touched.involvement && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.involvement}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             IncidentInvolvementTypes.map((item) => {
@@ -310,9 +322,11 @@ const IncidentForm = (props: IncidentFormProps) => {
                 </div>
                 { formik.values.involvement && formik.values.involvement !== IncidentInvolvementType.Witness && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_incident-injury-question")}
-                        </Typography>
+                        <label htmlFor="incident-injury-severity">
+                            <Typography>
+                                {t("form_incident-injury-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -322,8 +336,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                             value={formik.values.injury}
                             onChange={handleInjurySelect}
                             error={formik.touched.injury && Boolean(formik.errors.injury)}
-                            helperText={formik.touched.injury && formik.errors.injury}
+                            helperText={formik.touched.injury && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.injury}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 IncidentInjuryTypes.map((item) => {
@@ -341,9 +356,11 @@ const IncidentForm = (props: IncidentFormProps) => {
                 )}
                 { formik.values.involvement === IncidentInvolvementType.Witness && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_incident-injury-witness-question")}
-                        </Typography>
+                        <label htmlFor="incident-injury-witness-severity">
+                            <Typography>
+                                {t("form_incident-injury-witness-question")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -353,8 +370,9 @@ const IncidentForm = (props: IncidentFormProps) => {
                             value={formik.values.injury}
                             onChange={handleInjurySelect}
                             error={formik.touched.injury && Boolean(formik.errors.injury)}
-                            helperText={formik.touched.injury && formik.errors.injury}
+                            helperText={formik.touched.injury && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.injury}</p>)}
                             variant="outlined"
+                            required
                         >
                             {
                                 IncidentInjuryWitnessTypes.map((item) => {
@@ -371,9 +389,11 @@ const IncidentForm = (props: IncidentFormProps) => {
                     </div>
                 )}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_incident-date")}
-                    </Typography>
+                    <label htmlFor="incident-date-picker">
+                        <Typography>
+                            {t("form_incident-date")}
+                        </Typography>
+                    </label>
                     <KeyboardDateTimePicker
                         className={classes.date}
                         disableFuture
@@ -384,6 +404,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                         name="incident-date-picker"
                         onChange={handleDateChange}
                         value={formik.values.date}
+                        required
                     />
                 </div>
                 <div className={classes.buttonBar}>

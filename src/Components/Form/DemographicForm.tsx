@@ -259,9 +259,11 @@ const DemographicForm = (props: DemographicFormProps) => {
             </ListItem>
             <form className={classes.demographicForm} noValidate onSubmit={formik.handleSubmit}>
                 <div>
-                    <Typography>
-                        {t("form_demographic_gender-question")}
-                    </Typography>
+                    <label htmlFor="gender">
+                        <Typography>
+                            {t("form_demographic_gender-question")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -271,8 +273,9 @@ const DemographicForm = (props: DemographicFormProps) => {
                         value={formik.values.gender}
                         onChange={handleGenderSelect}
                         error={formik.touched.gender && Boolean(formik.errors.gender)}
-                        helperText={formik.touched.gender && formik.errors.gender}
+                        helperText={formik.touched.gender && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.gender}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             genderTypes.map((item) => {
@@ -289,9 +292,11 @@ const DemographicForm = (props: DemographicFormProps) => {
                 </div>
                 { formik.values.gender === Gender.Other && (
                     <div className={classes.question}>
-                        <Typography>
-                            {t("form_demographic_gender-question-other")}
-                        </Typography>
+                        <label htmlFor="gender-self-description">
+                            <Typography>
+                                {t("form_demographic_gender-question-other")}
+                            </Typography>
+                        </label>
                         <TextField
                             className={classes.input}
                             fullWidth
@@ -300,15 +305,18 @@ const DemographicForm = (props: DemographicFormProps) => {
                             value={formik.values.genderOpen}
                             onChange={handleGenderOpenChange}
                             error={formik.touched.genderOpen && Boolean(formik.errors.genderOpen)}
-                            helperText={formik.touched.genderOpen && formik.errors.genderOpen}
+                            helperText={formik.touched.genderOpen && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.genderOpen}</p>)}
                             variant="outlined"
+                            required
                         />
                     </div>
                 )}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_demographic_identity-question")}
-                    </Typography>
+                    <label htmlFor="identity">
+                        <Typography>
+                            {t("form_demographic_identity-question")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -320,8 +328,9 @@ const DemographicForm = (props: DemographicFormProps) => {
                         onClick={handleIdentityClick}
                         onKeyDown={handleKeyDown}
                         error={formik.touched.identity && Boolean(formik.errors.identity)}
-                        helperText={formik.touched.identity && formik.errors.identity}
+                        helperText={formik.touched.identity && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.identity}</p>)}
                         variant="outlined"
+                        required
                         SelectProps={{
                             multiple: true,
                             open: identitySelectOpen,
@@ -360,26 +369,31 @@ const DemographicForm = (props: DemographicFormProps) => {
                 </div>
                 { formik.values.identity.includes(Identity.Other) && (
                     <div className={classes.question}>
-                    <Typography>
-                        {t("form_demographic_identity-question-other")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="identity-self-description"
-                        name="identity-self-description"
-                        value={formik.values.identityOpen}
-                        onChange={handleIdentityOpenChange}
-                        error={formik.touched.identityOpen && Boolean(formik.errors.identityOpen)}
-                        helperText={formik.touched.identityOpen && formik.errors.identityOpen}
-                        variant="outlined"
-                    />
+                        <label htmlFor="identity-self-description">
+                            <Typography>
+                                {t("form_demographic_identity-question-other")}
+                            </Typography>
+                        </label>
+                        <TextField
+                            className={classes.input}
+                            fullWidth
+                            id="identity-self-description"
+                            name="identity-self-description"
+                            value={formik.values.identityOpen}
+                            onChange={handleIdentityOpenChange}
+                            error={formik.touched.identityOpen && Boolean(formik.errors.identityOpen)}
+                            helperText={formik.touched.identityOpen && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.identityOpen}</p>)}
+                            variant="outlined"
+                            required
+                        />
                     </div>
                 )}
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_demographic-birth-year")}
-                    </Typography>
+                    <label htmlFor="birth-year">
+                        <Typography>
+                            {t("form_demographic-birth-year")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -389,8 +403,9 @@ const DemographicForm = (props: DemographicFormProps) => {
                         value={formik.values.birthYear}
                         onChange={handleBirthYearSelect}
                         error={formik.touched.birthYear && Boolean(formik.errors.birthYear)}
-                        helperText={formik.touched.birthYear && formik.errors.birthYear}
+                        helperText={formik.touched.birthYear && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.birthYear}</p>)}
                         variant="outlined"
+                        required
                     >
                         {
                             birthYearTypes.map((item) => {

@@ -107,9 +107,11 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
             <FormTitle title="form_incident-description" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
-                    <Typography>
-                        {t("form_incident-describe")}
-                    </Typography>
+                    <label htmlFor="incident-description">
+                        <Typography>
+                            {t("form_incident-describe")}
+                        </Typography>
+                    </label>
                     <TextField
                         className={classes.input}
                         fullWidth
@@ -121,29 +123,11 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
                         value={formik.values.description}
                         onChange={(event) => formik.setFieldValue("description", event.target.value)}
                         error={formik.touched.description && Boolean(formik.errors.description)}
-                        helperText={formik.touched.description && formik.errors.description}
+                        helperText={formik.touched.description && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.description}</p>)}
+                        required
                     >
                     </TextField>
                 </div>
-                {/* <div className={classes.question}>
-                    <Typography>
-                        {t("form_common-suggested-solution")}
-                    </Typography>
-                    <TextField
-                        className={classes.input}
-                        fullWidth
-                        id="incident-suggested-solution"
-                        name="incident-suggested-solution"
-                        multiline
-                        rows={8}
-                        variant="outlined"
-                        value={formik.values.suggestedSolution}
-                        onChange={(event) => formik.setFieldValue("suggestedSolution", event.target.value)}
-                        error={formik.touched.suggestedSolution && Boolean(formik.errors.suggestedSolution)}
-                        helperText={formik.touched.suggestedSolution && formik.errors.suggestedSolution}
-                    >
-                    </TextField>
-                </div> */}
                 <div className={classes.buttonBar}>
                     <Button
                         className={classes.cancelButton}

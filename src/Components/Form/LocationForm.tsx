@@ -132,7 +132,7 @@ const LocationForm = (props: LocationFormProps) => {
             }
             {
                 locationError && (!newReportCoords || newReportCoords.length !== 2) && (
-                    <Typography className={classes.text} color="error">
+                    <Typography className={classes.text} color="error" role="alert">
                         {t("form_location-required")}
                     </Typography>
                 )
