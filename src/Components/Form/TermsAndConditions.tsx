@@ -132,29 +132,39 @@ const TermsAndConditions = (props: TermsAndConditionsProps) => {
 
     return (
         <>
-            <Dialog className={classes.dialog} fullWidth={true} maxWidth="lg" open={open} scroll="body">
+            <Dialog
+                aria-describedby="terms-and-conditions-content"
+                aria-labelledby="terms-and-conditions-title"
+                className={classes.dialog}
+                fullWidth={true}
+                maxWidth="lg"
+                open={open}
+                scroll="body"
+            >
                 <DialogContent>
                     <Container maxWidth="lg">
-                        <Typography className={classes.title}>
+                        <Typography className={classes.title} id="terms-and-conditions-title">
                             {t("form_consent-title")}
                         </Typography>
-                        <Typography className={classes.subtitle}>
-                            {t("form_consent-subtitle")}
-                        </Typography>
-                        <Typography className={classes.subtitle}>
-                            {t("form_consent-walk-roll-map")}
-                        </Typography>
-                        { withinUS && renderInformedConsentUS() }
-                        { !withinUS && renderInformedConsent()}
-                        <PrivacyPolicy />
-                        <DialogActions>
-                            <Button autoFocus className={classes.button} onClick={onDecline} variant="outlined">
-                                {t("form_common-decline")}
-                            </Button>
-                            <Button autoFocus className={classes.button} color="primary" onClick={onAccept} variant="contained">
-                                {t("form_common-accept")}
-                            </Button>
-                        </DialogActions>
+                        <div id="terms-and-conditions-content">
+                            <Typography className={classes.subtitle}>
+                                {t("form_consent-subtitle")}
+                            </Typography>
+                            <Typography className={classes.subtitle}>
+                                {t("form_consent-walk-roll-map")}
+                            </Typography>
+                            { withinUS && renderInformedConsentUS() }
+                            { !withinUS && renderInformedConsent()}
+                            <PrivacyPolicy />
+                            <DialogActions>
+                                <Button className={classes.button} onClick={onDecline} variant="outlined">
+                                    {t("form_common-decline")}
+                                </Button>
+                                <Button className={classes.button} color="primary" onClick={onAccept} variant="contained">
+                                    {t("form_common-accept")}
+                                </Button>
+                            </DialogActions>
+                        </div>
                     </Container>
                 </DialogContent>
             </Dialog>

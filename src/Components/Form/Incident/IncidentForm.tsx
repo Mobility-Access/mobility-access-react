@@ -196,6 +196,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                         </Typography>
                     </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="incident-type"

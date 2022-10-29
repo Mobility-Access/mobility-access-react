@@ -146,6 +146,7 @@ const AmenityForm = (props: AmenityProps) => {
                         </Typography>
                     </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="amenity"

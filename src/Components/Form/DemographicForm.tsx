@@ -265,6 +265,7 @@ const DemographicForm = (props: DemographicFormProps) => {
                         </Typography>
                     </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="gender"

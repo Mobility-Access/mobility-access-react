@@ -856,7 +856,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         return  (
             <div className={classes.root} id="map-tabpanel" role="tabpanel">
                 <Hidden smDown>
-                    <div className={classes.formContainer}>
+                    <div 
+                        className={classes.formContainer}
+                        aria-live="polite"
+                        id="form-content"
+                        role="region"
+                    >
                         <FormWizard
                             addNewFeature={this.handleAddNewFeature}
                             clearFeaturePopup={this.hideFeaturePopupOverlay}

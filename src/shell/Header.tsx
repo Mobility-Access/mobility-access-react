@@ -132,6 +132,7 @@ const Header = () => {
         if (item.key !== currentLanguage.key) {
             setCurrentLanguage(item);
             i18n.changeLanguage(item.key)
+            document.documentElement.lang = item.key
         }
         console.log(location.pathname);
 

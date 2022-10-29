@@ -180,6 +180,7 @@ const HazardForm = (props: HazardFormProps) => {
                         </Typography>
                     </label>
                     <TextField
+                        autoFocus
                         className={classes.input}
                         fullWidth
                         id="hazard-type"
