@@ -765,7 +765,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     handleGeocodeResult = (coords: Coordinate) => {
         if (coords && coords.length) {
             this.map.getView().setCenter(coords);
-            this.map.getView().setZoom(12);
+            this.map.getView().setZoom(15);
         }
     }       
 
@@ -865,6 +865,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                         <FormWizard
                             addNewFeature={this.handleAddNewFeature}
                             clearFeaturePopup={this.hideFeaturePopupOverlay}
+                            handleGeocodeResult={this.handleGeocodeResult}
                             newReportCoords={this.state.reportCoords}
                             cancelOrComplete={this.handleCancelOrComplete}
                             startMapClickListener={this.enableMapClickListener}
@@ -926,6 +927,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                                 addNewFeature={this.handleAddNewFeature}
                                 cancelOrComplete={this.handleCancelOrComplete}
                                 clearFeaturePopup={this.hideFeaturePopupOverlay}
+                                handleGeocodeResult={this.handleGeocodeResult}
                                 newReportCoords={this.state.reportCoords}
                                 startMapClickListener={this.enableMapClickListener}
                                 stopMapClickListener={this.disableMapClickListener}

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import Hidden from "@material-ui/core/Hidden";
 
+import { Coordinate } from "ol/coordinate";
+
 import HazardForm from "./HazardForm";
 import { SubmitHazardReport } from "./HazardService";
 import CancelDialog from "../CancelDialog";
@@ -20,6 +22,7 @@ export interface HazardFields extends BaseFields {
 interface HazardControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
+    handleGeocodeResult: (coords: Coordinate) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -51,6 +54,7 @@ export const initialState: HazardFields = {
 const HazardController = (props: HazardControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
+        handleGeocodeResult,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener } = { ...props };
@@ -114,6 +118,7 @@ const HazardController = (props: HazardControllerProps) => {
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
+                        handleGeocodeResult={handleGeocodeResult}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
                         prevStep={prevStep}

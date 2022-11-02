@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import Hidden from "@material-ui/core/Hidden";
 
+import { Coordinate } from "ol/coordinate";
+
 import IncidentDescriptionForm from "./IncidentDescriptionForm";
 import IncidentForm from "./IncidentForm";
 import { SubmitIncidentReport } from "./IncidentService";
@@ -22,6 +24,7 @@ export interface IncidentFields extends BaseFields {
 interface IncidentControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
+    handleGeocodeResult: (coords: Coordinate) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -54,6 +57,7 @@ export const initialState: IncidentFields = {
 const IncidentController = (props: IncidentControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
+        handleGeocodeResult,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener } = { ...props };
@@ -117,6 +121,7 @@ const IncidentController = (props: IncidentControllerProps) => {
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
+                        handleGeocodeResult={handleGeocodeResult}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
                         prevStep={prevStep}

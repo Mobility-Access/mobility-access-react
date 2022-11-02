@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import Hidden from "@material-ui/core/Hidden";
 
+import { Coordinate } from "ol/coordinate";
+
 import AmenityForm from "./AmenityForm";
 import { SubmitAmenityReport } from "./AmenityService";
 import CancelDialog from "../CancelDialog";
@@ -18,6 +20,7 @@ export interface AmenityFields extends BaseFields {
 interface AmenityControllerProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
+    handleGeocodeResult: (coords: Coordinate) => void;
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
@@ -47,6 +50,7 @@ export const initialState: AmenityFields = {
 const AmenityController = (props: AmenityControllerProps) => {
     const { addNewFeature,
         cancelOrComplete,
+        handleGeocodeResult,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener } = { ...props };
@@ -109,6 +113,7 @@ const AmenityController = (props: AmenityControllerProps) => {
                     <LocationForm
                         cancel={handleCancelClick}    
                         formData={formData}
+                        handleGeocodeResult={handleGeocodeResult}
                         nextStep={nextStep}
                         newReportCoords={newReportCoords}
                         prevStep={prevStep}

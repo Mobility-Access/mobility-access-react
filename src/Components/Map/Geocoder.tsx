@@ -114,7 +114,7 @@ const Geocoder = (props: GeocoderProps) => {
         }
     };
 
-        const handleChange = (event: any) => {
+    const handleChange = (event: any) => {
         setValue(event.target.value);
 
         if (event.target.value.length > 2) {

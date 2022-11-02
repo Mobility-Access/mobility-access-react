@@ -11,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import NavigateNext from "@material-ui/icons/NavigateNext";
 import { useTranslation } from "react-i18next";
 
+import { Coordinate } from "ol/coordinate";
+
 import FormTitle from "./FormTitle";
 import AmenityController from "./Amenity/AmenityController";
 import HazardController from "./Hazard/HazardController";
@@ -23,6 +25,7 @@ interface FormWizardProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     clearFeaturePopup: () => void;
+    handleGeocodeResult: (coords: Coordinate) => void;
     newReportCoords: number[];    startMapClickListener: () => void;
     stopMapClickListener: () => void;
 }
@@ -75,6 +78,7 @@ const FormWizard = (props: FormWizardProps) => {
     const { addNewFeature,
         clearFeaturePopup,
         cancelOrComplete,
+        handleGeocodeResult,
         newReportCoords,
         startMapClickListener,
         stopMapClickListener } = { ...props } ;
@@ -203,6 +207,7 @@ const FormWizard = (props: FormWizardProps) => {
             <AmenityController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
+                handleGeocodeResult={handleGeocodeResult}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
@@ -215,6 +220,7 @@ const FormWizard = (props: FormWizardProps) => {
             <HazardController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
+                handleGeocodeResult={handleGeocodeResult}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
@@ -227,6 +233,7 @@ const FormWizard = (props: FormWizardProps) => {
             <IncidentController
                 addNewFeature={addNewFeature}
                 cancelOrComplete={handleCancelorComplete}
+                handleGeocodeResult={handleGeocodeResult}
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
