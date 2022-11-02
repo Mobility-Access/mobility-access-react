@@ -135,6 +135,7 @@ const LocationForm = (props: LocationFormProps) => {
     const handleAddressSearchClear = () => {
         setValue("");
         setGeocodeResult([]);
+        handleGeocodeResult([]);
     };
 
     const handleChange = (event: any) => {

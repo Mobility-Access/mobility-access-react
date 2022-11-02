@@ -765,7 +765,21 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     handleGeocodeResult = (coords: Coordinate) => {
         if (coords && coords.length) {
             this.map.getView().setCenter(coords);
-            this.map.getView().setZoom(15);
+            this.map.getView().setZoom(18);
+
+            this.state.markerSource.clear();
+            this.setReportCoords(coords);
+            const feature = new Feature();
+            const style = getMarkerStyle();
+            feature.setStyle(style);
+            feature.setGeometry(new Point(coords));
+            this.state.markerSource.addFeature(feature);
+
+            // Listen for drag events on the report marker
+            this.map.addInteraction(this.translate);
+        } else {
+            this.state.markerSource.clear();
+            this.setReportCoords(coords);
         }
     }       
 
