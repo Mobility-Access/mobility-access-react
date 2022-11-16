@@ -364,10 +364,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         }, 0);
 
         setTimeout(function() {
-            const canvas = _this.wrapper.current.getElementsByTagName("canvas");
+            if (_this.wrapper && _this.wrapper.current) {
+                const canvas = _this.wrapper.current.getElementsByTagName("canvas");
 
-            if (canvas && canvas.length) {
-                canvas[0].setAttribute("aria-label", "Map showing report locations. Data available for download on the application's About page.");
+                if (canvas && canvas.length) {
+                    canvas[0].setAttribute("aria-label", "Map showing report locations. Data available for download on the application's About page.");
+                }
             }
         }, 5000);
     }
