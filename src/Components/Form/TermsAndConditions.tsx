@@ -64,7 +64,6 @@ const TermsAndConditions = (props: TermsAndConditionsProps) => {
     const multipolygon = multiPolygon(US_Boundary.features[0].geometry.coordinates);
 
     const withinUS = booleanWithin(turfPoint4326, multipolygon);
-    console.log(`We're within the US: ${withinUS}`);
 
     const renderInformedConsent = () => {
         return (

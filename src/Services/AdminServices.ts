@@ -2,7 +2,7 @@ import { AdminUrl, AdminAmenityUrl, AdminHazardUrl, AdminIncidentUrl, AdminToken
 import { AmenityFields } from "../Components/Form/Amenity/AmenityController";
 import { HazardFields } from "../Components/Form/Hazard/HazardController";
 import { IncidentFields } from "../Components/Form/Incident/IncidentController"
-import { FeatureCollection, Gender, MobilityAid, ReportType } from "../FormTypes";
+import { FeatureCollection, Gender, HeardAbout, MobilityAid, ReportType } from "../FormTypes";
 
 const createAuthHeader = (username?: string, password?: string) => {
     let authHeaderValue = "";
@@ -162,6 +162,7 @@ export const GetAmenity = async (id: string) => {
         if (result.success) {
             const data = result.feature;
             const genderValues = parseGender(data.gender);
+            const heardAboutValues = parseHeardAbout(data.heard_about);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const amenity: AmenityFields = {
                 archived: data.archived,
@@ -174,6 +175,8 @@ export const GetAmenity = async (id: string) => {
                 disabilityTypeOpen: "",
                 gender: genderValues.gender,
                 genderOpen: genderValues.genderOpen,
+                heardAbout: heardAboutValues.heardAbout,
+                heardAboutOpen: heardAboutValues.heardAboutOpen,
                 identity: data.race,
                 identityOpen: "",
                 mobilityAid: data.mobility_aid,
@@ -209,6 +212,7 @@ export const GetHazard = async (id: string) => {
         if (result.success) {
             const data = result.feature;
             const genderValues = parseGender(data.gender);
+            const heardAboutValues = parseHeardAbout(data.heard_about);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const hazard: HazardFields = {
                 archived: data.archived,
@@ -223,6 +227,8 @@ export const GetHazard = async (id: string) => {
                 disabilityTypeOpen: "",
                 gender: genderValues.gender,
                 genderOpen: genderValues.genderOpen,
+                heardAbout: heardAboutValues.heardAbout,
+                heardAboutOpen: heardAboutValues.heardAboutOpen,
                 identity: data.race,
                 identityOpen: "",
                 mobilityAid: data.mobility_aid,
@@ -258,6 +264,7 @@ export const GetIncident = async (id: string) => {
         if (result.success) {
             const data = result.feature;
             const genderValues = parseGender(data.gender);
+            const heardAboutValues = parseHeardAbout(data.heard_about);
             const mobilityAidTypeValues = parseMobilityAid(data.mobility_aid_type);
             const incident: IncidentFields = {
                 archived: data.archived,
@@ -273,6 +280,8 @@ export const GetIncident = async (id: string) => {
                 disabilityTypeOpen: "",
                 gender: genderValues.gender,
                 genderOpen: genderValues.genderOpen,
+                heardAbout: heardAboutValues.heardAbout,
+                heardAboutOpen: heardAboutValues.heardAboutOpen,
                 identity: data.race,
                 identityOpen: "",
                 mobilityAid: data.mobility_aid,
@@ -356,6 +365,7 @@ export const UpdateAmenityReport = async (report: any, id: string) => {
         disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
         gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
         geom: report.point,
+        heard_about: report.heardAboutOpen ? `${report.heardAbout} - ${report.heardAboutOpen}` : report.heardAbout,
         mobility_aid: report.mobilityAid,
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
@@ -407,6 +417,7 @@ export const UpdateHazardReport = async (report: any, id: string) => {
         disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
         gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
         geom: report.point,
+        heard_about: report.heardAboutOpen ? `${report.heardAbout} - ${report.heardAboutOpen}` : report.heardAbout,
         mobility_aid: report.mobilityAid,
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
@@ -459,6 +470,7 @@ export const UpdateIncidentReport = async (report: any, id: string) => {
         disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
         gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
         geom: report.point,
+        heard_about: report.heardAboutOpen ? `${report.heardAbout} - ${report.heardAboutOpen}` : report.heardAbout,
         mobility_aid: report.mobilityAid,
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,
@@ -544,6 +556,22 @@ function parseGender(value: string) {
     }
 
     return genderValues;
+}
+
+function parseHeardAbout(value: string) {
+    const heardAboutValues = {
+        heardAbout: "",
+        heardAboutOpen: ""
+    };
+
+    if (value.startsWith(HeardAbout.Other)) {
+        heardAboutValues.heardAbout = HeardAbout.Other;
+        heardAboutValues.heardAboutOpen = value.substring(8);
+    } else {
+        heardAboutValues.heardAbout = value;
+    }
+
+    return heardAboutValues;
 }
 
 function parseMobilityAid(value: string) {

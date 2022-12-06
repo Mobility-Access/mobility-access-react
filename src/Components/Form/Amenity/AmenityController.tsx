@@ -34,6 +34,8 @@ export const initialState: AmenityFields = {
     disabilityTypeOpen: "",
     gender: "",
     genderOpen: "",
+    heardAbout: "",
+    heardAboutOpen: "",
     identity: [],
     identityOpen: "",
     mobilityAid: "",

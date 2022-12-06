@@ -38,6 +38,8 @@ export const initialState: HazardFields = {
     disabilityTypeOpen: "",
     gender: "",
     genderOpen: "",
+    heardAbout: "",
+    heardAboutOpen: "",
     identity: [],
     identityOpen: "",
     mobilityAid: "",
