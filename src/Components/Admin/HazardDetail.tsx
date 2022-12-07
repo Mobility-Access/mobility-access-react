@@ -969,7 +969,6 @@ const HazardDetail = () => {
                                         </Typography>
                                     </label>
                                     <TextField
-                                        autoFocus
                                         className={classes.input}
                                         fullWidth
                                         id="heard about"

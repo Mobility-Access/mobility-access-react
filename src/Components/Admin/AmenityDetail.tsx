@@ -753,7 +753,6 @@ const AmenityDetail = () => {
                                         </Typography>
                                     </label>
                                     <TextField
-                                        autoFocus
                                         className={classes.input}
                                         fullWidth
                                         id="heard about"

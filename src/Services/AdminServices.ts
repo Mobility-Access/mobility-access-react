@@ -564,6 +564,8 @@ function parseHeardAbout(value: string) {
         heardAboutOpen: ""
     };
 
+    value = value ?? "";
+
     if (value.startsWith(HeardAbout.Other)) {
         heardAboutValues.heardAbout = HeardAbout.Other;
         heardAboutValues.heardAboutOpen = value.substring(8);
