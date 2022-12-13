@@ -12,6 +12,7 @@ export const SubmitAmenityReport = async (report: AmenityFields) => {
         disability_type: report.disabilityTypeOpen ? `${report.disabilityType} - ${report.disabilityTypeOpen}` : report.disabilityType,
         gender: report.genderOpen ? `${report.gender} - ${report.genderOpen}` : report.gender,
         geom: report.point,
+        heard_about: report.heardAboutOpen ? `${report.heardAbout} - ${report.heardAboutOpen}` : report.heardAbout,
         mobility_aid: report.mobilityAid,
         mobility_aid_type: report.mobilityAidTypeOpen ? `${report.mobilityAidType} - ${report.mobilityAidTypeOpen}` : report.mobilityAidType,
         race: report.identityOpen ? `${report.identity},${report.identityOpen}` : report.identity,

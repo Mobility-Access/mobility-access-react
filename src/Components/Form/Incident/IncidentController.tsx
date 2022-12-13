@@ -37,6 +37,8 @@ export const initialState: IncidentFields = {
     disabilityTypeOpen: "",
     gender: "",
     genderOpen: "",
+    heardAbout: "",
+    heardAboutOpen: "",
     identity: [],
     identityOpen: "",
     incidentSubtype: "",

@@ -34,6 +34,8 @@ import {
     DisabilityTypeTypes,
     Gender,
     GenderTypes,
+    HeardAbout,
+    HeardAboutTypes,
     Mobility,
     MobilityAid,
     MobilityTypes,
@@ -179,6 +181,11 @@ const AmenityDetail = () => {
             .string()
             .max(50, t("form-max-length-30"))
             .required(t("form-required")),
+        heardAbout: Yup
+            .string(),
+        heardAboutOpen: Yup
+            .string()
+            .max(75, t("form-max-length-75")),
         identity: Yup
             .array()
             .min(1, t("form-required"))
@@ -296,6 +303,19 @@ const AmenityDetail = () => {
 
     const handleGeometryChange = (coords: number[]) => {
         formik.setFieldValue("point", coords)
+    };
+
+    const handleheardAboutSelect = (event: any) => {
+        const value = event.target.value;
+        formik.setFieldValue("heardAbout", value);
+
+        if (formik.values.heardAboutOpen && formik.values.heardAbout !== HeardAbout.Other) {
+            formik.setFieldValue("heardAboutOpen", "");
+        }
+    };
+
+    const handleHeardAboutOpenChange = (event: any) => {
+        formik.setFieldValue("heardAboutOpen", event.target.value);
     };
 
     const handleIdentityChange = (event: any) => {
@@ -723,6 +743,59 @@ const AmenityDetail = () => {
                                             error={formik.touched.mobilityAidTypeOpen && Boolean(formik.errors.mobilityAidTypeOpen)}
                                             helperText={formik.touched.mobilityAidTypeOpen && formik.errors.mobilityAidTypeOpen}
                                             variant="outlined"
+                                        />
+                                    </div>
+                                )}
+                                <div className={classes.question}>
+                                    <label htmlFor="heard about">
+                                        <Typography className={classes.questionText}>
+                                            {t("form_disability_heard_about-question")}
+                                        </Typography>
+                                    </label>
+                                    <TextField
+                                        className={classes.input}
+                                        fullWidth
+                                        id="heard about"
+                                        name="heard about"
+                                        select
+                                        value={formik.values.heardAbout}
+                                        onChange={handleheardAboutSelect}
+                                        error={formik.touched.heardAbout && Boolean(formik.errors.heardAbout)}
+                                        helperText={formik.touched.heardAbout && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.heardAbout}</p>)}
+                                        variant="outlined"
+                                        required
+                                    >
+                                        {
+                                            HeardAboutTypes.map((item) => {
+                                                return (
+                                                    <MenuItem className={classes.menuItem} key={item.key} value={item.key}>
+                                                        <Typography>
+                                                            {t(item.value)}
+                                                        </Typography>
+                                                    </MenuItem>
+                                                )
+                                            })
+                                        }
+                                    </TextField>
+                                </div>
+                                { formik.values.heardAbout === HeardAbout.Other && (
+                                    <div className={classes.question}>
+                                        <label htmlFor="heard-about-description">
+                                            <Typography className={classes.questionText}>
+                                                {t("form_disability_heard_about-question-other")}
+                                            </Typography>
+                                        </label>
+                                        <TextField
+                                            className={classes.input}
+                                            fullWidth
+                                            id="heard-about-description"
+                                            name="heard-about-description"
+                                            value={formik.values.heardAboutOpen}
+                                            onChange={handleHeardAboutOpenChange}
+                                            error={formik.touched.heardAboutOpen && Boolean(formik.errors.heardAboutOpen)}
+                                            helperText={formik.touched.genderOpen && (<p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error Mui-required" role="alert">{formik.errors.heardAboutOpen}</p>)}
+                                            variant="outlined"
+                                            required
                                         />
                                     </div>
                                 )}

@@ -10,6 +10,8 @@ export interface BaseFields {
     disabilityTypeOpen?: string;
     gender: string;
     genderOpen?: string;
+    heardAbout: string;
+    heardAboutOpen?: string;
     identity: string[];
     identityOpen?: string;
     mobilityAid?: string;
@@ -402,4 +404,34 @@ export const MobilityAidTypes: ChoiceItem[] = [
     { key: MobilityAid.Crutches, value: "form_demographic_mobility_aid-crutches" },
     { key: MobilityAid.ServiceDog, value: "form_demographic_mobility_aid-service-dog" },
     { key: MobilityAid.Other, value: "form_common-other" },
+];
+
+export enum HeardAbout {
+    Blogs = "blogs",
+    CommunityOrganization = "community organization",
+    Twitter = "twitter",
+    Facebook = "facebook",
+    Instagram = "instagram",
+    WordOfMouth = "word of mount",
+    GovernmentOfficial = "government official",
+    EmailOrNewsletter = "email/newsletter",
+    FlyerOrStickerOrMagnets = "flyer/sticker/magnets",
+    News = "news",
+    InPersonEvents = "in person events",
+    Other = "other"
+}
+
+export const HeardAboutTypes: ChoiceItem[] = [
+    { key: HeardAbout.Blogs, value: "form_disability_heard_about-blogs" },
+    { key: HeardAbout.CommunityOrganization, value: "form_disability_heard_about-community-organization" },
+    { key: HeardAbout.Twitter, value: "form_disability_heard_about-twitter" },
+    { key: HeardAbout.Facebook, value: "form_disability_heard_about-facebook" },
+    { key: HeardAbout.Instagram, value: "form_disability_heard_about-instagram" },
+    { key: HeardAbout.WordOfMouth, value: "form_disability_heard_about-word-of-mouth" },
+    { key: HeardAbout.GovernmentOfficial, value: "form_disability_heard_about-government-official" },
+    { key: HeardAbout.EmailOrNewsletter, value: "form_disability_heard_about-email-newsletter" },
+    { key: HeardAbout.FlyerOrStickerOrMagnets, value: "form_disability_heard_about-flyer-sticker-magnet" },
+    { key: HeardAbout.News, value: "form_disability_heard_about-news" },
+    { key: HeardAbout.InPersonEvents, value: "form_disability_heard_about-in-person-events" },
+    { key: HeardAbout.Other, value: "form_disability_heard_about-other" }
 ];
