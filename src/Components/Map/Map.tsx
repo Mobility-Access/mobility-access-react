@@ -4,14 +4,13 @@ import Dialog from "@material-ui/core/Dialog";
 import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-
 import { Coordinate } from "ol/coordinate";
 import { boundingExtent, createEmpty, extend, Extent } from "ol/extent";
 import Feature, { FeatureLike } from "ol/Feature";
+import Geometry from "ol/geom/Geometry";
 import GeoJSON from "ol/format/GeoJSON";
 import Geolocation from "ol/Geolocation";
 import Point from "ol/geom/Point";
-import { fromExtent } from "ol/geom/Polygon";
 import PinchRotate from "ol/interaction/PinchRotate";
 import Translate, { TranslateEvent } from "ol/interaction/Translate";
 import OLMap from "ol/Map";
@@ -22,7 +21,6 @@ import {Circle as CircleStyle, Fill, Icon, Stroke, Style, Text} from "ol/style";
 import TileLayer from "ol/layer/Tile";
 import VectorLayer from "ol/layer/Vector"
 import Overlay from "ol/Overlay";
-import OverlayPositioning from "ol/OverlayPositioning";
 import OLView from "ol/View";
 import MapBrowserEvent from "ol/MapBrowserEvent";
 
@@ -46,7 +44,6 @@ import amenityMarker from "../../images/icons/amenity_marker.svg";
 import hazardMarker from "../../images/icons/hazard_marker.svg";
 import incidentMarker from "../../images/icons/incident_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
-import IconAnchorUnits from "ol/style/IconAnchorUnits";
 import { ReportType } from "../../FormTypes";
 import { getMarkerStyle } from "../../utilities";
 import { defaultExtent } from "../../config";
@@ -65,7 +62,7 @@ interface MapState {
     legendVisible2: boolean;
     locationError: boolean;
     markers: Feature[];
-    markerLayer: VectorLayer;
+    markerLayer: VectorLayer<VectorSource<Geometry>>;
     markerSource: VectorSource;
     mobileLocationVisible: boolean;
     navigationWarning: boolean;
@@ -202,9 +199,9 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     previousZoom: number;
 
     // Feature layers
-    amenityLayer!: VectorLayer;
-    hazardLayer!: VectorLayer;
-    incidentLayer!: VectorLayer;
+    amenityLayer!: VectorLayer<VectorSource<Geometry>>;
+    hazardLayer!: VectorLayer<VectorSource<Geometry>>;
+    incidentLayer!: VectorLayer<VectorSource<Geometry>>;
 
     clusterZoomThreshold: number = 18;
     defaultClusterDistance: number = 40;
@@ -276,7 +273,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 }),
             ],
             view: new OLView({
-                maxZoom:20,
+                maxZoom:20
             }),
         });
 
@@ -320,9 +317,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.state.markerSource.addFeatures(this.state.markers);
         this.state.markerLayer.setMap(this.map);
         this.state.markerLayer.setSource(this.state.markerSource);
-        this.translate = new Translate({
-            features: this.state.markerLayer.getSource().getFeaturesCollection(),
-        });
+        const markerLayerSource = this.state.markerLayer.getSource();
+        
+        if (markerLayerSource !== null) {
+            this.translate = new Translate({
+                features: markerLayerSource.getFeaturesCollection() || undefined,
+            });
+        }
 
         this.translate.on("translateend", this.handleTranslateEnd);
 
@@ -343,7 +344,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.popover = new Overlay({
             element: this.popupContainer.current,
-            positioning: OverlayPositioning.BOTTOM_CENTER,
+            positioning: 'bottom-center',
             stopEvent: false,
             offset: [0, -50]
         });
@@ -585,7 +586,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         return new Style({
             image: new Icon({
                 anchor: [0.5, 0.75],
-                anchorYUnits: IconAnchorUnits.FRACTION,
+                anchorYUnits: "fraction",
                 scale: 0.35,
                 src: marker
             })
@@ -724,7 +725,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.handleCancelOrComplete();
     }
 
-    handleFeatureClick(event: MapBrowserEvent) {
+    handleFeatureClick(event: MapBrowserEvent<any>) {
         const feature = this.map.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
             return feature;
         });
@@ -771,7 +772,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         }
     }       
 
-    handleMapClick(event: MapBrowserEvent) {
+    handleMapClick(event: MapBrowserEvent<any>) {
         if (event && event.coordinate) {
             this.state.markerSource.clear();
             this.setReportCoords(event.coordinate);
@@ -845,7 +846,10 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             this.map.getView().setZoom(14);
 
             this.positionFeature.setGeometry(coords ? new Point(coords) : undefined);
-            this.accuracyFeature.setGeometry(this.geolocation.getAccuracyGeometry());
+            const accuracyGeom = this.geolocation.getAccuracyGeometry();
+            if (accuracyGeom !== null) {
+                this.accuracyFeature.setGeometry(accuracyGeom)
+            }
         }
     }
 

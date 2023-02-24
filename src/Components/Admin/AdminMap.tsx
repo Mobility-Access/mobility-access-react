@@ -1,6 +1,5 @@
 import React, { createRef } from "react"
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-
 import "./AdminMap.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
@@ -18,7 +17,7 @@ import { getMarkerStyle } from "../../utilities";
 
 interface AdminMapState {
     markers: Feature[];
-    markerLayer: VectorLayer;
+    markerLayer: VectorLayer<VectorSource>;
     markerSource: VectorSource;
     reportCoords: Coordinate;
 }
@@ -69,28 +68,27 @@ class AdminMap extends React.Component<AdminMapProps, AdminMapState> {
                 }),
             ],
             view: new OLView({
-                center: this.props.coords,
-                maxZoom: 18,
+                center: [0,0],
                 zoom: 16,
             }),
+            target: "adminMap"
         });
-
 
         this.state.markerSource.addFeatures(this.state.markers);
         this.state.markerLayer.setMap(this.map);
         this.state.markerLayer.setSource(this.state.markerSource);
+        
+        const markerLayerSource = this.state.markerLayer.getSource()
 
-        this.translate = new Translate({
-            features: this.state.markerLayer.getSource().getFeaturesCollection(),
-        });
+        if (markerLayerSource !== null) {
+            this.translate = new Translate({
+                features: markerLayerSource.getFeaturesCollection() || undefined,
+            });
+        }
 
         this.translate.on("translateend", this.handleTranslateEnd);
         // Listen for drag events on the report marker
         this.map.addInteraction(this.translate);
-        
-        if (this.map.getTarget() === undefined) {
-            this.map.setTarget("adminMap");
-        }
 
         this.map.updateSize();
     }
@@ -128,7 +126,7 @@ class AdminMap extends React.Component<AdminMapProps, AdminMapState> {
         const { classes} = this.props;
         return  (
             <div className={classes.root}>
-                <div id="adminMap" className="map" ref={this.wrapper} >
+                <div id="adminMap" className="adminMap" ref={this.wrapper} >
                 </div>
             </div>
         );

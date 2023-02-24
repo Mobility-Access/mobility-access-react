@@ -208,7 +208,7 @@ const HazardAdmin = () => {
                         { visibleRows.length > 0 && (
                             <TableBody>
                                 { visibleRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
-                                    <TableReportRow handleDelete={handleDelete} key={item.id} row={item.properties} />
+                                    <TableReportRow handleDelete={handleDelete} key={item.properties.id} row={item.properties} />
                                 ))}
                             </TableBody>
                         )}
@@ -218,7 +218,7 @@ const HazardAdmin = () => {
                                 <TablePagination
                                     count={count}
                                     onPageChange={handlePageChange}
-                                    onChangeRowsPerPage={handleRowsPerPageChange}
+                                    onRowsPerPageChange={handleRowsPerPageChange}
                                     page={page}
                                     rowsPerPage={rowsPerPage}
                                     rowsPerPageOptions={[10, 25, 50, 100]}

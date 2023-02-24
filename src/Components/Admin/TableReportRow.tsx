@@ -86,32 +86,30 @@ const TableReportRow = (props: TableReportRowProps) => {
     };
 
     return (
-        <>
-            <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
-                <TableCell>{rowType}</TableCell>
-                <TableCell>{getLocalDateFromUtcMilliseconds(row.date)}</TableCell>
-                <TableCell>{getLocalDateFromUtcMilliseconds   (row.date_reported)}</TableCell>
-                <TableCell>
-                    <Button
-                        className={classes.editButton}
-                        color="primary"
-                        component={Link}
-                        to={`/reports/${rowType}/${row.id}`}
-                        variant="outlined"
-                    >
-                        Edit
-                    </Button>
-                    <Button
-                        className={classes.deleteButton}
-                        onClick={() => handleDeleteButtonClicked(row.id, rowType)}
-                        variant="outlined"
-                    >
-                        Delete
-                    </Button>
-                </TableCell>
-            </TableRow>
-        </>
+        <TableRow key={row.id}>
+            <TableCell>{row.id}</TableCell>
+            <TableCell>{rowType}</TableCell>
+            <TableCell>{getLocalDateFromUtcMilliseconds(row.date)}</TableCell>
+            <TableCell>{getLocalDateFromUtcMilliseconds   (row.date_reported)}</TableCell>
+            <TableCell>
+                <Button
+                    className={classes.editButton}
+                    color="primary"
+                    component={Link}
+                    to={`/reports/${rowType}/${row.id}`}
+                    variant="outlined"
+                >
+                    Edit
+                </Button>
+                <Button
+                    className={classes.deleteButton}
+                    onClick={() => handleDeleteButtonClicked(row.id, rowType)}
+                    variant="outlined"
+                >
+                    Delete
+                </Button>
+            </TableCell>
+        </TableRow>
     );
 };
 

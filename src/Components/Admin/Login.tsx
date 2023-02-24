@@ -109,7 +109,7 @@ const Login = () => {
                 alignItems="center"
                 container
                 direction="column"
-                justify="center"
+                justifyContent="center"
             >
                 <Grid item xs={6}>
                     <Typography className={classes.title}>

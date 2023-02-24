@@ -8,7 +8,7 @@ const LogoFallback = () => {
         <Grid
             alignItems="center"
             container
-            justify="center"
+            justifyContent="center"
             style={{
                 height: "100%"
             }}
