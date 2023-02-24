@@ -218,7 +218,7 @@ const IncidentAdmin = () => {
                                 <TablePagination
                                     count={count}
                                     onPageChange={handlePageChange}
-                                    onChangeRowsPerPage={handleRowsPerPageChange}
+                                    onRowsPerPageChange={handleRowsPerPageChange}
                                     page={page}
                                     rowsPerPage={rowsPerPage}
                                     rowsPerPageOptions={[10, 25, 50, 100]}

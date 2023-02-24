@@ -255,7 +255,7 @@ const Admin = () => {
                         { visibleRows.length > 0 && (
                             <TableBody>
                                 { visibleRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item) => (
-                                    <TableReportRow handleDelete={handleDelete} key={item.id} row={item.properties} />
+                                    <TableReportRow handleDelete={handleDelete} key={item.properties.id} row={item.properties} />
                                 ))}
                             </TableBody>
                         )}
@@ -265,7 +265,7 @@ const Admin = () => {
                                     <TablePagination
                                         count={count}
                                         onPageChange={handlePageChange}
-                                        onChangeRowsPerPage={handleRowsPerPageChange}
+                                        onRowsPerPageChange={handleRowsPerPageChange}
                                         page={page}
                                         rowsPerPage={rowsPerPage}
                                         rowsPerPageOptions={[10, 25, 50, 100]}
@@ -298,12 +298,12 @@ const Admin = () => {
             >
                 <Toolbar />
                 <List>
-                    { categories.map((item) => {
+                    { categories.map((item, index) => {
                         return (
                             <ListItem
                                 className={category.type === item.type ? classes.selected : undefined}
                                 // component={props => <Link {...props} to={item.path} />}
-                                key={item.type}
+                                key={index}
                             >
                                 <Link to={item.path}>
                                     <ListItemText primary={item.display} />

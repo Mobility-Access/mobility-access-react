@@ -356,7 +356,7 @@ const AboutPanel = () => {
         <div className={classes.root} id="about-tabpanel" role="tabpanel">
             <Grid
                 container
-                justify="center"
+                justifyContent="center"
                 
             >
                 {renderAboutDescription()}

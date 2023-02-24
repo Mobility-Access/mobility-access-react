@@ -1,6 +1,4 @@
 import { Icon, Style } from "ol/style";
-import IconAnchorUnits from "ol/style/IconAnchorUnits";
-
 import { ReportType } from "./FormTypes";
 import amenityMarker from "./images/icons/amenity_marker38.png";
 import hazardMarker from "./images/icons/hazard_marker38.png";
@@ -24,7 +22,7 @@ export const getMarkerStyle = (reportType?: string) => {
             marker = hazardMarker;
             break;
         case ReportType.Incident:
-            marker = incidentMarker;
+            marker = incidentMarker; 
             break;
         default:
             marker = reportMarker;
@@ -33,8 +31,8 @@ export const getMarkerStyle = (reportType?: string) => {
     return new Style({
         image: new Icon({
             anchor: [0.5, 38],
-            anchorXUnits: IconAnchorUnits.FRACTION,
-            anchorYUnits: IconAnchorUnits.PIXELS,
+            anchorXUnits: "fraction",
+            anchorYUnits: "pixels",
             src: marker
         })
     });
