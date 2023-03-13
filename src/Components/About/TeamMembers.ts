@@ -1,3 +1,4 @@
+import amanda_img from "../../images/team/amanda.jpg";
 import caitlyn_img from "../../images/team/caitlyn.jpg";
 import cindy_img from "../../images/team/cindy.jpg";
 import colby_img from "../../images/team/colby.jpg";
@@ -10,6 +11,13 @@ import jess_img from "../../images/team/jess.jpg";
 import marie_soleil_img from "../../images/team/marie-soleil.jpg";
 import meghan_img from "../../images/team/meghan.jpg";
 import trisalyn_img from "../../images/team/trisalyn.jpg";
+import victoria_img from "../../images/team/victoria.jpg";
+
+const amanda = {
+    alt: "Amanda",
+    name: "amanda",
+    img: amanda_img
+};
 
 const caitlyn = {
     alt: "Caitlyn",
@@ -83,6 +91,12 @@ const trisalyn = {
     img: trisalyn_img
 };
 
-const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, cindy, kate, caitlyn, colby, jess, darren];
+const victoria = {
+    alt: "Victoria",
+    name: "victoria",
+    img: victoria_img
+};
+
+const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, victoria, cindy, kate, caitlyn, colby, amanda, jess, darren];
 
 export default TeamMembers;
