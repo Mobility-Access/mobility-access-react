@@ -273,7 +273,7 @@ const Header = () => {
 
     // Render the navigation tabs for screen sizes > 960px
     const renderTabs = () => {
-        const isEnglish = (i18n.language.startsWith("en"));
+        const isNotSpanish= !(i18n.language.startsWith("es"));
 
         return (
             <Tabs
@@ -286,7 +286,7 @@ const Header = () => {
                 value={tabValue} 
             >
                 <Tab aria-controls="map-tabpanel" component={Link} id="map-tab" label={t("map")} to="/" />
-                { isEnglish && (
+                { isNotSpanish && (
                     <Tab aria-controls="explore-tabpanel" component={Link} id="explore-tab" label={t("header-explore")} to="/explore" />
                 )}
                 <Tab component={Link} id="about-tabpanel" label={t("common_about")} to="/about" />
