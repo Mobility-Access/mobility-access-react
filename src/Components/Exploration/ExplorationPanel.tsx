@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
-
+import { useTranslation } from "react-i18next";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { makeStyles } from "@material-ui/core/styles";
+
+const baseExploreUrl = 'https://walkrollmap.shinyapps.io'
 
 const useStyles = makeStyles((theme) => ({
     backdrop: {
@@ -36,7 +38,11 @@ const ExplorationPanel = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [open, setOpen] = useState<boolean>(true);
     const [hasFrame, setHasFrame] = useState<boolean>(false);
-
+    const { i18n } = useTranslation();
+    const srcUrl = i18n.language.startsWith("en") ? 
+    `${baseExploreUrl}/visualize_wrm_app` :
+    `${baseExploreUrl}/onmarcheonroule_visualiser`
+    
     useEffect(() => {
         if (hasFrame) {
             return;
@@ -51,7 +57,7 @@ const ExplorationPanel = () => {
 
     return (
         <div className={classes.root} id="explore-tabpanel" role="tabpanel">
-            <iframe id="explorationFrame" className={classes.frame} src="https://walkrollmap.shinyapps.io/visualize_wrm_app/"/>
+            <iframe id="explorationFrame" className={classes.frame} src={srcUrl}/>
             <Backdrop
                 className={classes.backdrop}
                 open={loading}
