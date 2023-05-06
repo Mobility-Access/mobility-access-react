@@ -11,7 +11,6 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Redirect } from "react-router-dom";
 
-import Colors from "../../Colors";
 import { CreateUserService } from "../../Services/AdminServices";
 
 const useStyles = makeStyles((theme) => ({

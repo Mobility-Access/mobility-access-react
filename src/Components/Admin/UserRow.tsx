@@ -10,9 +10,8 @@ import ClearIcon from "@material-ui/icons/Clear";
 import { Link } from "react-router-dom";
 
 import Colors from "../../Colors";
-import { getLocalDateFromUtcMilliseconds } from "../../utilities";
 
-interface UserRow {
+interface UserRowInterface {
     canDownload: boolean;
     canEdit: boolean;
     email: string;
@@ -23,7 +22,7 @@ interface UserRow {
 
 interface UserRowProps {
     handleDelete: (id: number, type: string) => void;
-    row: UserRow;
+    row: UserRowInterface;
 }
 
 const drawerWidth = "250px";
@@ -107,8 +106,6 @@ const UserRow = (props: UserRowProps) => {
                 <TableCell>{row.username}</TableCell>
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{ getIcon(row.isAdmin) }</TableCell>
-                {/* <TableCell>{ getIcon(row.canEdit) }</TableCell>
-                <TableCell>{ getIcon(row.canDownload) }</TableCell> */}
                 <TableCell>
                     <Button
                         className={classes.editButton}

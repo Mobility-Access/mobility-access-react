@@ -10,10 +10,9 @@ import Alert, { Color } from "@material-ui/lab/Alert";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
-import Colors from "../../Colors";
-import { CreateUserService, GetUserToken } from "../../Services/AdminServices";
+import { GetUserToken } from "../../Services/AdminServices";
 
 const useStyles = makeStyles((theme) => ({
     button: {

@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
 const ExplorationPanel = () => {
     const classes = useStyles();
     const [loading, setLoading] = useState<boolean>(true);
-    const [open, setOpen] = useState<boolean>(true);
     const [hasFrame, setHasFrame] = useState<boolean>(false);
     const { i18n } = useTranslation();
     const srcUrl = i18n.language.startsWith("en") ? 
@@ -53,11 +52,11 @@ const ExplorationPanel = () => {
             setHasFrame(true);
             frame.onload = () => setLoading(false);
         }
-    });
+    }, [hasFrame]);
 
     return (
         <div className={classes.root} id="explore-tabpanel" role="tabpanel">
-            <iframe id="explorationFrame" className={classes.frame} src={srcUrl}/>
+            <iframe id="explorationFrame" className={classes.frame} src={srcUrl} title="Data visualization"/>
             <Backdrop
                 className={classes.backdrop}
                 open={loading}

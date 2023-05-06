@@ -122,8 +122,6 @@ const IncidentAdmin = () => {
     const [rowToDelete, setRowToDelete] = useState(0);
     const [showFooter, setShowFooter] = useState(true);
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
     const handleCancelDelete = () => {
         setRowToDelete(0);
         setOpen(false);
@@ -240,7 +238,7 @@ const IncidentAdmin = () => {
             setVisibleRows(rows);
             setCount(results.totalCount);
         })()
-    }, [count]);
+    }, [count]); // eslint-disable-line react-hooks/exhaustive-deps
  
     return (
         <div className={classes.root}>

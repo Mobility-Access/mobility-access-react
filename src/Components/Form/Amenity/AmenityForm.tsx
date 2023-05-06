@@ -13,7 +13,6 @@ import * as Yup from "yup";
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import enLocale from "date-fns/locale/en-US";
-import frLocale from "date-fns/locale/fr";
 
 import { AmenityFields } from "./AmenityController";
 import FormTitle from "../FormTitle";

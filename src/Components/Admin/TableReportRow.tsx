@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import Colors from "../../Colors";
 import { getLocalDateFromUtcMilliseconds } from "../../utilities";
 
-interface TableReportRow {
+interface TableReportRowInterface {
     date: number;
     date_reported: number;
     id: number;
@@ -18,7 +18,7 @@ interface TableReportRow {
 
 interface TableReportRowProps {
     handleDelete: (id: number, type: string) => void;
-    row: TableReportRow;
+    row: TableReportRowInterface;
 }
 
 const drawerWidth = "250px";

@@ -5,7 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { Coordinate } from "ol/coordinate";
-import { boundingExtent, createEmpty, extend, Extent } from "ol/extent";
+import { boundingExtent, Extent } from "ol/extent";
 import Feature, { FeatureLike } from "ol/Feature";
 import Geometry from "ol/geom/Geometry";
 import GeoJSON from "ol/format/GeoJSON";

@@ -129,7 +129,7 @@ const columns = [
 
 const UserAdmin = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState<Category>(categories[4]);
+    const [category] = useState<Category>(categories[4]);
     const [count, setCount] = useState(0);
     const [filterId, setFilterId] = useState("");
     const [open, setOpen] = useState(false);
@@ -207,11 +207,6 @@ const UserAdmin = () => {
     const handleRowsPerPageChange = (event: any) => {
         setRowsPerPage(event.target.value);
     };
-    
-    const handleSelection = (item: Category) => {
-        setCategory(item);
-        setPage(0);
-    };
 
     const renderTable = () => {
         return (
@@ -267,7 +262,7 @@ const UserAdmin = () => {
             setVisibleRows(data);
             setCount(results.totalCount);
         })()
-    }, [count]);
+    }, [count]); // eslint-disable-line react-hooks/exhaustive-deps
  
     return (
         <div className={classes.root}>

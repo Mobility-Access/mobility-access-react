@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { useTranslation } from "react-i18next";
 
 import booleanWithin from "@turf/boolean-within";
-import { feature, multiPolygon, point } from "@turf/helpers";
+import { multiPolygon, point } from "@turf/helpers";
 import { toWgs84 } from "@turf/projection";
 
 

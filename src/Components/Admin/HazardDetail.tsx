@@ -411,7 +411,7 @@ const HazardDetail = () => {
                 setFormData(result.hazard);
             }
         })()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     const crossingCrosswalkNeeded = HazardCrossingSubtypes[0];
     const crossingVehicleConflicts = HazardCrossingSubtypes.slice(1,4);

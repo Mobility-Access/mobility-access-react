@@ -449,7 +449,7 @@ const IncidentDetail = () => {
                 setFormData(result.incident);
             }
         })()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>

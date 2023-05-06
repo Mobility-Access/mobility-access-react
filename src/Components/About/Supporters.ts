@@ -1,4 +1,3 @@
-import acart_img from "../../images/supporters/acart.png";
 import phac_img from "../../images/supporters/phac.png";
 import ucsb_img from "../../images/supporters/ucsb.png";
 import uvic_img from "../../images/supporters/uvic.jpg";

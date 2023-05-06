@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
-import { makeStyles, withStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { useTranslation } from "react-i18next";
 
@@ -82,7 +82,6 @@ const LocationForm = (props: LocationFormProps) => {
     const [locationError, setLocationError] = useState(false);
     const { t } = useTranslation();
     const classes = useStyles();
-    const theme = useTheme();
 
     const handleNextClick = () => {
         if (!newReportCoords) {
