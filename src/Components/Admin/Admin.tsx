@@ -24,7 +24,6 @@ import TableReportRow from "./TableReportRow";
 import { DeletePoint, GetPoints } from "../../Services/AdminServices";
 import Colors from "../../Colors";
 import { AdminUrl, AmenityUrl, HazardUrl, IncidentUrl, PointUrl, AdminUserUrl } from "../../Constants";
-import { getLocalDateFromUtcMilliseconds } from "../../utilities";
 
 interface Category {
     display: string;
@@ -152,7 +151,7 @@ const columns = [
 
 const Admin = () => {
     const classes = useStyles();
-    const [category, setCategory] = useState<Category>(categories[0]);
+    const [category] = useState<Category>(categories[0]);
     const [count, setCount] = useState(0);
     const [filterId, setFilterId] = useState("");
     const [open, setOpen] = useState(false);
@@ -162,8 +161,6 @@ const Admin = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
     const [rowToDelete, setRowToDelete] = useState(0);
     const [showFooter, setShowFooter] = useState(true);
-
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
     const handleCancelDelete = () => {
         setRowToDelete(0);
@@ -227,11 +224,6 @@ const Admin = () => {
     const handleRowsPerPageChange = (event: any) => {
         setRowsPerPage(event.target.value);
     };
-    
-    const handleSelection = (item: Category) => {
-        setCategory(item);
-        setPage(0);
-    };
 
     const renderTable = () => {
         return (
@@ -287,7 +279,7 @@ const Admin = () => {
             setVisibleRows(rows);
             setCount(results.totalCount);
         })()
-    }, [category, count]);
+    }, [category, count]); // eslint-disable-line react-hooks/exhaustive-deps
  
     return (
         <div className={classes.root}>

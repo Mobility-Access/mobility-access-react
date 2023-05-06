@@ -4,10 +4,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
 import TextField from "@material-ui/core/TextField"
 import Typography from "@material-ui/core/Typography";
-import Alert from "@material-ui/lab/Alert";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -84,7 +82,6 @@ const UserDetail = () => {
     const { id } = useParams<useParamsInterface>();
     const history = useHistory();
     const [showForm, setShowForm] = useState(false);
-    const [showError, setShowError] = useState(false);
     const [showDeleteResult, setShowDeleteResult] = useState(false);
     const [showSaveResult, setShowSaveResult] = useState(false);
     const [deleteMessage, setDeleteMessage] = useState("");
@@ -158,17 +155,10 @@ const UserDetail = () => {
         setShowSaveResult(true);
     };
 
-
-    const handleSnackbarClose = () => {
-        console.log("Redirecting to login page.");
-        setOpen(false);
-    };
-
     const handleSubmit = async () => {
         const response = await UpdateUser(formik.values, id);
 
         if (response.ok) {
-            const result = response.json();
             setOpen(true);
         } else if (response.status === 401) {
             console.log("You must be logged in to edit a user's details.");
@@ -195,7 +185,7 @@ const UserDetail = () => {
                 console.log("An unspecified error occurred.");
             }
         })()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>
@@ -215,19 +205,6 @@ const UserDetail = () => {
                         <Typography> 
                             {saveMessage}
                         </Typography> 
-                        <Button color="primary" className={classes.continueButton} onClick={() => handleContinueClick()} variant="outlined">
-                            Continue
-                        </Button>
-                    </div>
-                )}
-                { showError && (
-                    <div className={classes.message}>
-                        <Typography>
-                            The requested report could not be found. Please check the report ID and try again.
-                        </Typography>
-                        <Typography>
-                            Click continue to return to the previous page.
-                        </Typography>
                         <Button color="primary" className={classes.continueButton} onClick={() => handleContinueClick()} variant="outlined">
                             Continue
                         </Button>
@@ -268,22 +245,6 @@ const UserDetail = () => {
                                     onChange={formik.handleChange}
                                     value={formik.values.isAdmin}
                                 />
-                                {/* <FormControlLabel
-                                    checked={formik.values.canDownload} 
-                                    control={<Checkbox color="primary" id="canDownload" value={formik.values.canDownload} />}
-                                    label="Can Download"
-                                    labelPlacement="start"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.canDownload}
-                                />
-                                <FormControlLabel
-                                    checked={formik.values.canEdit} 
-                                    control={<Checkbox color="primary" id="canEdit" value={formik.values.canEdit} />}
-                                    label="Can Edit"
-                                    labelPlacement="start"
-                                    onChange={formik.handleChange}
-                                    value={formik.values.canEdit}
-                                /> */}
                                 <div className={classes.buttonBar}>
                                     <EditButtonBar
                                         cancelClick={handleCancelButtonClicked}

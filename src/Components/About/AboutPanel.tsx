@@ -5,8 +5,7 @@ import Link from "@material-ui/core/Link";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { fade } from "@material-ui/core/styles/colorManipulator";
+import { alpha, makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -32,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         overflowY: "scroll",
     },
     aboutPaper: {
-        backgroundColor: fade(Colors.gray, 0.1),
+        backgroundColor: alpha(Colors.gray, 0.1),
         marginTop: theme.spacing(5),
         marginBottom: theme.spacing(5),
         padding: theme.spacing(5),
@@ -57,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     buttonBar: {
         display: "flex",
         marginTop: theme.spacing(2),
+    },
+    description: {
+        fontSize: '1.25rem'
     },
     exportBlock: {
         marginBottom: theme.spacing(5),
@@ -160,13 +162,13 @@ const AboutPanel = () => {
                     <Typography className={classes.aboutTitle} variant="h2">
                         {t("common_about")}
                     </Typography>
-                    <Typography className={classes.aboutDescription}>
-                        <div>{t("about_description1")}</div>
+                    <div className={classes.aboutDescription}>
+                        <Typography className={classes.description}>{t("about_description1")}</Typography>
                         <br></br>
-                        <div>{t("about_description2")}</div>
+                        <Typography className={classes.description}>{t("about_description2")}</Typography>
                         <br></br>
-                        <div>{t("about_description3")}</div>
-                    </Typography>
+                        <Typography className={classes.description}>{t("about_description3")}</Typography>
+                    </div>
                 </Paper>
             </AboutGrid>
         );
@@ -194,8 +196,8 @@ const AboutPanel = () => {
                             {
                                 qa.map((item, index) => {
                                     return (
-                                        <ListItem>
-                                            <Grid item xs={12} key={index}>
+                                        <ListItem key={index}>
+                                            <Grid item xs={12}>
                                                 <Faq qa={item} />
                                             </Grid>
                                         </ListItem>

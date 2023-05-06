@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import AppBar from "@material-ui/core/AppBar";
-import Button from "@material-ui/core/Button";
 import Fade from "@material-ui/core/Fade"
 import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
@@ -103,15 +102,9 @@ const Header = () => {
     const classes = useStyles();
     const { t, i18n } = useTranslation();
     const [anchorEl, setAnchorEl] = useState(null);
-    const [languageMenuAnchorEl, setlanaguageMenuAnchorEl] = useState(null);
     const [tabValue, setTabValue] = useState(0);
-    const [currentLanguage, setCurrentLanguage] = useState(languages[0]);
     const history = useHistory();
     const location = useLocation();
-
-    const handleLanguageMenuClose = () => {
-        setlanaguageMenuAnchorEl(null);
-    };
 
     const handleMenuButtonClick = (event: any) => {
         setAnchorEl(event.target);
@@ -119,24 +112,12 @@ const Header = () => {
 
     const handleMenuClose = () => {
         setAnchorEl(null);
-        setlanaguageMenuAnchorEl(null);
     };
 
     const handleLanguageChange = () => {
         if (location.pathname === "/explore") {
             history.push("/");
         }
-    };
-
-    const handleSelectLanguage = (item: {key: string, value: string}) => {
-        if (item.key !== currentLanguage.key) {
-            setCurrentLanguage(item);
-            i18n.changeLanguage(item.key)
-            document.documentElement.lang = item.key
-        }
-        console.log(location.pathname);
-
-        handleLanguageMenuClose();
     };
 
     const handleTabChange = (event: any, index: number) => {
@@ -165,61 +146,6 @@ const Header = () => {
             </IconButton>
         )
     };
-
-    const renderLanguageLink = () => {
-        if (i18n.language.startsWith("fr")) {
-            return (
-                <Button aria-label="Hyperlink to English version of WalkRollMap." className={classes.languageLink} color="primary" href="https://walkrollmap.org" target="_blank">
-                    English
-                </Button>
-            )
-        }
-
-        // French site
-        return (
-            <Button aria-label="Hyperlink to French version of WalkRollMap." className={classes.languageLink} color="primary" href="https://onmarcheonroule.org" target="_blank">
-                Francais
-            </Button>
-        )
-    };
-
-    const renderLanguageMenu = () => {
-        return (
-            <Menu
-                id="app-bar-language-selector"
-                anchorEl={languageMenuAnchorEl}
-                className={classes.langaugeMenu}
-                getContentAnchorEl={null}
-                anchorOrigin={{vertical: "top", horizontal: "left"}}
-                transformOrigin={{vertical: "top", horizontal: "right"}}
-                keepMounted
-                open={Boolean(languageMenuAnchorEl)}
-                onClose={handleLanguageMenuClose}
-                TransitionComponent={Fade}
-            >
-                {languages.map(
-                    (item) => (
-                        <MenuItem
-                            className={classes.menuItem}
-                            key={item.key}
-                                onClick={() => handleSelectLanguage(item)}
-                        >
-                            {t(item.value)}    
-                        </MenuItem>
-                    )
-                )}
-            </Menu>
-        );
-    };
-
-    // const renderSecondaryNav = () => {
-    //     return (
-    //         <Hidden smDown>
-    //             <LanguageSelector languages={languages} />
-    //             {/* {renderHelpButton()} */}
-    //         </Hidden>
-    //     );
-    // };
 
     // Render a navigation menu when screen size is <= 960px
     const renderSecondaryNavAsList = () => {
@@ -317,15 +243,7 @@ const Header = () => {
                     <Hidden smDown>
                         {renderBikeMapsLink()}
                     </Hidden>
-                    
-                    {/* {renderLanguageMenu()} */}
-                    {/* {renderSecondaryNav()} */}
                     {renderSecondaryNavAsList()}
-
-                    
-                    {/*renderSecondaryNav()}
-                    {renderSecondaryNavAsList()} */}
-                    {/* {renderLanguageLink()} */}
                 </Toolbar>
             </AppBar>
         </nav>

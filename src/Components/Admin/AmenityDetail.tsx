@@ -374,7 +374,7 @@ const AmenityDetail = () => {
                 setFormData(result.amenity);
             }
         })()
-    }, []);
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     return (
         <>

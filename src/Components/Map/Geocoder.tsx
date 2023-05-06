@@ -84,7 +84,6 @@ const Geocoder = (props: GeocoderProps) => {
     const [geocodeResult, setGeocodeResult] = useState<GeocodeResultItem[]>([]);
     const [inputOpen, setInputOpen] = useState(false);
     const [value, setValue] = useState("");
-    const [open, setOpen] = useState(false);
     const { t } = useTranslation();
 
     const onClickFab = () => {
@@ -122,8 +121,8 @@ const Geocoder = (props: GeocoderProps) => {
         }
     };
 
-    const handleChangeWithDebounce = useCallback(
-        debounce((val: string) => performGeocode(val), 300), []
+    const handleChangeWithDebounce = useCallback((val: string) =>
+        debounce((val: string) => performGeocode(val), 300), [] // eslint-disable-line react-hooks/exhaustive-deps
     );
 
     const processResults = (json: any) => {
@@ -168,11 +167,9 @@ const Geocoder = (props: GeocoderProps) => {
                             variant="outlined" />
                     </Collapse>
                 )}
-                { !open && (
-                    <Fab aria-label="Address search" className={classes.button} onClick={onClickFab}>
-                        <SearchIcon titleAccess="Search icon" />
-                    </Fab>
-                )}
+                <Fab aria-label="Address search" className={classes.button} onClick={onClickFab}>
+                    <SearchIcon titleAccess="Search icon" />
+                </Fab>
             </div>            
             <div aria-live="polite" role="region" id="address-list">
                 {
