@@ -1,12 +1,12 @@
 import amanda_img from "../../images/team/amanda.jpg";
 import caitlyn_img from "../../images/team/caitlyn.jpg";
 import cindy_img from "../../images/team/cindy.jpg";
-import colby_img from "../../images/team/colby.jpg";
 import dan_img from "../../images/team/dan.jpg";
 import darren_img from "../../images/team/darren.jpg";
-import denise_img from "../../images/team/denise.jpg";
+import gabe_img from "../../images/team/gabe.jpg";
 import karen_img from "../../images/team/karen.jpg"
 import kate_img from "../../images/team/kate.jpg";
+import katrina_img from "../../images/team/katrina.jpg";
 import jess_img from "../../images/team/jess.jpg";
 import marie_soleil_img from "../../images/team/marie-soleil.jpg";
 import meghan_img from "../../images/team/meghan.jpg";
@@ -31,12 +31,6 @@ const cindy = {
     img: cindy_img
 };
 
-const colby = {
-    alt: "Colby",
-    name: "colby",
-    img: colby_img
-};
-
 const dan  = {
     alt: "Dan",
     name: "dan",
@@ -49,11 +43,11 @@ const darren  = {
     img: darren_img
 };
 
-const denise = {
-    alt: "Denise",
-    name: "denise",
-    img: denise_img
-};
+const gabe = {
+    alt: "Gabe",
+    name: "gabe",
+    img: gabe_img
+} 
 
 const karen = {
     alt: "Karen",
@@ -65,6 +59,12 @@ const kate = {
     alt: "Kate",
     name: "kate",
     img: kate_img
+};
+
+const katrina = {
+    alt: "Katrina",
+    name: "katrina",
+    img: katrina_img
 };
 
 const jess = {
@@ -97,6 +97,6 @@ const victoria = {
     img: victoria_img
 };
 
-const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, denise, victoria, cindy, kate, caitlyn, colby, amanda, jess, darren];
+const TeamMembers = [trisalyn, karen, meghan, dan, marie_soleil, victoria, cindy, gabe, kate, caitlyn, amanda, katrina, jess, darren];
 
 export default TeamMembers;

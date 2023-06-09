@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(3),
     },
     link: {
-       color: "#0000EE" 
+        color: "#0000EE"
     },
     question: {
         color: theme.palette.primary.main,
@@ -113,7 +113,7 @@ const AboutPanel = () => {
         };
         const baseUrl = getUrlByType(type);
         const url = `${baseUrl}/export?format=${format}`;
-    
+
         try {
             return await fetch(url, options);
         } catch (e) {
@@ -124,7 +124,7 @@ const AboutPanel = () => {
     };
 
     const getUrlByType = (type: string) => {
-        switch(type) {
+        switch (type) {
             case ReportType.Amenity:
                 return AmenityUrl;
             case ReportType.Hazard:
@@ -175,11 +175,11 @@ const AboutPanel = () => {
     };
 
     const qa: QuestionAnswer[] = [
-        {question: "q1", answer: "a1"},
-        {question: "q2", answer: "a2"},
-        {question: "q3", answer: "a3"},
-        {question: "q4", answer: "a4"},
-        {question: "q5", answer: "a5"},
+        { question: "q1", answer: "a1" },
+        { question: "q2", answer: "a2" },
+        { question: "q3", answer: "a3" },
+        { question: "q4", answer: "a4" },
+        { question: "q5", answer: "a5" },
     ];
 
     const renderFaq = () => {
@@ -217,7 +217,7 @@ const AboutPanel = () => {
                                                 <Link className={classes.link} href="https://youtu.be/xl4mwfglA_0" target="_blank">
                                                     {"https://youtu.be/xl4mwfglA_0"}
                                                 </Link>
-                                            </Typography>    
+                                            </Typography>
                                         </Grid>
                                     </ListItem>
                                 )
@@ -234,7 +234,7 @@ const AboutPanel = () => {
             <>
                 <AboutGrid>
                     <Typography className={classes.subHeading} variant="h3">
-                        {t("about_open-data")} 
+                        {t("about_open-data")}
                     </Typography>
                 </AboutGrid>
                 <AboutGrid className={classes.sectionBody}>
@@ -273,7 +273,7 @@ const AboutPanel = () => {
                             <Button aria-label="Click to export amenity data in CSV format" className={classes.button} onClick={() => handleExport(ReportType.Amenity, "csv")} variant="outlined">
                                 CSV
                             </Button>
-                            <Button aria-label="Click to export amenity data in JSON format"className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
+                            <Button aria-label="Click to export amenity data in JSON format" className={classes.button} onClick={() => handleExport(ReportType.Amenity, "json")} variant="outlined">
                                 JSON
                             </Button>
                             <Button aria-label="Click to export amenity data in GeoJSON format" className={classes.button} onClick={() => handleExport(ReportType.Amenity, "geojson")} variant="outlined">
@@ -282,7 +282,7 @@ const AboutPanel = () => {
                         </div>
                     </div>
                     <div className={classes.exportBlock}>
-                        <Typography className  ={classes.subTitle} variant="h4">
+                        <Typography className={classes.subTitle} variant="h4">
                             {t("about_open-data-incident")}
                         </Typography>
                         <div className={classes.buttonBar}>
@@ -306,21 +306,21 @@ const AboutPanel = () => {
         return (
             <>
                 <AboutGrid className={classes.sectionTitle}>
-                    <Typography className={classes.subHeading} variant="h3"> 
+                    <Typography className={classes.subHeading} variant="h3">
                         {t("about_our-team")}
                     </Typography>
                 </AboutGrid>
                 <AboutGrid className={classes.sectionBody}>
                     <Grid container alignItems="stretch" spacing={isXs ? 0 : 4} className={classes.subContainerGrid}>
-                    {
-                        TeamMembers.map((item, index) => {
-                            return (
-                                <Grid item xs={12} md={6} key={index}>
-                                    <TeamMember alt={item.alt} name={item.name} url={item.img} />
-                                </ Grid>
-                            );
-                        })
-                    }
+                        {
+                            TeamMembers.map((item, index) => {
+                                return (
+                                    <Grid item xs={12} md={6} key={index}>
+                                        <TeamMember alt={item.alt} name={item.name} url={item.img} />
+                                    </ Grid>
+                                );
+                            })
+                        }
                     </Grid>
                 </AboutGrid>
             </>
@@ -332,16 +332,16 @@ const AboutPanel = () => {
             <>
                 <AboutGrid>
                     <Typography className={classes.subHeading} variant="h3">
-                        {t("about_supporters")} 
+                        {t("about_supporters")}
                     </Typography>
                 </AboutGrid>
                 <AboutGrid className={classes.sectionBody}>
                     <Grid container alignItems="center" spacing={isXs ? 0 : 4} className={classes.subContainerGrid}>
                         {Supporters.map((item, index) => {
                             return (
-                            <Grid item xs={12} sm={6} md={3} key={index}>
-                                <img src={item.img} className={classes.supporterLogo} alt={item.alt} />
-                            </Grid>
+                                <Grid item xs={12} sm={6} md={3} key={index}>
+                                    <img src={item.img} className={classes.supporterLogo} alt={item.alt} />
+                                </Grid>
                             );
                         })}
                     </Grid>
@@ -351,7 +351,7 @@ const AboutPanel = () => {
     };
 
     useEffect(() => {
-        ReactGA.send({hitType: "pageview", page: "about"});
+        ReactGA.send({ hitType: "pageview", page: "about" });
     });
 
     return (
@@ -359,7 +359,7 @@ const AboutPanel = () => {
             <Grid
                 container
                 justifyContent="center"
-                
+
             >
                 {renderAboutDescription()}
                 {renderFaq()}
@@ -382,7 +382,7 @@ const AboutGrid = (props: AboutGridProps) => {
     return (
         <Grid item xs={11} sm={10} md={8} lg={8} className={className}>
             {props.children}
-        </Grid> 
+        </Grid>
     );
 };
 
