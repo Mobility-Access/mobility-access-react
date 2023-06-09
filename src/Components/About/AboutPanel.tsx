@@ -68,6 +68,10 @@ const useStyles = makeStyles((theme) => ({
     link: {
         color: "#0000EE"
     },
+    publication: {
+        paddingLeft: theme.spacing(8),
+        textIndent: theme.spacing(-4)
+    },
     question: {
         color: theme.palette.primary.main,
         fontWeight: theme.typography.fontWeightBold,
@@ -327,6 +331,21 @@ const AboutPanel = () => {
         );
     };
 
+    const renderPublications = () => {
+        return (
+            <>
+                <AboutGrid>
+                    <Typography className={classes.subHeading} variant="h3">
+                        {t("about_publications")}
+                    </Typography>
+                </AboutGrid>
+                <AboutGrid className={classes.sectionBody}>
+                    <div className={classes.publication}>Laberee K, Nelson T, Boss D, Ferster C, Hosford K, Fuller D, Cloutier MS, & Winters M. (2023). WalkRollMap.org: Crowdsourcing barriers to mobility. <i>Frontiers in Rehabilitation Sciences</i>. Vol 4. [<a href={'https://doi.org/10.3389/fresc.2023.1023582'} rel="noopener noreferrer" target="_blank">article</a>]</div>
+                </AboutGrid>
+            </>
+        );
+    }
+
     const renderSupporters = () => {
         return (
             <>
@@ -359,11 +378,11 @@ const AboutPanel = () => {
             <Grid
                 container
                 justifyContent="center"
-
             >
                 {renderAboutDescription()}
                 {renderFaq()}
                 {renderSupporters()}
+                {renderPublications()}
                 {renderOurTeam()}
                 {renderOpenData()}
             </Grid>
