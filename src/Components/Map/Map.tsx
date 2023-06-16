@@ -720,6 +720,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     handleCancelOrComplete() {
+        this.handleRemoveReportMarker()
         this.setState({ dialogOpen: false, locationError: false, newReportButtonVisible: true });
     }
 
