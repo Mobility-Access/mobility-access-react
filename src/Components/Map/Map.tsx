@@ -261,6 +261,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.updatePositionFromGeolocation = this.updatePositionFromGeolocation.bind(this);
         this.handleMoveEnd = this.handleMoveEnd.bind(this);
         this.handleGeolocate = this.handleGeolocate.bind(this);
+        this.handleRemoveReportMarker = this.handleRemoveReportMarker.bind(this);
     }
 
     componentDidMount() {
@@ -694,12 +695,15 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         switch (reportType) {
             case ReportType.Amenity:
                 this.state.amenitySource.addFeature(feature);
+                this.handleRemoveReportMarker();
                 break;
             case ReportType.Hazard:
                 this.state.hazardSource.addFeature(feature);
+                this.handleRemoveReportMarker();
                 break;
             case ReportType.Incident:
                 this.state.incidentSource.addFeature(feature);
+                this.handleRemoveReportMarker();
                 break;
             default:
                 console.log("Invalid ReportType detected, unable to add new feature to the map."); 
@@ -710,9 +714,12 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.setState({ cancelDialogOpen: true });
     }
 
-    handleCancelOrComplete() {
+    handleRemoveReportMarker() {
         this.setReportCoords([]);
         this.state.markerSource.clear();
+    }
+
+    handleCancelOrComplete() {
         this.setState({ dialogOpen: false, locationError: false, newReportButtonVisible: true });
     }
 
