@@ -285,7 +285,7 @@ export enum IncidentInvolvementType {
     Self = "self",
     Care = "someone in my care",
     Witness = "witness",
-};
+}
 
 export enum IncidentType {
     HitBy = "hit by",
@@ -358,7 +358,7 @@ export enum ReportType {
     Amenity = "amenity",
     Hazard = "hazard-concern",
     Incident = "incident",
-};
+}
 
 export const GenderTypes: ChoiceItem[] = [
     { key: Gender.Male, value: "form_demographic_gender-male" },

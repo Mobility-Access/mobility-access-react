@@ -357,17 +357,14 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         this.map.on("moveend", this.handleMoveEnd);
 
-        const _this = this;
+        setTimeout(() => {
+            this.map.updateSize();
+            this.map.getView().fit(defaultExtent as Extent, { size: this.map.getSize()});
+        });
 
-        setTimeout(function() {
-            _this.map.updateSize();
-
-            _this.map.getView().fit(defaultExtent as Extent, { size: _this.map.getSize()});
-        }, 0);
-
-        setTimeout(function() {
-            if (_this.wrapper && _this.wrapper.current) {
-                const canvas = _this.wrapper.current.getElementsByTagName("canvas");
+        setTimeout(() => {
+            if (this.wrapper && this.wrapper.current) {
+                const canvas = this.wrapper.current.getElementsByTagName("canvas");
 
                 if (canvas && canvas.length) {
                     canvas[0].setAttribute("aria-label", "Map showing report locations. Data available for download on the application's About page.");
@@ -517,7 +514,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         // Start listening for map clicks on features
         this.map.on("singleclick", this.handleFeatureClick);
-     };
+     }
 
     enableMapClickListener() {
         // Stop listening for map clicks on features
@@ -525,7 +522,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
         // Start listening for map click for new report marker
         this.map.on("singleclick", this.handleMapClick);
-    };
+    }
 
     getMarkerClusterStyle(reportType: string, size: number) {
         let color;
@@ -592,7 +589,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                 src: marker
             })
         });
-    };
+    }
 
     getPopupContentItems(clickedFeature: any): PopupContentItem[] {
         const capitalizeFirst = (str: string) => {
@@ -624,14 +621,15 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         const t = this.props.t;
 
         switch (feature.get("type")) {
-            case ReportType.Amenity:
+            case ReportType.Amenity: {
                 const amenityType = feature.get("amenity_type");
                 items.push({
                     key: t("popup_missing-amenity"),
                     value: capitalizeFirst(amenityType)
                 });
                 break;
-            case ReportType.Hazard:
+            }
+            case ReportType.Hazard: {
                 const hazardType = feature.get("hazard_type");
                 const hazardSubtype = feature.get("hazard_subtype");
                 items.push({
@@ -639,7 +637,8 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                     value: `${capitalizeFirst(hazardType)} - ${capitalizeFirst(hazardSubtype)}`
                 });
                 break;
-            case ReportType.Incident:
+            }
+            case ReportType.Incident: {
                 const incidentType = feature.get("incident_type");
                 const incidentWith = feature.get("incident_with");
                 items.push({
@@ -647,6 +646,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                     value: `${capitalizeFirst(incidentType)} - ${capitalizeFirst(incidentWith)}`
                 });
                 break;
+            }
         }
 
 
@@ -734,7 +734,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     handleFeatureClick(event: MapBrowserEvent<any>) {
-        const feature = this.map.forEachFeatureAtPixel(event.pixel, function(feature, layer) {
+        const feature = this.map.forEachFeatureAtPixel(event.pixel, function(feature) {
             return feature;
         });
 

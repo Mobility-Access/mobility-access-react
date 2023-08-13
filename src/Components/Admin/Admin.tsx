@@ -4,7 +4,7 @@ import Drawer from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -34,7 +34,7 @@ interface Category {
 
 const drawerWidth = "250px";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => createStyles({
     deleteButton: {
         borderColor: Colors.contrastRed,
         color: Colors.contrastRed,
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(5),
     },
     headerRow: {
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
     },
     root: {
         color: theme.palette.primary.main,
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         fontSize: "32px",
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
         marginBottom: theme.spacing(3),
     }
 }));

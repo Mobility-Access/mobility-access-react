@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import TableRow from "@material-ui/core/TableRow";
 
@@ -27,7 +27,7 @@ interface UserRowProps {
 
 const drawerWidth = "250px";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => createStyles({
     deleteButton: {
         borderColor: Colors.contrastRed,
         color: Colors.contrastRed,
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(5),
     },
     headerRow: {
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
     },
     root: {
         color: theme.palette.primary.main,
@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
     },
     title: {
         fontSize: "32px",
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
         marginBottom: theme.spacing(3),
     }
 }));

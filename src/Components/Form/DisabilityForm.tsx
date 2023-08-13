@@ -204,7 +204,7 @@ const DisabilityForm = (props: DisabilityFormProps) => {
         formik.setFieldValue("mobilityAidType", event.target.value);
     }
 
-    const handlePreviousClick = (event: any) => {
+    const handlePreviousClick = () => {
         setFormData(formik.values);
         prevStep();
     };

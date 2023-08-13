@@ -163,7 +163,7 @@ const HazardController = (props: HazardControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     const renderFormStepMobile = () => {
@@ -206,7 +206,7 @@ const HazardController = (props: HazardControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     return (

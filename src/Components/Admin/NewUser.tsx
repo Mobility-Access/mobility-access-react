@@ -70,7 +70,7 @@ const NewUser = () => {
             password: "",
             username: ""
         },
-        onSubmit: (values) => {
+        onSubmit: ( ) => {
             handleSubmit();
         },
         validationSchema: validationSchema

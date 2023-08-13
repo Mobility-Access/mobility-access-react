@@ -234,7 +234,7 @@ const IncidentDetail = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: { ...formData },
-        onSubmit: (values) => {
+        onSubmit: () => {
             // setFormData(values);
 
             console.log("Submitting something");
