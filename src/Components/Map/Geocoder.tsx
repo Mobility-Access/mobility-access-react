@@ -121,7 +121,7 @@ const Geocoder = (props: GeocoderProps) => {
         }
     };
 
-    const handleChangeWithDebounce = useCallback((val: string) =>
+    const handleChangeWithDebounce = useCallback(
         debounce((val: string) => performGeocode(val), 300), [] // eslint-disable-line react-hooks/exhaustive-deps
     );
 
