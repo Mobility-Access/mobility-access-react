@@ -306,6 +306,7 @@ export const GetIncident = async (id: string) => {
     }
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GetPoints = async (url: string, page?: number, rows?: number): Promise<FeatureCollection> => {
     // if (page !== undefined && page >= 0 && rows !== undefined && rows > 0) {
     //     url = `${url}?page=${page}&rows=${rows}`
@@ -334,6 +335,7 @@ export const GetUser = async (id: string): Promise<any> => {
     return response;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const GetUsers = async (url: string, page?: number, rows?: number): Promise<any> => {
     // if (page !== undefined && page >= 0 && rows !== undefined && rows > 0) {
     //     url = `${url}?page=${page}&rows=${rows}`

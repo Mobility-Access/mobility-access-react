@@ -4,7 +4,7 @@ import "./AdminMap.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";
 import Point from "ol/geom/Point";
-import Translate, { TranslateEvent } from "ol/interaction/Translate";
+import Translate from "ol/interaction/Translate";
 import OLMap from "ol/Map";
 import { Vector as VectorSource } from 'ol/source';
 import OSMSource from "ol/source/OSM";
@@ -22,7 +22,7 @@ interface AdminMapState {
     reportCoords: Coordinate;
 }
 
-const styles = (theme: any) => createStyles({
+const styles = () => createStyles({
     mapContainer: {
         flexGrow: 1,
     },
@@ -113,7 +113,7 @@ class AdminMap extends React.Component<AdminMapProps, AdminMapState> {
     // Handler that gets called when the dragging of the report marker stops.
     // Calls the handleGeometryChange function from the parent component in
     // order to update the geometry stored in the form of the parent component.
-    handleTranslateEnd(event: TranslateEvent) {
+    handleTranslateEnd() {
         const feature = this.state.markerSource.getFeatures()[0];
         const geometry = feature.getGeometry() as Point;
         if (geometry) {

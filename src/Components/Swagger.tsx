@@ -5,7 +5,7 @@ import "swagger-ui-react/swagger-ui.css";
 
 import { SwaggerUrl } from "../Constants";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         height: "calc(100vh - 64px)",
         overflowY: "scroll",

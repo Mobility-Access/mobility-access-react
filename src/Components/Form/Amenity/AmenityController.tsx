@@ -158,7 +158,7 @@ const AmenityController = (props: AmenityControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     const renderFormStepMobile = () => {
@@ -201,7 +201,7 @@ const AmenityController = (props: AmenityControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     return (

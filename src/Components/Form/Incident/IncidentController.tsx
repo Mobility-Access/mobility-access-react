@@ -177,7 +177,7 @@ const IncidentController = (props: IncidentControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     const renderFormStepMobile = () => {
@@ -231,7 +231,7 @@ const IncidentController = (props: IncidentControllerProps) => {
                 return (
                     <SuccessForm reset={cancelOrComplete} />
                 );
-        };
+        }
     };
 
     return (

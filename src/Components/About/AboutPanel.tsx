@@ -5,7 +5,7 @@ import Link from "@material-ui/core/Link";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
-import { alpha, makeStyles, useTheme } from "@material-ui/core/styles";
+import { alpha, createStyles, makeStyles, useTheme } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
@@ -24,7 +24,7 @@ import Colors from "../../Colors";
 import { AmenityUrl, HazardUrl, IncidentUrl } from "../../Constants";
 import { ReportType } from "../../FormTypes";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => createStyles({
     root: {
         display: "flex",
         height: "calc(100vh - 64px)",
@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     },
     question: {
         color: theme.palette.primary.main,
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
         marginBottom: theme.spacing(1),
     },
     sectionBody: {

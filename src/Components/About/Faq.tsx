@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     question: {
         color: theme.palette.primary.main,
-        fontWeight: theme.typography.fontWeightBold,
+        fontWeight: "bold",
         marginBottom: theme.spacing(1),
     }
 }));

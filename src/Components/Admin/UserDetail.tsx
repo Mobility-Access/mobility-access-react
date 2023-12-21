@@ -96,7 +96,7 @@ const UserDetail = () => {
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: { ...formData },
-        onSubmit: (values) => {
+        onSubmit: () => {
             handleSubmit();
         },
         validationSchema: validationSchema

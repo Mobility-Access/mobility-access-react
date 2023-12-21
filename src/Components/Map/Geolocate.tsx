@@ -12,7 +12,7 @@ interface GeolocateProps {
 const borderRadius = "5px";
 const height = "32px";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     button: {
         backgroundColor: "white",
         borderRadius: borderRadius,

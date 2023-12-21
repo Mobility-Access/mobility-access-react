@@ -123,6 +123,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Legend = React.forwardRef((props: LegendProps, ref: any) => {
     const { toggleLayer } = { ...props };
     const theme = useTheme();
