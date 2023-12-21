@@ -19,11 +19,11 @@ import Faq, { QuestionAnswer } from "./Faq";
 import Supporters from "./Supporters";
 import TeamMember from "./TeamMember";
 import TeamMembers from "./TeamMembers";
-import { BaseUrl } from "../../config";
 import Colors from "../../Colors";
 import { AmenityUrl, HazardUrl, IncidentUrl } from "../../Constants";
 import { ReportType } from "../../FormTypes";
 
+const BaseUrl = import.meta.env.BASE_URL
 const useStyles = makeStyles((theme) => createStyles({
     root: {
         display: "flex",

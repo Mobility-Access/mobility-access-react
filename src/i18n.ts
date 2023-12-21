@@ -2,7 +2,6 @@ import i18n from 'i18next';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
-import { defaultLanguage } from "./config";
 
 i18n
     // We want to load translations via XHR requests so we don't load all language strings initially
@@ -15,7 +14,7 @@ i18n
     // Initialize i18next
     // https://www.i18next.com/overview/configuration-options
     .init({
-        fallbackLng: defaultLanguage,
+        fallbackLng: import.meta.env.VITE_DEFAULT_LANGUAGE,
         debug: true,
         interpolation: {
             escapeValue: false,

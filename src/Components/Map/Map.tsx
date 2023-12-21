@@ -46,7 +46,6 @@ import incidentMarker from "../../images/icons/incident_marker.svg";
 import reportMarker from "../../images/icons/report_marker.svg";
 import { ReportType } from "../../FormTypes";
 import { getMarkerStyle } from "../../utilities";
-import { defaultExtent } from "../../config";
 
 interface MapState {
     amenityClusterSource: Cluster
@@ -358,6 +357,8 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.map.on("moveend", this.handleMoveEnd);
 
         setTimeout(() => {
+            const defaultExtentEnv = import.meta.env.VITE_DEFAULT_EXTENT;
+            const defaultExtent = defaultExtentEnv.split(',');
             this.map.updateSize();
             this.map.getView().fit(defaultExtent as Extent, { size: this.map.getSize()});
         });

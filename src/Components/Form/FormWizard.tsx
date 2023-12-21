@@ -16,7 +16,6 @@ import AmenityController from "./Amenity/AmenityController";
 import HazardController from "./Hazard/HazardController";
 import IncidentController from "./Incident/IncidentController";
 import Colors from "../../Colors";
-import { defaultLanguage } from "../../config";
 import { ChoiceItem, ReportType } from "../../FormTypes";
 
 interface FormWizardProps {
@@ -101,7 +100,7 @@ const FormWizard = (props: FormWizardProps) => {
     const renderBikeMapsLink = () => {
         let hyperlink = "https://BikeMaps.org";
 
-        switch(defaultLanguage) {
+        switch(import.meta.env.VITE_DEFAULT_LANGUAGE) {
             case "fr":
                 hyperlink = `${hyperlink}/fr`;
                 break;
