@@ -22,8 +22,11 @@ interface FormWizardProps {
     addNewFeature: (reportType: ReportType, fields: any) => void;
     cancelOrComplete: () => void;
     clearFeaturePopup: () => void;
-    newReportCoords: number[];    startMapClickListener: () => void;
+    newReportCoords: number[];
+    startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    addCenterMarker?: () => void;
+    handleMapKeyDown?: (value: boolean) => void;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -76,7 +79,9 @@ const FormWizard = (props: FormWizardProps) => {
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props } ;
+        stopMapClickListener,
+        addCenterMarker,
+        handleMapKeyDown } = { ...props } ;
     const [type, setType] = useState<string | null>(null);
     const classes = useStyles();
     const { t } = useTranslation();
@@ -205,6 +210,8 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
+                addCenterMarker={addCenterMarker}
+                handleMapKeyDown={handleMapKeyDown}
             />
         )
     };
@@ -217,6 +224,8 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
+                addCenterMarker={addCenterMarker}
+                handleMapKeyDown={handleMapKeyDown}
             />
         )
     };
@@ -229,6 +238,8 @@ const FormWizard = (props: FormWizardProps) => {
                 newReportCoords={newReportCoords}
                 startMapClickListener={startMapClickListener}
                 stopMapClickListener={stopMapClickListener}
+                addCenterMarker={addCenterMarker}
+                handleMapKeyDown={handleMapKeyDown}
             />
         )
     };
