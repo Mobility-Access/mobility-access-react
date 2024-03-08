@@ -81,7 +81,6 @@ const LocationForm = (props: LocationFormProps) => {
         setFormData,
         startMapClickListener,
         stopMapClickListener,
-        addCenterMarker,
         handleMapKeyDown } = { ...props };
     const [locationError, setLocationError] = useState(false);
     const { t } = useTranslation();
