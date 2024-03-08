@@ -21,6 +21,8 @@ interface AmenityControllerProps {
     newReportCoords: number[];
     startMapClickListener: () => void;
     stopMapClickListener: () => void;
+    addCenterMarker?: () => void;
+    handleMapKeyDown?: (value: boolean) => void;
 }
 
 export const initialState: AmenityFields = {
@@ -51,7 +53,9 @@ const AmenityController = (props: AmenityControllerProps) => {
         cancelOrComplete,
         newReportCoords,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        addCenterMarker,
+        handleMapKeyDown } = { ...props };
     const [open, setOpen] = useState(false);
 
     // If a location for the report was passed in, use that for the intial state
@@ -117,6 +121,8 @@ const AmenityController = (props: AmenityControllerProps) => {
                         setFormData={setFormData}
                         startMapClickListener={startMapClickListener}
                         stopMapClickListener={stopMapClickListener}
+                        addCenterMarker={addCenterMarker}
+                        handleMapKeyDown={handleMapKeyDown}
                     />
                 );
             }
