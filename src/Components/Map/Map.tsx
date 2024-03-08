@@ -456,7 +456,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addAmenityFeatureLayer() {
-        const amenityFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Amenity, true) || {
+        const amenityFeatureCollection = (await GetReportsAsFeatureCollection(ReportType.Amenity, true)) || {
             type: "FeatureCollection",
             features: []
         };
@@ -473,7 +473,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addHazardFeatureLayer() {
-        const hazardFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Hazard, true) || {
+        const hazardFeatureCollection = (await GetReportsAsFeatureCollection(ReportType.Hazard, true)) || {
             type: "FeatureCollection",
             features: []
         };
@@ -490,7 +490,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
     }
 
     async addIncidentFeatureLayer() {
-        const incidentFeatureCollection = await GetReportsAsFeatureCollection(ReportType.Incident, true) || {
+        const incidentFeatureCollection = (await GetReportsAsFeatureCollection(ReportType.Incident, true)) || {
             type: "FeatureCollection",
             features: []
         };

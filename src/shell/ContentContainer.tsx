@@ -23,8 +23,6 @@ import Swagger from "../Components/Swagger";
 import Header from "./Header";
 import PrivateRoute from "./PrivateRoute";
 
-import "./ContentContainer.css";
-
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
     contentBody: theme.mixins.toolbar,
