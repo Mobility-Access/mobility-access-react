@@ -1,12 +1,6 @@
 import React, { Suspense } from "react";
-import { unstable_createMuiStrictModeTheme as createMuiTheme, MuiThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
-
+import { unstable_createMuiStrictModeTheme as createMuiTheme, ThemeProvider, responsiveFontSizes } from '@material-ui/core/styles';
 import ReactGA from "react-ga4";
-
-// import Header from "./shell/Header";
-// import ContentContainer from "./shell/ContentContainer";
-
-// import logo from './logo.svg';
 import "./App.css";
 import Colors from "./Colors";
 import LogoFallback from "./LogoFallback";
@@ -45,11 +39,11 @@ function App() {
     }
    
     return (
-        <MuiThemeProvider theme={appTheme} >
+        <ThemeProvider theme={appTheme} >
             <Suspense fallback={<LogoFallback />}>
                 <LazyContentContainer />
             </Suspense>
-        </MuiThemeProvider>
+        </ThemeProvider>
     );
 }
 
