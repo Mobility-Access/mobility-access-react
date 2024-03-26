@@ -1,5 +1,7 @@
 import React, { createRef } from "react"
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
+import { WithStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
 import "./AdminMap.css";
 import { Coordinate } from "ol/coordinate";
 import Feature from "ol/Feature";

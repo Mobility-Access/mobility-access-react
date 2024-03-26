@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Fade from "@material-ui/core/Fade"
-import Hidden from "@material-ui/core/Hidden";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuIcon from "@material-ui/icons/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
+import AppBar from "@mui/material/AppBar";
+import Fade from "@mui/material/Fade"
+import Hidden from "@mui/material/Hidden";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import makeStyles from '@mui/styles/makeStyles';
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 import { useTranslation } from "react-i18next";
 import { Link, useHistory, useLocation } from "react-router-dom";
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
     logo: {
         height: 56,
         marginRight: theme.spacing(3),
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down('md')]: {
             height: 48,
             marginRight: theme.spacing(2),
         },
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
         indicator: Colors.contrast,
     },
     title: {
-        [theme.breakpoints.down("md")]: {
+        [theme.breakpoints.down('lg')]: {
             flexGrow: 1,
             fontSize: "1.25em",
         },
@@ -127,24 +127,34 @@ const Header = () => {
     const renderBikeMapsLink = () => {
         if (i18n.language.startsWith("fr")) {
             return (
-                <IconButton aria-label="Hyperlink to BikeMaps French site." className={classes.linkButton} href="https://bikemaps.org/fr" target="_blank">
+                <IconButton
+                    aria-label="Hyperlink to BikeMaps French site."
+                    className={classes.linkButton}
+                    href="https://bikemaps.org/fr"
+                    target="_blank"
+                    size="large">
                     <img
                         alt="BikeMaps logo"
                         src={BikeMapsLogo}
                     />
                 </IconButton>
-            )
+            );
         }
 
         // French site
         return (
-            <IconButton aria-label="Hyperlink to BikeMaps English site." className={classes.linkButton} href="https://bikemaps.org" target="_blank">
+            <IconButton
+                aria-label="Hyperlink to BikeMaps English site."
+                className={classes.linkButton}
+                href="https://bikemaps.org"
+                target="_blank"
+                size="large">
                 <img
                     alt="BikeMaps logo"
                     src={BikeMapsLogo}
                 />
             </IconButton>
-        )
+        );
     };
 
     // Render a navigation menu when screen size is <= 960px
@@ -158,7 +168,7 @@ const Header = () => {
                     className={classes.menuButton}
                     edge="end"
                     onClick={handleMenuButtonClick}
-                >
+                    size="large">
                     <MenuIcon  />
                 </IconButton>
                 <Menu 
@@ -236,11 +246,11 @@ const Header = () => {
                     <Typography className={classes.title} variant="h1">
                             {t("site-name")}
                     </Typography>
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         {renderTabs()}
                     </Hidden>
                     <LanguageSelector handleLanguageChange={handleLanguageChange} languages={languages} position="below" />
-                    <Hidden smDown>
+                    <Hidden mdDown>
                         {renderBikeMapsLink()}
                     </Hidden>
                     {renderSecondaryNavAsList()}

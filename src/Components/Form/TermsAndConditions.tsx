@@ -1,12 +1,12 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import { makeStyles } from "@material-ui/core/styles";
-import { fade } from "@material-ui/core/styles/colorManipulator";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import { alpha } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
 
 import { useTranslation } from "react-i18next";
 
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 90,
     },
     dialog: {
-        backgroundColor: fade(Colors.gray, 0.1),
+        backgroundColor: alpha(Colors.gray, 0.1),
     },
     subtitle: {
         color: theme.palette.primary.main,

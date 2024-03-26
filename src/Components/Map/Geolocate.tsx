@@ -1,8 +1,8 @@
 import React from "react";
 
-import Fab from "@material-ui/core/Fab";
-import { makeStyles } from "@material-ui/core/styles";
-import GpsFixedIcon from "@material-ui/icons/GpsFixed";
+import Fab from "@mui/material/Fab";
+import makeStyles from '@mui/styles/makeStyles';
+import GpsFixedIcon from "@mui/icons-material/GpsFixed";
 
 interface GeolocateProps {
     className?: any;

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import ArrowRight from "@material-ui/icons/ArrowRight";
-import Button from "@material-ui/core/Button";
-import Fade from "@material-ui/core/Fade";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import { makeStyles } from "@material-ui/core/styles";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowRight from "@mui/icons-material/ArrowRight";
+import Button from "@mui/material/Button";
+import Fade from "@mui/material/Fade";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import makeStyles from '@mui/styles/makeStyles';
 import { useTranslation } from "react-i18next";
 
 import Colors from "../../Colors";

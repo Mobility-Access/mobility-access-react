@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
-import Snackbar from "@material-ui/core/Snackbar";
-import TextField from "@material-ui/core/TextField"
-import Typography from "@material-ui/core/Typography";
-import Alert, { Color } from "@material-ui/lab/Alert";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+import makeStyles from '@mui/styles/makeStyles';
+import Snackbar from "@mui/material/Snackbar";
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography";
+import Alert, { AlertColor } from '@mui/material/Alert';
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -52,7 +52,7 @@ const Login = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState("");
-    const [severity, setSeverity] = useState<Color>("success");
+    const [severity, setSeverity] = useState<AlertColor>("success");
     const location = useLocation<LocationState>();
     const history = useHistory();
     const { from } = location.state || {from: { pathname: "/"}};

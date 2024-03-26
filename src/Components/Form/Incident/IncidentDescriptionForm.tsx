@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from "react";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField"
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";

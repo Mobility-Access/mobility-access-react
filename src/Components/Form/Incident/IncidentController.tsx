@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Hidden from "@material-ui/core/Hidden";
+import Hidden from "@mui/material/Hidden";
 
 import IncidentDescriptionForm from "./IncidentDescriptionForm";
 import IncidentForm from "./IncidentForm";
@@ -234,21 +234,19 @@ const IncidentController = (props: IncidentControllerProps) => {
         }
     };
 
-    return (
-        <>
-            <Hidden smDown>
-                {renderFormStep()}
-            </Hidden>
-            <Hidden mdUp>
-                {renderFormStepMobile()}
-            </Hidden>
-            <CancelDialog 
-                handleConfirmNo={handleConfirmNo}
-                handleConfirmYes={handleConfirmYes}
-                open={open}
-            />
-        </>
-    );
+    return <>
+        <Hidden mdDown>
+            {renderFormStep()}
+        </Hidden>
+        <Hidden mdUp>
+            {renderFormStepMobile()}
+        </Hidden>
+        <CancelDialog 
+            handleConfirmNo={handleConfirmNo}
+            handleConfirmYes={handleConfirmYes}
+            open={open}
+        />
+    </>;
 };
 
 export default IncidentController;

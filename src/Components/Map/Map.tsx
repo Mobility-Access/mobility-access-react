@@ -1,9 +1,11 @@
 import React, { createRef } from "react"
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import Hidden from "@material-ui/core/Hidden";
-import { createStyles, withStyles, WithStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import Hidden from "@mui/material/Hidden";
+import { WithStyles } from '@mui/styles';
+import createStyles from '@mui/styles/createStyles';
+import withStyles from '@mui/styles/withStyles';
+import Typography from "@mui/material/Typography";
 import { Coordinate } from "ol/coordinate";
 import { boundingExtent, Extent } from "ol/extent";
 import Feature, { FeatureLike } from "ol/Feature";
@@ -868,9 +870,9 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
     render() {
         const { classes, t } = this.props;
-        return  (
+        return (
             <div className={classes.root} id="map-tabpanel" role="tabpanel">
-                <Hidden smDown>
+                <Hidden mdDown>
                     <div 
                         className={classes.formContainer}
                         aria-live="polite"
