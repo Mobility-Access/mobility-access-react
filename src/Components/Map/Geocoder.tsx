@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from "react";
 
-import Collapse from "@material-ui/core/Collapse";
-import Fab from "@material-ui/core/Fab";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import SearchIcon from "@material-ui/icons/Search";
+import Collapse from "@mui/material/Collapse";
+import Fab from "@mui/material/Fab";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField";
+import SearchIcon from "@mui/icons-material/Search";
 
 import debounce from "lodash.debounce";
 
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     },
     collapse: {
         height: height,
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             maxWidth: "50%",
         }
     },
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
         "&:hover": {
             background: "#d5d5d5",
         },
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('md')]: {
             maxWidth: "50%",
         }
     },

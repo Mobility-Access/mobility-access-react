@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import Checkbox from "@material-ui/core/Checkbox";
-import Divider from "@material-ui/core/Divider";
-import Fab from "@material-ui/core/Fab";
-import IconButton from "@material-ui/core/IconButton";
-import LayersIcon from "@material-ui/icons/Layers";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import CloseIcon from "@material-ui/icons/Close";
+import Checkbox from "@mui/material/Checkbox";
+import Divider from "@mui/material/Divider";
+import Fab from "@mui/material/Fab";
+import IconButton from "@mui/material/IconButton";
+import LayersIcon from "@mui/icons-material/Layers";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import { useTheme } from "@mui/material/styles";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import CloseIcon from "@mui/icons-material/Close";
 
 import { useTranslation } from "react-i18next";
 import Colors from "../../Colors";
@@ -164,7 +165,11 @@ const Legend = React.forwardRef((props: LegendProps, ref: any) => {
                         <Typography className={classes.legendTitle} variant="h3">
                             { t("legend-title") }
                         </Typography>
-                        <IconButton aria-label="close-legend-button" className={classes.legendCloseButton} onClick={toggleLegend}>
+                        <IconButton
+                            aria-label="close-legend-button"
+                            className={classes.legendCloseButton}
+                            onClick={toggleLegend}
+                            size="large">
                             <CloseIcon />
                         </IconButton>
                     </div>

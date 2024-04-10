@@ -1,20 +1,17 @@
 import React, { Dispatch, SetStateAction } from "react";
-import Button from "@material-ui/core/Button";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import MenuItem from "@material-ui/core/MenuItem";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField"
-import Typography from "@material-ui/core/Typography";
+import Button from "@mui/material/Button";
+import ListSubheader from "@mui/material/ListSubheader";
+import MenuItem from "@mui/material/MenuItem";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import makeStyles from '@mui/styles/makeStyles';
+import TextField from "@mui/material/TextField"
+import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-
-// Date/TimePicker imports
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
-
 import FormTitle from "../FormTitle";
 import { IncidentFields } from "./IncidentController";
 import Colors from "../../../Colors";
@@ -185,7 +182,7 @@ const IncidentForm = (props: IncidentFormProps) => {
     };
 
     return (
-        <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
             <FormTitle title="form_incident-details" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
@@ -394,17 +391,19 @@ const IncidentForm = (props: IncidentFormProps) => {
                             {t("form_incident-date")}
                         </Typography>
                     </label>
-                    <KeyboardDateTimePicker
+                    <DateTimePicker
+                        defaultValue={formik.values.date}
                         className={classes.date}
                         disableFuture
                         format="MM/dd/yyyy, hh:mm a"
-                        fullWidth
-                        id="incident-date-picker"
-                        inputVariant="outlined"
                         name="incident-date-picker"
                         onChange={handleDateChange}
-                        value={formik.values.date}
-                        required
+                        sx={{width: '100%'}}
+                        viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                            seconds: renderTimeViewClock,
+                          }}
                     />
                 </div>
                 <div className={classes.buttonBar}>
@@ -431,7 +430,7 @@ const IncidentForm = (props: IncidentFormProps) => {
                     </Button>
                 </div>
             </form>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
     );
 };
 

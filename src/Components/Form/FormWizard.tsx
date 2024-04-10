@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import Button from "@material-ui/core/Button";
-import Container from "@material-ui/core/Container";
-import Hidden from "@material-ui/core/Hidden";
-import Link from "@material-ui/core/Link";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import NavigateNext from "@material-ui/icons/NavigateNext";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Hidden from "@mui/material/Hidden";
+import Link from "@mui/material/Link";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import makeStyles from '@mui/styles/makeStyles';
+import Typography from "@mui/material/Typography";
+import NavigateNext from "@mui/icons-material/NavigateNext";
 import { useTranslation } from "react-i18next";
 
 import FormTitle from "./FormTitle";

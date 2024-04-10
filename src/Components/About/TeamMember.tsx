@@ -1,8 +1,8 @@
 import React from "react";
-import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
+import Box from "@mui/material/Box";
+import makeStyles from '@mui/styles/makeStyles';
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 
 import { useTranslation } from "react-i18next";
 
@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         borderRadius: "50%",
-        [theme.breakpoints.down("sm")]: {
+        [theme.breakpoints.down('md')]: {
             height: "125px",
             width: "125px",
         },

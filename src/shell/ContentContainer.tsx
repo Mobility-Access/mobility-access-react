@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import makeStyles from '@mui/styles/makeStyles';
 import { Route } from "react-router-dom";
 
 import AboutPanel from "../Components/About/AboutPanel";
@@ -22,8 +22,6 @@ import Swagger from "../Components/Swagger";
 
 import Header from "./Header";
 import PrivateRoute from "./PrivateRoute";
-
-import "./ContentContainer.css";
 
 const useStyles = makeStyles((theme) => ({
     appBarSpacer: theme.mixins.toolbar,
