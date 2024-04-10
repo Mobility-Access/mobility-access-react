@@ -6,12 +6,6 @@ import Typography from "@mui/material/Typography";
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-
-// Date/TimePicker imports
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
-
 import FormTitle from "../FormTitle";
 import { IncidentFields } from "./IncidentController";
 import Colors from "../../../Colors";
@@ -102,7 +96,7 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
     };
 
     return (
-        <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
+        <>
             <FormTitle title="form_incident-description" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
@@ -152,7 +146,7 @@ const IncidentDescriptionForm = (props: IncidentDescriptionFormProps) => {
                     </Button>
                 </div>
             </form>
-        </MuiPickersUtilsProvider>
+        </>
     );
 };
 
