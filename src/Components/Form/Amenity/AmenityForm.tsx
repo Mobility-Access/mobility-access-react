@@ -4,16 +4,13 @@ import MenuItem from "@mui/material/MenuItem";
 import makeStyles from '@mui/styles/makeStyles';
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-
-// Date/TimePicker imports
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
-
 import { AmenityFields } from "./AmenityController";
 import FormTitle from "../FormTitle";
 import Colors from "../../../Colors";
@@ -135,7 +132,7 @@ const AmenityForm = (props: AmenityProps) => {
     };
 
     return (
-        <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
             <FormTitle title="form_amenity-details" />
             <form className={classes.amenityForm} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
@@ -199,17 +196,19 @@ const AmenityForm = (props: AmenityProps) => {
                             {t("form_amenity-date")}
                         </Typography>
                     </label>
-                    <KeyboardDateTimePicker
+                    <DateTimePicker
+                        defaultValue={formik.values.date}
                         className={classes.date}
                         disableFuture
                         format="MM/dd/yyyy, hh:mm a"
-                        fullWidth
-                        id="amenity-date-picker"
-                        inputVariant="outlined"
                         name="amenity-date-picker"
                         onChange={handleDateChange}
-                        value={formik.values.date}
-                        required
+                        sx={{width: '100%'}}
+                        viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                            seconds: renderTimeViewClock,
+                          }}
                     />
                 </div>
                 <div className={classes.buttonBar}>
@@ -236,7 +235,7 @@ const AmenityForm = (props: AmenityProps) => {
                     </Button>
                 </div>
             </form>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
     );
 };
 

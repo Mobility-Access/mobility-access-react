@@ -5,15 +5,15 @@ import MenuItem from "@mui/material/MenuItem";
 import makeStyles from '@mui/styles/makeStyles';
 import TextField from "@mui/material/TextField"
 import Typography from "@mui/material/Typography";
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
+
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+
 import { useFormik } from "formik";
 import { useTranslation } from "react-i18next";
 import * as Yup from "yup";
-
-// Date/TimePicker imports
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
 
 import { HazardFields } from "./HazardController";
 import FormTitle from "../FormTitle";
@@ -169,7 +169,7 @@ const HazardForm = (props: HazardFormProps) => {
     const sidewalkRemainder = HazardSidewalkSubtypes.slice(11);
 
     return (
-        <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
             <FormTitle title="form_hazard-title" />
             <form className={classes.form} noValidate onSubmit={formik.handleSubmit}>
                 <div className={classes.question}>
@@ -432,17 +432,20 @@ const HazardForm = (props: HazardFormProps) => {
                             {t("form_hazard-date")}
                         </Typography>
                     </label>
-                    <KeyboardDateTimePicker
+                    <DateTimePicker
+                        defaultValue={formik.values.date}
                         className={classes.date}
                         disableFuture
                         format="MM/dd/yyyy, hh:mm a"
-                        fullWidth
-                        id="hazard-date-picker"
-                        inputVariant="outlined"
                         name="hazard-date-picker"
                         onChange={handleDateChange}
-                        value={formik.values.date}
-                        required
+                        sx={{width: '100%'}}
+                        viewRenderers={{
+                            hours: renderTimeViewClock,
+                            minutes: renderTimeViewClock,
+                            seconds: renderTimeViewClock,
+                          }}
+
                     />
                 </div>
                 <div className={classes.buttonBar}>
@@ -469,7 +472,7 @@ const HazardForm = (props: HazardFormProps) => {
                     </Button>
                 </div>
             </form>
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
     );
 }
 
