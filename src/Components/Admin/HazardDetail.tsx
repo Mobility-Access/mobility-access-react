@@ -8,16 +8,13 @@ import MenuItem from "@mui/material/MenuItem";
 import makeStyles from '@mui/styles/makeStyles';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
-
 import { useHistory, useParams } from  "react-router-dom";
 
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
@@ -693,24 +690,27 @@ const HazardDetail = () => {
                                     >
                                     </TextField>
                                 </div>
-                                <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <div className={classes.question}>
                                         <Typography>
                                             {t("form_hazard-date")}
                                         </Typography>
-                                        <KeyboardDateTimePicker
+                                        <DateTimePicker
                                             className={classes.date}
                                             disableFuture
                                             format="MM/dd/yyyy, hh:mm a"
-                                            fullWidth
-                                            id="hazard-date-picker"
-                                            inputVariant="outlined"
                                             name="hazard-date-picker"
                                             onChange={handleDateChange}
                                             value={formik.values.date}
+                                            sx={{width: '100%'}}
+                                            viewRenderers={{
+                                                hours: renderTimeViewClock,
+                                                minutes: renderTimeViewClock,
+                                                seconds: renderTimeViewClock,
+                                              }}
                                         />
                                     </div>
-                                </MuiPickersUtilsProvider>
+                                </LocalizationProvider>
                                 <div className={classes.question}>
                                     <Typography className={classes.questionText}>
                                         {t("form_demographic_gender-question")}

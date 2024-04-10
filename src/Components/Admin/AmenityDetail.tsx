@@ -7,18 +7,14 @@ import MenuItem from "@mui/material/MenuItem";
 import makeStyles from '@mui/styles/makeStyles';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-
-import { KeyboardDateTimePicker } from "@material-ui/pickers";
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
 import { useTranslation } from "react-i18next";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import enLocale from "date-fns/locale/en-US";
-
 import { useHistory, useParams } from  "react-router-dom";
-
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 import EditButtonBar from "./EditButtonBar"
 import { DeletePoint, GetAmenity, UpdateAmenityReport } from "../../Services/AdminServices";
@@ -477,24 +473,27 @@ const AmenityDetail = () => {
                                     >
                                     </TextField>
                                 </div>
-                                <MuiPickersUtilsProvider locale={enLocale} utils={DateFnsUtils}>
-                                <div className={classes.question}>
-                                    <Typography className={classes.questionText}>
-                                        {t("form_amenity-date")}
-                                    </Typography>
-                                    <KeyboardDateTimePicker
-                                        className={classes.date}
-                                        disableFuture
-                                        format="MM/dd/yyyy, hh:mm a"
-                                        fullWidth
-                                        id="amenity-date-picker"
-                                        inputVariant="outlined"
-                                        name="amenity-date-picker"
-                                        onChange={handleDateChange}
-                                        value={formik.values.date}
-                                    />
-                                </div>
-                                </MuiPickersUtilsProvider>
+                                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                    <div className={classes.question}>
+                                        <Typography className={classes.questionText}>
+                                            {t("form_amenity-date")}
+                                        </Typography>
+                                        <DateTimePicker
+                                            className={classes.date}
+                                            disableFuture
+                                            format="MM/dd/yyyy, hh:mm a"
+                                            name="amenity-date-picker"
+                                            onChange={handleDateChange}
+                                            value={formik.values.date}
+                                            sx={{width: '100%'}}
+                                            viewRenderers={{
+                                                hours: renderTimeViewClock,
+                                                minutes: renderTimeViewClock,
+                                                seconds: renderTimeViewClock,
+                                              }}
+                                        />
+                                    </div>
+                                </LocalizationProvider>
                                 <div className={classes.question}>
                                     <Typography className={classes.questionText}>
                                         {t("form_demographic_gender-question")}
