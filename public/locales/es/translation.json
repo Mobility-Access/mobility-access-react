@@ -264,6 +264,7 @@
     "form_incident-vehicle": "Vehículo",
     "form_location-captured": "¡Reporte exitoso! Haga clic en 'Siguiente' para continuar.",
     "form_location-description": "Haga clic en el mapa para reportar tu ubicación.",
+    "form_location_alternate_description": "Como alternativa, utilice la tecla de tabulación para seleccionar el mapa y, a continuación, utilice las teclas de flecha y +/- para situar el centro del mapa donde desee realizar un informe. Pulsa la tecla Intro para añadir un marcador al mapa.",
     "form_location-description-mobile": "Selecciona una ubicación tocando el mapa, luego presiona aquí para continuar.",
     "form_location-description-mobile2": "Selecciona una ubicación tocando el mapa, luego presiona 'Siguiente' para continuar.",
     "form_location-required": "Debes seleccionar una ubicación antes de continuar.",

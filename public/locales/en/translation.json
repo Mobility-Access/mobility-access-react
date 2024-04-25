@@ -277,6 +277,7 @@
     "form_incident-vehicle": "Vehicle",
     "form_location-captured": "Success! Click Next to continue.",
     "form_location-description": "Click the map to mark your report location.",
+    "form_location_alternate_description": "Alternatively, use the tab key to select the map, then use the arrow and +/- keys to position the map center where you want to make a report. Press the Enter key to add a marker to the map.",
     "form_location-description-mobile": "Choose a location by tapping on the map, then press here to continue.",
     "form_location-description-mobile2": "Choose a location by tapping on the map, then press 'Next' to continue.",
     "form_location-required": "You must choose a location on the map before continuing.",

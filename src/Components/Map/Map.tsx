@@ -55,6 +55,7 @@ interface MapState {
     cancelDialogOpen: boolean;
     dialogOpen: boolean;
     dialogVisible: boolean;
+    handleKeyDownEnabled: boolean
     hazardClusterSource: Cluster;
     hazardSource: VectorSource;
     incidentClusterSource: Cluster;
@@ -219,6 +220,7 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
             cancelDialogOpen: false,
             dialogOpen: false,
             dialogVisible: true,
+            handleKeyDownEnabled: false,
             hazardClusterSource: new Cluster({ distance: this.defaultClusterDistance }),
             hazardSource: new VectorSource(),
             incidentClusterSource: new Cluster({ distance: this.defaultClusterDistance }),
@@ -263,6 +265,10 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         this.handleMoveEnd = this.handleMoveEnd.bind(this);
         this.handleGeolocate = this.handleGeolocate.bind(this);
         this.handleRemoveReportMarker = this.handleRemoveReportMarker.bind(this);
+        this.handleAddCenterMarker = this.handleAddCenterMarker.bind(this)
+        this.addReportMarkerAtLocation = this.addReportMarkerAtLocation.bind(this)
+        this.handleKeyDown = this.handleKeyDown.bind(this)
+        this.toggleMapKeyDownHandler = this.toggleMapKeyDownHandler.bind(this)
     }
 
     componentDidMount() {
@@ -785,16 +791,30 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
 
     handleMapClick(event: MapBrowserEvent<any>) {
         if (event && event.coordinate) {
+            this.addReportMarkerAtLocation(event.coordinate)
+        }
+    }
+
+    addReportMarkerAtLocation(coordinate: Coordinate) {
+        if (coordinate) {
             this.state.markerSource.clear();
-            this.setReportCoords(event.coordinate);
+            this.setReportCoords(coordinate);
             const feature = new Feature();
             const style = getMarkerStyle();
             feature.setStyle(style);
-            feature.setGeometry(new Point(event.coordinate));
+            feature.setGeometry(new Point(coordinate));
             this.state.markerSource.addFeature(feature);
 
             // Listen for drag events on the report marker
             this.map.addInteraction(this.translate);
+        }
+    }
+
+    handleAddCenterMarker() {
+        const mapCenterCoords = this.map.getView().getCenter()
+        console.log("A button was clicked")
+        if (mapCenterCoords) {
+            this.addReportMarkerAtLocation(mapCenterCoords);
         }
     }
 
@@ -864,6 +884,16 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
         }
     }
 
+    toggleMapKeyDownHandler(value: boolean) {
+        this.setState({handleKeyDownEnabled: value})
+    }
+
+    handleKeyDown(event: any) {
+        if (this.state.handleKeyDownEnabled && event.key && event.key === 'Enter') {
+            this.handleAddCenterMarker()
+        }
+    }
+
     renderFormWizard() {
         this.setState({ dialogOpen: true, newReportButtonVisible: false });
     }
@@ -885,10 +915,13 @@ class Map extends React.Component<MapProps & {t: any}, MapState> {
                             newReportCoords={this.state.reportCoords}
                             cancelOrComplete={this.handleCancelOrComplete}
                             startMapClickListener={this.enableMapClickListener}
-                            stopMapClickListener={this.disableMapClickListener} />
+                            stopMapClickListener={this.disableMapClickListener}
+                            addCenterMarker={this.handleAddCenterMarker}
+                            handleMapKeyDown={this.toggleMapKeyDownHandler}
+                        />
                     </div>
                 </Hidden>
-                <div id="map" className="map" ref={this.wrapper} tabIndex={0}>
+                <div id="map" className="map" onKeyDown={this.handleKeyDown} ref={this.wrapper} tabIndex={0}>
                     <Geocoder className={classes.geocoder} handleGeocodeResult={this.handleGeocodeResult} />
                     <Geolocate className={classes.geolocate} handleGeolocate={this.handleGeolocate} />
                     <Legend toggleLayer={this.handleToggleLayerVisibliity} />

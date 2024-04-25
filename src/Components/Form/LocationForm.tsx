@@ -19,6 +19,8 @@ interface LocationFormProps {
     prevStep: () => void;
     startMapClickListener?: () => void;
     stopMapClickListener?: () => void;
+    addCenterMarker?: () => void;
+    handleMapKeyDown?: (value: boolean) => void;
 }
 
 const minInputHeight = 56;
@@ -78,7 +80,8 @@ const LocationForm = (props: LocationFormProps) => {
         prevStep,
         setFormData,
         startMapClickListener,
-        stopMapClickListener } = { ...props };
+        stopMapClickListener,
+        handleMapKeyDown } = { ...props };
     const [locationError, setLocationError] = useState(false);
     const { t } = useTranslation();
     const classes = useStyles();
@@ -114,13 +117,22 @@ const LocationForm = (props: LocationFormProps) => {
         if (startMapClickListener) {
             startMapClickListener();
         }
-    });
+        
+        handleMapKeyDown && handleMapKeyDown(true);
+
+        return () => {
+            handleMapKeyDown && handleMapKeyDown(false);
+        }
+    },[]);
 
     return (
         <>
             <FormTitle title="form_location-title" />
             <Typography className={classes.text}>
                     {t("form_location-description")}
+            </Typography>
+            <Typography className={classes.text}>
+                {t("form_location_alternate_description")}
             </Typography>
             {
                 newReportCoords && newReportCoords.length === 2 && (
