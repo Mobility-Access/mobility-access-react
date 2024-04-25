@@ -277,7 +277,7 @@
     "form_incident-vehicle": "Véhicule",
     "form_location-captured": "Succès! Cliquez sur Suivant pour continuer",
     "form_location-description": "Cliquez sur la carte pour marquer l'emplacement de votre rapport",
-    "form_location_alternate_description": "Or use your keyboard to move the map and press the 'Enter' key to add a marker at the center of the map.",
+    "form_location_alternate_description": "Vous pouvez également utiliser la touche de tabulation pour sélectionner la carte, puis utiliser les touches fléchées et +/- pour positionner le centre de la carte à l'endroit où vous souhaitez établir un rapport. Appuyez sur la touche Entrée pour ajouter un marqueur à la carte.",
     "form_location-description-mobile": "Choisissez un emplacement en appuyant sur la carte, puis appuyez ici pour continuer",
     "form_location-description-mobile2": "Choisissez un emplacement en appuyant sur la carte, puis appuyez ici pour continuer",
     "form_location-required": "Vous devez choisir un emplacement sur la carte avant de continuer",
