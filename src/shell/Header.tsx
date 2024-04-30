@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Fade from "@mui/material/Fade"
 import Hidden from "@mui/material/Hidden";
@@ -13,7 +13,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 import { useTranslation } from "react-i18next";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, matchPath, useHistory, useLocation } from "react-router-dom";
 
 import LanguageSelector from "./AppHeader/LanguageSelector";
 import Colors from "../Colors";
@@ -50,8 +50,7 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: "none",
     },
     linkButton: {
-        minHeight: 0,
-        minWidth: 0,
+        minWidth: "39px",
         padding: 0
     },
     logo: {
@@ -90,8 +89,21 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const useRouteMatch = (patterns: readonly string[]) => {
+    const { pathname } = useLocation();
 
-const Header = () => {
+    for (const pattern of patterns) {
+        const possibleMatch = matchPath(pattern, pathname);
+        if (possibleMatch !== null && possibleMatch !== undefined) {
+            return possibleMatch;
+        }
+    }
+
+    return null;
+}
+
+
+const Header: React.FC = () => {
     // The supported languages keyed by their language code.
     const languages = [
         { key: "en", value: "english" },
@@ -105,6 +117,24 @@ const Header = () => {
     const [tabValue, setTabValue] = useState(0);
     const history = useHistory();
     const location = useLocation();
+    const routeMatch = useRouteMatch(["/", "/about", "/explore"])
+
+    useEffect(() => {
+        const currentTabName = routeMatch?.path;
+        switch(currentTabName) {
+            case "/":
+                setTabValue(0);
+                break;
+            case "/explore":
+                setTabValue(1);
+                break;
+            case "/about":
+                setTabValue(2);
+                break;
+            default:
+                setTabValue(0)
+        }
+    }, [])
 
     const handleMenuButtonClick = (event: any) => {
         setAnchorEl(event.target);
@@ -120,7 +150,7 @@ const Header = () => {
         }
     };
 
-    const handleTabChange = (event: any, index: number) => {
+    const handleTabChange = (event: any, index: number) => {        
         setTabValue(index);
     };
 
@@ -221,11 +251,11 @@ const Header = () => {
                 onChange={handleTabChange}
                 value={tabValue} 
             >
-                <Tab aria-controls="map-tabpanel" component={Link} id="map-tab" label={t("map")} to="/" />
+                <Tab aria-controls="map-tabpanel" component={Link} id="map-tab" label={t("map")} to="/" value={0} />
                 { isNotSpanish && (
-                    <Tab aria-controls="explore-tabpanel" component={Link} id="explore-tab" label={t("header-explore")} to="/explore" />
+                    <Tab aria-controls="explore-tabpanel" component={Link} id="explore-tab" label={t("header-explore")} to="/explore" value={1} />
                 )}
-                <Tab component={Link} id="about-tabpanel" label={t("common_about")} to="/about" />
+                <Tab component={Link} id="about-tabpanel" label={t("common_about")} to="/about" value={2} />
             </Tabs>
         );
     };
