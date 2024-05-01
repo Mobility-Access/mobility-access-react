@@ -1,7 +1,9 @@
+const BaseUrl = import.meta.env.BASE_URL
+
 export const englishReports: { text: string, hyperlink: string }[] = [
     {
         text: "Summary report for the Capital Regional District (BC), March 31, 2024",
-        hyperlink: "https://www.dropbox.com/scl/fi/aojn7k3hh9ipe8yi4r6tj/CRD-WRM-Final-Report.pdf?rlkey=45nq5ocebxwoqxs7q0sc49jux&st=kwpftgik&dl=0"
+        hyperlink: `http://159.203.33.14/static/CRD_WRM_Final_Report.pdf`
     },
     {
         text: "Engagement and Promotion Summary, March 31, 2024",
