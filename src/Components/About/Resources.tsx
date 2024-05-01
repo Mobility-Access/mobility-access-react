@@ -1,5 +1,3 @@
-const BaseUrl = import.meta.env.BASE_URL
-
 export const englishReports: { text: string, hyperlink: string }[] = [
     {
         text: "Summary report for the Capital Regional District (BC), March 31, 2024",
