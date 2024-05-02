@@ -1,4 +1,4 @@
-import BaseUrl 
+import BaseUrl = import.meta.env.VITE_BASE_URL
 
 export const ApiUrl = `${BaseUrl}/api`;
 export const AdminUrl = `${BaseUrl}/admin`;
