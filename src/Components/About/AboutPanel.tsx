@@ -21,6 +21,7 @@ import Faq, { QuestionAnswer } from "./Faq";
 import Supporters from "./Supporters";
 import TeamMember from "./TeamMember";
 import TeamMembers from "./TeamMembers";
+import { englishReports, frenchReports } from "./Resources";
 import Colors from "../../Colors";
 import { AmenityUrl, HazardUrl, IncidentUrl } from "../../Constants";
 import { ReportType } from "../../FormTypes";
@@ -78,6 +79,13 @@ const useStyles = makeStyles((theme) => createStyles({
         color: theme.palette.primary.main,
         fontWeight: "bold",
         marginBottom: theme.spacing(1),
+    },
+    resourceLink: {
+        paddingLeft: theme.spacing(4)
+    },
+    resourceList: {
+        listStyleType: "disc",
+        paddingLeft: theme.spacing(6)
     },
     sectionBody: {
         marginBottom: theme.spacing(3),
@@ -308,6 +316,33 @@ const AboutPanel = () => {
         );
     };
 
+    const renderResources = () => {
+        if (i18n.language.startsWith("es")) {
+            return (<></>);
+        }
+        const reports = i18n.language.startsWith("en") ? englishReports : frenchReports;
+        return (
+            <>
+                <AboutGrid>
+                    <Typography className={classes.subHeading} variant="h3">
+                        {t("about_resources")}
+                    </Typography>
+                </AboutGrid>
+                <AboutGrid className={classes.sectionBody}>
+                    <List className={classes.resourceList} >
+                        { reports.map((report: { text: string, hyperlink: string }, index: number) => {
+                            return (
+                                <ListItem key={index}  sx={{ display: 'list-item' }}>
+                                    <Link href={report.hyperlink} rel="noopener" target="_blank">{report.text}</Link>
+                                </ListItem>
+                            )
+                        })}
+                    </List>
+                </AboutGrid>
+            </>
+        );
+    }
+
     const renderOurTeam = () => {
         return (
             <>
@@ -385,6 +420,7 @@ const AboutPanel = () => {
                 {renderFaq()}
                 {renderSupporters()}
                 {renderPublications()}
+                {renderResources()}
                 {renderOurTeam()}
                 {renderOpenData()}
             </Grid>

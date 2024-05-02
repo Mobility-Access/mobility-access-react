@@ -2,6 +2,7 @@ const BaseUrl = import.meta.env.VITE_BASE_URL
 
 export const ApiUrl = `${BaseUrl}/api`;
 export const AdminUrl = `${BaseUrl}/admin`;
+export const StaticUrl = `${BaseUrl}/static`
 export const GeocoderUrl = "https://nominatim.openstreetmap.org/search";
 
 // Basic API URLs that return limited fields for each report
