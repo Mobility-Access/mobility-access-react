@@ -57,18 +57,8 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
         setAnchorEl(null);
     };
 
-    return (
-        <>
-            <Button
-                aria-controls="app-bar-language-selector"
-                aria-haspopup="true"
-                className={classes.button}
-                color="primary"
-                endIcon={position && position === "left" ? <ArrowRight /> : <ArrowDropDownIcon />}
-                onClick={handleLanguageButttonClick}
-            >
-                {t("language-button")}
-            </Button>
+    const renderMenuForEnglishDefault = () => {
+        return (
             <Menu
                 id="app-bar-language-selector"
                 anchorEl={anchorEl}
@@ -104,6 +94,65 @@ const LanguageSelector = (props: LanguageSelectorProps) => {
                     }
                 )}
             </Menu>
+        )
+    }
+
+    const renderMenuForFrenchDefault = () => {
+        return (
+            <Menu
+                id="app-bar-language-selector"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleMenuClose}
+                TransitionComponent={Fade}
+            >
+                {languages.map(
+                    (item) => {
+                        if (item.key === "en") {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    component={"a"}
+                                    href={"https://walkrollmap.org"}
+                                    key={item.key}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>    
+                            );
+                        } else {
+                            return (
+                                <MenuItem
+                                    className={classes.menuItem}
+                                    key={item.key}
+                                    onClick={() => handleSelectLanguage(item)}
+                                >
+                                    {t(item.value)}    
+                                </MenuItem>  
+                            )
+                        }
+                    }
+                )}
+            </Menu>
+        )
+    }
+
+    return (
+        <>
+            <Button
+                aria-controls="app-bar-language-selector"
+                aria-haspopup="true"
+                className={classes.button}
+                color="primary"
+                endIcon={position && position === "left" ? <ArrowRight /> : <ArrowDropDownIcon />}
+                onClick={handleLanguageButttonClick}
+            >
+                {t("language-button")}
+            </Button>
+            { import.meta.env.VITE_DEFAULT_LANGUAGE === "en" ?
+                renderMenuForEnglishDefault() :
+                renderMenuForFrenchDefault()
+            }
         </>
     );
 };
